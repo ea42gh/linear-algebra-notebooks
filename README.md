@@ -4,6 +4,7 @@ Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
 
  |----------------------------|--------------------------------|
  | Notebook                   | Comment                        |
+ |----------------------------|--------------------------------|
  | SymbolicVariables.ipynb    | using sympy from Julia         |
  | GE_layout_display.ipynb    | Matrix Multiplication display  |
  | LAcodes.jl                 | Support Functions (Julia code) |
