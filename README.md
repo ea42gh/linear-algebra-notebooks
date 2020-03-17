@@ -16,3 +16,8 @@ Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
  | Basis.ipynb                | Basis of a Vector Space        |
  | LinearTxExamples.ipynb     | Linear Transformations         |
  |----------------------------|--------------------------------|
+
+
+
+ on windows box: start tightvncserver
+ on linux box run: ssvncviewer -scale "1/2"
