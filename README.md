@@ -21,3 +21,9 @@ Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
 
  on windows box: start tightvncserver
  on linux box run: ssvncviewer -scale "1/2"
+
+ * Horizontal Space:
+    * 6 spaces before &nbsp; &nbsp; &nbsp;this
+    * There are other codes like &ensp;(2 spaces) and &emsp;(4 spaces).
+* Vertical Space:
+    * <br><br>foo
