@@ -1,3 +1,5 @@
+.PHONY: git
+
 FILES := \
     Basis.ipynb \
     CoordinateSystem.ggb \
@@ -41,3 +43,6 @@ FILES := \
 
 all_notebooks.tgz:  $(FILES)
 	@-tar cvfz all_notebooks.tgz $(FILES)
+
+git:
+	git commit $(FILES)
