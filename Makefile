@@ -39,6 +39,11 @@ FILES := \
     Summary_01_MatrixMultiplication.ipynb \
     SymbolicVariables.ipynb \
     VectorSpaces.ipynb \
+    EigenExample_1.ggb \
+    EigenExample_1.svg \
+    EigenExample_2.ggb \
+    EigenExample_2.png \
+    EigenAnalysis.ipynb \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
