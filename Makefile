@@ -1,4 +1,4 @@
-.PHONY: git
+.PHONY: git add
 
 FILES := \
     Basis.ipynb \
@@ -44,10 +44,17 @@ FILES := \
     EigenExample_2.ggb \
     EigenExample_2.png \
     EigenAnalysis.ipynb \
+    salzburg.jpeg SalzburgBasis.ggb  SalzburgBasis.png \
+	ChangeOfBasis.ggb \
+	ChangeOfBasis.svg \
+    Diagonalization.ipynb \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
 	@-tar cvfz all_notebooks.tgz $(FILES)
+
+add:
+	git add $(FILES)
 
 git:
 	git commit $(FILES)
