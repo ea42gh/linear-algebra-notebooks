@@ -50,6 +50,8 @@ FILES := \
 	ChangeOfBasis.ggb \
 	ChangeOfBasis.svg \
     Diagonalization.ipynb \
+	TransformAction.ggb \
+	TransformAction.png \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
