@@ -1,4 +1,4 @@
-.PHONY: git add
+.PHONY: git add all
 
 FILES := \
     Basis.ipynb \
@@ -52,6 +52,7 @@ FILES := \
     Diagonalization.ipynb \
 	TransformAction.ggb \
 	TransformAction.png \
+	EigenComputations.ipynb \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
@@ -63,3 +64,5 @@ add:
 git:
 	git commit $(FILES)
 	git push
+
+all: add git all_notebooks.tgz
