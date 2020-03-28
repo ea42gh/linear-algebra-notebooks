@@ -62,3 +62,4 @@ add:
 
 git:
 	git commit $(FILES)
+	git push
