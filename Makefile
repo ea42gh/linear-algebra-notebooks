@@ -37,10 +37,12 @@ FILES := \
 	ChangeOfBasis.ggb ChangeOfBasis.svg \
     Diagonalization.ipynb \
 	TransformAction.ggb TransformAction.png \
+	NormalEqMinDist.svg NormalEqMinDist.ggb \
 	EigenComputations.ipynb \
     LengthOrthogonality.ipynb \
     OrthogonalDirection.ggb OrthogonalDirection.svg \
 	VennDiagram_AtA.ggb  VennDiagram_AtA.svg \
+	NormalProjOntoLine.ggb NormalProjOntoLine.svg \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
