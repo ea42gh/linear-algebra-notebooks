@@ -53,6 +53,9 @@ FILES := \
 	TransformAction.ggb \
 	TransformAction.png \
 	EigenComputations.ipynb \
+    LengthOrthogonality.ipynb \
+    OrthogonalDirection.ggb \
+    OrthogonalDirection.svg \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
