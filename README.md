@@ -27,3 +27,8 @@ Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
     * There are other codes like &ensp;(2 spaces) and &emsp;(4 spaces).
 * Vertical Space:
     * <br><br>foo
+
+<div style="background-color:#F2F5A9;padding:20px;margin:10px">
+<div style="float:left;width:13cm;height:4.5cm;border:1px solid black;">
+
+
