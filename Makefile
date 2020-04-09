@@ -43,9 +43,14 @@ FILES := \
     OrthogonalDirection.ggb OrthogonalDirection.svg \
 	VennDiagram_AtA.ggb  VennDiagram_AtA.svg \
 	NormalProjOntoLine.ggb NormalProjOntoLine.svg \
+	NormAndDistance.ggb NormAndDistance.svg \
 	OrthoProjection_into_plane.ggb OrthoProjection_into_plane.png \
 	GramSchmidt.ggb GramSchmidt.png \
 	NormalEquation.ipynb \
+	QR_Decomposition.ipynb \
+	SVD.ipynb \
+	QR_Decomposition.ipynb \
+	SVD_ranks.ggb SVD_ranks.svg \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
