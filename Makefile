@@ -52,6 +52,7 @@ FILES := \
 	QR_Decomposition.ipynb \
 	SVD_ranks.ggb SVD_ranks.svg \
 	SVDaction.ggb SVDaction.svg \
+	PseudoInverse.svg \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
