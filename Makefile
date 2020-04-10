@@ -1,6 +1,7 @@
 .PHONY: git add all
 
 FILES := \
+LAcode/src/LAcode.jl LAcode/Project.toml \
     Basis.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
     EigenAnalysis.ipynb \
