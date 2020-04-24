@@ -1,7 +1,7 @@
 .PHONY: git add all
 
 FILES := \
-	LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml \
+	LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml LAcode.jl/Manifest.toml \
     Basis.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
     EigenAnalysis.ipynb \
@@ -54,6 +54,10 @@ FILES := \
 	SVD_ranks.ggb SVD_ranks.svg \
 	SVDaction.ggb SVDaction.svg \
 	PseudoInverse.svg \
+	QuadricSurfaceDisplay.ipynb \
+    SpectralTheoremExample.ggb  SpectralTheoremExample.png \
+   	SpectralTheorem.ipynb \
+	QRonEigenvectors.png \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
