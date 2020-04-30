@@ -60,6 +60,7 @@ FILES := \
    	SpectralTheorem.ipynb \
 	QRonEigenvectors.png \
 	IterativeMethods.ipynb \
+	PositiveDefiniteMatrices.ipynb \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
