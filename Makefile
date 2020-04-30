@@ -54,10 +54,12 @@ FILES := \
 	SVD_ranks.ggb SVD_ranks.svg \
 	SVDaction.ggb SVDaction.svg \
 	PseudoInverse.svg \
+	MetricSpaces.ipynb \
 	QuadricSurfaceDisplay.ipynb \
     SpectralTheoremExample.ggb  SpectralTheoremExample.png \
    	SpectralTheorem.ipynb \
 	QRonEigenvectors.png \
+	IterativeMethods.ipynb \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
