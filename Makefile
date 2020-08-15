@@ -2,6 +2,8 @@
 
 FILES := \
 	LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml LAcode.jl/Manifest.toml \
+    01_ScalarsVectorsMatrices.ipynb \
+    02_AddScalarMultDotprod.ipynb \
     Basis.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
     EigenAnalysis.ipynb \
@@ -30,6 +32,7 @@ FILES := \
     Summary_01_MatrixMultiplication.ipynb \
     SymbolicVariables.ipynb \
     VectorSpaces.ipynb \
+	VectorSumDiff.ggb VectorSumDiff.svg \
     EigenExample_1.ggb EigenExample_1.svg \
     EigenExample_1a.ggb EigenExample_1a.svg \
     EigenExample_2.ggb EigenExample_2.png \
