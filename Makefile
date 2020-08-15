@@ -33,7 +33,6 @@ FILES := \
     EigenExample_1.ggb EigenExample_1.svg \
     EigenExample_1a.ggb EigenExample_1a.svg \
     EigenExample_2.ggb EigenExample_2.png \
-    EigenAnalysis.ipynb \
     salzburg.jpeg SalzburgBasis.ggb  SalzburgBasis.png \
 	ChangeOfBasis.ggb ChangeOfBasis.svg \
     Diagonalization.ipynb \
@@ -50,7 +49,6 @@ FILES := \
 	NormalEquation.ipynb \
 	QR_Decomposition.ipynb \
 	SVD.ipynb \
-	QR_Decomposition.ipynb \
 	SVD_ranks.ggb SVD_ranks.svg \
 	SVDaction.ggb SVDaction.svg \
 	PseudoInverse.svg \
