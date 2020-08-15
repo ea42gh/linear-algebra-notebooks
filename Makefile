@@ -4,6 +4,7 @@ FILES := \
 	LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml LAcode.jl/Manifest.toml \
     01_ScalarsVectorsMatrices.ipynb \
     02_AddScalarMultDotprod.ipynb \
+    VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
     EigenAnalysis.ipynb \
