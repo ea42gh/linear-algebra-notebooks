@@ -22,7 +22,7 @@ FILES := \
     LinTxSymLine.svg \
     LU.ipynb \
     Makefile \
-    MatrixMultiplication.ipynb \
+    03_MatrixMultiplication.ipynb \
     NormalEquations.svg \
     Orthogonality.ipynb \
     OrthogonalProjection.ggb OrthogonalProjection.svg \
@@ -63,6 +63,15 @@ FILES := \
 	QRonEigenvectors.png \
 	IterativeMethods.ipynb \
 	PositiveDefiniteMatrices.ipynb \
+    03_MatrixMultiplication.ipynb \
+    augmented_matrix_1.tex augmented_matrix_1.svg \
+    rowechelon_form.tex rowechelon_form.svg \
+    tex2svg \
+    augmented_matrix_2.tex augmented_matrix_2.svg \
+    augmented_matrix_3.tex augmented_matrix_3.svg \
+    textosvg.py \
+    04_RowEchelonForm_Systems.ipynb \
+    05_GE_Systems.ipynb \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)

@@ -1,0 +1,28 @@
+\documentclass{article}
+\pagenumbering{gobble}
+% -----------------------------------------------------------------------------------------------
+\usepackage{xcolor}
+\definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+% -----------------------------------------------------------------------------------------------
+\usepackage{nicematrix}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\NewDocumentEnvironment {scope} {} {} {}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,fit,patterns}
+\usetikzlibrary{decorations.pathreplacing}
+% -----------------------------------------------------------------------------------------------
+\begin{document}
+\NiceMatrixOptions{code-for-last-row = \color{darkred}, code-for-first-row = \color{darkred}}
+$\begin{pNiceArray}{cccc|c}[left-margin = 4pt, first-col, last-row,
+    code-before =
+    {
+    \tikz \draw[red!55] (row-1-|col-1) -- (row-2-|col-1) -- (row-2-|col-3) -- (row-3-|col-3) -- (row-3-|col-6);
+    }
+]
+                               & \color{darkred}{1}   & 2 & 1                  & 1 & \;  5 \\
+                               & 0                    & 0 & \color{darkred}{2} & 1 & \; -1 \\
+                               & 0                    & 0 & 0                  & 0 &     0 \\
+\color{darkred}{\begin{matrix} \text{basic variables} \\ \text{free variables} \end{matrix}} & \begin{matrix}\ x_1 \\ \\ \end{matrix} & \begin{matrix}\\ \ x_2=\alpha \\ \end{matrix} & \begin{matrix}\ x_3\\ \\ \end{matrix} & \begin{matrix} \\ \ x_4=\beta \\ \end{matrix} & \\
+\end{pNiceArray}$
+\end{document}
