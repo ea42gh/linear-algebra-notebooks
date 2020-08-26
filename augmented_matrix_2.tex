@@ -17,11 +17,15 @@
 $\begin{pNiceArray}{cccc|c}[left-margin = 4pt, first-col, last-row,
     code-before =
     {
-    \tikz \draw[red!55] (row-1-|col-1) -- (row-2-|col-1) -- (row-2-|col-2) -- (row-3-|col-2) -- (row-3-|col-5);
+    \tikz \draw[red!55] (row-1-|col-1) -- (row-2-|col-1) -- (row-2-|col-2) -- (row-3-|col-2) -- (row-3-|col-6);
     }
 ]
 & \color{darkred}{-2}                   & 1                                              & -1                                            & 4  & \; 0 \\
                   & 0                                     & \color{darkred}{-1}                            & 1                                             & 2  & \; 1 \\
-                  \color{darkred}{\begin{matrix} \text{basic variables} \\ \text{free variables} \end{matrix}}              & \begin{matrix}\ x_1 \\ \\ \end{matrix} & \begin{matrix}\ x_2\\ \\ \end{matrix} & \begin{matrix} \\ \ x_3=\alpha \\ \end{matrix} & \begin{matrix} \\ \ x_4=\beta \\ \end{matrix} &  \\
+\color{darkred}{\begin{matrix} \\ \text{basic variables} \\ \text{free variables} \end{matrix}}
+    & \begin{matrix}\ \Downarrow \\ \ x_1 \\ \\ \end{matrix}
+    & \begin{matrix}\ \Downarrow \\ \ x_2 \\ \\ \end{matrix}
+    & \begin{matrix}\ \downarrow \\ \\ \ x_3=\alpha \\ \end{matrix}
+    & \begin{matrix}\ \downarrow \\ \\ \ x_4=\beta \\ \end{matrix}
 \end{pNiceArray}$
 \end{document}

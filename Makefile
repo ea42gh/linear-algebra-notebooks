@@ -71,6 +71,10 @@ FILES := \
     augmented_matrix_3.tex augmented_matrix_3.svg \
     textosvg.py \
     04_RowEchelonForm_Systems.ipynb \
+    ge_simple_2.tex     ge_simple_2.tex   \
+    ge_simple_1.tex     ge_simple_1.tex   \
+    ge_complete_2.tex   ge_complete_2.tex \
+    ge_complete_1.tex   ge_complete_1.tex \
     05_GE_Systems.ipynb \
     $(eof)
 
