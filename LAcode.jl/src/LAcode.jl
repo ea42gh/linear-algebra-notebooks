@@ -152,7 +152,7 @@ function gram_schmidt(A)
     end
     Q
 end
-"""Naive Modified Gram-Scmidt"""
+"""Naive Modified Gram-Schmidt"""
 function modified_gram_schmidt(A)
     Q   = Array{eltype(A)}(undef, size(A))
     M,N = size(A)
