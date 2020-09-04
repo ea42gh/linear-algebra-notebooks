@@ -20,3 +20,8 @@ Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
   | LinearIndependence.ipynb        | Linear Independence of Vectors   | 
   | Basis.ipynb                     | Basis of a Vector Space          | 
   | LinearTxExamples.ipynb          | Linear Transformations           | 
+
+Software used:
+    1) holoviews, Panel from http://holoviz.org/
+    2) Julia Language with various packages, https://julialang.org/
+    3) a modified version of itikz,  https://github.com/ea42gh/itikz
