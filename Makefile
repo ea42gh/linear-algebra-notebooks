@@ -4,6 +4,11 @@ FILES := \
 	LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml LAcode.jl/Manifest.toml \
     01_ScalarsVectorsMatrices.ipynb \
     02_AddScalarMultDotprod.ipynb \
+    03_MatrixMultiplication.ipynb \
+    05_RowEchelonForm_Systems.ipynb \
+    06_GE_Systems.ipynb \
+    07_GE_Systems.ipynb \
+    \
     VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
@@ -22,7 +27,6 @@ FILES := \
     LinTxSymLine.svg \
     LU.ipynb \
     Makefile \
-    03_MatrixMultiplication.ipynb \
     NormalEquations.svg \
     Orthogonality.ipynb \
     OrthogonalProjection.ggb OrthogonalProjection.svg \
@@ -63,19 +67,24 @@ FILES := \
 	QRonEigenvectors.png \
 	IterativeMethods.ipynb \
 	PositiveDefiniteMatrices.ipynb \
-    03_MatrixMultiplication.ipynb \
     augmented_matrix_1.tex augmented_matrix_1.svg \
     rowechelon_form.tex rowechelon_form.svg \
     tex2svg \
     augmented_matrix_2.tex augmented_matrix_2.svg \
     augmented_matrix_3.tex augmented_matrix_3.svg \
     textosvg.py \
-    04_RowEchelonForm_Systems.ipynb \
     ge_simple_2.tex     ge_simple_2.svg   \
     ge_simple_1.tex     ge_simple_1.svg   \
     ge_complete_2.tex   ge_complete_2.svg \
     ge_complete_1.tex   ge_complete_1.svg \
-    05_GE_Systems.ipynb \
+    ge_missing_pivot_0.pdf ge_missing_pivot_0.svg   \
+    ge_pivot_underneath.tex ge_pivot_underneath.svg   \
+    ge_no_pivot_0.tex ge_no_pivot_0.svg   \
+    ge_no_pivot_1.tex ge_no_pivot_1.svg   \
+    ge_zero_row_0.tex ge_zero_row_0.svg   \
+    ge_zero_row_1.tex ge_zero_row_1.svg   \
+	ge_where_to_move_to.svg ge_where_to_move_to.tex \
+	ge_example_1b.svg  ge_example_1c.svg  ge_example_1d.svg  ge_example_1.tex
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
