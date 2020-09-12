@@ -1,0 +1,66 @@
+\documentclass{article}
+\pagenumbering{gobble}
+\usepackage{amssymb}
+\usepackage{cascade}
+\usepackage{systeme}
+\usepackage{nicematrix}
+\usepackage{tikz}
+\usepackage{relsize}
+\usetikzlibrary{decorations.pathreplacing}
+
+\newcolumntype{I}{!{\OnlyMainNiceMatrix{\vrule}}}
+
+\begin{document}
+
+%% ===================================================================================== Decorate matrix
+%\NiceMatrixOptions{code-for-last-row = \color{blue}, code-for-first-row = \color{red}}
+%$\begin{pNiceArray}{*5rIr}[left-margin = 4pt, right-margin = 4pt,first-col, last-row,
+%    code-before =
+%    {
+%    \tikz \draw[red] (row-1-|col-1) -- (row-2-|col-1)
+%                  -- (row-2-|col-2) -- (row-3-|col-2)
+%                  -- (row-3-|col-4) -- (row-4-|col-4)
+%                  -- (row-4-|col-7);
+%    }
+%]
+%& \color{red}{\mathbf{1}}   & 1                       &  1 &  2                       &  2 & \;  4 \\
+%& 0                         & \color{red}{\mathbf{1}} & -1 &  1                       &  0 & \;  1 \\
+%& 0                         & 0                       &  0 &  \color{red}{\mathbf{1}} & -2 & \;  2 \\
+%& 0                         & 0                       &  0 &  0                       &  0 & \;  0 \\
+%%
+%\color{blue}{\begin{matrix} \\ \text{basic}\\ \text{free} \end{matrix}}
+%    & \begin{matrix} x_1        \\             \end{matrix}
+%    & \begin{matrix} x_2        \\             \end{matrix}
+%    & \begin{matrix}            \\  x_3=\alpha \end{matrix}
+%    & \begin{matrix} x_4        \\             \end{matrix}
+%    & \begin{matrix}            \\  x_5=\beta  \end{matrix}
+%    &
+%\end{pNiceArray}$
+%%% =========================================================================== Solve
+%%\vspace{1cm}       % below the figure; inkscape cropping fails otherwise...
+%%
+%% --------------------------------------------------------------- Solve
+%    {\ShortCascade%
+%       {\ShortCascade%
+%          {\ShortCascade%
+%             {$\boxed{x_3 = \alpha, x_5=\beta}$}%
+%             {$x_4 = 2 + 2 x_5$}%
+%             {$\;\Rightarrow\; \boxed{x_4 =  2 + 2 \beta}$}%
+%          }%
+%          {$x_2 = 1 +x_3-x_4$}%
+%          {$\;\Rightarrow\; \boxed{x_2 = -1+\alpha-2\beta}$}%
+%       }%
+%       {$x_1 = 4 - x_2 - x_3 - 2 x_4 -2 x_5$}%
+%       {$\;\Rightarrow \; \boxed{x_1 =  1-\alpha+2\beta}.$}
+%    }%
+%%& % -------------------------------------------------------------------------- Standard Form
+%\vspace{1cm}
+
+    {$\; \therefore\;\begin{pmatrix}x_1\\x_2\\x_3\\x_4\\x_5\end{pmatrix}
+                    =        \begin{pmatrix} 1 \\ -1 \\ 0 \\ 2 \\ 0 \end{pmatrix}
+                    + \alpha \begin{pmatrix}-1 \\  1 \\ 1 \\ 0 \\ 0 \end{pmatrix}
+                    + \beta  \begin{pmatrix} 2 \\ -2 \\ 0 \\ 2 \\ 1 \end{pmatrix}
+         $
+    }
+
+\end{document}
