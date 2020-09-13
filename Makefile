@@ -86,6 +86,9 @@ FILES := \
 	ge_where_to_move_to.svg ge_where_to_move_to.tex \
 	ge_example_1b.svg  ge_example_1c.svg  ge_example_1d.svg  ge_example_1.tex \
 	ge_example_2.svg  ge_example_2.tex \
+	ge_num_solutions.svg  ge_num_solutions.tex \
+	gj_example.svg  gj_example.tex \
+	gj_example_1.svg  gj_example_1.tex \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)

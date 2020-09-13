@@ -1,0 +1,19 @@
+\documentclass[notitlepage]{article}
+%\pagenumbering{gobble}
+\pagestyle{empty}
+
+\usepackage{amsmath,xcolor}
+\begin{document}
+\begin{equation*}
+        \left( \begin{array}{rrrrrr|r}  \color{red}{\boxed{1}} & 2 &         \color{red}{0} & 3 &        \color{red}{0}  & 1 & 1 \\
+                  \color{red}{0}         & 0 & \color{red}{\boxed{1}} & 1 &        \color{red}{0}  & 4 & 3 \\
+                  \color{red}{0}         & 0 &         \color{red}{0} & 0 & \color{red}{\boxed{1}} & 3 & 2 \\
+                  \color{red}{0}         & 0 &         \color{red}{0} & 0 &        \color{red}{0}  & 0 & 0\\ \end{array} \right)
+\quad \Leftrightarrow \quad
+         \begin{pmatrix}    x_1 \\ x_2 \\ x_3 \\    x_4 \\    x_5 \\    x_6 \end{pmatrix}
+=        \begin{pmatrix}    1   \\ 0   \\ 3   \\    0   \\    2   \\    0   \end{pmatrix}
++ \alpha \begin{pmatrix}    -2  \\ 0   \\ 0   \\    0   \\    0   \\    0   \end{pmatrix}
++ \beta  \begin{pmatrix}    -3  \\ 0   \\ -1  \\    1   \\    0   \\    0   \end{pmatrix}
++ \gamma \begin{pmatrix}    -1  \\ 0   \\ -4  \\    0   \\   -3  \\    1   \end{pmatrix}
+\end{equation*}
+\end{document}
