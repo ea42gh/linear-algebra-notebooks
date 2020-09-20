@@ -1,4 +1,4 @@
-.PHONY: git add all
+.PHONY: git add all tellme
 
 FILES := \
 	LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml LAcode.jl/Manifest.toml \
@@ -8,6 +8,7 @@ FILES := \
     05_RowEchelonForm_Systems.ipynb \
     06_GE_Systems.ipynb \
     07_GE_Systems.ipynb \
+    08_LinearIndependence.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
@@ -89,6 +90,8 @@ FILES := \
 	ge_num_solutions.svg  ge_num_solutions.tex \
 	gj_example.svg  gj_example.tex \
 	gj_example_1.svg  gj_example_1.tex \
+	sol_rhs_1.svg sol_rhs_1.tex sol_rhs_2.svg sol_rhs_2.tex \
+	sol_with_parameters.tex sol_with_parameters.svg \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
@@ -102,3 +105,6 @@ git:
 	git push
 
 all: add git all_notebooks.tgz
+
+tellme:
+	echo make add git
