@@ -92,6 +92,7 @@ FILES := \
 	gj_example_1.svg  gj_example_1.tex \
 	sol_rhs_1.svg sol_rhs_1.tex sol_rhs_2.svg sol_rhs_2.tex \
 	sol_with_parameters.tex sol_with_parameters.svg \
+	lin_dep_2.svg  lin_dep_2.tex lin_dep_1.svg  lin_dep_1.tex \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
