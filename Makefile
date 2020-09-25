@@ -9,6 +9,7 @@ FILES := \
     06_GE_Systems.ipynb \
     07_GE_Systems.ipynb \
     08_LinearIndependence.ipynb \
+    09_LinearTransformations.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
@@ -93,6 +94,9 @@ FILES := \
 	sol_rhs_1.svg sol_rhs_1.tex sol_rhs_2.svg sol_rhs_2.tex \
 	sol_with_parameters.tex sol_with_parameters.svg \
 	lin_dep_2.svg  lin_dep_2.tex lin_dep_1.svg  lin_dep_1.tex \
+	lintx_1.svg  lintx_1.tex \
+	lintx_2.svg  lintx_2.tex \
+	cat.png  cat_upside_down.png \
     $(eof)
 
 all_notebooks.tgz:  $(FILES)
@@ -108,4 +112,4 @@ git:
 all: add git all_notebooks.tgz
 
 tellme:
-	echo make add git
+	@echo make add git
