@@ -71,7 +71,7 @@ FILES := \
 	PositiveDefiniteMatrices.ipynb \
     augmented_matrix_1.tex augmented_matrix_1.svg \
     rowechelon_form.tex rowechelon_form.svg \
-    tex2svg \
+    tex2svg xetex2svg \
     augmented_matrix_2.tex augmented_matrix_2.svg \
     augmented_matrix_3.tex augmented_matrix_3.svg \
     textosvg.py \
@@ -105,10 +105,10 @@ all_notebooks.tgz:  $(FILES)
 	@-tar cvfz all_notebooks.tgz $(FILES)
 
 add:
-	git add $(FILES)
+	@git add $(FILES)
 
 git:
-	git commit $(FILES)
+	@git commit $(FILES)
 	git push
 
 all: add git all_notebooks.tgz
@@ -120,7 +120,7 @@ add:
 	git add $(FILES)
 
 git:
-	git commit $(FILES)
+	@git commit $(FILES)
 	git push
 
 all: add git all_notebooks.tgz
