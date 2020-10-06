@@ -10,6 +10,8 @@ FILES := \
     07_GE_Systems.ipynb \
     08_LinearIndependence.ipynb \
     09_LinearTransformations.ipynb \
+    11_Inverses.ipynb \
+    12_LU_decomposition.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
@@ -106,18 +108,6 @@ all_notebooks.tgz:  $(FILES)
 
 add:
 	@git add $(FILES)
-
-git:
-	@git commit $(FILES)
-	git push
-
-all: add git all_notebooks.tgz
-
-all_notebooks.tgz:  $(FILES)
-	@-tar cvfz all_notebooks.tgz $(FILES)
-
-add:
-	git add $(FILES)
 
 git:
 	@git commit $(FILES)
