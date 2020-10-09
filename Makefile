@@ -100,6 +100,11 @@ FILES := \
 	lintx_1.svg  lintx_1.tex \
 	lintx_2.svg  lintx_2.tex \
 	cat.png  cat_upside_down.png \
+	lu_multiple_rhs.svg  lu_multiple_rhs.tex \
+	abstract_matrix_stack.svg  abstract_matrix_stack.tex \
+	lu_prod_E.svg  lu_prod_E.tex \
+	lu_prod_Ei.svg  lu_prod_Ei.tex \
+	lu_example.svg  lu_example.tex \
     $(eof)
 #MISSING ge_example_1b.tex  ge_example_1c.tex  ge_example_1d.tex
 
