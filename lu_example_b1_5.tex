@@ -1,0 +1,26 @@
+\documentclass{article}
+\pagenumbering{gobble}
+\usepackage{amssymb}
+\usepackage{cascade}
+\usepackage{systeme}
+\usepackage{nicematrix}
+\usepackage{tikz}
+\usepackage{relsize}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+
+% ==================================================================================== Decorate matrix
+    {\ShortCascade%
+       {\ShortCascade%
+          {\ShortCascade%
+             {$\boxed{x_3 = \alpha, x_5=\beta}\;$}%
+             {$x_4 = \frac{1}{4}{(6 - x_5)}$}%
+             {$\;\Rightarrow\; \boxed{x_4 = \frac{3}{2} - \frac{1}{4}\beta}$}%
+          }%
+          {$x_2 = 4 -x_3-x_4-x_5$}%
+          {$\;\Rightarrow\; \boxed{x_2 = \frac{5}{2} - \alpha - \frac{3}{4}\beta}\;$}%
+       }%
+       {$x_1 = 2 - x_2 + x_3 - 2 x_4 $}%
+       {$\;\Rightarrow \; \boxed{x_1 =  -\frac{7}{2}+2 \alpha+\frac{5}{4}\beta}.$}
+    }%
+\end{document}

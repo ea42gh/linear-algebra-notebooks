@@ -105,6 +105,13 @@ FILES := \
 	lu_prod_E.svg  lu_prod_E.tex \
 	lu_prod_Ei.svg  lu_prod_Ei.tex \
 	lu_example.svg  lu_example.tex \
+	lu_example_b1_1.svg lu_example_b1_1.tex \
+	lu_example_b1_2.svg lu_example_b1_2.tex \
+	lu_example_b1_3.svg lu_example_b1_3.tex \
+	lu_example_b1_4.svg lu_example_b1_4.tex \
+	lu_example_b1_5.svg lu_example_b1_5.tex \
+	lu_example_b1_6.svg lu_example_b1_6.tex \
+	lu_example_b1_systeme.tex lu_example_b1_systeme.svg \
     $(eof)
 #MISSING ge_example_1b.tex  ge_example_1c.tex  ge_example_1d.tex
 

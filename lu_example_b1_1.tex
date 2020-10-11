@@ -1,0 +1,20 @@
+\documentclass{article}
+\pagenumbering{gobble}
+\usepackage{amssymb}
+\usepackage{cascade}
+\usepackage{systeme}
+\usepackage{nicematrix}
+\usepackage{tikz}
+\usepackage{relsize}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+
+% ==================================================================================== Decorate matrix
+$\begin{pNiceArray}{*4r|r}[left-margin = 2pt ]
+     \color{red}{\mathbf{1}}   & 0                       &  0 &  0 & \;  2 \\
+     1                         & \color{red}{\mathbf{1}} &  0 &  0 & \;  6 \\
+     -1                        & 1                       &  \color{red}1 &  0 & \;  8 \\
+     -2                        & 1                       &  2 &  \color{red}1 & \; 12
+% ------------------------------------------------------------------------------------ Basic and Free Variables
+\end{pNiceArray}$
+\end{document}
