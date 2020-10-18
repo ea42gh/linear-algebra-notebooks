@@ -10,8 +10,10 @@ FILES := \
     07_GE_Systems.ipynb \
     08_LinearIndependence.ipynb \
     09_LinearTransformations.ipynb \
-    11_Inverses.ipynb \
-    12_LU_decomposition.ipynb \
+	11_Inverses.ipynb \
+	12_LU_decomposition.ipynb \
+	13_WedgeProduct.ipynb \
+	14_Determinants.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
@@ -112,6 +114,16 @@ FILES := \
 	lu_example_b1_5.svg lu_example_b1_5.tex \
 	lu_example_b1_6.svg lu_example_b1_6.tex \
 	lu_example_b1_systeme.tex lu_example_b1_systeme.svg \
+    Determinants.tex beamerikz.cls \
+	det_distributivity.svg det_distributivity.tex \
+	det_slides.svg det_slides.tex \
+	det_transpose_slides.svg det_transpose_slides.tex \
+	det_wedge_ex1.svg det_wedge_ex1.tex \
+	det_wedge_idea.svg det_wedge_idea.tex \
+	det_wedge_orientation.svg det_wedge_orientation.tex \
+	det_wedge_scalefact.svg det_wedge_scalefact.tex \
+	det_cramer_slide.svg det_cramer_slide.tex \
+	det_using_ge.svg det_using_ge.tex \
     $(eof)
 #MISSING ge_example_1b.tex  ge_example_1c.tex  ge_example_1d.tex
 
