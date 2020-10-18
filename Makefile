@@ -124,7 +124,15 @@ FILES := \
 	det_wedge_scalefact.svg det_wedge_scalefact.tex \
 	det_cramer_slide.svg det_cramer_slide.tex \
 	det_using_ge.svg det_using_ge.tex \
+	lu_example_b2_1.svg lu_example_b2_1.tex \
+	lu_example_b2_2.svg lu_example_b2_2.tex \
+	lu_example_b2_3.svg lu_example_b2_3.tex \
+	lu_example_b2_4.svg lu_example_b2_4.tex \
+	lu_example_b2_5.svg lu_example_b2_5.tex \
+	lu_example_b2_6.svg lu_example_b2_6.tex \
+	lu_example_b2_systeme.svg lu_example_b2_systeme.tex \
     $(eof)
+
 #MISSING ge_example_1b.tex  ge_example_1c.tex  ge_example_1d.tex
 
 all_notebooks.tgz:  $(FILES)

@@ -1,0 +1,26 @@
+\documentclass{article}
+\pagenumbering{gobble}
+\usepackage{amssymb}
+\usepackage{cascade}
+\usepackage{systeme}
+\usepackage{nicematrix}
+\usepackage{tikz}
+\usepackage{relsize}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+
+% ====================================================================================
+{\ShortCascade%
+       {\ShortCascade%
+          {\ShortCascade%
+             {$\boxed{y_1 = 2}$}%
+             {$y_2 = 6 - y_1$}%
+             {$\;\Rightarrow\; \boxed{y_2 = 4}$}%
+          }%
+          {$y_3 = 7 + y_1 - y_2$}%
+          {$\;\Rightarrow\; \boxed{y_3 = 5}$}%
+       }%
+       {$y_4 = 10 + 2 y_1 - y_2 - 2 y_3$}%
+       {$\;\Rightarrow \; \boxed{y_4 = 0}$\; as before. }
+    }%
+\end{document}
