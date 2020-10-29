@@ -13,8 +13,20 @@ struct T
     f
 end
 
-T(txt;sz=20,color="blue",justify="left",height=15) =
-    T(txt,color,justify,sz,height,()-> "<p style=\"color:$color;font-size:$(sz)pt;height:$(height)px;text-align:$justify;\">$txt</p>")
+
+T(txt;sz=20,color="darkred",justify="left",height=15) =
+"<div style=\"float:center;width:100%;text-align:$(justify);\">
+<strong style=\"height:$(height)px;color:$(color);font-size:$(sz)pt;\">$(txt)</strong>
+</div>"
+
+T(txt1, txt2;sz1=20,sz2=20,color="darkred",justify="left",height=15) =
+"<div style=\"float:center;width:100%;text-align:$(justify);\">
+<strong style=\"height:$(height)px;color:$(color);font-size:$(sz1)pt;\">$(txt1)</strong><br>
+<strong style=\"height:$(height)px;color:$(color);font-size:$(sz2)pt;\">$(txt2)</strong><br>
+</div>"
+
+#T(txt;sz=20,color="blue",justify="left",height=15) =
+    #T(txt,color,justify,sz,height,()-> "<p style=\"color:$color;font-size:$(sz)pt;height:$(height)px;text-align:$justify;\">$txt</p>")
 
 title( s :: T ) = display(HTML("<div>"* s.f()*"</div>"))
 title( txt :: String; sz=20,color="blue",justify="left",height=15) = title( T(txt,sz=sz,color=color,justify=justify,height=height))
@@ -140,6 +152,7 @@ function w_gram_schmidt(B)
     end
     Q
 end
+# -----------------------------------------------------------------------------------------------
 function gram_schmidt(A)
     Q   = Array{eltype(A)}(undef, size(A))
     M,N = size(A)
@@ -152,6 +165,7 @@ function gram_schmidt(A)
     end
     Q
 end
+# -----------------------------------------------------------------------------------------------
 """Naive Modified Gram-Schmidt"""
 function modified_gram_schmidt(A)
     Q   = Array{eltype(A)}(undef, size(A))

@@ -14,6 +14,7 @@ FILES := \
 	12_LU_decomposition.ipynb \
 	13_WedgeProduct.ipynb \
 	14_Determinants.ipynb \
+    15_VectorSpaces.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
     Basis.ipynb \
@@ -42,7 +43,6 @@ FILES := \
     subspace.ggb subspace.svg \
     Summary_01_MatrixMultiplication.ipynb \
     SymbolicVariables.ipynb \
-    VectorSpaces.ipynb \
 	VectorSumDiff.ggb VectorSumDiff.svg \
     EigenExample_1.ggb EigenExample_1.svg \
     EigenExample_1a.ggb EigenExample_1a.svg \
