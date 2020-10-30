@@ -15,9 +15,9 @@ FILES := \
 	13_WedgeProduct.ipynb \
 	14_Determinants.ipynb \
     15_VectorSpaces.ipynb \
+    16_Basis.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
-    Basis.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
     EigenAnalysis.ipynb \
     ellipse.ggb ellipse.svg \
