@@ -1,0 +1,26 @@
+\documentclass{article}
+\pagenumbering{gobble}
+\usepackage{amssymb}
+\usepackage{cascade}
+\usepackage{systeme}
+\usepackage{nicematrix}
+\usepackage{tikz}
+\usepackage{relsize}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+
+% ==================================================================================== Decorate matrix
+{\ShortCascade%
+       {\ShortCascade%
+          {\ShortCascade%
+             {$\boxed{y_1 = 2}$}%
+             {$y_2 = 6 - y_1$}%
+             {$\;\Rightarrow\; \boxed{y_2 = 4}$}%
+          }%
+          {$y_3 = 8 + y_1 - y_2$}%
+          {$\;\Rightarrow\; \boxed{y_3 = 6}$}%
+       }%
+       {$y_4 = 12 + 2 y_1 - y_2 - 2 y_3$}%
+       {$\;\Rightarrow \; \boxed{y_4 = 0}$\; as before. }
+    }%
+\end{document}

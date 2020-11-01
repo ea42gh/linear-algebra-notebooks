@@ -1,0 +1,115 @@
+\documentclass[final, large, plain]{beamerikz}              % defines the document to be BeamerikZ
+\sBzTitle{\bf DETERMINANTS}
+% ============================================================================
+\usepackage{blkarray}
+\renewcommand\BAextraheightafterhline{0.1mm}
+\renewcommand{\arraystretch}{0.6}
+
+% ============================================================================
+\definecolor{mycolor1}{HTML}{e9ebdf} %la_white
+\definecolor{mycolor2}{HTML}{3b3651} %la_dark
+\definecolor{mycolor3}{HTML}{60708b} %la_gray
+\definecolor{mycolor4}{HTML}{989f7a} %la_tan
+\definecolor{mycolor5}{HTML}{010101} %dark gray
+\definecolor{mycolor6}{HTML}{fefefe} %la_white
+\renewcommand{\bzCback}{mycolor3}
+\renewcommand{\bzCtext}{mycolor1}
+\renewcommand{\bzCemph}{mycolor5}
+\renewcommand{\bzChigh}{mycolor4}
+\renewcommand{\bzCname}{mycolor5}
+
+% ============================================================================
+\begin{document}
+% ============================================================================
+\begin{bzPlainFrame}[show]
+\bzOn{%                                            draw everything that will be gradually uncovered
+   \bzEvalInt{\curS}{\bzS}
+   \bzLeft{{\textbf{Wedge Product Expansion (3 vectors)}}}
+   \sBzH{-3.0}
+   \bzMath{\begin{flalign*}
+       a\wedge b \wedge c =       &\  (\ a_1 e_1 + a_2 e_2 + a_3 e_3\ ) &\\
+                           \wedge &\  (\ b_1 e_1 + b_2 e_2 + b_3 e_3\ ) &\\
+                           \wedge &\  (\ c_1 e_1 + c_2 e_2 + c_3 e_3\;\; ) &\\
+          \end{flalign*}
+   }
+   \sBzH{-3.0} \sBzI{-8}
+   \bzRight{ $ \begingroup \renewcommand*{\arraystretch}{1.0}
+   \Delta = \begin{vmatrix}
+                                       \ a_1 & a_2 & a_3 &\\
+                                       \ b_1 & b_2 & b_3 &\\
+                                       \ c_1 & c_2 & c_3 &\\
+            \end{vmatrix} \endgroup$
+            }
+}
+% -------------------------  first term
+\bzUnder{ \bzIn{\curS+1}{\curS+3}{ \path[fill=\bzChigh] (-5.80, -1.50) rectangle (-4.70, -2.40); % a1 e1
+                                   \path[fill=\bzCemph] (-3.90, -2.50) rectangle (-0.60, -4.30);
+                                   \path[fill=\bzChigh] ( 4.50, -1.80) rectangle ( 5.30, -2.50); % a1
+                                   \path[fill=\bzCemph] ( 5.50, -2.50) rectangle ( 7.30, -4.30);
+                  } }
+
+\bzIn{\curS+2}{}{ \sBzH{-6.0} \sBzI{-11} \bzText{$ a\wedge b \wedge c =  a_1 ( b_2 c_3 - b_3 c_2 )\ e_1 \small{\wedge} e_{2 3} $}; }
+\bzIn{\curS+3}{}{ \sBzH{-6.0} \sBzI{1.6} \bzText{ $\Delta  = a_1 ( b_2 c_3 - b_3 c_2 )$}; }
+   \sBzH{-6.0}
+
+\bzUnder{ \bzIn{\curS+2}{\curS+3}{ \path[fill=\bzChigh] (-1.80, -5.60) rectangle (-1.20, -6.40); % a1 e1
+                                   \path[fill=\bzCemph] (-0.70, -5.60) rectangle ( 0.20, -6.40); % a1 e1
+}}
+% -------------------------  second term
+\bzUnder{ \bzIn{\curS+4}{\curS+6}{ \path[fill=\bzChigh] (-3.90, -1.50) rectangle (-2.60, -2.40); % a2 e2
+                                   \path[fill=\bzCemph] (-1.90, -2.50) rectangle (-0.60, -4.30);
+                                   \path[fill=\bzCemph] (-5.90, -2.50) rectangle (-4.70, -4.30);
+                                   \path[fill=\bzChigh] ( 5.50, -1.80) rectangle ( 6.30, -2.50); % a2
+                                   \path[fill=\bzCemph] ( 6.50, -2.50) rectangle ( 7.30, -4.30);
+                                   \path[fill=\bzCemph] ( 4.50, -2.50) rectangle ( 5.30, -4.30);
+                  } }
+
+\bzIn{\curS+5}{}{ \sBzH{-7.0} \sBzI{-7.9} \bzText{$ + a_2 ( b_1 c_3 - b_3 c_1 )\ e_2 \small{\wedge} e_{1 3} $}; }
+\bzUnder{ \bzIn{\curS+5}{\curS+6}{ \path[fill=\bzChigh] (-1.80, -6.60) rectangle (-1.20, -7.40);
+                                   \path[fill=\bzCemph] (-0.70, -6.60) rectangle ( 0.20, -7.40);
+}}
+\bzIn{\curS+6}{}{ \sBzH{-7.0} \sBzI{2.6} \bzText{ $        - a_2 ( b_1 c_3 - b_3 c_1 )$}; }
+% -------------------------  third term
+\bzUnder{ \bzIn{\curS+7}{\curS+9}{ \path[fill=\bzChigh] (-1.90, -1.50) rectangle (-0.50, -2.40); % a3 e3
+                                   \path[fill=\bzCemph] (-5.90, -2.50) rectangle (-2.50, -4.30);
+                                   \path[fill=\bzChigh] ( 6.50, -1.80) rectangle ( 7.30, -2.50);
+                                   \path[fill=\bzCemph] ( 4.50, -2.50) rectangle ( 6.30, -4.30);
+                  } }
+
+\bzIn{\curS+8}{}{ \sBzH{-8.0} \sBzI{-7.9} \bzText{$ + a_3 ( b_1 c_2 - b_2 c_1 )\ e_3 \small{\wedge} e_{1 2} $}; }
+\bzUnder{ \bzIn{\curS+8}{\curS+9}{ \path[fill=\bzChigh] (-1.80, -7.60) rectangle (-1.20, -8.40); % a1 e1
+                                   \path[fill=\bzCemph] (-0.70, -7.60) rectangle ( 0.20, -8.40); % a1 e1
+}}
+\bzIn{\curS+9}{}{ \sBzH{-8.0} \sBzI{2.6} \bzText{ $        + a_3 ( b_1 c_2 - b_2 c_1 )$}; }
+
+\bzIn{\curS+10}{\curS+11}{
+ \sBzH{-9.0} \sBzI{-7.9} \bzText{$ = \Delta e_{1 2 3} $};
+}
+% -------------------------------------------- Summary
+\bzIn{\curS+11}{\curS+11}{
+\sBzH{-10.5} \sBzI{-10.7}
+\bzText{\textbf{Summary}}
+\sBzH{-12.5} \sBzI{-9.20}
+\bzText{$\begingroup \renewcommand*{\arraystretch}{1.0}
+   \begin{vmatrix}
+       \ a_1 & a_2 & a_3 &\\
+       \ b_1 & b_2 & b_3 &\\
+       \ c_1 & c_2 & c_3 &\\
+   \end{vmatrix} \ = \ %\color{\bzChigh}{+ a_1} \begin{vmatrix} b_2 & b_3 \\ c_2 & c_3 \end{vmatrix}
+                       %\hb{- a_2} \begin{vmatrix} b_1 & b_3 \\ c_1 & c_3 \end{vmatrix}
+                       %\hb{+ a_3}
+                       + a_1 \ \begin{vmatrix} b_2 & b_3 \\ c_2 & c_3 \end{vmatrix}
+                       - a_2 \ \begin{vmatrix} b_1 & b_3 \\ c_1 & c_3 \end{vmatrix}
+                       + a_3 \ \begin{vmatrix} b_1 & b_2 \\ c_1 & c_2 \end{vmatrix}
+   \endgroup $
+   }
+   \draw[color=\bzChigh] (-10,-9.8) rectangle (10,-14.3);
+   \bzUnder { \bzIn{\curS+11}{\curS+11} { \path[fill=\bzCemph] (-3.4,-12)  rectangle (-2.0,-13);
+                                          \path[fill=\bzCemph] ( 0.5,-12)  rectangle ( 1.9,-13);
+                                          \path[fill=\bzCemph] ( 4.3,-12)  rectangle ( 5.8,-13);
+   \path[fill=\bzCemph]  (-7.9,-11.2) rectangle (-5.0,-12);
+   }}
+}
+\end{bzPlainFrame}
+% ============================================================================
+\end{document}

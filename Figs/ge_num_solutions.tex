@@ -1,0 +1,35 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,shadows,arrows}
+\begin{document}
+%<!--
+
+\tikzstyle{rect} = [draw, rectangle, align=center, font=\bfseries, text width=6em, text centered, minimum height=2em]
+\tikzstyle{elli} = [draw, ellipse,                                  minimum height=2em]
+\tikzstyle{diam} = [draw, diamond, align=center, font=\bfseries, text width=6em, text badly centered, minimum height=2em]
+\tikzstyle{circ} = [draw, circle,  align=center, font=\bfseries, text width=1.5cm, minimum width=8pt, inner sep=10pt]
+\tikzstyle{line} = [draw, -stealth, thick]
+
+\begin{tikzpicture}[node distance = 1.5cm, auto, scale=0.5]
+    \node [rect, rounded corners]                       (start) {$\mathbf{( R \mid \tilde{b} )}$ } ;
+    \node [diam, below of=start,        node distance = 2.5cm]  (q_zeros)          {any zero rows?} ;
+    \node [diam, left of=q_zeros, xshift=-3cm,  yshift=-2.5cm]    (q_contradiction)  {Contra-\\diction?} ;
+    \node [diam, right of=q_contradiction, node distance = 8.5cm] (q_free_variables) {Free Variables?} ;
+
+    \node [circ, below of=q_contradiction, node distance=4cm]  (no_solution)   {No\\Solution} ;
+    \node [circ, below of=q_free_variables, node distance=4cm]       (one_solution)                    {Unique\\Solution} ;
+    \node [circ, right of=one_solution, node distance=5cm] (inf_solutions) {$\mathbf{\infty}$\\Solutions} ;
+ 
+
+    \path [line] (start)   -- (q_zeros);
+    \path [line] (q_free_variables) -| node [above, near start] {yes} (inf_solutions);
+    \path [line] (q_zeros) -| node [above, near start] {no} (q_free_variables);
+    \path [line] (q_zeros) -| node [above, near start] {yes} (q_contradiction);
+    \path [line] (q_contradiction) --  node [right, near start] {yes} (no_solution);
+    \path [line] (q_contradiction) --  node [above, near start] {no} (q_free_variables);
+    \path [line] (q_free_variables) --  node [right, near start] {no} (one_solution);
+\end{tikzpicture}
+%-->
+%<img src="ge_num_solutions.svg">
+
+\end{document}
