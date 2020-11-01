@@ -16,10 +16,10 @@ FILES := \
 	14_Determinants.ipynb \
     15_VectorSpaces.ipynb \
     16_Basis.ipynb \
+    17_EigenAnalysis.ipynb \
     \
     VectorAndMatrixNorms.ipynb \
     CoordinateSystem.ggb CoordinateSystem.svg \
-    EigenAnalysis.ipynb \
     ellipse.ggb ellipse.svg \
     FundamentalTheorem_0.ggb FundamentalTheorem_0.svg \
     FundamentalTheorem_1.ggb FundamentalTheorem_1.svg \
@@ -148,4 +148,4 @@ git:
 all: add git all_notebooks.tgz
 
 tellme:
-	@echo make add git
+	@echo make add git all_notebooks.tgz
