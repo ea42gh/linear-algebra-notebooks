@@ -22,8 +22,9 @@ NOTEBOOKS := \
     15_VectorSpaces.ipynb                 \
     16_Basis.ipynb                        \
     17_EigenAnalysis.ipynb                \
+	18_EigenComputations.ipynb            \
+    19_Diagonalization.ipynb              \
     \
-    Diagonalization.ipynb                 \
     GE_layout_display.ipynb               \
     Inverses.ipynb                        \
     IterativeMethods.ipynb                \
