@@ -24,6 +24,7 @@ NOTEBOOKS := \
     17_EigenAnalysis.ipynb                \
 	18_EigenComputations.ipynb            \
     19_Diagonalization.ipynb              \
+    20_LengthOrthogonality.ipynb          \
     \
     GE_layout_display.ipynb               \
     Inverses.ipynb                        \
