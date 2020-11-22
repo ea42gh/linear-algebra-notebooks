@@ -25,6 +25,7 @@ NOTEBOOKS := \
 	18_EigenComputations.ipynb            \
     19_Diagonalization.ipynb              \
     20_LengthOrthogonality.ipynb          \
+	21_ProjectionsGramSchmidt.ipynb       \
     \
     GE_layout_display.ipynb               \
     Inverses.ipynb                        \
@@ -34,7 +35,6 @@ NOTEBOOKS := \
     LinearTxExamples.ipynb                \
     LU.ipynb                              \
     MetricSpaces.ipynb                    \
-    NormalEquation.ipynb                  \
     Orthogonality.ipynb                   \
     PositiveDefiniteMatrices.ipynb        \
     QR_Decomposition.ipynb                \
