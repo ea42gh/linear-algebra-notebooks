@@ -113,6 +113,10 @@ TEX_FIG_SRCS := \
 	sol_rhs_1.tex             \
 	sol_rhs_2.tex             \
 	sol_with_parameters.tex   \
+	qr_layout_1.tex           \
+	qr_layout_1_error.tex     \
+	qr_layout_2.tex           \
+	qr_layout_3.tex           \
 	$(eog)
 
 # -------------------------------------------------------------------------------------
