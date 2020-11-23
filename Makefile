@@ -26,6 +26,7 @@ NOTEBOOKS := \
     19_Diagonalization.ipynb              \
     20_LengthOrthogonality.ipynb          \
 	21_ProjectionsGramSchmidt.ipynb       \
+    22_QR_Decomposition.ipynb             \
     \
     GE_layout_display.ipynb               \
     Inverses.ipynb                        \
@@ -37,7 +38,6 @@ NOTEBOOKS := \
     MetricSpaces.ipynb                    \
     Orthogonality.ipynb                   \
     PositiveDefiniteMatrices.ipynb        \
-    QR_Decomposition.ipynb                \
     QuadricSurfaceDisplay.ipynb           \
     SpectralTheorem.ipynb                 \
     Summary_01_MatrixMultiplication.ipynb \
