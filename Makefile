@@ -27,6 +27,7 @@ NOTEBOOKS := \
     20_LengthOrthogonality.ipynb          \
 	21_ProjectionsGramSchmidt.ipynb       \
     22_QR_Decomposition.ipynb             \
+    23_MetricSpaces.ipynb                 \
     \
     GE_layout_display.ipynb               \
     Inverses.ipynb                        \
@@ -35,7 +36,6 @@ NOTEBOOKS := \
     LinearIndependence.ipynb              \
     LinearTxExamples.ipynb                \
     LU.ipynb                              \
-    MetricSpaces.ipynb                    \
     Orthogonality.ipynb                   \
     PositiveDefiniteMatrices.ipynb        \
     QuadricSurfaceDisplay.ipynb           \
