@@ -49,7 +49,7 @@ OTHER_FILES := \
     README.md                                                              \
     Makefile                                                               \
     LAcode.jl/src/LAcode.jl LAcode.jl/Project.toml LAcode.jl/Manifest.toml \
-    Figs/Determinants.tex Figs/beamerikz.cls                                         \
+    Figs/Determinants.tex Figs/beamerikz.cls                               \
     tex2svg                                                                \
     xetex2svg                                                              \
 	$(eof)
@@ -60,10 +60,15 @@ TEX_FIG_SRCS := \
 	augmented_matrix_1.tex    \
 	augmented_matrix_2.tex    \
 	augmented_matrix_3.tex    \
+	mat_mult_ex1.tex          \
+	mat_mult_ex1_v.tex        \
+	mat_mult_ex3.tex          \
+	mat_mult_ex4.tex          \
+	mat_mult_ex5.tex          \
 	det_AB.tex                \
 	det_cramer_slide.tex      \
 	det_distributivity.tex    \
-	det_distributivity_1.tex    \
+	det_distributivity_1.tex  \
 	det_slides.tex            \
 	det_transpose_slides.tex  \
 	det_using_ge.tex          \
