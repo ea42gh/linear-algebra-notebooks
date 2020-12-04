@@ -10,6 +10,7 @@ NOTEBOOKS := \
     01_ScalarsVectorsMatrices.ipynb       \
     02_AddScalarMultDotprod.ipynb         \
     03_MatrixMultiplication.ipynb         \
+    04_MatrixAlgebra.ipynb                \
     05_RowEchelonForm_Systems.ipynb       \
     06_GE_Systems.ipynb                   \
     07_GE_Systems.ipynb                   \
