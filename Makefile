@@ -32,7 +32,6 @@ NOTEBOOKS := \
     24_PositiveDefiniteMatrices.ipynb     \
     \
     GE_layout_display.ipynb               \
-    Inverses.ipynb                        \
     IterativeMethods.ipynb                \
     LAcodes.jl                            \
     LinearIndependence.ipynb              \
@@ -103,6 +102,8 @@ TEX_FIG_SRCS := \
 	lin_dep_2.tex             \
 	lintx_1.tex               \
 	lintx_2.tex               \
+	inv_1.tex                 \
+	inv_2.tex                 \
 	lu_example_b1_1.tex       \
 	lu_example_b1_2.tex       \
 	lu_example_b1_3.tex       \
