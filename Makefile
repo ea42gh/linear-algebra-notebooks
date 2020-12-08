@@ -66,6 +66,12 @@ TEX_FIG_SRCS := \
 	mat_mult_ex3.tex          \
 	mat_mult_ex4.tex          \
 	mat_mult_ex5.tex          \
+	mat_alg1.tex              \
+	mat_alg2.tex              \
+	mat_alg3.tex              \
+	mat_alg4.tex              \
+	mat_alg5.tex              \
+	mat_alg6.tex              \
 	det_AB.tex                \
 	det_cramer_slide.tex      \
 	det_distributivity.tex    \
