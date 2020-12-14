@@ -29,16 +29,15 @@ NOTEBOOKS := \
 	21_ProjectionsGramSchmidt.ipynb       \
     22_QR_Decomposition.ipynb             \
     23_MetricSpaces.ipynb                 \
+    24_PositiveDefiniteMatrices.ipynb     \
     \
     GE_layout_display.ipynb               \
-    Inverses.ipynb                        \
     IterativeMethods.ipynb                \
     LAcodes.jl                            \
     LinearIndependence.ipynb              \
     LinearTxExamples.ipynb                \
     LU.ipynb                              \
     Orthogonality.ipynb                   \
-    PositiveDefiniteMatrices.ipynb        \
     QuadricSurfaceDisplay.ipynb           \
     SpectralTheorem.ipynb                 \
     Summary_01_MatrixMultiplication.ipynb \
@@ -66,6 +65,12 @@ TEX_FIG_SRCS := \
 	mat_mult_ex3.tex          \
 	mat_mult_ex4.tex          \
 	mat_mult_ex5.tex          \
+	mat_alg1.tex              \
+	mat_alg2.tex              \
+	mat_alg3.tex              \
+	mat_alg4.tex              \
+	mat_alg5.tex              \
+	mat_alg6.tex              \
 	det_AB.tex                \
 	det_cramer_slide.tex      \
 	det_distributivity.tex    \
@@ -97,6 +102,8 @@ TEX_FIG_SRCS := \
 	lin_dep_2.tex             \
 	lintx_1.tex               \
 	lintx_2.tex               \
+	inv_1.tex                 \
+	inv_2.tex                 \
 	lu_example_b1_1.tex       \
 	lu_example_b1_2.tex       \
 	lu_example_b1_3.tex       \

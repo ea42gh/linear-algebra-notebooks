@@ -95,14 +95,34 @@
 
 \bigskip
 
+$\begin{NiceArray}[create-medium-nodes]{r@{\qquad\ }r@{\qquad\ }}
+% --------------------------------------------
+  &        \\
+  &        \\
+  &        \\
+  &        \\
+  &        \\
+  &      C \\  \noalign{\vskip2mm}
+B &    B C \\  \noalign{\vskip2mm}
+% ----------------------------
+A &  A B C  \\
+\CodeAfter
+% ----------------------------------------- submatrix delimiters
+  \SubMatrixOptions{right-xshift=2mm, left-xshift=2mm}
+                           \SubMatrix({6-2}{6-2})
+    \SubMatrix({7-1}{7-1}) \SubMatrix({7-2}{7-2})
+    \SubMatrix({8-1}{8-1}) \SubMatrix({8-2}{8-2})
+    % ----------------------------------------- pivot outlines
+\end{NiceArray}$ $\qquad \qquad \qquad$
+% =====================================================================
 $\begin{NiceArray}[create-medium-nodes]{*3r@{\qquad\ }*4r@{\qquad\;\;}r}
 % -------------------------------------------- 
   &   &        &  2 & 2 & 1 & 1 & \\
-  &   &        & -2 &-1 & 0 & 1 & \\   \noalign{\vskip2-mm}
+  &   &        & -2 &-1 & 0 & 1 & \\   \noalign{\vskip2mm}
 % -----------------------------------
   & 3 & 1      &  4 & 5 & 3 & 2 & \\
   & 0 & 1      & -2 &-1 & 0 &-1 & \\
-  & 2 & 2      &  0 & 2 & 2 & 0 & \\   \noalign{\vskip2-mm}
+  & 2 & 2      &  0 & 2 & 2 & 0 & \\   \noalign{\vskip2mm}
 % --------------------------------------
 1 & 2 & 2      &  0 & 7 & 7 & 0 & \\
 2 & 0 & 3      &  8 &16 &12 & 4 &
@@ -111,24 +131,7 @@ $\begin{NiceArray}[create-medium-nodes]{*3r@{\qquad\ }*4r@{\qquad\;\;}r}
 % ----------------------------------------- submatrix delimiters
   \SubMatrixOptions{right-xshift=2mm, left-xshift=2mm}
                            \SubMatrix({1-4}{2-7})
-    \SubMatrix({3-2}{5-3}) \SubMatrix({3-4}{6-7})
+    \SubMatrix({3-2}{5-3}) \SubMatrix({3-4}{5-7})
     \SubMatrix({6-1}{7-3}) \SubMatrix({6-4}{7-7})
-    % ----------------------------------------- pivot outlines
-%\begin{tikzpicture}
-%    \begin{scope}[every node/.style = draw]
-%    \end{scope}
-%
-% ----------------------------------------- explanatory text
-%\node [right,align=left] at (2-8.east)  {\quad Augment $A$ with both $b_1$ and $b_2$.\\
-%                                         \quad Choose pivot 2.} ;
-%\node [right] at (5-8.east)             {\quad Choose the second pivot 1} ;
-%\node [right] at (8-8.east)             {\quad Choose the third pivot 3.} ;
-%\node [right] at (11-8.east)            {\quad Finally, scale each pivot to 1.} ;
-%\node [right,align=left] at (14-8.east) {\quad There are no free variables.\\
-%                                        \quad We have obtained a unique solution.} ;
-%
-% ----------------------------------------- row echelon form path
-\end{tikzpicture}
 \end{NiceArray}$
-
 \end{document}
