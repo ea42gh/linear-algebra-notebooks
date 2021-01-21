@@ -140,6 +140,10 @@ GGB_PNG_FIG_SRCS :=            \
 	SalzburgBasis.ggb              \
 	SpectralTheoremExample.ggb     \
 	TransformAction.ggb            \
+	MyNewTx.ggb \
+	MyProjection.ggb \
+	MyReflection.ggb \
+	MyRotation.ggb \
 	$(eog)
 
 GGB_SVG_FIG_SRCS :=      \
