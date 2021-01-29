@@ -13,7 +13,7 @@ Install from
 *   https://github.com/ea42gh/itikz
 
 Some of the Julia Notebooks use a (mostly outdated) package LAcode.jl
->   using Pkg
+>   using Pkg<br>
 >   Pkg.develop(path="location_of_the_directory/LAcode.jl")
 
 
