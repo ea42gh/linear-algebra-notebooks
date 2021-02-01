@@ -106,6 +106,7 @@ TEX_FIG_SRCS := \
 	lintx_2.tex               \
 	inv_1.tex                 \
 	inv_2.tex                 \
+	inv_abstract3.tex         \
 	lu_example_b1_1.tex       \
 	lu_example_b1_2.tex       \
 	lu_example_b1_3.tex       \
