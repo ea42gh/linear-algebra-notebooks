@@ -24,8 +24,10 @@ Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
   | 01_ScalarsVectorsMatrices.ipynb | Introduction                     | 
   | 02_AddScalarMultDotprod.ipynb   | Linear Combinations, Span        | 
   | 03_MatrixMultiplication.ipynb   | Dot Product, Matrix Product      | 
-  | 04_RowEchelonForm_Systems.ipynb | Backsubstitution                 | 
-  | 05_GE_Systems.ipynb             | Gaussian Elimination (Part I)    | 
+  | 04_MatrixAlgebra.ipynb          | The Algebra of Matrix Operations | 
+  | 05_RowEchelonForm_Systems.ipynb | Backsubstitution                 | 
+  | 06_GE_Systems.ipynb             | Gaussian Elimination (Part I)    | 
+  | 07_GE_Systems.ipynb             | Gaussian Elimination (Part II)   | 
   | ----------------------------    | -------------------------------- | 
   | SymbolicVariables.ipynb         | using sympy from Julia           | 
   | GE_layout_display.ipynb         | Matrix Multiplication display    | 

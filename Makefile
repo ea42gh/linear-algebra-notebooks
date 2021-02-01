@@ -16,6 +16,8 @@ NOTEBOOKS := \
     07_GE_Systems.ipynb                   \
     08_LinearIndependence.ipynb           \
     09_LinearTransformations.ipynb        \
+	10_LinearTx_Examples.ipynb            \
+	10a_LinearTx_Examples.ipynb           \
     11_Inverses.ipynb                     \
     12_LU_decomposition.ipynb             \
     13_WedgeProduct.ipynb                 \
@@ -35,7 +37,6 @@ NOTEBOOKS := \
     IterativeMethods.ipynb                \
     LAcodes.jl                            \
     LinearIndependence.ipynb              \
-    LinearTxExamples.ipynb                \
     LU.ipynb                              \
     Orthogonality.ipynb                   \
     QuadricSurfaceDisplay.ipynb           \
@@ -56,6 +57,7 @@ OTHER_FILES := \
 
 # -------------------------------------------------------------------------------------
 TEX_FIG_SRCS := \
+	ge_abstract.tex \
 	abstract_matrix_stack.tex \
 	augmented_matrix_1.tex    \
 	augmented_matrix_2.tex    \
@@ -104,6 +106,7 @@ TEX_FIG_SRCS := \
 	lintx_2.tex               \
 	inv_1.tex                 \
 	inv_2.tex                 \
+	inv_abstract3.tex         \
 	lu_example_b1_1.tex       \
 	lu_example_b1_2.tex       \
 	lu_example_b1_3.tex       \
@@ -133,6 +136,13 @@ TEX_FIG_SRCS := \
 	$(eog)
 
 # -------------------------------------------------------------------------------------
+GGB_DEMO_SRCS := \
+	MyNewTx.ggb \
+	MyProjection.ggb \
+	MyReflection.ggb \
+	MyRotation.ggb \
+	$(eog)
+# -------------------------------------------------------------------------------------
 GGB_PNG_FIG_SRCS :=            \
 	EigenExample_2.ggb             \
 	GramSchmidt.ggb                \
@@ -140,10 +150,6 @@ GGB_PNG_FIG_SRCS :=            \
 	SalzburgBasis.ggb              \
 	SpectralTheoremExample.ggb     \
 	TransformAction.ggb            \
-	MyNewTx.ggb \
-	MyProjection.ggb \
-	MyReflection.ggb \
-	MyRotation.ggb \
 	$(eog)
 
 GGB_SVG_FIG_SRCS :=      \

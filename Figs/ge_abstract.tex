@@ -7,6 +7,7 @@
 %\usepackage{standalone}
 
 %\usepackage[french]{babel}
+\usepackage{mathtools}
 \usepackage{xltxtra}
 %\usepackage{xcolor}
 \usepackage{nicematrix,tikz}
@@ -87,62 +88,37 @@
 \makeatother
 \ExplSyntaxOff
 
-
 \begin{document}
 
 \newcolumntype{I}{!{\OnlyMainNiceMatrix{\vrule}}}
 \SubMatrixOptions{extra-height = 1mm}
-\NiceMatrixOptions{cell-space-top-limit = 3pt,cell-space-bottom-limit = 3pt}
 
-\bigskip
+% ================================================================================
+$\begin{NiceArray}[create-medium-nodes]{ccrIr}
 
-$\begin{NiceArray}[create-medium-nodes]{*3r@{\qquad\ }*4rI*3r@{\qquad\;\;}r}
-% --------------------------------------------
-&   &   & \color{red}{\boxed{\mathbf{1}}} & -1 & 2 & 3 & 1 & 0 & 0 &  \\ 
- &   &   & -3 & 4 & -4 & -8 & 0 & 1 & 0 &  \\ 
- &   &   & 2 & -3 & 3 & 6 & 0 & 0 & 1 &  \\ \noalign{\vskip2mm} 
- % ---------------------------------------------
- 1 & 0 & 0 & \color{red}{\boxed{\mathbf{1}}} & -1 & 2 & 3 & 1 & 0 & 0 &  \\ 
- 3 & 1 & 0 & 0 & \color{red}{\boxed{\mathbf{1}}} & 2 & 1 & 3 & 1 & 0 &  \\ 
--2 & 0 & 1 & 0 & -1 & -1 & 0 & -2 & 0 & 1 &  \\ \noalign{\vskip2mm} 
- % ---------------------------------------------
- 1 & 1 & 0 & \color{red}{\boxed{\mathbf{1}}} & 0 & 4 & 4 & 4 & 1 & 0 &  \\ 
- 0 & 1 & 0 & 0 & \color{red}{\boxed{\mathbf{1}}} & 2 & 1 & 3 & 1 & 0 &  \\ 
-0 & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 &  \\ \noalign{\vskip2mm} 
- % ---------------------------------------------
- 1 & 0 & -4 & \color{red}{\boxed{\mathbf{1}}} & 0 & 0 & 0 & 0 & -3 & -4 &  \\ 
- 0 & 1 & -2 & 0 & \color{red}{\boxed{\mathbf{1}}} & 0 & -1 & 1 & -1 & -2 &  \\ 
- 0 & 0 & 1 & 0 & 0 & \color{red}{\boxed{\mathbf{1}}} & 1 & 1 & 1 & 1 & 
+      &&                   A &                    b \\  \noalign{\vskip1.5mm}
+E_1   &&               E_1 A &                E_1 b \\  \noalign{\vskip1.5mm}
+E_2   &&           E_2 E_1 A &            E_2 E_1 b \\  \noalign{\vskip1.5mm}
+\dots && \dots               & \dots                \\  \noalign{\vskip1.5mm}
+E_k   && E_k \dots E_2 E_1 A &  E_k \dots E_2 E_1 b
+
 \CodeAfter
 % ----------------------------------------- submatrix delimiters
   \SubMatrixOptions{right-xshift=2mm, left-xshift=2mm}
-    \SubMatrix({4-1}{6-3})
-    \SubMatrix({7-1}{9-3})
-    \SubMatrix({10-1}{12-3})
-    \SubMatrix({1-4}{3-10})
-    \SubMatrix({4-4}{6-10})
-    \SubMatrix({7-4}{9-10})
-    \SubMatrix({10-4}{12-10})
-    \SubMatrix({1-4}{3-10})
-    \SubMatrix({4-4}{6-10})
-    \SubMatrix({7-4}{9-10})
-    \SubMatrix({10-4}{12-10})
-    \SubMatrix({1-4}{3-10})
-    \SubMatrix({4-4}{6-10})
-    \SubMatrix({7-4}{9-10})
-    \SubMatrix({10-4}{12-10})
+    \SubMatrix({1-3}{1-4})
+    \SubMatrix({2-3}{2-4})
+    \SubMatrix({3-3}{3-4})
+    \SubMatrix({5-3}{5-4})
+    \SubMatrix({2-1}{2-1})
+    \SubMatrix({3-1}{3-1})
+    \SubMatrix({5-1}{5-1})
     % ----------------------------------------- pivot outlines
 \begin{tikzpicture}
     \begin{scope}[every node/.style = draw]
     \end{scope}
 
 % ----------------------------------------- explanatory text
-    %\node [right,align=left] at (2-8.east)  {\quad Augment $A$ with both $b_1$ and $b_2$.\\
-%                                         \quad Choose pivot 2.} ;
-%\node [right] at (5-8.east)             {\quad Choose the second pivot 1} ;
-%\node [right] at (8-8.east)             {\quad Choose the third pivot 3.} ;
-%\node [right] at (11-8.east)            {\quad Finally, scale each pivot to 1.} ;
-%\node [right,align=left] at (14-8.east) {\quad There are no free variables.\\
+    %\node [right,align=left] at (14-8.east) {\quad There are no free variables.\\
 %                                        \quad We have obtained a unique solution.} ;
 
 % ----------------------------------------- row echelon form path
