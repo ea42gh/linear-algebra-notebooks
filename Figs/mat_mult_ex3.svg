@@ -6,9 +6,9 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   width="143.91325pt"
+   width="128.77501pt"
    height="76.809494pt"
-   viewBox="0 0 143.91325 76.809494"
+   viewBox="0 0 128.77501 76.809494"
    version="1.1"
    id="svg241">
   <metadata
@@ -431,7 +431,7 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.3985;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 76.710938,-111.58203 H 208.4375"
+       d="M 76.710938,-111.58203 H 182.97656"
        transform="matrix(1,0,0,-1,72,72)"
        id="path152" />
     <g
@@ -556,7 +556,7 @@
        id="g198">
       <use
          xlink:href="#glyph2-4"
-         x="180.75999"
+         x="180.761"
          y="156.446"
          id="use196"
          width="100%"
@@ -567,7 +567,7 @@
        id="g202">
       <use
          xlink:href="#glyph2-5"
-         x="180.75999"
+         x="180.761"
          y="173.98"
          id="use200"
          width="100%"
@@ -578,7 +578,7 @@
        id="g206">
       <use
          xlink:href="#glyph2-6"
-         x="180.75999"
+         x="180.761"
          y="180.35699"
          id="use204"
          width="100%"
@@ -600,7 +600,7 @@
        id="g214">
       <use
          xlink:href="#glyph2-8"
-         x="259.767"
+         x="259.76801"
          y="123.485"
          id="use212"
          width="100%"
@@ -611,7 +611,7 @@
        id="g218">
       <use
          xlink:href="#glyph2-1"
-         x="186.536"
+         x="186.535"
          y="156.446"
          id="use216"
          width="100%"
@@ -622,7 +622,7 @@
        id="g222">
       <use
          xlink:href="#glyph2-2"
-         x="186.536"
+         x="186.535"
          y="173.98"
          id="use220"
          width="100%"
@@ -633,7 +633,7 @@
        id="g226">
       <use
          xlink:href="#glyph2-3"
-         x="186.536"
+         x="186.535"
          y="180.35699"
          id="use224"
          width="100%"
@@ -644,7 +644,7 @@
        id="g230">
       <use
          xlink:href="#glyph2-4"
-         x="259.35199"
+         x="259.353"
          y="156.446"
          id="use228"
          width="100%"
@@ -655,7 +655,7 @@
        id="g234">
       <use
          xlink:href="#glyph2-5"
-         x="259.35199"
+         x="259.353"
          y="173.98"
          id="use232"
          width="100%"
@@ -666,7 +666,7 @@
        id="g238">
       <use
          xlink:href="#glyph2-6"
-         x="259.35199"
+         x="259.353"
          y="180.35699"
          id="use236"
          width="100%"
