@@ -1,137 +1,55 @@
 \documentclass[notitlepage]{article}
-%\pagenumbering{gobble}
 \pagestyle{empty}
+%\usepackage[paperheight=9in,paperwidth=56in,top=1in,bottom=1in,right=1in,left=1in,heightrounded,showframe]{geometry}
 
-%\documentclass{standalone}
-%\usepackage{standalone}
-
-%\usepackage[french]{babel}
+\usepackage{mathtools}
 \usepackage{xltxtra}
-%\usepackage{xcolor}
+\usepackage{pdflscape}
+\usepackage{graphicx}
 \usepackage{nicematrix,tikz}
-\usetikzlibrary{calc,fit}
-
-
-\ExplSyntaxOn
-\makeatletter
-
-
-\dim_new:N \l__submatrix_extra_height_dim
-\dim_new:N \l__submatrix_left_xshift_dim
-\dim_new:N \l__submatrix_right_xshift_dim
-
-\keys_define:nn { SubMatrix }
-  {
-    extra-height .dim_set:N = \l__submatrix_extra_height_dim ,
-    extra-height .value_required:n = true ,
-    left-xshift .dim_set:N = \l__submatrix_left_xshift_dim ,
-    left-xshift .value_required:n = true ,
-    right-xshift .dim_set:N = \l__submatrix_right_xshift_dim ,
-    right-xshift .value_required:n = true ,
-  }
-
-\NewDocumentCommand { \SubMatrixOptions } { m }
-  { \keys_set:nn { SubMatrix } { #1 } }
-
-
-\NewDocumentCommand \SubMatrix { m m m m ! O { } }
-  {
-    \keys_set:nn { SubMatrix } { #5 }
-    \begin { tikzpicture }
-      [
-        outer~sep =0 pt ,
-        inner~sep = 0 pt ,
-        draw = none ,
-        fill = none ,
-      ]
-    \pgf@process
-      {
-        \pgfpointdiff
-          { \pgfpointanchor { nm - \NiceMatrixLastEnv - #3 - medium } { south } }
-          { \pgfpointanchor { nm - \NiceMatrixLastEnv - #2 - medium } { north } }
-      }
-    \dim_set_eq:NN \l_tmpa_dim \pgf@y
-    \dim_add:Nn \l_tmpa_dim \l__submatrix_extra_height_dim
-    \node
-      at
-      (
-        [ xshift = -0.8 mm - \l__submatrix_left_xshift_dim ]
-        $ (#2-medium.north~west) ! .5 ! (#3-medium.south~east-|#2-medium.north~west) $
-      )
-      {
-        \nullfont
-        \c_math_toggle_token
-        \left #1
-        \vcenter { \nullfont \hrule height .5 \l_tmpa_dim depth .5 \l_tmpa_dim width 0 pt }
-        \right .
-        \c_math_toggle_token
-      } ;
-    \node
-      at
-      (
-        [ xshift = 0.8 mm + \l__submatrix_right_xshift_dim ]
-        $ (#2-medium.north~west-|#3-medium.south~east) ! .5 ! (#3-medium.south~east) $
-      )
-      {
-        \nullfont
-        \c_math_toggle_token
-        \left .
-        \vcenter { \nullfont \hrule height .5 \l_tmpa_dim depth .5 \l_tmpa_dim width 0 pt }
-        \right #4
-        \c_math_toggle_token
-      } ;
-    \end { tikzpicture }
-  }
-
-\makeatother
-\ExplSyntaxOff
+\usetikzlibrary{calc,fit,decorations.markings}
+% ---------------------------------------------------------------------------- extension
 
 
 \begin{document}
+\begin{landscape}
+
+% ---------------------------------------------------------------------------- preamble
 
 \newcolumntype{I}{!{\OnlyMainNiceMatrix{\vrule}}}
-\SubMatrixOptions{extra-height = 1mm}
-\NiceMatrixOptions{cell-space-top-limit = 3pt,cell-space-bottom-limit = 3pt}
 
-\bigskip
+% ============================================================================ NiceArray
+$\begin{NiceArray}[create-medium-nodes]{@{\qquad\ }*3r@{\qquad\ }*4r@{\qquad\ }l@{\qquad\;\;}}
+ &  &  & 2 & 2 & 1 & 1 &  \\
+ &  &  & -2 & -1 & 0 & 1 &  \\ \noalign{\vskip2mm} 
+ & 3 & 1 & 4 & 5 & 3 & 4 &  \\
+ & 0 & 1 & -2 & -1 & 0 & 1 &  \\
+ & 2 & 2 & 0 & 2 & 2 & 4 &  \\ \noalign{\vskip2mm} 
+1 & 2 & 2 & 0 & 7 & 7 & 14 &  \\
+2 & 0 & 3 & 8 & 16 & 12 & 20 &  \\ \noalign{\vskip2mm} 
+ &  &  &  &  &  &  &  \\
+ &  &  &  &  &  &  & 
+\CodeAfter[ sub-matrix / extra-height=2mm, sub-matrix / xshift=2mm ]
+% --------------------------------------------------------------------------- submatrix delimiters
+    \SubMatrix({1-4}{2-7})[name=PROD0x1]
+    \SubMatrix({3-2}{5-3})[name=PROD1x0]
+    \SubMatrix({3-4}{5-7})[name=PROD1x1]
+    \SubMatrix({6-1}{7-3})[name=PROD2x0]
+    \SubMatrix({6-4}{7-7})[name=PROD2x1]
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD0x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{{$\mathbf{C}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD1x0.north west) + (-0.02,0.02) $) -- +(-0.6cm,0.3cm) node[blue, above left=-3pt] {{$\mathbf{B}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD1x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{{$\mathbf{B C}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD2x0.north west) + (-0.02,0.02) $) -- +(-0.6cm,0.3cm) node[blue, above left=-3pt] {{$\mathbf{A}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD2x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{{$\mathbf{A B C}$}};
+    % --------------------------------------------------------------------------- pivot outlines
+\begin{tikzpicture}
+    \begin{scope}[every node/.style = draw]
+    \end{scope}
 
-$\begin{NiceArray}[create-medium-nodes]{r@{\qquad\ }r@{\qquad\ }}
-% --------------------------------------------
-  &        \\
-  &        \\
-  &        \\
-  &        \\
-  &        \\
-  &      C \\  \noalign{\vskip2mm}
-B &    B C \\  \noalign{\vskip2mm}
-% ----------------------------
-A &  A B C  \\
-\CodeAfter
-% ----------------------------------------- submatrix delimiters
-  \SubMatrixOptions{right-xshift=2mm, left-xshift=2mm}
-                           \SubMatrix({6-2}{6-2})
-    \SubMatrix({7-1}{7-1}) \SubMatrix({7-2}{7-2})
-    \SubMatrix({8-1}{8-1}) \SubMatrix({8-2}{8-2})
-    % ----------------------------------------- pivot outlines
-\end{NiceArray}$ $\qquad \qquad \qquad$
-% =====================================================================
-$\begin{NiceArray}[create-medium-nodes]{*3r@{\qquad\ }*4r@{\qquad\;\;}r}
-% -------------------------------------------- 
-  &   &        &  2 & 2 & 1 & 1 & \\
-  &   &        & -2 &-1 & 0 & 1 & \\   \noalign{\vskip2mm}
-% -----------------------------------
-  & 3 & 1      &  4 & 5 & 3 & 2 & \\
-  & 0 & 1      & -2 &-1 & 0 &-1 & \\
-  & 2 & 2      &  0 & 2 & 2 & 0 & \\   \noalign{\vskip2mm}
-% --------------------------------------
-1 & 2 & 2      &  0 & 7 & 7 & 0 & \\
-2 & 0 & 3      &  8 &16 &12 & 4 &
-% -------------------------------------------- 
-\CodeAfter
-% ----------------------------------------- submatrix delimiters
-  \SubMatrixOptions{right-xshift=2mm, left-xshift=2mm}
-                           \SubMatrix({1-4}{2-7})
-    \SubMatrix({3-2}{5-3}) \SubMatrix({3-4}{5-7})
-    \SubMatrix({6-1}{7-3}) \SubMatrix({6-4}{7-7})
+% --------------------------------------------------------------------------- explanatory text
+    % --------------------------------------------------------------------------- row echelon form path
+\end{tikzpicture}
 \end{NiceArray}$
+
+\end{landscape}
 \end{document}
