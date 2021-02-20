@@ -185,6 +185,8 @@ OTHER_FIGS := \
         ge_example_1d.svg          \
         LinTxCd.svg                \
         LinTxSymLine.svg           \
+        LinTx_Mirror_x.svg         \
+        LinTx_Mirror_y.svg         \
         NormalEquations.svg        \
         PseudoInverse.svg          \
         QRonEigenvectors.png       \
