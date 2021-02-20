@@ -177,19 +177,22 @@ GGB_SVG_FIG_SRCS :=      \
 	$(eof)
 # -------------------------------------------------------------------------------------
 OTHER_FIGS := \
-	cat.png              \
-	cat_upside_down.png  \
-	ge_example_1a.svg    \
-	ge_example_1b.svg    \
-	ge_example_1c.svg    \
-	ge_example_1d.svg    \
-    LinTxCd.svg          \
-    LinTxSymLine.svg     \
-    NormalEquations.svg  \
-    PseudoInverse.svg    \
-	QRonEigenvectors.png \
-	salzburg.jpeg        \
-	$(eof)
+        cat.png                    \
+        cat_upside_down.png        \
+        ge_example_1a.svg          \
+        ge_example_1b.svg          \
+        ge_example_1c.svg          \
+        ge_example_1d.svg          \
+        LinTxCd.svg                \
+        LinTxSymLine.svg           \
+        NormalEquations.svg        \
+        PseudoInverse.svg          \
+        QRonEigenvectors.png       \
+        RotationMatrix.svg         \
+        LinTx_Congruence.svg       \
+        LinTx_PointCoordinates.svg \
+        salzburg.jpeg              \
+        $(eof)
 
 # =============================================================================================
 # Derived variables
