@@ -16,8 +16,8 @@ NOTEBOOKS := \
     07_GE_Systems.ipynb                   \
     08_LinearIndependence.ipynb           \
     09_LinearTransformations.ipynb        \
-    10_LinearTx_Examples.ipynb            \
     10a_LinearTx_Examples.ipynb           \
+    10b_LinearTx_Examples.ipynb           \
     11_Inverses.ipynb                     \
     12_LU_decomposition.ipynb             \
     13_WedgeProduct.ipynb                 \
@@ -29,6 +29,7 @@ NOTEBOOKS := \
     19_Diagonalization.ipynb              \
     20_LengthOrthogonality.ipynb          \
     21_ProjectionsGramSchmidt.ipynb       \
+    21a_LinearTx_NormalEquations.ipynb    \
     22_QR_Decomposition.ipynb             \
     23_MetricSpaces.ipynb                 \
     24_PositiveDefiniteMatrices.ipynb     \
@@ -43,6 +44,7 @@ NOTEBOOKS := \
     SpectralTheorem.ipynb                 \
     Summary_01_MatrixMultiplication.ipynb \
     SymbolicVariables.ipynb               \
+    A1_AnalyticGeometry.ipynb             \
     $(eof)
 
 # -------------------------------------------------------------------------------------
@@ -194,6 +196,9 @@ OTHER_FIGS := \
         LinTx_Congruence.svg       \
         LinTx_PointCoordinates.svg \
         salzburg.jpeg              \
+        a1_vector_addition.svg     \
+        a1_polar_coordinates.svg   \
+        a1_unit_circle.svg         \
         $(eof)
 
 # =============================================================================================
