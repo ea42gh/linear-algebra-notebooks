@@ -33,6 +33,8 @@ NOTEBOOKS := \
     22_QR_Decomposition.ipynb             \
     23_MetricSpaces.ipynb                 \
     24_PositiveDefiniteMatrices.ipynb     \
+    25_GramMatrix.ipynb                   \
+    26_SVD.ipynb                          \
     \
     GE_layout_display.ipynb               \
     IterativeMethods.ipynb                \
@@ -42,6 +44,7 @@ NOTEBOOKS := \
     Orthogonality.ipynb                   \
     QuadricSurfaceDisplay.ipynb           \
     SpectralTheorem.ipynb                 \
+    GenerateProblems.ipynb                \
     Summary_01_MatrixMultiplication.ipynb \
     SymbolicVariables.ipynb               \
     A1_AnalyticGeometry.ipynb             \
