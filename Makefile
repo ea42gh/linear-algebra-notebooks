@@ -18,6 +18,7 @@ NOTEBOOKS := \
     09_LinearTransformations.ipynb        \
     10a_LinearTx_Examples.ipynb           \
     10b_LinearTx_Examples.ipynb           \
+    10c_GeoGebra.ipynb                    \
     11_Inverses.ipynb                     \
     12_LU_decomposition.ipynb             \
     13_WedgeProduct.ipynb                 \
@@ -36,6 +37,7 @@ NOTEBOOKS := \
     25_PositiveDefiniteMatrices.ipynb     \
     26_GramMatrix.ipynb                   \
     27_SVD.ipynb                          \
+    28_PseudoInverse.ipynb                \
     \
     GE_layout_display.ipynb               \
     IterativeMethods.ipynb                \
