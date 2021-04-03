@@ -39,6 +39,7 @@ NOTEBOOKS := \
     27_SVD.ipynb                          \
     28_PseudoInverse.ipynb                \
     29_SVDapplications.ipynb              \
+    30_VectorAndMatrixNorms.ipynb         \
     \
     GE_layout_display.ipynb               \
     IterativeMethods.ipynb                \
