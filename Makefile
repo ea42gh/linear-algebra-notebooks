@@ -35,6 +35,7 @@ NOTEBOOKS := \
     23_MetricSpaces.ipynb                 \
     24_SpectralTheorem.ipynb              \
     25_PositiveDefiniteMatrices.ipynb     \
+    25a_QuadricSurfaceDisplay.ipynb       \
     26_GramMatrix.ipynb                   \
     27_SVD.ipynb                          \
     28_PseudoInverse.ipynb                \
@@ -47,7 +48,6 @@ NOTEBOOKS := \
     LinearIndependence.ipynb              \
     LU.ipynb                              \
     Orthogonality.ipynb                   \
-    QuadricSurfaceDisplay.ipynb           \
     GenerateProblems.ipynb                \
     Summary_01_MatrixMultiplication.ipynb \
     SymbolicVariables.ipynb               \
