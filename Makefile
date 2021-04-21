@@ -42,6 +42,7 @@ NOTEBOOKS := \
     29_SVDapplications.ipynb              \
     30_VectorAndMatrixNorms.ipynb         \
     \
+    FourierMatrix.ipynb                   \
     GE_layout_display.ipynb               \
     IterativeMethods.ipynb                \
     LAcodes.jl                            \
@@ -186,6 +187,7 @@ GGB_SVG_FIG_SRCS :=      \
 	$(eof)
 # -------------------------------------------------------------------------------------
 OTHER_FIGS := \
+        3rd_roots_of_unity.svg     \
         cat.png                    \
         cat_upside_down.png        \
         ge_example_1a.svg          \
