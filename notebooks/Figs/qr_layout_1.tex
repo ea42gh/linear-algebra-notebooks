@@ -1,0 +1,138 @@
+
+\documentclass[notitlepage]{article}
+%\pagenumbering{gobble}
+\pagestyle{empty}
+
+%\documentclass{standalone}
+%\usepackage{standalone}
+
+%\usepackage[french]{babel}
+\usepackage{xltxtra}
+%\usepackage{xcolor}
+\usepackage{nicematrix,tikz}
+\usetikzlibrary{calc,fit}
+
+
+\ExplSyntaxOn
+\makeatletter
+
+
+\dim_new:N \l__submatrix_extra_height_dim
+\dim_new:N \l__submatrix_left_xshift_dim
+\dim_new:N \l__submatrix_right_xshift_dim
+
+\keys_define:nn { SubMatrix }
+  {
+    extra-height .dim_set:N = \l__submatrix_extra_height_dim ,
+    extra-height .value_required:n = true ,
+    left-xshift .dim_set:N = \l__submatrix_left_xshift_dim ,
+    left-xshift .value_required:n = true ,
+    right-xshift .dim_set:N = \l__submatrix_right_xshift_dim ,
+    right-xshift .value_required:n = true ,
+  }
+
+\NewDocumentCommand { \SubMatrixOptions } { m }
+  { \keys_set:nn { SubMatrix } { #1 } }
+
+
+\NewDocumentCommand \SubMatrix { m m m m ! O { } }
+  {
+    \keys_set:nn { SubMatrix } { #5 }
+    \begin { tikzpicture }
+      [
+        outer~sep =0 pt ,
+        inner~sep = 0 pt ,
+        draw = none ,
+        fill = none ,
+      ]
+    \pgf@process
+      {
+        \pgfpointdiff
+          { \pgfpointanchor { nm - \NiceMatrixLastEnv - #3 - medium } { south } }
+          { \pgfpointanchor { nm - \NiceMatrixLastEnv - #2 - medium } { north } }
+      }
+    \dim_set_eq:NN \l_tmpa_dim \pgf@y
+    \dim_add:Nn \l_tmpa_dim \l__submatrix_extra_height_dim
+    \node
+      at
+      (
+        [ xshift = -0.8 mm - \l__submatrix_left_xshift_dim ]
+        $ (#2-medium.north~west) ! .5 ! (#3-medium.south~east-|#2-medium.north~west) $
+      )
+      {
+        \nullfont
+        \c_math_toggle_token
+        \left #1
+        \vcenter { \nullfont \hrule height .5 \l_tmpa_dim depth .5 \l_tmpa_dim width 0 pt }
+        \right .
+        \c_math_toggle_token
+      } ;
+    \node
+      at
+      (
+        [ xshift = 0.8 mm + \l__submatrix_right_xshift_dim ]
+        $ (#2-medium.north~west-|#3-medium.south~east) ! .5 ! (#3-medium.south~east) $
+      )
+      {
+        \nullfont
+        \c_math_toggle_token
+        \left .
+        \vcenter { \nullfont \hrule height .5 \l_tmpa_dim depth .5 \l_tmpa_dim width 0 pt }
+        \right #4
+        \c_math_toggle_token
+      } ;
+    \end { tikzpicture }
+  }
+
+\makeatother
+\ExplSyntaxOff
+
+
+\begin{document}
+
+\newcolumntype{I}{!{\OnlyMainNiceMatrix{\vrule}}}
+\SubMatrixOptions{extra-height = 1mm}
+\NiceMatrixOptions{cell-space-top-limit = 1pt,cell-space-bottom-limit = 1pt}
+
+\bigskip
+
+$\begin{NiceArray}[create-medium-nodes]{*3r@{\qquad\ }*4r@{\qquad\ }*3rI*3r@{\qquad\;\;}r}
+ & & & & & & &   0 & 0 & 1 &   0 & 0 & 14 &  \\ 
+ & & & & & & &   -1 & 1 & 1 &   -1 & 1 & 15 &  \\ 
+ & & & & & & &   1 & -2 & 1 &   1 & -4 & 10 &  \\ 
+ & & & & & & &   1 & 1 & 0 &   1 & 5 & 5 &  \\  \noalign{\vskip2mm} 
+ & & &   0 & -1 & 1 & 1 &   3 & -2 & 0 &   3 & 0 & 0 &  \\ 
+ & & &   0 & 1 & -4 & 5 &   0 & 14 & -3 &   0 & 42 & 0 &  \\ 
+ & & &   14 & 15 & 10 & 5 &   0 & 0 & 39 &   0 & 0 & 546 &  \\  \noalign{\vskip2mm} 
+\frac{\sqrt{3}}{3} & 0 & 0 &   0 & - \frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3} &   \sqrt{3} & - \frac{2 \sqrt{3}}{3} & 0 & & &    &  \\ 
+0 & \frac{\sqrt{42}}{42} & 0 &   0 & \frac{\sqrt{42}}{42} & - \frac{2 \sqrt{42}}{21} & \frac{5 \sqrt{42}}{42} &   0 & \frac{\sqrt{42}}{3} & - \frac{\sqrt{42}}{14} & & &    &  \\ 
+0 & 0 & \frac{\sqrt{546}}{546} &   \frac{\sqrt{546}}{39} & \frac{5 \sqrt{546}}{182} & \frac{5 \sqrt{546}}{273} & \frac{5 \sqrt{546}}{546} &   0 & 0 & \frac{\sqrt{546}}{14} & & &    & 
+\CodeAfter
+% ----------------------------------------- submatrix delimiters
+  \SubMatrixOptions{right-xshift=2mm, left-xshift=2mm}
+    \SubMatrix({1-8}{4-13})
+    \SubMatrix({5-4}{7-7})
+    \SubMatrix({5-8}{7-13})
+    \SubMatrix({8-1}{10-3})
+    \SubMatrix({8-4}{10-7})
+    \SubMatrix({8-8}{10-13})
+    % ----------------------------------------- pivot outlines
+\begin{tikzpicture}
+    \begin{scope}[every node/.style = draw]
+    \end{scope}
+
+% ----------------------------------------- explanatory text
+    %\node [right,align=left] at (2-8.east)  {\quad Augment $A$ with both $b_1$ and $b_2$.\\
+%                                         \quad Choose pivot 2.} ;
+%\node [right] at (5-8.east)             {\quad Choose the second pivot 1} ;
+%\node [right] at (8-8.east)             {\quad Choose the third pivot 3.} ;
+%\node [right] at (11-8.east)            {\quad Finally, scale each pivot to 1.} ;
+%\node [right,align=left] at (14-8.east) {\quad There are no free variables.\\
+%                                        \quad We have obtained a unique solution.} ;
+
+% ----------------------------------------- row echelon form path
+
+\end{tikzpicture}
+\end{NiceArray}$
+
+\end{document}

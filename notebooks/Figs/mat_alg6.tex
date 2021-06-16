@@ -1,0 +1,55 @@
+\documentclass[notitlepage]{article}
+\pagestyle{empty}
+%\usepackage[paperheight=9in,paperwidth=56in,top=1in,bottom=1in,right=1in,left=1in,heightrounded,showframe]{geometry}
+
+\usepackage{mathtools}
+\usepackage{xltxtra}
+\usepackage{pdflscape}
+\usepackage{graphicx}
+\usepackage{nicematrix,tikz}
+\usetikzlibrary{calc,fit,decorations.markings}
+% ---------------------------------------------------------------------------- extension
+
+
+\begin{document}
+\begin{landscape}
+
+% ---------------------------------------------------------------------------- preamble
+
+\newcolumntype{I}{!{\OnlyMainNiceMatrix{\vrule}}}
+
+% ============================================================================ NiceArray
+$\begin{NiceArray}[create-medium-nodes]{@{\qquad\ }*3r@{\qquad\ }*4r@{\qquad\ }l@{\qquad\;\;}}
+ &  &  & 2 & 2 & 1 & 1 &  \\
+ &  &  & -2 & -1 & 0 & 1 &  \\ \noalign{\vskip2mm} 
+ & 3 & 1 & 4 & 5 & 3 & 4 &  \\
+ & 0 & 1 & -2 & -1 & 0 & 1 &  \\
+ & 2 & 2 & 0 & 2 & 2 & 4 &  \\ \noalign{\vskip2mm} 
+1 & 2 & 2 & 0 & 7 & 7 & 14 &  \\
+2 & 0 & 3 & 8 & 16 & 12 & 20 &  \\ \noalign{\vskip2mm} 
+ &  &  &  &  &  &  &  \\
+ &  &  &  &  &  &  & 
+\CodeAfter[ sub-matrix / extra-height=2mm, sub-matrix / xshift=2mm ]
+% --------------------------------------------------------------------------- submatrix delimiters
+    \SubMatrix({1-4}{2-7})[name=PROD0x1]
+    \SubMatrix({3-2}{5-3})[name=PROD1x0]
+    \SubMatrix({3-4}{5-7})[name=PROD1x1]
+    \SubMatrix({6-1}{7-3})[name=PROD2x0]
+    \SubMatrix({6-4}{7-7})[name=PROD2x1]
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD0x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{{$\mathbf{C}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD1x0.north west) + (-0.02,0.02) $) -- +(-0.6cm,0.3cm) node[blue, above left=-3pt] {{$\mathbf{B}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD1x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{{$\mathbf{B C}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD2x0.north west) + (-0.02,0.02) $) -- +(-0.6cm,0.3cm) node[blue, above left=-3pt] {{$\mathbf{A}$}};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (PROD2x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{{$\mathbf{A B C}$}};
+    % --------------------------------------------------------------------------- pivot outlines
+\begin{tikzpicture}
+    \begin{scope}[every node/.style = draw]
+    \end{scope}
+
+% --------------------------------------------------------------------------- explanatory text
+    % --------------------------------------------------------------------------- row echelon form path
+\end{tikzpicture}
+\end{NiceArray}$
+
+\end{landscape}
+\end{document}

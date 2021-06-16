@@ -1,0 +1,28 @@
+\documentclass[svgnames, table]{article}
+\pagenumbering{gobble}
+\usepackage{amsmath}%
+\usepackage{array, hhline}
+\usepackage{circledsteps, tikz}
+\tikzset{/csteps/inner ysep=6pt, /csteps/inner xsep=6pt}
+
+\begin{document}
+\[
+\text{row echelon form: }
+\setlength{\extrarowheight}{3pt}
+\begin{pmatrix}\begin{array}{@{}cccccc@{}}
+\multicolumn{1}{c!{\color{red}\vrule}}{0} & \Circled{\textbf{5}} & 1 & -2 & 7 & 1  \\[0.2ex] \noalign{\vspace*{-0.4pt}} \hhline{~>{\arrayrulecolor{red}}-~>{\arrayrulecolor{black}~~~}}
+\ 0 & \multicolumn{1}{@{}c!{\color{red}\vrule}}{0 }& \Circled{\textbf{8}} &3 & 0 & 4 \\[0.2ex]                            \hhline{~~>{\arrayrulecolor{red}}|--~>{\arrayrulecolor{black}}~}\noalign{\vspace*{-0.4pt}}
+\ 0 & 0 & 0 & \multicolumn{1}{c!{\color{red}\vrule}}{0} & \Circled{\textbf{3}} &2    \\[0.2ex]                            \hhline{~~~~>{\arrayrulecolor{red}}|->{\arrayrulecolor{black}}|>{\arrayrulecolor{red}}-}
+\ 0 & 0 & 0 & 0 & 0 & \multicolumn{1}{c!{\color{red}\vrule}}{0}
+\end{array}
+\end{pmatrix}
+\quad \text{NOT row echelon form: } 
+\begin{pmatrix}\begin{array}{@{}cccccc@{}}
+\multicolumn{1}{c!{\color{red}\vrule}}{0} & \Circled{\textbf{5}} & 1 & -2 & 7 & 1    \\[0.2ex] \noalign{\vspace*{-0.4pt}} \hhline{~>{\arrayrulecolor{red}}-~>{\arrayrulecolor{black}~~~}}
+\ 0 & \multicolumn{1}{@{}c!{\color{red}\vrule}}{0 }& \Circled{\textbf{8}} &3 & 0 & 4 \\[0.2ex]                            \hhline{~>{\arrayrulecolor{red}}|-~>{\arrayrulecolor{black}}~~}\noalign{\vspace*{-0.4pt}}
+\multicolumn{1}{c!{\color{red}\vrule}}{0} & \Circled{\textbf{2}} & 3 & 0 & 3 &2      \\[0.2ex]                            \hhline{~>{\arrayrulecolor{red}}|---->{\arrayrulecolor{black}}|>{\arrayrulecolor{red}}-}
+\ 0 & 0 & 0 & 0 & 0 & \multicolumn{1}{c!{\color{red}\vrule}}{0}
+\end{array}
+\end{pmatrix}
+\]
+\end{document}
