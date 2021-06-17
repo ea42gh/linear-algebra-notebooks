@@ -1,5 +1,0 @@
-#!/bin/sh
-latexmk -xelatex $1.tex && \
-latexmk -xelatex -c $1.tex && \
-pdf2svg $1.pdf /tmp/temp_$1.svg && \
-inkscape -D --without-gui --file=/tmp/temp_$1.svg --export-plain-svg $1.svg

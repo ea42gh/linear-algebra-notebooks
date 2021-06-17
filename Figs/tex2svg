@@ -1,8 +1,0 @@
-#!/bin/sh
-latexmk -xelatex    $1.tex && \
-latexmk -xelatex -c $1.tex && \
-dvisvgm --font-format=woff2 --zoom=1 --exact $1.xdv $1.svg
-#latexmk -xelatex $1.tex && \
-#latexmk -xelatex -c $1.tex && \
-#pdf2svg $1.pdf /tmp/temp_$1.svg && \
-#inkscape -D --without-gui --file=/tmp/temp_$1.svg --export-plain-svg $1.svg

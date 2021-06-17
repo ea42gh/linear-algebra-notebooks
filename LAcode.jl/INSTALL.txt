@@ -1,2 +1,0 @@
-# First time use of LAcode: from LAcode.jl execute the pkg command  ] dev --local "."
-

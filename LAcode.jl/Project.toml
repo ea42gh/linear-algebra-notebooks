@@ -1,9 +1,0 @@
-name = "LAcode"
-uuid = "81893677-05c5-458c-8132-b40cec4f9759"
-authors = ["user "]
-version = "0.1.0"
-
-[deps]
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
-Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
