@@ -21,17 +21,17 @@ Please note this requires Node.js>=14 to be installed
 =====================================================
 """
     )
-    command.run("panel build ela", echo=True)
+    command.run("panel build elementary-linear-algebra", echo=True)
 
 
 @task(aliases=["package"])
 def python_package(command):
-    """Builds the ela Python package
+    """Builds the elementary-linear-algebra Python package
 
     Remember to update the version number in the VERSION file!
     """
     print(
-        """Builds the ela Python package
+        """Builds the elementary-linear-algebra Python package
 
 Remember to update the version number in the VERSION file!
 =================================================
@@ -41,12 +41,12 @@ Remember to update the version number in the VERSION file!
 
 @task(aliases=["binder"])
 def binder_image(command):
-    """Builds the ela binder image using jupyter-repo2docker
+    """Builds the elementary-linear-algebra binder image using jupyter-repo2docker
 
 
     Please note this does not work on Windows"""
     print(
-        """Builds the ela binder image using jupyter-repo2docker
+        """Builds the elementary-linear-algebra binder image using jupyter-repo2docker
 
 Please note this does not work on Windows
 =========================================

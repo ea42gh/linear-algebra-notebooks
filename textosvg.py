@@ -20,8 +20,8 @@ class ImageFile(object):
 
 def svg_from_tex( tex_file, svg_file ):
     """create an svg file from a tex file"""
+    from os import chdir, getcwd
     from subprocess import call
-    from os import chdir,getcwd
     d = getcwd()
     chdir('/tmp')
     call(["latexmk", "-xelatex", d+'/'+tex_file])

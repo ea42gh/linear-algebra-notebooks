@@ -77,7 +77,7 @@ Running pytest the test framework
 """
     )
     # Build the command_string
-    command_string = f"pytest {test_files} --doctest-modules --cov=ela"
+    command_string = f"pytest {test_files} --doctest-modules --cov=elementary-linear-algebra"
     if not integrationtest:
         command_string += ' -m "not functionaltest and not integrationtest"'
     if test_results:
@@ -93,7 +93,7 @@ Running pytest the test framework
 
 
 @task()
-def pylint(command, files="setup.py tasks ela tests"):
+def pylint(command, files="setup.py tasks elementary-linear-algebra tests"):
     """Runs pylint (linter) on all .py files recursively to identify coding errors
 
     Arguments:
@@ -116,7 +116,7 @@ sniffs for code smells and offers simple refactoring suggestions.
 
 
 @task
-def mypy(command, files="setup.py tasks ela tests"):
+def mypy(command, files="setup.py tasks elementary-linear-algebra tests"):
     """Runs mypy (static type checker) on all .py files recursively
 
     Arguments:

@@ -82,7 +82,7 @@ RUN mkdir -p $CONDA_DIR && \
     fix-permissions "${CONDA_DIR}"
 
 USER $NB_UID
-ARG PYTHON_VERSION=default
+ARG PYTHON_VERSION="3.8"
 
 # Setup work directory for backward-compatibility
 RUN mkdir "/home/$NB_USER/work" && \
@@ -117,9 +117,9 @@ RUN wget --quiet "https://github.com/conda-forge/miniforge/releases/download/${m
 #     Correct permissions
 #     Do all this in a single RUN command to avoid duplicating all of the files across image layers when the permissions change
 RUN conda install --quiet --yes \
-    'notebook=6.4.0' \
-    'jupyterhub=1.4.1' \
-    'jupyterlab=3.0.16' && \
+    'notebook' \
+    'jupyterhub' \
+    'jupyterlab' && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
@@ -233,10 +233,6 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 USER $NB_UID
 WORKDIR $HOME
 
-RUN conda install -c conda-forge --yes \
-    code-server \
-    panel holoviews hvplot colorcet param datashader
-
 RUN conda install \
     altair \
     beautifulsoup4 \
@@ -290,6 +286,10 @@ RUN conda install \
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
 RUN pip3 install pycharts
 
+RUN conda install -c conda-forge --yes \
+    code-server \
+    panel holoviews hvplot colorcet param datashader
+
 USER root
 
 # ffmpeg for matplotlib anim & dvipng+cm-super for latex labels
@@ -319,7 +319,8 @@ WORKDIR $HOME
 
 RUN mkdir notebooks
 COPY notebooks notebooks
-RUN jupyter trust $(find . -name '*.ipynb')
+RUN ln -s /tmp tmp
+#RUN jupyter trust $(find notebooks -name '*.ipynb')
 
 #RUN echo "======================================================= update nicematrix"
 #RUN mkdir -p texmf/tex/latex && \
@@ -348,6 +349,8 @@ RUN \
 
 RUN echo "======================================================= install itikz"
 RUN pip install git+https://github.com/ea42gh/itikz.git
+
+RUN conda update --all
 
 RUN code-server --install-extension ms-python.python && \
     SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension wesbos.theme-cobalt2 && \

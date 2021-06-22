@@ -42,7 +42,7 @@ Opens the current branch on Binder.
 """
     )
     branch = _get_active_branch_name()
-    url = f"https://mybinder.org/v2/gh/ea42gh/ela/{branch}?urlpath=labs"
+    url = f"https://mybinder.org/v2/gh/ea42gh/elementary-linear-algebra/{branch}?urlpath=labs"
     command.run(f"python -m webbrowser {url}", echo=True)
 
 
@@ -56,7 +56,7 @@ Opens the current branch on Github.
 """
     )
     branch = _get_active_branch_name()
-    url = f"https://github.com/ea42gh/ela/tree/{branch}"
+    url = f"https://github.com/ea42gh/elementary-linear-algebra/tree/{branch}"
     command.run(f"python -m webbrowser {url}", echo=True)
 
 
