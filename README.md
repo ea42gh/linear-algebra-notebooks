@@ -1,8 +1,10 @@
 # Elementary Linear Algebra
 
-Jupyter Notebooks used in class and with the youtube channel lectures
+Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
+[YouTube Playlist](https://www.youtube.com/playlist?list=PLBDUlnmEqyXD_llq6wETUqRkJGRiu8wFU)
 
-The channel is at https://www.youtube.com/playlist?list=PLBDUlnmEqyXD_llq6wETUqRkJGRiu8wFU
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD)
+
 
 The notebooks use both Julia and Python. To use interactively,
 you may have to install the libraries.
@@ -16,23 +18,6 @@ Some of the Julia Notebooks use a (mostly outdated) package LAcode.jl
 >   using Pkg<br>
 >   Pkg.develop(path="location_of_the_directory/LAcode.jl")
 
-
-Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
-
-  | Notebook                        | Comment                          | 
-  | ----------------------------    | -------------------------------- | 
-  | 01_ScalarsVectorsMatrices.ipynb | Introduction                     | 
-  | 02_AddScalarMultDotprod.ipynb   | Linear Combinations, Span        | 
-  | 03_MatrixMultiplication.ipynb   | Dot Product, Matrix Product      | 
-  | 04_MatrixAlgebra.ipynb          | The Algebra of Matrix Operations | 
-  | 05_RowEchelonForm_Systems.ipynb | Backsubstitution                 | 
-  | 06_GE_Systems.ipynb             | Gaussian Elimination (Part I)    | 
-  | 07_GE_Systems.ipynb             | Gaussian Elimination (Part II)   | 
-  | ----------------------------    | -------------------------------- | 
-  | SymbolicVariables.ipynb         | using sympy from Julia           | 
-  | GE_layout_display.ipynb         | Matrix Multiplication display    | 
-  | LAcodes.jl                      | Support Functions (Julia code)   | 
-  | ----------------------------    | -------------------------------- | 
 
 Software used:
 1. holoviews, Panel from http://holoviz.org/
