@@ -299,13 +299,6 @@ RUN apt-get update --yes && \
 
 # =====================================================================   start
 #USER root
-#RUN curl https://static.geogebra.org/linux/office@geogebra.org.gpg.key | gpg --dearmor | sudo dd of=/usr/keyrings/riot-archive-keyring.gpg && \
-#    apt-add-repository -u 'deb http://www.geogebra.net/linux/ stable main' && \
-#    apt-get update --yes && \
-#    apt install geogebra-classic && \
-#    apt-get install --yes --no-install-recommends ffmpeg dvipng cm-super && \
-
-RUN rm -rf /tmp/*
 
 WORKDIR /tmp
 RUN echo "======================================================= update nicematrix" && \
@@ -313,6 +306,18 @@ RUN echo "======================================================= update nicemat
     curl -fL -o nicematrix.ins  "http://mirrors.ctan.org/macros/latex/contrib/nicematrix/nicematrix.ins" && \
     latex nicematrix.ins && \
     cp nicematrix.sty /usr/share/texlive/texmf-dist/tex/latex/nicematrix
+
+#RUN curl https://static.geogebra.org/linux/office@geogebra.org.gpg.key | gpg --dearmor | sudo dd of=/usr/keyrings/riot-archive-keyring.gpg && \
+#    apt-add-repository -u 'deb http://www.geogebra.net/linux/ stable main' && \
+#    apt-get update --yes && \
+#    apt install geogebra-classic
+# -------------- or ------------------------------
+#RUN curl -k -o geogebra.deb -L https://www.geogebra.org/download/deb.php?arch=amd64&ver=6
+#RUN echo "================================================ geogebra" &&\
+#    echo $(ls) && \
+#    apt install geogebra.deb
+
+RUN rm -rf /tmp/*
 
 USER $NB_UID
 WORKDIR $HOME
