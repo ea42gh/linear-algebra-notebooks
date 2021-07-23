@@ -223,6 +223,8 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'using Pkg; pkg"add Plots"; pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add Pluto"; pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add PyCall"; pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Interact";  pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add PrettyTables";  pkg"precompile"' && \
     # move kernelspec out of home \
     mv "${HOME}/.local/share/jupyter/kernels/julia"* "${CONDA_DIR}/share/jupyter/kernels/" && \
     chmod -R go+rx "${CONDA_DIR}/share/jupyter" && \
