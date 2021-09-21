@@ -215,14 +215,16 @@ USER $NB_UID
 # taking effect properly on the .local folder in the jovyan home dir.
 RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'import Pkg; Pkg.add("HDF5")' && \
-    julia -e 'using Pkg; pkg"add IJulia"; pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add IJulia";        pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add LinearAlgebra"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add RowEchelon"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Latexify"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add LaTeXStrings"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Plots"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Pluto"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add PyCall"; pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Hadamard";      pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Random";        pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add RowEchelon";    pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Latexify";      pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add LaTeXStrings";  pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Plots";         pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Pluto";         pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add PyCall";        pkg"precompile"' && \
     # move kernelspec out of home \
     mv "${HOME}/.local/share/jupyter/kernels/julia"* "${CONDA_DIR}/share/jupyter/kernels/" && \
     chmod -R go+rx "${CONDA_DIR}/share/jupyter" && \
