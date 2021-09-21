@@ -223,6 +223,13 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'using Pkg; pkg"add Latexify";      pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add LaTeXStrings";  pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add Plots";         pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Interact";      pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add SymPy";         pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Distributions"; pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Images";        pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add TestImages";    pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add MosaicViews";   pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add PrettyTables";  pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add Pluto";         pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add PyCall";        pkg"precompile"' && \
     # move kernelspec out of home \
