@@ -1,0 +1,35 @@
+\documentclass[notitlepage,table,svgnames]{article}
+\pagestyle{empty}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xcolor}
+
+\begin{document}\begin{minipage}{\textwidth}
+
+\scalebox{0.8}{%
+
+%====================================================================
+\begin{tabular}{@{}lccccc@{}} \toprule
+% lambda --------------------------------------------------------------------
+$\color{blue}{\lambda}$ & $\color{red}{4}$ &  & $\color{red}{1}$ &  & $0$ \\  \cmidrule{2-2} \cmidrule{4-4} \cmidrule{6-6}
+$\color{blue}{\left( m_a \right)}$ & $2$ &  & $1$ &  & $2$ \\   \cmidrule{2-2} \cmidrule{4-4} \cmidrule{6-6} \addlinespace[1mm]
+%  eigenvectors ------------------------------------------------------------------------
+{\parbox{2cm}{\textcolor{blue}{basis for $\color{blue}{E_\lambda}$}}} &
+$\begin{pNiceArray}{r}0 \\ 0 \\ - \frac{4}{3} \\ 1 \\ 0 \end{pNiceArray}$, $\begin{pNiceArray}{r}\frac{3}{4} \\ 0 \\ 0 \\ 0 \\ 1 \end{pNiceArray}$ & & $\begin{pNiceArray}{r}- \frac{4}{3} \\ 0 \\ 0 \\ 0 \\ 1 \end{pNiceArray}$ & & $\begin{pNiceArray}{r}0 \\ 1 \\ 0 \\ 0 \\ 0 \end{pNiceArray}$, $\begin{pNiceArray}{r}0 \\ 0 \\ \frac{3}{4} \\ 1 \\ 0 \end{pNiceArray}$ \\ 
+%  orthonormal eigenvectors ------------------------------------------------------------
+  \cmidrule{2-2} \cmidrule{4-4} \cmidrule{6-6} \addlinespace[2mm]
+{\parbox{2cm}{\textcolor{blue}{orthonormal basis for $E_\lambda$}}} &
+$\begin{pNiceArray}{r}\color{red}{0} \\[1mm] \color{red}{0} \\[1mm] \color{red}{- \frac{4}{5}} \\[1mm] \color{red}{\frac{3}{5}} \\[1mm] \color{red}{0} \end{pNiceArray}$, $\begin{pNiceArray}{r}\color{red}{\frac{3}{5}} \\[1mm] \color{red}{0} \\[1mm] \color{red}{0} \\[1mm] \color{red}{0} \\[1mm] \color{red}{\frac{4}{5}} \end{pNiceArray}$ & & $\begin{pNiceArray}{r}\color{red}{- \frac{4}{5}} \\[1mm] \color{red}{0} \\[1mm] \color{red}{0} \\[1mm] \color{red}{0} \\[1mm] \color{red}{\frac{3}{5}} \end{pNiceArray}$ & & $\begin{pNiceArray}{r}0 \\[1mm] 1 \\[1mm] 0 \\[1mm] 0 \\[1mm] 0 \end{pNiceArray}$, $\begin{pNiceArray}{r}0 \\[1mm] 0 \\[1mm] \frac{3}{5} \\[1mm] \frac{4}{5} \\[1mm] 0 \end{pNiceArray}$ \\
+\addlinespace[2mm] \midrule \addlinespace[2mm]
+% ------------------------------------------------------------- lambda
+$\color{blue}{ \Lambda =}$ & \multicolumn{3}{c}{
+$\begin{pNiceArray}{c@{\hspace{12mm}}c@{\hspace{12mm}}c@{\hspace{12mm}}c@{\hspace{12mm}}c}\color{red}{4} & 0 & 0 & 0 & 0 \\ 0 & \color{red}{4} & 0 & 0 & 0 \\ 0 & 0 & \color{red}{1} & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 \\ \end{pNiceArray}$} \\ \addlinespace[2mm]
+% ------------------------------------------------------------- V
+$\color{blue}{ V = }$ & \multicolumn{3}{c}{
+$\begin{pNiceArray}{r@{\hspace{10mm}}r@{\hspace{10mm}}r@{\hspace{10mm}}r@{\hspace{10mm}}r}\color{red}{0} & \color{red}{\frac{3}{5}} & \color{red}{- \frac{4}{5}} & 0 & 0 \\[1mm] \color{red}{0} & \color{red}{0} & \color{red}{0} & 1 & 0 \\[1mm] \color{red}{- \frac{4}{5}} & \color{red}{0} & \color{red}{0} & 0 & \frac{3}{5} \\[1mm] \color{red}{\frac{3}{5}} & \color{red}{0} & \color{red}{0} & 0 & \frac{4}{5} \\[1mm] \color{red}{0} & \color{red}{\frac{4}{5}} & \color{red}{\frac{3}{5}} & 0 & 0 \\ \end{pNiceArray}$} \\  \addlinespace[2mm] \bottomrule
+\end{tabular}
+
+}
+
+\end{minipage}\end{document}
