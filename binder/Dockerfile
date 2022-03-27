@@ -1,7 +1,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-FROM ubuntu:20.10
+FROM ubuntu:latest
 
 USER root
 # ================================================================================= USER
