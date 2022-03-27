@@ -349,8 +349,11 @@ RUN \
     jupyter nbextension enable comment-uncomment/main && \
     jupyter nbextension enable hide_input/main && \
     jupyter nbextension enable scratchpad/main && \
-    jupyter nbextension enable init_cell/main && \
+    jupyter nbextension enable init_cell/main
+RUN \
     jupyter nbextension install --py --user k3d && \
+    jupyter nbextension enable --py --user k3d
+RUN \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager
 # && \    TEMPORARILY DISABLED: FIX!!!!
 # jupyter labextension install k3d
