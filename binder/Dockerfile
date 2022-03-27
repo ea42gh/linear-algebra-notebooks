@@ -282,17 +282,18 @@ RUN conda install \
     conda clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
-#RUN \
-#    jupyter nbextension enable codefolding/main
-#    jupyter nbextension enable collapsible_headings/main
-#    jupyter nbextension enable comment-uncomment/main
-#    jupyter nbextension enable hide_input/main
-#    jupyter nbextension enable scratchpad/main
-#    jupyter nbextension enable init_cell/main
-#    jupyter labextension install @jupyter-widgets/jupyterlab-manager
-#    jupyter labextension install k3d
 
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
+RUN \
+    jupyter nbextension enable codefolding/main
+    jupyter nbextension enable collapsible_headings/main
+    jupyter nbextension enable comment-uncomment/main
+    jupyter nbextension enable hide_input/main
+    jupyter nbextension enable scratchpad/main
+    jupyter nbextension enable init_cell/main
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager
+    jupyter labextension install k3d
+
 RUN pip3 install pycharts
 
 RUN conda install -c conda-forge --yes \
