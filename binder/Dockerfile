@@ -285,16 +285,6 @@ RUN conda install \
 
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
 
-#RUN \
-#    jupyter nbextension enable codefolding/main
-#    jupyter nbextension enable collapsible_headings/main
-#    jupyter nbextension enable comment-uncomment/main
-#    jupyter nbextension enable hide_input/main
-#    jupyter nbextension enable scratchpad/main
-#    jupyter nbextension enable init_cell/main
-#    jupyter labextension install @jupyter-widgets/jupyterlab-manager
-#    jupyter labextension install k3d
-
 RUN pip3 install pycharts
 
 RUN conda install -c conda-forge --yes \
@@ -360,8 +350,10 @@ RUN \
     jupyter nbextension enable hide_input/main && \
     jupyter nbextension enable scratchpad/main && \
     jupyter nbextension enable init_cell/main && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install k3d
+    jupyter nbextension install --py --user k3d && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager
+# && \    TEMPORARILY DISABLED: FIX!!!!
+# jupyter labextension install k3d
 
 RUN echo "======================================================= install itikz"
 RUN pip install git+https://github.com/ea42gh/itikz.git
