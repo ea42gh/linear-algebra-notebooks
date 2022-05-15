@@ -1,9 +1,11 @@
 # Elementary Linear Algebra
 
 Jupyter Notebooks illustrating Elementary Linear Algebra Concepts and Algorithms
+
+Youtube channel for these notebooks:
 [YouTube Playlist](https://www.youtube.com/playlist?list=PLBDUlnmEqyXD_llq6wETUqRkJGRiu8wFU)
 
-The notebooks can be accessed directly from binder:
+Binder access to these notebooks:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=lab)
 
 The languages used are Julia and Python. The binder environment creates the following directory structure:
