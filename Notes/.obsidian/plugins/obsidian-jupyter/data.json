@@ -1,0 +1,4 @@
+{
+  "pythonInterpreter": "/usr/bin/python3",
+  "setupScript": "print('aha')"
+}

@@ -1,0 +1,13 @@
+{
+  "legacyEditor": false,
+  "livePreview": true,
+  "spellcheckLanguages": [
+    "en-US",
+    "de",
+    "fr",
+    "tr",
+    "es"
+  ],
+  "vimMode": true,
+  "promptDelete": false
+}
