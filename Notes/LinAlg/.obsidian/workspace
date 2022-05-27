@@ -4,24 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "08e2b7c6116754e5",
+        "id": "bfe2cacae4d2ce98",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Untitled.md",
+            "file": "INDEX.md",
             "mode": "source",
             "source": false
           }
         }
       },
       {
-        "id": "a522cf5e101fda05",
+        "id": "3509491d37681daa",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Untitled.md",
+            "file": "INDEX.md",
             "mode": "source",
             "source": false
           }
@@ -97,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Untitled.md",
+                "file": "INDEX.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -149,7 +149,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled.md",
+                "file": "INDEX.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,17 +162,17 @@
     "direction": "horizontal",
     "width": 281.2394714355469
   },
-  "active": "a522cf5e101fda05",
+  "active": "3509491d37681daa",
   "lastOpenFiles": [
-    "Untitled.md",
-    "02_Add, Scalar Mult, Dot prod.md",
-    "01_ScalarsVectorsMatrices.md",
-    "Topics/1 Basic Operations/1. Basic Operations.md",
-    "Permanent Notes/Experiments/DataView_3.md",
-    "Permanent Notes/Experiments/DataView_1.md",
-    "Permanent Notes/Experiments/DataView_0.md",
-    "conflict-files-obsidian-git.md",
-    "Permanent Notes/HowTo/202205262241 - Image in Editor.md",
-    "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md"
+    "INDEX.md",
+    "04 Matrix Multiplication.md",
+    "03 Matrix Multiplication.md",
+    "other Projections.md",
+    "other Three Bases Example.md",
+    "other Least Squares Fitting.md",
+    "other Least Mean Squares.md",
+    "other Iteration Examples.md",
+    "other Geogebra.md",
+    "Matrix Multiplication Summary.md"
   ]
 }

@@ -1,20 +1,204 @@
 {
   "recentFiles": [
     {
-      "basename": "Untitled",
-      "path": "Untitled.md"
+      "basename": "INDEX",
+      "path": "INDEX.md"
     },
     {
-      "basename": "02_Add, Scalar Mult, Dot prod",
-      "path": "02_Add, Scalar Mult, Dot prod.md"
+      "basename": "04 Matrix Multiplication",
+      "path": "04 Matrix Multiplication.md"
     },
     {
-      "basename": "01_ScalarsVectorsMatrices",
-      "path": "01_ScalarsVectorsMatrices.md"
+      "basename": "03 Matrix Multiplication",
+      "path": "03 Matrix Multiplication.md"
     },
     {
-      "basename": "1. Basic Operations",
-      "path": "Topics/1 Basic Operations/1. Basic Operations.md"
+      "basename": "other Projections",
+      "path": "other Projections.md"
+    },
+    {
+      "basename": "other Three Bases Example",
+      "path": "other Three Bases Example.md"
+    },
+    {
+      "basename": "other Least Squares Fitting",
+      "path": "other Least Squares Fitting.md"
+    },
+    {
+      "basename": "other Least Mean Squares",
+      "path": "other Least Mean Squares.md"
+    },
+    {
+      "basename": "other Iteration Examples",
+      "path": "other Iteration Examples.md"
+    },
+    {
+      "basename": "other Geogebra",
+      "path": "other Geogebra.md"
+    },
+    {
+      "basename": "Matrix Multiplication Summary",
+      "path": "Matrix Multiplication Summary.md"
+    },
+    {
+      "basename": "Randomized SVD",
+      "path": "Randomized SVD.md"
+    },
+    {
+      "basename": "Regression",
+      "path": "Regression.md"
+    },
+    {
+      "basename": "Rayleigh Quotients",
+      "path": "Rayleigh Quotients.md"
+    },
+    {
+      "basename": "20 Length and Orthogonality",
+      "path": "20 Length and Orthogonality.md"
+    },
+    {
+      "basename": "12 LU Decomposition",
+      "path": "12 LU Decomposition.md"
+    },
+    {
+      "basename": "08 Linear Independence",
+      "path": "08 Linear Independence.md"
+    },
+    {
+      "basename": "Iterative Methods with Python",
+      "path": "Iterative Methods with Python.md"
+    },
+    {
+      "basename": "Iterative Methods with Julia",
+      "path": "Iterative Methods with Julia.md"
+    },
+    {
+      "basename": "Iterative Methods",
+      "path": "Iterative Methods.md"
+    },
+    {
+      "basename": "TheHamilton Cayley Theorem",
+      "path": "TheHamilton Cayley Theorem.md"
+    },
+    {
+      "basename": "Generate Problems",
+      "path": "Generate Problems.md"
+    },
+    {
+      "basename": "GE Layout Display",
+      "path": "GE Layout Display.md"
+    },
+    {
+      "basename": "The Fourier Matrix",
+      "path": "The Fourier Matrix.md"
+    },
+    {
+      "basename": "A2 Matrix Layout Displays",
+      "path": "A2 Matrix Layout Displays.md"
+    },
+    {
+      "basename": "A1 Analytic Geometry",
+      "path": "A1 Analytic Geometry.md"
+    },
+    {
+      "basename": "30 Vector and Matrix Norms",
+      "path": "30 Vector and Matrix Norms.md"
+    },
+    {
+      "basename": "29 SVD Applications",
+      "path": "29 SVD Applications.md"
+    },
+    {
+      "basename": "28 The Pseudo Inverse",
+      "path": "28 The Pseudo Inverse.md"
+    },
+    {
+      "basename": "27 The Singular Value Decomposition (SVD)",
+      "path": "27 The Singular Value Decomposition (SVD).md"
+    },
+    {
+      "basename": "26 The Gram Matrix",
+      "path": "26 The Gram Matrix.md"
+    },
+    {
+      "basename": "25 Positive Definite Matrices",
+      "path": "25 Positive Definite Matrices.md"
+    },
+    {
+      "basename": "24 The Spectral Theorem",
+      "path": "24 The Spectral Theorem.md"
+    },
+    {
+      "basename": "23 Metric Spaces",
+      "path": "23 Metric Spaces.md"
+    },
+    {
+      "basename": "22 QR Decomposition",
+      "path": "22 QR Decomposition.md"
+    },
+    {
+      "basename": "21a Linear Transformations, Gram-Schmidt",
+      "path": "21a Linear Transformations, Gram-Schmidt.md"
+    },
+    {
+      "basename": "21 Linear Transformations, Normal Equations",
+      "path": "21 Linear Transformations, Normal Equations.md"
+    },
+    {
+      "basename": "19 Diagonalization of Matrices",
+      "path": "19 Diagonalization of Matrices.md"
+    },
+    {
+      "basename": "18 Eigen Computations",
+      "path": "18 Eigen Computations.md"
+    },
+    {
+      "basename": "17 Eigen Analysis",
+      "path": "17 Eigen Analysis.md"
+    },
+    {
+      "basename": "16 Basis fo a Vector Space",
+      "path": "16 Basis fo a Vector Space.md"
+    },
+    {
+      "basename": "15 Vector Spaces",
+      "path": "15 Vector Spaces.md"
+    },
+    {
+      "basename": "14 Determinants",
+      "path": "14 Determinants.md"
+    },
+    {
+      "basename": "13 The Wedge Product",
+      "path": "13 The Wedge Product.md"
+    },
+    {
+      "basename": "11 The Inverse of a Matrix",
+      "path": "11 The Inverse of a Matrix.md"
+    },
+    {
+      "basename": "10c Linear Transformations with GeoGebra",
+      "path": "10c Linear Transformations with GeoGebra.md"
+    },
+    {
+      "basename": "10b Linear Tansformation Examples",
+      "path": "10b Linear Tansformation Examples.md"
+    },
+    {
+      "basename": "10a Linear Transformations Examples",
+      "path": "10a Linear Transformations Examples.md"
+    },
+    {
+      "basename": "09 Linear Transformations",
+      "path": "09 Linear Transformations.md"
+    },
+    {
+      "basename": "07 Gaussian Elimination Algorithm",
+      "path": "07 Gaussian Elimination Algorithm.md"
+    },
+    {
+      "basename": "06 Gaussian Elimination - Elementary Operations",
+      "path": "06 Gaussian Elimination - Elementary Operations.md"
     }
   ],
   "omittedPaths": [
