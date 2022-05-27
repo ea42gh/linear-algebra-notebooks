@@ -1,5 +1,10 @@
 {
-  "recentFiles": [],
+  "recentFiles": [
+    {
+      "basename": "1. Basic Operations",
+      "path": "Topics/1 Basic Operations/1. Basic Operations.md"
+    }
+  ],
   "omittedPaths": [
     "^Daily Notes/",
     "^Day Planners/",

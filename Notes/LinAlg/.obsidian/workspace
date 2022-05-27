@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "79d9bc6fb254239a",
+        "id": "08e2b7c6116754e5",
         "type": "leaf",
         "state": {
           "type": "empty",
@@ -144,8 +144,9 @@
     "direction": "horizontal",
     "width": 281.2394714355469
   },
-  "active": "79d9bc6fb254239a",
+  "active": "08e2b7c6116754e5",
   "lastOpenFiles": [
+    "Topics/1 Basic Operations/1. Basic Operations.md",
     "Permanent Notes/Experiments/DataView_3.md",
     "Permanent Notes/Experiments/DataView_1.md",
     "Permanent Notes/Experiments/DataView_0.md",
@@ -154,7 +155,6 @@
     "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md",
     "Templates/PDF Annotation.md",
     "Fleeting Notes/zoo-quickref annotation.md",
-    "Fleeting Notes/zoo-quickref.pdf",
-    "Permanent Notes/HowTo/202205231624 - Initial Setup.md"
+    "Fleeting Notes/zoo-quickref.pdf"
   ]
 }
