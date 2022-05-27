@@ -1,20 +1,8 @@
-01_ScalarsVectorsMatrices.ipynb:    # 4. Take Away
-02_AddScalarMultDotprod.ipynb:    # 1. Notation and Remarks
-02_AddScalarMultDotprod.ipynb:    # 2. Equality, Addition and Scalar Multiplication
-02_AddScalarMultDotprod.ipynb:    ## 2.1 Equality
-02_AddScalarMultDotprod.ipynb:    ## 2.2 Addition
-02_AddScalarMultDotprod.ipynb:    ## 2.3 Scalar Multiplication
-02_AddScalarMultDotprod.ipynb:    ## 2.4 Subtraction
-02_AddScalarMultDotprod.ipynb:    ## 2.5 System of Equations Example
-02_AddScalarMultDotprod.ipynb:    ### 2.5.1 Important Example
-02_AddScalarMultDotprod.ipynb:    ### 2.5.2 Two <strong>Very Important</strong> Definitions
-02_AddScalarMultDotprod.ipynb:    # 3. Properties
-02_AddScalarMultDotprod.ipynb:    ## 3.1 Algebraic Properties
-02_AddScalarMultDotprod.ipynb:    ## 3.2 Geometric Representation
-02_AddScalarMultDotprod.ipynb:    ### 3.2.1 Vector Addition and Subtraction
-02_AddScalarMultDotprod.ipynb:    ### 3.2.2 Linear Combinations of Vectors
-02_AddScalarMultDotprod.ipynb:    # 4 Take Away
-03_MatrixMultiplication.ipynb:    # 1. The Operations
+[[01_ScalarsVectorsMatrices]]
+[[02_Add, Scalar Mult, Dot prod]]
+
+
+03 Matrix Multiplication
 03_MatrixMultiplication.ipynb:    ## 1.1 The Transpose
 03_MatrixMultiplication.ipynb:    ## 1.2 The Vector Dot Product
 03_MatrixMultiplication.ipynb:    ## 1.3 The Matrix Product
@@ -33,6 +21,8 @@
 03_MatrixMultiplication.ipynb:    ## 3.5 Test Your Understanding
 03_MatrixMultiplication.ipynb:    ## 3.6 Notation Convention
 03_MatrixMultiplication.ipynb:    # 4. Take Away
+
+04 Matrix Algebra
 04_MatrixAlgebra.ipynb:    # 1. Algebra
 04_MatrixAlgebra.ipynb:    ## 1.1 Preliminary Remarks: Addition and Scalar Multiplication
 04_MatrixAlgebra.ipynb:    ## 1.2 The Product $\\mathbf{ A B }$
@@ -42,6 +32,8 @@
 04_MatrixAlgebra.ipynb:    ## 2.1 Products of More than 2 Matrices
 04_MatrixAlgebra.ipynb:    ## 2.2 Substitution is Matrix Multiplication
 04_MatrixAlgebra.ipynb:    # 3. Take Away
+
+05 Rowechelon Form Systems
 05_RowEchelonForm_Systems.ipynb:    # 1. Systems of Linear Equations
 05_RowEchelonForm_Systems.ipynb:    ## 1.1 Definition
 05_RowEchelonForm_Systems.ipynb:    ## 1.2 Solutions of a System of Linear Equations
@@ -51,6 +43,8 @@
 05_RowEchelonForm_Systems.ipynb:    # 3. The Backsubstitution Algorithm
 05_RowEchelonForm_Systems.ipynb:    ### 3.1.1 Definition
 05_RowEchelonForm_Systems.ipynb:    # 4. Take Away
+
+06 Gaussian Elimination Main Ideas
 06_GE_Systems.ipynb:    # 1. The Basic Idea
 06_GE_Systems.ipynb:    ## 1.1 Examples
 06_GE_Systems.ipynb:    ## 1.2 Elementary Operations
@@ -60,6 +54,8 @@
 06_GE_Systems.ipynb:    ## 3.2 The Elimination Matrix
 06_GE_Systems.ipynb:    ## 3.3 A Complete Example
 06_GE_Systems.ipynb:    # 4. Take Away
+
+07 Gaussian Elimination Details
 07_GE_Systems.ipynb:    # 1. Corner Cases for Gaussian Elimination
 07_GE_Systems.ipynb:    ## 1.1 The Approach to Solving $A x = b$
 07_GE_Systems.ipynb:    ## 1.2  Missing Pivots
@@ -76,6 +72,8 @@
 07_GE_Systems.ipynb:    ## 3.1 Partial Pivoting, Full Pivoting
 07_GE_Systems.ipynb:    ## 3.2 Gauss-Jordan Elimination
 07_GE_Systems.ipynb:    # 4. Take Away
+
+08 Linear Independence
 08_LinearIndependence.ipynb:    # 1. Right Hand Sides $b$
 08_LinearIndependence.ipynb:    # 2. Solutions of $A x\\ =\\ b$
 08_LinearIndependence.ipynb:    ## 2.1 The Number of Solutions
@@ -87,6 +85,7 @@
 08_LinearIndependence.ipynb:    ### 3.2.1 General Case
 08_LinearIndependence.ipynb:    ### 3.2.2 Special Cases
 08_LinearIndependence.ipynb:    # 4. Take Away
+
 09_LinearTransformations.ipynb:    # 1. Introduction
 09_LinearTransformations.ipynb:    ## 1.1 Functions Transforming Vectors to Vectors
 09_LinearTransformations.ipynb:    ## 1.2 Geometric Representations
@@ -105,6 +104,7 @@
 09_LinearTransformations.ipynb:    ### 3.2.2 A Non-linear Transformation
 09_LinearTransformations.ipynb:    ### 3.2.3 The Equation for a Line
 09_LinearTransformations.ipynb:    # 4. Take Away
+
 10a_LinearTx_Examples.ipynb:    # 1. Review: Basic Definitions and Theorems
 10a_LinearTx_Examples.ipynb:    ## 1.1 Definition
 10a_LinearTx_Examples.ipynb:    ## 1.2 One-to-One and ONTO Transformations
@@ -121,6 +121,7 @@
 10a_LinearTx_Examples.ipynb:    ## 3.1 Direct Computation
 10a_LinearTx_Examples.ipynb:    ## 3.2 Homogeneous Coordinates
 10a_LinearTx_Examples.ipynb:    # 4. Take Away
+
 10b_LinearTx_Examples.ipynb:    # 1. Application: A Matrix Representation for a Linear Transformation $T: U \\rightarrow V$
 10b_LinearTx_Examples.ipynb:    # 2. Finite Dimensional Vector Spaces Can be Represented by $\\mathbb{F}^N$
 10b_LinearTx_Examples.ipynb:    # 3. A Linear Transformation $T:U\\rightarrow V$ Represented by $y = A x$
@@ -132,12 +133,15 @@
 10b_LinearTx_Examples.ipynb:    ### 3.2.4 Using the Matrix for Computations
 10b_LinearTx_Examples.ipynb:    ### 3.2.5 Implementation Using SymPy
 10b_LinearTx_Examples.ipynb:    # 4. Take Away
+
 10c_GeoGebra.ipynb:    # 1. General Information
 10c_GeoGebra.ipynb:    # 2. Explore: Run the Next Three Cells
 10c_GeoGebra.ipynb:    # 3. Specify a Matrix Directly
+
 11_Inverses.ipynb:    # 1. The Inverse of a Square Matrix
 11_Inverses.ipynb:    # 2. Left and Right Inverses
 11_Inverses.ipynb:    # 3. Take Away
+
 12_LU_decomposition.ipynb:    # 1. Basic Idea
 12_LU_decomposition.ipynb:    ## 1.1 Multiple Right-hand Sides
 12_LU_decomposition.ipynb:    ## 1.2 The LU Decomposition
@@ -151,6 +155,7 @@
 12_LU_decomposition.ipynb:    ### 2.2.1 The PLDU Decomposition
 12_LU_decomposition.ipynb:    ### 2.2.2 Symmetric Matrices
 12_LU_decomposition.ipynb:    # 3. Take Away
+
 13_WedgeProduct.ipynb:    # 1. The Wedge Product
 13_WedgeProduct.ipynb:    ## 1.1 Changing the Length of a Vector
 13_WedgeProduct.ipynb:    ## 1.2 Anticommutativity
@@ -169,6 +174,7 @@
 13_WedgeProduct.ipynb:    ## 2.3 Some Easy Determinants
 13_WedgeProduct.ipynb:    ## 2.5 Bad News: Computation is Not Feasible
 13_WedgeProduct.ipynb:    # 3. Take Away
+
 14_Determinants.ipynb:    # 1. Some Formulae
 14_Determinants.ipynb:    ## 1.1 Laplace Expansion, Leibniz Formula
 14_Determinants.ipynb:    ### 1.1.1 Minors and Cofactors
@@ -187,6 +193,7 @@
 14_Determinants.ipynb:    ### 3.1.3 General Case
 14_Determinants.ipynb:    ## 3.2 A Formula for the Inverse
 14_Determinants.ipynb:    # 4. Take Away
+
 15_VectorSpaces.ipynb:    # 1. Linear Combinations of Vectors, Vector Spaces
 15_VectorSpaces.ipynb:    ## 1.1 Motivation
 15_VectorSpaces.ipynb:    ## 1.2 Definition
@@ -218,6 +225,7 @@
 15_VectorSpaces.ipynb:    #### 2.2.3.1 The subspace $\\mathscr{C}^2(-1,1)$
 15_VectorSpaces.ipynb:    #### 2.2.3.2 A Set of Functions that is Not a Subspace
 15_VectorSpaces.ipynb:    # 3. Take Away
+
 16_Basis.ipynb:    # 1. Basis for a Vector Space
 16_Basis.ipynb:    ## 1.1 Motivating Example
 16_Basis.ipynb:    ### 1.1.1 Row Echelon Form of $A$
@@ -246,6 +254,7 @@
 16_Basis.ipynb:    ### 3.2.2 A matrix of size $3 \\times 3$ 
 16_Basis.ipynb:    ### 3.2.3 Dimensions of the Fundamental Spaces for a Matrix of Size $4 \\times 9$
 16_Basis.ipynb:    # 4. Take Away
+
 17_EigenAnalysis.ipynb:    # 1.Special Directions for  $\\;y\\ =\\ A\\ x$ 
 17_EigenAnalysis.ipynb:    ## 1.1 Introduction
 17_EigenAnalysis.ipynb:    ### 1.1.1 Examples
@@ -262,11 +271,13 @@
 17_EigenAnalysis.ipynb:    ### 2.2.1 A Simple $2\\times 2$ Example
 17_EigenAnalysis.ipynb:    ### 2.2.2 A $3 \\times 3$ Example
 17_EigenAnalysis.ipynb:    # 3. Take Away
+
 18_EigenComputations.ipynb:    # 1. Stochastic Matrices
 18_EigenComputations.ipynb:    # 2. Null Space Computations
 18_EigenComputations.ipynb:    # 3. Matrices of Size $2 \\times 2$
 18_EigenComputations.ipynb:    # 4. Matrices of Size $3 \\times 3$ with a Known Non-zero Eigenvalue
 18_EigenComputations.ipynb:    # 5. Determinants that Can be Factored
+
 19_Diagonalization.ipynb:    # 1. The Similarity Transform
 19_Diagonalization.ipynb:    ## 1.1 Change of Basis
 19_Diagonalization.ipynb:    ## 1.2 Similarity Transform
@@ -290,6 +301,7 @@
 19_Diagonalization.ipynb:    ## 3.1 Powers of a Diagonalizable Matrix
 19_Diagonalization.ipynb:    ## 3.2 Functions of a Matrix
 19_Diagonalization.ipynb:    # 4. Take Away
+
 20_LengthOrthogonality.ipynb:    # 1. Adding Vector Length to Vector Spaces
 20_LengthOrthogonality.ipynb:    ## 1.1 Basic Definitions
 20_LengthOrthogonality.ipynb:    ## 1.2 Inequalities, Angle, Orthogonal Vectors
@@ -313,12 +325,14 @@
 20_LengthOrthogonality.ipynb:    # 4. Take Away
 20_LengthOrthogonality.ipynb:    ## 4.1 The Fundamental Theorem of Linear Algebra 
 20_LengthOrthogonality.ipynb:    ## 4.2 The Normal Equation
+
 21a_LinearTx_NormalEquations.ipynb:    # 1. A Plane through the Origin
 21a_LinearTx_NormalEquations.ipynb:    ## 1.1 Orthogonal Projection Onto a Plane $n \\cdot x = 0$ and Onto a Normal to the Plane
 21a_LinearTx_NormalEquations.ipynb:    ## 1.2 The Mirror Image of a Point With Respect to the Plane $n \\cdot x = 0$
 21a_LinearTx_NormalEquations.ipynb:    # 2. A Plane Not Containing the Origin
 21a_LinearTx_NormalEquations.ipynb:    ## 2.1 Orthogonal Projection and Reflection Through a Plane $n \\cdot x = b$
 21a_LinearTx_NormalEquations.ipynb:    # 3.
+
 21_ProjectionsGramSchmidt.ipynb:    # 1. The Normal Equation (Reminder)
 21_ProjectionsGramSchmidt.ipynb:    # 2. Orthogonal Projection Matrices
 21_ProjectionsGramSchmidt.ipynb:    ## 2.1 Theory
@@ -334,6 +348,7 @@
 21_ProjectionsGramSchmidt.ipynb:    # 4. Take Away
 21_ProjectionsGramSchmidt.ipynb:    ## 4.1 Projection Matrices
 21_ProjectionsGramSchmidt.ipynb:    ## 4.2 The Gram Schmidt Procedure
+
 22_QR_Decomposition.ipynb:    # 1. Gram-Schmidt and the QR Decomposition
 22_QR_Decomposition.ipynb:    ## 1.1 Reformulate Gram-Schmidt: $\\mathbf{A = Q R}$
 22_QR_Decomposition.ipynb:    ## 1.2 Computation of $A = Q R$
@@ -344,12 +359,14 @@
 22_QR_Decomposition.ipynb:    ## 2.1 Multiplication by $W^t$ rather than $A^t$
 22_QR_Decomposition.ipynb:    ## 2.1 Example
 22_QR_Decomposition.ipynb:    # 3. Take Away
+
 23_MetricSpaces.ipynb:    # 1. Inner Products
 23_MetricSpaces.ipynb:    ## 1.1 Inner Products and Metrics in $\\mathbb{R}^n$
 23_MetricSpaces.ipynb:    ## 1.2  Inner Products in Function Spaces
 23_MetricSpaces.ipynb:    # 2. Orthogonality
 23_MetricSpaces.ipynb:    # 3. Gram Schmidt
 23_MetricSpaces.ipynb:    # 4.Take Away
+
 24_SpectralTheorem.ipynb:    # 1. The Spectral Theorem
 24_SpectralTheorem.ipynb:    ## 1.1 Introduction
 24_SpectralTheorem.ipynb:    ## 1.2 Normal Matrices
@@ -358,6 +375,7 @@
 24_SpectralTheorem.ipynb:    ## 2.1 Example 1
 24_SpectralTheorem.ipynb:    ## 2.2 Example 2
 24_SpectralTheorem.ipynb:    # 3. Take Away
+
 25_PositiveDefiniteMatrices.ipynb:    # 1. Quadratic Forms
 25_PositiveDefiniteMatrices.ipynb:    ## 1.1 Definition
 25_PositiveDefiniteMatrices.ipynb:    ## 1.2 Two Problems: Cross Sections and Extrema
@@ -382,6 +400,7 @@
 25_PositiveDefiniteMatrices.ipynb:    ### 3.2.2 Example 2
 25_PositiveDefiniteMatrices.ipynb:    ### 3.2.3 Example 3
 25_PositiveDefiniteMatrices.ipynb:    # 4. Take Away
+
 26_GramMatrix.ipynb:    # 1. The Gram Matrix $A^t A$
 26_GramMatrix.ipynb:    ## 1.1 Rank and the Dimension of the Null Spaces
 26_GramMatrix.ipynb:    ## 1.2 Dimension of the Eigenspaces for $\\lambda = 0$
@@ -391,6 +410,7 @@
 26_GramMatrix.ipynb:    ## 1.6 Eigenvector Lengths
 26_GramMatrix.ipynb:    # 2. Symmetric Eigendecomposition of $A^t A$ and $A A^t$
 26_GramMatrix.ipynb:    # 3. Take Away
+
 27_SVD.ipynb:    # 1. Motivation
 27_SVD.ipynb:    ## 1.1 Generalize the Idea of an Eigendecomposition
 27_SVD.ipynb:    ## 1.2 Is this Feasible?
@@ -402,16 +422,19 @@
 27_SVD.ipynb:    ## 3.1 Change of Coordinate Systems and Scaling
 27_SVD.ipynb:    ## 3.2 Stretching a Sphere
 27_SVD.ipynb:    # 4. Take Away
+
 28_PseudoInverse.ipynb:    # 1. The Pseudoinverse
 28_PseudoInverse.ipynb:    ## 1.1. A Preimage of $y = A x$
 28_PseudoInverse.ipynb:    ## 1.2 The Pseudoinverse and the Reduced Pseudoinverse
 28_PseudoInverse.ipynb:    ## 1.3 **Projection Matrices**
 28_PseudoInverse.ipynb:    # 2. Application to the Normal Equation
 28_PseudoInverse.ipynb:    # 3. Take Away
+
 29_SVDapplications.ipynb:    # 1. The Eckart-Young Theorem
 29_SVDapplications.ipynb:    # 2. Low Rank Approximation of an Image
 29_SVDapplications.ipynb:    ## 3. Principal Component Analysis
 29_SVDapplications.ipynb:    # 4. Some Web Resources
+
 30_VectorAndMatrixNorms.ipynb:    # 1. Introduction
 30_VectorAndMatrixNorms.ipynb:    # 2. Vector Norms
 30_VectorAndMatrixNorms.ipynb:    x=[-2;2]; y=[(8-2*x[1])/4; (8-2*x[2])/4 ]   # 2x - 4y = 8\n,
@@ -423,6 +446,7 @@
 30_VectorAndMatrixNorms.ipynb:    ## 3.4 Submultiplicative Norms and the Spectral Radius
 30_VectorAndMatrixNorms.ipynb:    ## 3.4. Example
 30_VectorAndMatrixNorms.ipynb:    # 4. Takeaway
+
 A1_AnalyticGeometry.ipynb:    # 1. Vectors
 A1_AnalyticGeometry.ipynb:    # 2. Formulae from Trigonometry
 A1_AnalyticGeometry.ipynb:    ## 2.1 Euler's Formula
@@ -431,6 +455,7 @@ A1_AnalyticGeometry.ipynb:    # 3. Example
 A1_AnalyticGeometry.ipynb:    ### 3.1 Reflection With Respect To a Line
 A1_AnalyticGeometry.ipynb:    ## 3.2 Orthogonal Projection Onto a Line
 A1_AnalyticGeometry.ipynb:    # 4. Take Away
+
 A2_Matrix_Layout_Displays.ipynb:    # 1. Gaussian Elimination and Gauss Jordan Elimination Examples
 A2_Matrix_Layout_Displays.ipynb:    ## 1.1 Stack of Matrices
 A2_Matrix_Layout_Displays.ipynb:    ## 1.2 Decorating a Matrix
@@ -443,6 +468,7 @@ A2_Matrix_Layout_Displays.ipynb:    # 3. Eigenproblem Tables
 A2_Matrix_Layout_Displays.ipynb:    ## 3.1 Basic Eigenproblem Table
 A2_Matrix_Layout_Displays.ipynb:    ## 3.2 Spectral Theorem Table
 A2_Matrix_Layout_Displays.ipynb:    ## 3.3 SVD Table
+
 FourierMatrix.ipynb:    # 1. The Discrete Fourier Basis
 FourierMatrix.ipynb:    # 2. Example: Sines Sampled at N=256 Values
 FourierMatrix.ipynb:    ## 2.1 Example 1: A Sine Function
@@ -452,6 +478,7 @@ FourierMatrix.ipynb:    ## 3.1 Sample a Function $x(t)$
 FourierMatrix.ipynb:    ## 3.2 Removing Some Fourier Coefficients
 FourierMatrix.ipynb:    # 4. Generalization to Higher Dimensional Spaces
 FourierMatrix.ipynb:    # 5. Take Away
+
 GE_layout_display.ipynb:    # 1. Display a Layout of the Gaussian Elimination Algorithm
 GE_layout_display.ipynb:    ## 1.1 Basic Display Function: build a table from the matrices
 GE_layout_display.ipynb:    ## 1.2 Gaussian Elimination for a given matrix $A$
@@ -468,6 +495,7 @@ GE_layout_display.ipynb:    ## 3.1 Errors in the matrix
 GE_layout_display.ipynb:    ## 3.2 Errors in the right hand side
 GE_layout_display.ipynb:    ## 3.3 Errors in both the matrix and the right hand side
 GE_layout_display.ipynb:    ## 3.4 What if the system is almost inconsistent
+
 GenerateProblems.ipynb:    # 1.  Support Routines
 GenerateProblems.ipynb:    ## 1.1 LaTeX for Itikz
 GenerateProblems.ipynb:    ## 1.2 Matrix Generation Routines
@@ -483,15 +511,18 @@ GenerateProblems.ipynb:    # 4. QR Problems
 GenerateProblems.ipynb:    ## 4.1 Orthogonal Matrices
 GenerateProblems.ipynb:    ## 4.2 QR
 GenerateProblems.ipynb:    # 5. Eigenproblems
+
 HamiltonCayley.ipynb:    ## 1.1 Preliminary\n,
 HamiltonCayley.ipynb:    ## 1.2 Example
 HamiltonCayley.ipynb:    ## 1.3 The Cayley Hamilton Theorem\n,
 HamiltonCayley.ipynb:    ## 1.4 Application: a Formula for the Inverse\n,
 HamiltonCayley.ipynb:    ### 1.4.1 General 2x2 matrix
 HamiltonCayley.ipynb:    ### 1.4.2 Continuation of the 3x3 Example
+
 IterativeMethods.ipynb:    # 1. Jacobi Method
 IterativeMethods.ipynb:    # 2. Gauss Seidel
 IterativeMethods.ipynb:    # 3. Successive Overrelaxation (SOR)
+
 IterativeMethods_julia.ipynb:    # 1. Jacobi Method
 IterativeMethods_julia.ipynb:    # 2. Gauss Seidel
 IterativeMethods_julia.ipynb:    # 3. Successive Overrelaxation (SOR)
@@ -506,6 +537,7 @@ IterativeMethods_python.ipynb:    # 3. Iterative Methods for $\\mathbf{A x = \\l
 IterativeMethods_python.ipynb:    ## 3.1 Use a GraphicalMonitor (2D) or (3D)
 IterativeMethods_python.ipynb:    ## 3.2 Power Method with Streamz
 IterativeMethods_python.ipynb:    ## 3.3 Inverse Power Method
+
 LinearIndependence.ipynb:    # 1. Linear Independence
 LinearIndependence.ipynb:    # 1.1 Model $A x = b$ Problem\n,
 LinearIndependence.ipynb:    # 2. Checking Linear Independence of a set of vectors in $\\mathbb{F}^{\\small{N}}$
@@ -515,13 +547,16 @@ LinearIndependence.ipynb:    ## 2.3 Easy case 3: More vectors than entries in a 
 LinearIndependence.ipynb:    # 2.4 Easy case 4: The vectors contain a triangular matrix
 LinearIndependence.ipynb:    # 3: Linear Independence of Functions
 LinearIndependence.ipynb:    ## 3.1 Polynomials
+
 LU.ipynb:    ## 1. Theory
 LU.ipynb:    ### 1.1 $\\ $  A simple Example\n,
 LU.ipynb:    ### 1.3. $\\ $ An example with a larger matrix
+
 M630_1.ipynb:    # 1. Projects
 M630_1.ipynb:    # 2. Take Home Exam(s)
 M630_1.ipynb:    # 3. Determinants
 M630_1.ipynb:    # 4. Eigenvectors/Eigenvalues
+
 Orthogonality.ipynb:    # 1. Inner Product Spaces and Metrics
 Orthogonality.ipynb:    ## 1.1 Basic Definitions
 Orthogonality.ipynb:    ## 1.2 Inequalities, Angle, Orthogonal Vectors
@@ -546,20 +581,24 @@ Orthogonality.ipynb:    ### 3.2.2 Important Examples
 Orthogonality.ipynb:    ### 3.2.3 Important Properties of Orthogonal and Unitary Matrice
 Orthogonality.ipynb:    ## 3.3 Gramm-Schmidt Orthogonalization
 Orthogonality.ipynb:    # 4. Gramm-Schmidt Orthogonalization ...\n,
+
 RayleighQuotients.ipynb:    # 1. Computing the Eigenvalue Given an Eigenvector
 RayleighQuotients.ipynb:    # 2. Rayleigh Quotient Definition and Theorem
 RayleighQuotients.ipynb:    # 3. Numerical Computations
 RayleighQuotients.ipynb:    ## 3.1 Gradient of the Rayleigh Quotient
 RayleighQuotients.ipynb:    ## 3.2 Power Method
+
 Regression.ipynb:    # 1. Create some data
 Regression.ipynb:    ## 1.1 Pandas DataFrame
 Regression.ipynb:    # 1.2 Take a look at the data
 Regression.ipynb:    # 2. Let's fit some model
 Regression.ipynb:    ## 2.1 Let's try a line:  y = a + b x
 Regression.ipynb:    ### 2.1.1 Solve the normal equation for $x$
+
 rSVD.ipynb:    # 1. Get Data
 rSVD.ipynb:    # 2. Approximating a Matrix A
 rSVD.ipynb:    # 2. Randomized SVD
+
 Summary_01_MatrixMultiplication.ipynb:    # 1. Definition of Matrix Multiplication
 Summary_01_MatrixMultiplication.ipynb:    ## 1.1. The Dot Product
 Summary_01_MatrixMultiplication.ipynb:    ## 1.2 Generalization: The Matrix Product
@@ -580,9 +619,11 @@ Summary_01_MatrixMultiplication.ipynb:    # 5. Key Take Away
 other_material/GeoGebra.ipynb:    # 1. Geogebra
 other_material/GeoGebra.ipynb:    ## 1.1. Use Geogebra in an Iframe
 other_material/GeoGebra.ipynb:    ## 1.2 Use Geogebra in an HTML div
+
 other_material/IterativeMethodExamples.ipynb:    # 1. Jacobi Method
 other_material/IterativeMethodExamples.ipynb:    # 2. Gauss Seidel
 other_material/IterativeMethodExamples.ipynb:    # 3. Successive Overrelaxation (SOR)
+
 other_material/LeastMeanSquares.ipynb:    # 1. Perform an experiment\n,
 other_material/LeastMeanSquares.ipynb:    # 2. Conjecture a linear model\n,
 other_material/LeastMeanSquares.ipynb:    ## 2.1 Solve the resulting Normal Equations
@@ -591,16 +632,20 @@ other_material/LeastMeanSquares.ipynb:    ### 2.1.2 Compute the projections
 other_material/LeastMeanSquares.ipynb:    # 3. Conjecture a cubic model\n,
 other_material/LeastMeanSquares.ipynb:    # 4. Overfitting and Ringing
 other_material/LeastMeanSquares.ipynb:    # 5. Exercises
+
 other_material/LeastSquareFitting.ipynb:    d = range(0,stop=2,length=200) # 20 points from 1 to 4\n,
 other_material/LeastSquareFitting.ipynb:    d = linspace(0,2,200) # 20 points from 1 to 4\n,
+
 other_material/mitLeastSquares.ipynb:    d = linspace(0,2,200) # 20 points from 1 to 4\n,
 other_material/mitLeastSquares.ipynb:    d = linspace(0,2,200) # 20 points from 1 to 4\n,
+
 other_material/Projections.ipynb:    # 1. Dual Basis
 other_material/Projections.ipynb:    # 2. Oblique Projections
 other_material/Projections.ipynb:    # 3. Orthogonal Projections
 other_material/Projections.ipynb:    # 4. Diagonalizable Matrices
 other_material/Projections.ipynb:    # 5. Application Examples\n,
 other_material/Projections.ipynb:    ## 5.2 A Projection Problem (Spring 14)
+
 other_material/ThreeBasesExample.ipynb:    # 1. Data
 other_material/ThreeBasesExample.ipynb:    # 2. Columns of the Identity Matrix
 other_material/ThreeBasesExample.ipynb:    # 3. Fourier Basis (Sines and Cosines)
