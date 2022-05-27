@@ -1,3 +1,5 @@
-rSVD.ipynb:    # 1. Get Data
-rSVD.ipynb:    # 2. Approximating a Matrix A
-rSVD.ipynb:    # 2. Randomized SVD
+rSVD.ipynb
+
+# 1. Get Data
+# 2. Approximating a Matrix A
+# 2. Randomized SVD

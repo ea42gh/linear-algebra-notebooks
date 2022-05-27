@@ -1,5 +1,5 @@
 [[01 Scalars, Vectors, Matrices]]
-[[02_Add, Scalar Mult, Dot prod]]
+[[02 Addition, Scalar Multiplication, Dot product]]
 [[03 Matrix Multiplication]]
 [[04 Matrix Multiplication]]
 [[05 Rowechelon Form Systems]]

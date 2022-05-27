@@ -9,19 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "INDEX.md",
-            "mode": "source",
-            "source": false
-          }
-        }
-      },
-      {
-        "id": "3509491d37681daa",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "INDEX.md",
+            "file": "03 Matrix Multiplication.md",
             "mode": "source",
             "source": false
           }
@@ -81,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 313.5068016052246
+    "width": 313.5068016052246,
+    "collapsed": true
   },
   "right": {
     "id": "d03cfb8e4965b34f",
@@ -97,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INDEX.md",
+                "file": "03 Matrix Multiplication.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -149,7 +138,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "INDEX.md",
+                "file": "03 Matrix Multiplication.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,17 +151,17 @@
     "direction": "horizontal",
     "width": 281.2394714355469
   },
-  "active": "3509491d37681daa",
+  "active": "bfe2cacae4d2ce98",
   "lastOpenFiles": [
-    "INDEX.md",
-    "04 Matrix Multiplication.md",
     "03 Matrix Multiplication.md",
+    "INDEX.md",
+    "03_MatrixMultiplication.ipynb.md",
+    "04 Matrix Multiplication.md",
     "other Projections.md",
     "other Three Bases Example.md",
     "other Least Squares Fitting.md",
     "other Least Mean Squares.md",
     "other Iteration Examples.md",
-    "other Geogebra.md",
-    "Matrix Multiplication Summary.md"
+    "other Geogebra.md"
   ]
 }

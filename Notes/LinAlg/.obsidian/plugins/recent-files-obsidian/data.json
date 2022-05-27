@@ -1,16 +1,20 @@
 {
   "recentFiles": [
     {
+      "basename": "03 Matrix Multiplication",
+      "path": "03 Matrix Multiplication.md"
+    },
+    {
       "basename": "INDEX",
       "path": "INDEX.md"
     },
     {
-      "basename": "04 Matrix Multiplication",
-      "path": "04 Matrix Multiplication.md"
+      "basename": "03_MatrixMultiplication.ipynb",
+      "path": "03_MatrixMultiplication.ipynb.md"
     },
     {
-      "basename": "03 Matrix Multiplication",
-      "path": "03 Matrix Multiplication.md"
+      "basename": "04 Matrix Multiplication",
+      "path": "04 Matrix Multiplication.md"
     },
     {
       "basename": "other Projections",
@@ -195,10 +199,6 @@
     {
       "basename": "07 Gaussian Elimination Algorithm",
       "path": "07 Gaussian Elimination Algorithm.md"
-    },
-    {
-      "basename": "06 Gaussian Elimination - Elementary Operations",
-      "path": "06 Gaussian Elimination - Elementary Operations.md"
     }
   ],
   "omittedPaths": [

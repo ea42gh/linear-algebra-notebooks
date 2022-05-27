@@ -1,3 +1,5 @@
-IterativeMethods.ipynb:    # 1. Jacobi Method
-IterativeMethods.ipynb:    # 2. Gauss Seidel
-IterativeMethods.ipynb:    # 3. Successive Overrelaxation (SOR)
+IterativeMethods.ipynb
+
+# 1. Jacobi Method
+# 2. Gauss Seidel
+# 3. Successive Overrelaxation (SOR)
