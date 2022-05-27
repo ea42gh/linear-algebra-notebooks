@@ -7,8 +7,12 @@
         "id": "08e2b7c6116754e5",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "Untitled.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Untitled.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -132,6 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Untitled.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,6 +152,8 @@
   },
   "active": "08e2b7c6116754e5",
   "lastOpenFiles": [
+    "Untitled.md",
+    "01_ScalarsVectorsMatrices.md",
     "Topics/1 Basic Operations/1. Basic Operations.md",
     "Permanent Notes/Experiments/DataView_3.md",
     "Permanent Notes/Experiments/DataView_1.md",
@@ -153,8 +161,6 @@
     "conflict-files-obsidian-git.md",
     "Permanent Notes/HowTo/202205262241 - Image in Editor.md",
     "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md",
-    "Templates/PDF Annotation.md",
-    "Fleeting Notes/zoo-quickref annotation.md",
-    "Fleeting Notes/zoo-quickref.pdf"
+    "Templates/PDF Annotation.md"
   ]
 }
