@@ -1,7 +1,7 @@
 [[01 Scalars, Vectors, Matrices]]
 [[02 Addition, Scalar Multiplication, Dot product]]
 [[03 Matrix Multiplication]]
-[[04 Matrix Multiplication]]
+[[04 Vector and Matrix Algebra]]
 [[05 Rowechelon Form Systems]]
 [[06 Gaussian Elimination - Elementary Operations]]
 [[07 Gaussian Elimination Algorithm]]

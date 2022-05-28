@@ -1,204 +1,184 @@
 {
   "recentFiles": [
     {
-      "basename": "03 Matrix Multiplication",
-      "path": "03 Matrix Multiplication.md"
-    },
-    {
       "basename": "INDEX",
       "path": "INDEX.md"
-    },
-    {
-      "basename": "03_MatrixMultiplication.ipynb",
-      "path": "03_MatrixMultiplication.ipynb.md"
-    },
-    {
-      "basename": "04 Matrix Multiplication",
-      "path": "04 Matrix Multiplication.md"
-    },
-    {
-      "basename": "other Projections",
-      "path": "other Projections.md"
-    },
-    {
-      "basename": "other Three Bases Example",
-      "path": "other Three Bases Example.md"
-    },
-    {
-      "basename": "other Least Squares Fitting",
-      "path": "other Least Squares Fitting.md"
-    },
-    {
-      "basename": "other Least Mean Squares",
-      "path": "other Least Mean Squares.md"
-    },
-    {
-      "basename": "other Iteration Examples",
-      "path": "other Iteration Examples.md"
-    },
-    {
-      "basename": "other Geogebra",
-      "path": "other Geogebra.md"
-    },
-    {
-      "basename": "Matrix Multiplication Summary",
-      "path": "Matrix Multiplication Summary.md"
-    },
-    {
-      "basename": "Randomized SVD",
-      "path": "Randomized SVD.md"
-    },
-    {
-      "basename": "Regression",
-      "path": "Regression.md"
-    },
-    {
-      "basename": "Rayleigh Quotients",
-      "path": "Rayleigh Quotients.md"
-    },
-    {
-      "basename": "20 Length and Orthogonality",
-      "path": "20 Length and Orthogonality.md"
-    },
-    {
-      "basename": "12 LU Decomposition",
-      "path": "12 LU Decomposition.md"
-    },
-    {
-      "basename": "08 Linear Independence",
-      "path": "08 Linear Independence.md"
-    },
-    {
-      "basename": "Iterative Methods with Python",
-      "path": "Iterative Methods with Python.md"
-    },
-    {
-      "basename": "Iterative Methods with Julia",
-      "path": "Iterative Methods with Julia.md"
-    },
-    {
-      "basename": "Iterative Methods",
-      "path": "Iterative Methods.md"
-    },
-    {
-      "basename": "TheHamilton Cayley Theorem",
-      "path": "TheHamilton Cayley Theorem.md"
     },
     {
       "basename": "Generate Problems",
       "path": "Generate Problems.md"
     },
     {
-      "basename": "GE Layout Display",
-      "path": "GE Layout Display.md"
-    },
-    {
-      "basename": "The Fourier Matrix",
-      "path": "The Fourier Matrix.md"
-    },
-    {
-      "basename": "A2 Matrix Layout Displays",
-      "path": "A2 Matrix Layout Displays.md"
-    },
-    {
-      "basename": "A1 Analytic Geometry",
-      "path": "A1 Analytic Geometry.md"
-    },
-    {
-      "basename": "30 Vector and Matrix Norms",
-      "path": "30 Vector and Matrix Norms.md"
-    },
-    {
-      "basename": "29 SVD Applications",
-      "path": "29 SVD Applications.md"
-    },
-    {
-      "basename": "28 The Pseudo Inverse",
-      "path": "28 The Pseudo Inverse.md"
-    },
-    {
-      "basename": "27 The Singular Value Decomposition (SVD)",
-      "path": "27 The Singular Value Decomposition (SVD).md"
-    },
-    {
-      "basename": "26 The Gram Matrix",
-      "path": "26 The Gram Matrix.md"
-    },
-    {
-      "basename": "25 Positive Definite Matrices",
-      "path": "25 Positive Definite Matrices.md"
-    },
-    {
-      "basename": "24 The Spectral Theorem",
-      "path": "24 The Spectral Theorem.md"
-    },
-    {
-      "basename": "23 Metric Spaces",
-      "path": "23 Metric Spaces.md"
-    },
-    {
-      "basename": "22 QR Decomposition",
-      "path": "22 QR Decomposition.md"
-    },
-    {
-      "basename": "21a Linear Transformations, Gram-Schmidt",
-      "path": "21a Linear Transformations, Gram-Schmidt.md"
+      "basename": "Randomized SVD",
+      "path": "Topics/6 Computational Methods/Randomized SVD.md"
     },
     {
       "basename": "21 Linear Transformations, Normal Equations",
-      "path": "21 Linear Transformations, Normal Equations.md"
-    },
-    {
-      "basename": "19 Diagonalization of Matrices",
-      "path": "19 Diagonalization of Matrices.md"
-    },
-    {
-      "basename": "18 Eigen Computations",
-      "path": "18 Eigen Computations.md"
-    },
-    {
-      "basename": "17 Eigen Analysis",
-      "path": "17 Eigen Analysis.md"
-    },
-    {
-      "basename": "16 Basis fo a Vector Space",
-      "path": "16 Basis fo a Vector Space.md"
+      "path": "Topics/4. Length of Vectors and Matrices/21 Linear Transformations, Normal Equations.md"
     },
     {
       "basename": "15 Vector Spaces",
-      "path": "15 Vector Spaces.md"
+      "path": "Topics/2 Gaussian Elimination and Consequences/15 Vector Spaces.md"
+    },
+    {
+      "basename": "08 Linear Independence",
+      "path": "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md"
+    },
+    {
+      "basename": "04 Vector and Matrix Algebra",
+      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
+    },
+    {
+      "basename": "03 Matrix Multiplication",
+      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
+    },
+    {
+      "basename": "01 Scalars, Vectors, Matrices",
+      "path": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md"
+    },
+    {
+      "basename": "other Projections",
+      "path": "Topics/3 Linear Transformations/other Projections.md"
+    },
+    {
+      "basename": "other Three Bases Example",
+      "path": "Topics/2 Gaussian Elimination and Consequences/other Three Bases Example.md"
+    },
+    {
+      "basename": "other Least Squares Fitting",
+      "path": "Topics/4. Length of Vectors and Matrices/other Least Squares Fitting.md"
+    },
+    {
+      "basename": "other Least Mean Squares",
+      "path": "Topics/4. Length of Vectors and Matrices/other Least Mean Squares.md"
+    },
+    {
+      "basename": "other Iteration Examples",
+      "path": "Topics/6 Computational Methods/other Iteration Examples.md"
+    },
+    {
+      "basename": "other Geogebra",
+      "path": "Topics/3 Linear Transformations/other Geogebra.md"
+    },
+    {
+      "basename": "Matrix Multiplication Summary",
+      "path": "Topics/1 Basic Operations/Matrix Multiplication Summary.md"
+    },
+    {
+      "basename": "Regression",
+      "path": "Topics/4. Length of Vectors and Matrices/Regression.md"
+    },
+    {
+      "basename": "Rayleigh Quotients",
+      "path": "Topics/5 EigenProblems/Rayleigh Quotients.md"
+    },
+    {
+      "basename": "20 Length and Orthogonality",
+      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
+    },
+    {
+      "basename": "12 LU Decomposition",
+      "path": "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md"
+    },
+    {
+      "basename": "Iterative Methods with Python",
+      "path": "Topics/6 Computational Methods/Iterative Methods with Python.md"
+    },
+    {
+      "basename": "Iterative Methods with Julia",
+      "path": "Topics/6 Computational Methods/Iterative Methods with Julia.md"
+    },
+    {
+      "basename": "Iterative Methods",
+      "path": "Topics/6 Computational Methods/Iterative Methods.md"
+    },
+    {
+      "basename": "TheHamilton Cayley Theorem",
+      "path": "Topics/5 EigenProblems/TheHamilton Cayley Theorem.md"
+    },
+    {
+      "basename": "GE Layout Display",
+      "path": "Topics/8 Appendices/GE Layout Display.md"
+    },
+    {
+      "basename": "The Fourier Matrix",
+      "path": "Topics/2 Gaussian Elimination and Consequences/The Fourier Matrix.md"
+    },
+    {
+      "basename": "A2 Matrix Layout Displays",
+      "path": "Topics/8 Appendices/A2 Matrix Layout Displays.md"
+    },
+    {
+      "basename": "A1 Analytic Geometry",
+      "path": "Topics/8 Appendices/A1 Analytic Geometry.md"
+    },
+    {
+      "basename": "30 Vector and Matrix Norms",
+      "path": "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md"
+    },
+    {
+      "basename": "29 SVD Applications",
+      "path": "Topics/5 EigenProblems/29 SVD Applications.md"
+    },
+    {
+      "basename": "28 The Pseudo Inverse",
+      "path": "Topics/5 EigenProblems/28 The Pseudo Inverse.md"
+    },
+    {
+      "basename": "27 The Singular Value Decomposition (SVD)",
+      "path": "Topics/5 EigenProblems/27 The Singular Value Decomposition (SVD).md"
+    },
+    {
+      "basename": "26 The Gram Matrix",
+      "path": "Topics/5 EigenProblems/26 The Gram Matrix.md"
+    },
+    {
+      "basename": "25 Positive Definite Matrices",
+      "path": "Topics/5 EigenProblems/25 Positive Definite Matrices.md"
+    },
+    {
+      "basename": "24 The Spectral Theorem",
+      "path": "Topics/5 EigenProblems/24 The Spectral Theorem.md"
+    },
+    {
+      "basename": "23 Metric Spaces",
+      "path": "Topics/4. Length of Vectors and Matrices/23 Metric Spaces.md"
+    },
+    {
+      "basename": "22 QR Decomposition",
+      "path": "Topics/4. Length of Vectors and Matrices/22 QR Decomposition.md"
+    },
+    {
+      "basename": "21a Linear Transformations, Gram-Schmidt",
+      "path": "Topics/4. Length of Vectors and Matrices/21a Linear Transformations, Gram-Schmidt.md"
+    },
+    {
+      "basename": "19 Diagonalization of Matrices",
+      "path": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md"
+    },
+    {
+      "basename": "18 Eigen Computations",
+      "path": "Topics/5 EigenProblems/18 Eigen Computations.md"
+    },
+    {
+      "basename": "17 Eigen Analysis",
+      "path": "Topics/5 EigenProblems/17 Eigen Analysis.md"
+    },
+    {
+      "basename": "16 Basis fo a Vector Space",
+      "path": "Topics/2 Gaussian Elimination and Consequences/16 Basis fo a Vector Space.md"
     },
     {
       "basename": "14 Determinants",
-      "path": "14 Determinants.md"
+      "path": "Topics/4. Length of Vectors and Matrices/14 Determinants.md"
     },
     {
       "basename": "13 The Wedge Product",
-      "path": "13 The Wedge Product.md"
+      "path": "Topics/4. Length of Vectors and Matrices/13 The Wedge Product.md"
     },
     {
       "basename": "11 The Inverse of a Matrix",
-      "path": "11 The Inverse of a Matrix.md"
-    },
-    {
-      "basename": "10c Linear Transformations with GeoGebra",
-      "path": "10c Linear Transformations with GeoGebra.md"
-    },
-    {
-      "basename": "10b Linear Tansformation Examples",
-      "path": "10b Linear Tansformation Examples.md"
-    },
-    {
-      "basename": "10a Linear Transformations Examples",
-      "path": "10a Linear Transformations Examples.md"
-    },
-    {
-      "basename": "09 Linear Transformations",
-      "path": "09 Linear Transformations.md"
-    },
-    {
-      "basename": "07 Gaussian Elimination Algorithm",
-      "path": "07 Gaussian Elimination Algorithm.md"
+      "path": "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md"
     }
   ],
   "omittedPaths": [

@@ -1,6 +1,6 @@
 links: [[1. Basic Operations]]    tags: #Operations
 
-File: NotebookScalarsVectorsMatrices.ipynb 
+File: [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/01_ScalarsVectorsMatrices.ipynb)
 
 # 1. Introduction
 ## 1.1 Scalars
