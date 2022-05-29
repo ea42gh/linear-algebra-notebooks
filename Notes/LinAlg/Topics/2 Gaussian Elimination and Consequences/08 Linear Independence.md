@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 08_LinearIndependence.ipynb
 
 # 1. Right Hand Sides $b$

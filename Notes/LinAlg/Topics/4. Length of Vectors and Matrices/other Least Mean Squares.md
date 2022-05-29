@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'notebook'
+tags:   []
+---
+
 other_material/LeastMeanSquares.ipynb
 
 # 1. Perform an experiment\n,

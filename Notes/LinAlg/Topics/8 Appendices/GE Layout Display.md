@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 GE_layout_display.ipynb
 
 # 1. Display a Layout of the Gaussian Elimination Algorithm

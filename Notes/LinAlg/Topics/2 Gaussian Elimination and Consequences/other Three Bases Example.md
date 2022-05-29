@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 other_material/ThreeBasesExample.ipynb
 
 # 1. Data

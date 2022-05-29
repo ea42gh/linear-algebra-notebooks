@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 04_MatrixAlgebra.ipynb
 
 # 1. Algebra

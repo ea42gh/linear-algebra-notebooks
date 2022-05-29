@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 19_Diagonalization.ipynb
 
 # 1. The Similarity Transform

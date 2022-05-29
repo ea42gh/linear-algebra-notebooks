@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 17_EigenAnalysis.ipynb
 
 # 1.Special Directions for  $\\;y\\ =\\ A\\ x$ 

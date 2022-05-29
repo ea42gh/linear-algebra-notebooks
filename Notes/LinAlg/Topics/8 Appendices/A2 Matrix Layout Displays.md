@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 A2_Matrix_Layout_Displays.ipynb
 
 # 1. Gaussian Elimination and Gauss Jordan Elimination Examples

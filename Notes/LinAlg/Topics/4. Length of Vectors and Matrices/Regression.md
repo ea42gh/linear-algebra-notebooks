@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'notebook'
+tags:   []
+---
+
 Regression.ipynb
 
 # 1. Create some data

@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'complete'
+tags:   []
+---
+
 [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/03_MatrixMultiplication.ipynb)
 
 # 1. The Operations

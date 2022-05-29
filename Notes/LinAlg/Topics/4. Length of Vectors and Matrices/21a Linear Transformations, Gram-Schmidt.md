@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 21_ProjectionsGramSchmidt.ipynb
 
 # 1. The Normal Equation (Reminder)

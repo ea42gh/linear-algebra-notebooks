@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 IterativeMethods_python.ipynb
 
 # 1. Code: Monitor the Evolution of an Iterative Scheme

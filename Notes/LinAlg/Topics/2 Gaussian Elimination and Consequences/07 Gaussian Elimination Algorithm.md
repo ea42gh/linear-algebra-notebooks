@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 07_GE_Systems.ipynb
 
 # 1. Corner Cases for Gaussian Elimination

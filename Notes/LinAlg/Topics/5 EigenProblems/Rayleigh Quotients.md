@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 RayleighQuotients.ipynb
 
 # 1. Computing the Eigenvalue Given an Eigenvector

@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: '01_ScalarsVectorsMatrices.ipynb'
+status: 'complete'
+tags:   ['operations', 'scalars', 'vectors', 'matrices']
+---
+
 links: [[1. Basic Operations]]    tags: #Operations
 
 File: [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/01_ScalarsVectorsMatrices.ipynb)

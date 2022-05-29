@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 15_VectorSpaces.ipynb
 
 # 1. Linear Combinations of Vectors, Vector Spaces

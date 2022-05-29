@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'notebook'
+tags:   []
+---
+
 21a_LinearTx_NormalEquations.ipynb
 
 # 1. A Plane through the Origin

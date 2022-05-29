@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 10b_LinearTx_Examples.ipynb
 
 # 1. Application: A Matrix Representation for a Linear Transformation $T: U \\rightarrow V$

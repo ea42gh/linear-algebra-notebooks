@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'notebook'
+tags:   []
+---
+
 20_LengthOrthogonality.ipynb
 
 # 1. Adding Vector Length to Vector Spaces

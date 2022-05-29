@@ -5,6 +5,34 @@
       "path": "INDEX.md"
     },
     {
+      "basename": "20 Length and Orthogonality",
+      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
+    },
+    {
+      "basename": "12 LU Decomposition",
+      "path": "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md"
+    },
+    {
+      "basename": "08 Linear Independence",
+      "path": "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md"
+    },
+    {
+      "basename": "Status Board",
+      "path": "Status Board.md"
+    },
+    {
+      "basename": "03 Matrix Multiplication",
+      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
+    },
+    {
+      "basename": "02 Addition, Scalar Multiplication, Dot product",
+      "path": "Topics/1 Basic Operations/02 Addition, Scalar Multiplication, Dot product.md"
+    },
+    {
+      "basename": "01 Scalars, Vectors, Matrices",
+      "path": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md"
+    },
+    {
       "basename": "Generate Problems",
       "path": "Generate Problems.md"
     },
@@ -21,20 +49,8 @@
       "path": "Topics/2 Gaussian Elimination and Consequences/15 Vector Spaces.md"
     },
     {
-      "basename": "08 Linear Independence",
-      "path": "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md"
-    },
-    {
       "basename": "04 Vector and Matrix Algebra",
       "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
-    },
-    {
-      "basename": "03 Matrix Multiplication",
-      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
-    },
-    {
-      "basename": "01 Scalars, Vectors, Matrices",
-      "path": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md"
     },
     {
       "basename": "other Projections",
@@ -43,10 +59,6 @@
     {
       "basename": "other Three Bases Example",
       "path": "Topics/2 Gaussian Elimination and Consequences/other Three Bases Example.md"
-    },
-    {
-      "basename": "other Least Squares Fitting",
-      "path": "Topics/4. Length of Vectors and Matrices/other Least Squares Fitting.md"
     },
     {
       "basename": "other Least Mean Squares",
@@ -73,14 +85,6 @@
       "path": "Topics/5 EigenProblems/Rayleigh Quotients.md"
     },
     {
-      "basename": "20 Length and Orthogonality",
-      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
-    },
-    {
-      "basename": "12 LU Decomposition",
-      "path": "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md"
-    },
-    {
       "basename": "Iterative Methods with Python",
       "path": "Topics/6 Computational Methods/Iterative Methods with Python.md"
     },
@@ -93,8 +97,8 @@
       "path": "Topics/6 Computational Methods/Iterative Methods.md"
     },
     {
-      "basename": "TheHamilton Cayley Theorem",
-      "path": "Topics/5 EigenProblems/TheHamilton Cayley Theorem.md"
+      "basename": "The Hamilton  Cayley Theorem",
+      "path": "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md"
     },
     {
       "basename": "GE Layout Display",

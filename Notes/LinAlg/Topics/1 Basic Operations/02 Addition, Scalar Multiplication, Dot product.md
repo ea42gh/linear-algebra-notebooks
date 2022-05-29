@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: '02_AddScalarMultDotprod.ipynb'
+status: 'complete'
+tags:   []
+---
+
 02_AddScalarMultDotprod.ipynb
 
 # 1. Notation and Remarks

@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'notebook'
+tags:   []
+---
+
 22_QR_Decomposition.ipynb
 
 # 1. Gram-Schmidt and the QR Decomposition

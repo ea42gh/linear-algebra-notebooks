@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'complete'
+tags:   []
+---
+
 11_Inverses.ipynb
 
 # 1. The Inverse of a Square Matrix

@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 05_RowEchelonForm_Systems.ipynb
 
 # 1. Systems of Linear Equations

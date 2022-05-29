@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 25_PositiveDefiniteMatrices.ipynb
 
 # 1. Quadratic Forms

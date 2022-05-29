@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 26_GramMatrix.ipynb
 
 # 1. The Gram Matrix $A^t A$

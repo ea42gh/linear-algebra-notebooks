@@ -1,3 +1,12 @@
+---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: ''
+status: 'SoSo'
+tags:   []
+---
+
 10a_LinearTx_Examples.ipynb
 
 # 1. Review: Basic Definitions and Theorems
