@@ -1,0 +1,178 @@
+{
+  "main": {
+    "id": "7a3f48ea1b5b35e9",
+    "type": "split",
+    "children": [
+      {
+        "id": "bfe2cacae4d2ce98",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "INDEX.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      },
+      {
+        "id": "3509491d37681daa",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "INDEX.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2d60555e1efaddd6",
+    "type": "split",
+    "children": [
+      {
+        "id": "2ea65534f28e8d22",
+        "type": "tabs",
+        "dimension": 66.7601683029453,
+        "children": [
+          {
+            "id": "b0f9ff9125c6323e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "80f7b7d33d5a2f84",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#HowTo/math",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "4470acb136677a04",
+        "type": "tabs",
+        "dimension": 33.2398316970547,
+        "children": [
+          {
+            "id": "a34bfcdae8de5cbb",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 313.5068016052246
+  },
+  "right": {
+    "id": "d03cfb8e4965b34f",
+    "type": "split",
+    "children": [
+      {
+        "id": "30897a24a7517720",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a4918e9bc430af41",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "INDEX.md",
+                "collapseAll": false,
+                "extraContext": true,
+                "sortOrder": "alphabetical",
+                "showSearch": true,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              }
+            }
+          },
+          {
+            "id": "562649b0eb0e569b",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
+          },
+          {
+            "id": "6ed118c5b453022e",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "e51999850a3a2127",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "9d6e45519289f259",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "c02cb60af9efa8f9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "INDEX.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 281.2394714355469
+  },
+  "active": "3509491d37681daa",
+  "lastOpenFiles": [
+    "INDEX.md",
+    "04 Matrix Multiplication.md",
+    "03 Matrix Multiplication.md",
+    "other Projections.md",
+    "other Three Bases Example.md",
+    "other Least Squares Fitting.md",
+    "other Least Mean Squares.md",
+    "other Iteration Examples.md",
+    "other Geogebra.md",
+    "Matrix Multiplication Summary.md"
+  ]
+}
