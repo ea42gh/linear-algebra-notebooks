@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'notebook'
 tags:   []
+up: [[INDEX]]
+next: [[21 Linear Transformations, Normal Equations]]
 ---
 
 20_LengthOrthogonality.ipynb
@@ -59,4 +61,4 @@ Orthogonality.ipynb
 ### 3.2.2 Important Examples
 ### 3.2.3 Important Properties of Orthogonal and Unitary Matrice
 ## 3.3 Gramm-Schmidt Orthogonalization
-# 4. Gramm-Schmidt Orthogonalization ...\n,
+# 4. Gramm-Schmidt Orthogonalization ...,

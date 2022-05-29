@@ -5,12 +5,14 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[13 The Wedge Product:w]]
 ---
 
 23_MetricSpaces.ipynb
 
 # 1. Inner Products
-## 1.1 Inner Products and Metrics in $\\mathbb{R}^n$
+## 1.1 Inner Products and Metrics in $\mathbb{R}^n$
 ## 1.2  Inner Products in Function Spaces
 # 2. Orthogonality
 # 3. Gram Schmidt

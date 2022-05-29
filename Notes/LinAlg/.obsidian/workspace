@@ -7,8 +7,12 @@
         "id": "6e3e40e9ec566e52",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "INDEX.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "INDEX.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -132,6 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "INDEX.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,15 +152,15 @@
   },
   "active": "6e3e40e9ec566e52",
   "lastOpenFiles": [
-    "Topics/4. Length of Vectors and Matrices/delete.md",
     "INDEX.md",
     "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md",
-    "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md",
-    "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md",
-    "Status Board.md",
-    "Topics/5 EigenProblems/5. EigenProblems.md",
-    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
-    "Topics/1 Basic Operations/02 Addition, Scalar Multiplication, Dot product.md",
-    "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md"
+    "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
+    "Topics/4. Length of Vectors and Matrices/21 Linear Transformations, Normal Equations.md",
+    "Topics/6 Computational Methods/other Iteration Examples.md",
+    "Topics/6 Computational Methods/Iterative Methods with Julia.md",
+    "Topics/6 Computational Methods/Iterative Methods with Python.md",
+    "Topics/6 Computational Methods/Iterative Methods.md",
+    "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md",
+    "Topics/5 EigenProblems/Rayleigh Quotients.md"
   ]
 }

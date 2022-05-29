@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[06 Gaussian Elimination - Elementary Operations:w]]
 ---
 
 05_RowEchelonForm_Systems.ipynb

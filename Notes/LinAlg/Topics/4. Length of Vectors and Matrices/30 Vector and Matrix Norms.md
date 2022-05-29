@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[Rayleigh Quotients]]
 ---
 
 30_VectorAndMatrixNorms.ipynb

@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[18 Eigen Computations]]
 ---
 
 17_EigenAnalysis.ipynb

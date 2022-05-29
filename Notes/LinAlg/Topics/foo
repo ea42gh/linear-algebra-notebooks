@@ -1,4 +1,4 @@
-gvim \
+for i in \
 '4. Length of Vectors and Matrices/21 Linear Transformations, Normal Equations.md' \
 '4. Length of Vectors and Matrices/other Least Mean Squares.md' \
 '4. Length of Vectors and Matrices/22 QR Decomposition.md' \
@@ -51,3 +51,7 @@ gvim \
 '2 Gaussian Elimination and Consequences/05 Rowechelon Form Systems.md' \
 '2 Gaussian Elimination and Consequences/15 Vector Spaces.md' \
 '2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md'
+do
+echo ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; $i"
+grep FIX "$i"
+done

@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[08 Linear Independence]]
 ---
 
 07_GE_Systems.ipynb

@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[05 Rowechelon Form Systems]]
 ---
 
 Summary_01_MatrixMultiplication.ipynb

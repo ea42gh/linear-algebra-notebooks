@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[Iterative Methods with Python]]
 ---
 
 IterativeMethods.ipynb

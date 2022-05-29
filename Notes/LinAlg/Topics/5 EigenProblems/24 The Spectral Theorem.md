@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[25 Positive Definite Matrices]]
 ---
 
 24_SpectralTheorem.ipynb

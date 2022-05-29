@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[22 QR Decomposition]]
 ---
 
 21_ProjectionsGramSchmidt.ipynb

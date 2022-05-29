@@ -5,13 +5,15 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[05 Rowechelon Form Systems]]
 ---
 
 04_MatrixAlgebra.ipynb
 
 # 1. Algebra
 ## 1.1 Preliminary Remarks: Addition and Scalar Multiplication
-## 1.2 The Product $\\mathbf{ A B }$
+## 1.2 The Product $\mathbf{ A B }$
 ## 1.3 Properties of Matrix Multiplication
 ## 1.4 The Dot Product Compared to Matrix Multiplication
 # 2. Examples

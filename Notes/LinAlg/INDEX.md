@@ -28,12 +28,12 @@
 
 ## Length and its Consequences
 
-[[13 The Wedge Product]]
-[[14 Determinants]]
 [[20 Length and Orthogonality]]
 [[21a Linear Transformations, Gram-Schmidt]]
 [[22 QR Decomposition]]
 [[23 Metric Spaces]]
+[[13 The Wedge Product]]
+[[14 Determinants]]
 [[30 Vector and Matrix Norms]]
 
 # The $A x = \lambda x$ Problem

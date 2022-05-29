@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'complete'
 tags:   []
+up: [[INDEX]]
+next: [[12 LU Decomposition]]
 ---
 
 11_Inverses.ipynb

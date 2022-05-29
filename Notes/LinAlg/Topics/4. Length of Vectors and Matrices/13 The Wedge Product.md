@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[14 Determinants]]
 ---
 
 13_WedgeProduct.ipynb

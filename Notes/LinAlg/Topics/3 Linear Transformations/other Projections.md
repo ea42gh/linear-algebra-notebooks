@@ -13,5 +13,6 @@ other_material/Projections.ipynb
 # 2. Oblique Projections
 # 3. Orthogonal Projections
 # 4. Diagonalizable Matrices
-# 5. Application Examples\n,
+# 5. Application Examples
+## 5.1 .FIX.
 ## 5.2 A Projection Problem (Spring 14)

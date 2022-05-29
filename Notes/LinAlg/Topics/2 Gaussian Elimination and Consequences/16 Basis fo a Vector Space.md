@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[09 Linear Transformations]]
 ---
 
 16_Basis.ipynb

@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[10b Linear Tansformation Examples]]
 ---
 
 10a_LinearTx_Examples.ipynb

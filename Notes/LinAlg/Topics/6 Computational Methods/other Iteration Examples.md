@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[Randomized SVD]]
 ---
 
 other_material/IterativeMethodExamples.ipynb

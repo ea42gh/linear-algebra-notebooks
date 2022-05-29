@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[The Hamilton  Cayley Theorem]]
 ---
 
 RayleighQuotients.ipynb

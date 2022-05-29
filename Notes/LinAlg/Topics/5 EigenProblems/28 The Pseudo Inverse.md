@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[29 SVD Applications]]
 ---
 
 28_PseudoInverse.ipynb

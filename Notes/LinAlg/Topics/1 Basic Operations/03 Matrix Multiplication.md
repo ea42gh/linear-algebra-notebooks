@@ -4,7 +4,9 @@ media:
     youtube: ''
     notebook: ''
 status: 'complete'
-tags:   []
+tags:   [#fix]
+up: [[INDEX]]
+next: [[04 Vector and Matrix Algebra]]
 ---
 
 [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/03_MatrixMultiplication.ipynb)

@@ -5,6 +5,8 @@ media:
     notebook: '02_AddScalarMultDotprod.ipynb'
 status: 'complete'
 tags:   []
+up: [[INDEX]]
+next: [[03 Matrix Multiplication]]
 ---
 
 02_AddScalarMultDotprod.ipynb

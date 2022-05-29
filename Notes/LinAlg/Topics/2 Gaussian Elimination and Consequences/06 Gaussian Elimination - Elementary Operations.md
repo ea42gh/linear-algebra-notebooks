@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[07 Gaussian Elimination Algorithm]]
 ---
 
 06_GE_Systems.ipynb

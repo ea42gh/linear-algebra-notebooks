@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[28 The Pseudo Inverse]]
 ---
 
 27_SVD.ipynb

@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[15 Vector Spaces]]
 ---
 
 12_LU_decomposition.ipynb

@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[26 The Gram Matrix]]
 ---
 
 25_PositiveDefiniteMatrices.ipynb

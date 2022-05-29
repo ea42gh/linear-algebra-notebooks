@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[other Iteration Examples]]
 ---
 
 IterativeMethods_julia.ipynb

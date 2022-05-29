@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[24 The Spectral Theorem]]
 ---
 
 19_Diagonalization.ipynb

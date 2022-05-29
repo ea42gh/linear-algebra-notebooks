@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[20 Length and Orthogonality]]
 ---
 
 10c_GeoGebra.ipynb

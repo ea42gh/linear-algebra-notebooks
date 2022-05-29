@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[11 The Inverse of a Matrix]]
 ---
 
 08_LinearIndependence.ipynb
