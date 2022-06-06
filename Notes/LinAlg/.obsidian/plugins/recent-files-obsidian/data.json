@@ -1,12 +1,12 @@
 {
   "recentFiles": [
     {
-      "basename": "Status Board",
-      "path": "Status Board.md"
-    },
-    {
       "basename": "INDEX",
       "path": "INDEX.md"
+    },
+    {
+      "basename": "Status Board",
+      "path": "Status Board.md"
     },
     {
       "basename": "Generate Problems",
@@ -195,10 +195,6 @@
     {
       "basename": "Matrix Multiplication Summary",
       "path": "Topics/1 Basic Operations/Matrix Multiplication Summary.md"
-    },
-    {
-      "basename": "04 Vector and Matrix Algebra",
-      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
     }
   ],
   "omittedPaths": [

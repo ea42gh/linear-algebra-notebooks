@@ -4,13 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "6e3e40e9ec566e52",
+        "id": "c5d03f2629b4db07",
         "type": "leaf",
         "state": {
-          "type": "kanban",
-          "state": {
-            "file": "Status Board.md"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -67,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 402.5121879577637,
-    "collapsed": true
+    "width": 402.5121879577637
   },
   "right": {
     "id": "d03cfb8e4965b34f",
@@ -84,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Status Board.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -136,7 +132,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Status Board.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -149,17 +144,17 @@
     "direction": "horizontal",
     "width": 281.2394714355469
   },
-  "active": "6e3e40e9ec566e52",
+  "active": "c5d03f2629b4db07",
   "lastOpenFiles": [
-    "Status Board.md",
+    "jupyter.md",
     "INDEX.md",
+    "Status Board.md",
     "Generate Problems.md",
     "Topics/8 Appendices/GE Layout Display.md",
     "Topics/8 Appendices/A2 Matrix Layout Displays.md",
     "Topics/8 Appendices/A1 Analytic Geometry.md",
     "Topics/6 Computational Methods/Randomized SVD.md",
     "Topics/6 Computational Methods/other Iteration Examples.md",
-    "Topics/6 Computational Methods/Iterative Methods with Python.md",
-    "Topics/6 Computational Methods/Iterative Methods with Julia.md"
+    "Topics/6 Computational Methods/Iterative Methods with Python.md"
   ]
 }
