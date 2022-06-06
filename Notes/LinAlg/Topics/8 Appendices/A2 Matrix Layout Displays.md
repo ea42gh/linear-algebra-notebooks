@@ -4,6 +4,7 @@ media:
     youtube: ''
     notebook: ''
 status: 'SoSo'
+up: [[INDEX]]
 tags:   []
 ---
 

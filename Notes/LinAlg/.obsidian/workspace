@@ -7,11 +7,9 @@
         "id": "6e3e40e9ec566e52",
         "type": "leaf",
         "state": {
-          "type": "markdown",
+          "type": "kanban",
           "state": {
-            "file": "INDEX.md",
-            "mode": "source",
-            "source": false
+            "file": "Status Board.md"
           }
         }
       }
@@ -85,7 +83,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INDEX.md",
+                "file": "Status Board.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -137,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "INDEX.md",
+                "file": "Status Board.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -148,19 +146,20 @@
       }
     ],
     "direction": "horizontal",
-    "width": 281.2394714355469
+    "width": 281.2394714355469,
+    "collapsed": true
   },
   "active": "6e3e40e9ec566e52",
   "lastOpenFiles": [
+    "Status Board.md",
     "INDEX.md",
-    "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md",
-    "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
-    "Topics/4. Length of Vectors and Matrices/21 Linear Transformations, Normal Equations.md",
+    "Generate Problems.md",
+    "Topics/8 Appendices/GE Layout Display.md",
+    "Topics/8 Appendices/A2 Matrix Layout Displays.md",
+    "Topics/8 Appendices/A1 Analytic Geometry.md",
+    "Topics/6 Computational Methods/Randomized SVD.md",
     "Topics/6 Computational Methods/other Iteration Examples.md",
-    "Topics/6 Computational Methods/Iterative Methods with Julia.md",
     "Topics/6 Computational Methods/Iterative Methods with Python.md",
-    "Topics/6 Computational Methods/Iterative Methods.md",
-    "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md",
-    "Topics/5 EigenProblems/Rayleigh Quotients.md"
+    "Topics/6 Computational Methods/Iterative Methods with Julia.md"
   ]
 }

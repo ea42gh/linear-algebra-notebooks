@@ -13,5 +13,5 @@ next: [[20 Length and Orthogonality]]
 
 # 1. The Eckart-Young Theorem
 # 2. Low Rank Approximation of an Image
-## 3. Principal Component Analysis
+# 3. Principal Component Analysis
 # 4. Some Web Resources

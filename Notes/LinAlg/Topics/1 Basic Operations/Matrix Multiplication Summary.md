@@ -22,7 +22,7 @@ Summary_01_MatrixMultiplication.ipynb
 # 3. Submatrices
 ## 3.1 We can partition the $A$ and $C$ matrices horizontally
 ## 3.2 We can partition the $B$ and $C$ matrices vertically
-## 3.3 We can partition the $A$ matrix vertically, and the $B$ matrix horizontally\n,
+## 3.3 We can partition the $A$ matrix vertically, and the $B$ matrix horizontally
 ## 3.4 We can partition further, horizontally and vertically...
 # 4. Notation convention
 # 5. Key Take Away

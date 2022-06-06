@@ -17,7 +17,7 @@ next: [[24 The Spectral Theorem]]
 ### 1.2.1 Definition
 ### 1.2.2 Similar Matrices and Eigenpairs
 ## 1.3 Special Case: A Basis of Eigenvectors
-### 1.3.1 A $2 \\times 2$ Example
+### 1.3.1 A $2 \times 2$ Example
 ### 1.3.2 **Should we have predicted this?**
 #### 1.3.2.1 **Linearly Independent Basis of Eigenvectors**
 #### 1.3.2.2 **The Matrix $A$ Expressed in the Eigenvector Basis is Diagonal**

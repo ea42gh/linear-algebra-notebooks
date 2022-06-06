@@ -61,4 +61,5 @@ Orthogonality.ipynb
 ### 3.2.2 Important Examples
 ### 3.2.3 Important Properties of Orthogonal and Unitary Matrice
 ## 3.3 Gramm-Schmidt Orthogonalization
-# 4. Gramm-Schmidt Orthogonalization ...,
+# 4. Gramm-Schmidt Orthogonalization
+

@@ -26,8 +26,8 @@ next: [[11 The Inverse of a Matrix]]
 LinearIndependence.ipynb
 
 # 1. Linear Independence
-# 1.1 Model $A x = b$ Problem\n,
-# 2. Checking Linear Independence of a set of vectors in $\\mathbb{F}^{\\small{N}}$
+# 1.1 Model $A x = b$ Problem
+# 2. Checking Linear Independence of a set of vectors in $\mathbb{F}^{\small{N}}$
 ## 2.1 Easy case 1: The set of vectors contains the zero vector
 ## 2.2 Easy case 2: One of the vectors is recognized as a linear combination of the other vectors.
 ## 2.3 Easy case 3: More vectors than entries in a vector

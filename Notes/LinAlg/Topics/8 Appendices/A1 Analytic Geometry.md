@@ -5,6 +5,8 @@ media:
     notebook: ''
 status: 'SoSo'
 tags:   []
+up: [[INDEX]]
+next: [[A2 Matrix Layout Displays]]
 ---
 
 A1_AnalyticGeometry.ipynb

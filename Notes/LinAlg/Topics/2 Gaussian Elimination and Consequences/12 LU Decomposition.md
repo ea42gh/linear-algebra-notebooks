@@ -15,11 +15,11 @@ next: [[15 Vector Spaces]]
 ## 1.1 Multiple Right-hand Sides
 ## 1.2 The LU Decomposition
 ### 1.2.1 Computation of the LU Decomposition
-### 1.2.2 Use the LU Decomposition to Solve $\\ $ A x = b
+### 1.2.2 Use the LU Decomposition to Solve $A x = b$
 # 2. The PLU Decomposition
 ## 2.1 Required Row Exchange(s)
 ### 2.1.1 Example
-### 2.1.2 Solving $\\;$ P L U x = b
+### 2.1.2 Solving $\;$ P L U x = b
 ## 2.2 Variations
 ### 2.2.1 The PLDU Decomposition
 ### 2.2.2 Symmetric Matrices
@@ -28,5 +28,5 @@ next: [[15 Vector Spaces]]
 LU.ipynb
 
 ## 1. Theory
-### 1.1 $\\ $  A simple Example\n,
-### 1.3. $\\ $ An example with a larger matrix
+### 1.1 A simple Example
+### 1.3. An example with a larger matrix

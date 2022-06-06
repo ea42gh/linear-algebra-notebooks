@@ -1,3 +1,6 @@
+---
+tags: [#index]
+---
 # Matrix Operations
 [[01 Scalars, Vectors, Matrices]]
 [[02 Addition, Scalar Multiplication, Dot product]]
