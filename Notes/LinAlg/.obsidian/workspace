@@ -7,8 +7,12 @@
         "id": "c5d03f2629b4db07",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -132,6 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,6 +152,7 @@
   },
   "active": "c5d03f2629b4db07",
   "lastOpenFiles": [
+    "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
     "jupyter.md",
     "INDEX.md",
     "Status Board.md",
@@ -154,7 +161,6 @@
     "Topics/8 Appendices/A2 Matrix Layout Displays.md",
     "Topics/8 Appendices/A1 Analytic Geometry.md",
     "Topics/6 Computational Methods/Randomized SVD.md",
-    "Topics/6 Computational Methods/other Iteration Examples.md",
-    "Topics/6 Computational Methods/Iterative Methods with Python.md"
+    "Topics/6 Computational Methods/other Iteration Examples.md"
   ]
 }
