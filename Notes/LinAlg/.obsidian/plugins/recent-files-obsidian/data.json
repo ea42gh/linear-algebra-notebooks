@@ -1,204 +1,152 @@
 {
   "recentFiles": [
     {
-      "basename": "01 Scalars, Vectors, Matrices",
-      "path": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md"
+      "basename": "03 Matrix Multiplication",
+      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
     },
     {
-      "basename": "INDEX",
-      "path": "INDEX.md"
+      "basename": "02 Addition Scalar Multiplication Dot product",
+      "path": "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md"
     },
     {
-      "basename": "Status Board",
-      "path": "Status Board.md"
+      "basename": "01 Scalars Vectors  Matrices",
+      "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
     },
     {
-      "basename": "Generate Problems",
-      "path": "Generate Problems.md"
+      "basename": "202205271436 - Note Refactoring",
+      "path": "Permanent Notes/HowTo/202205271436 - Note Refactoring.md"
     },
     {
-      "basename": "GE Layout Display",
-      "path": "Topics/8 Appendices/GE Layout Display.md"
+      "basename": "DataView_0",
+      "path": "Permanent Notes/Experiments/DataView_0.md"
     },
     {
-      "basename": "A2 Matrix Layout Displays",
-      "path": "Topics/8 Appendices/A2 Matrix Layout Displays.md"
+      "basename": "DataView_3",
+      "path": "Permanent Notes/Experiments/DataView_3.md"
     },
     {
-      "basename": "A1 Analytic Geometry",
-      "path": "Topics/8 Appendices/A1 Analytic Geometry.md"
+      "basename": "DataView_1",
+      "path": "Permanent Notes/Experiments/DataView_1.md"
     },
     {
-      "basename": "Randomized SVD",
-      "path": "Topics/6 Computational Methods/Randomized SVD.md"
+      "basename": "202205262241 - Image in Editor",
+      "path": "Permanent Notes/HowTo/202205262241 - Image in Editor.md"
     },
     {
-      "basename": "other Iteration Examples",
-      "path": "Topics/6 Computational Methods/other Iteration Examples.md"
+      "basename": "202205261710 - Annotate Pdf",
+      "path": "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md"
     },
     {
-      "basename": "Iterative Methods with Python",
-      "path": "Topics/6 Computational Methods/Iterative Methods with Python.md"
+      "basename": "PDF Annotation",
+      "path": "Templates/PDF Annotation.md"
     },
     {
-      "basename": "Iterative Methods with Julia",
-      "path": "Topics/6 Computational Methods/Iterative Methods with Julia.md"
+      "basename": "zoo-quickref annotation",
+      "path": "Fleeting Notes/zoo-quickref annotation.md"
     },
     {
-      "basename": "Iterative Methods",
-      "path": "Topics/6 Computational Methods/Iterative Methods.md"
+      "basename": "zoo-quickref",
+      "path": "Fleeting Notes/zoo-quickref.pdf"
     },
     {
-      "basename": "The Hamilton  Cayley Theorem",
-      "path": "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md"
+      "basename": "202205231624 - Initial Setup",
+      "path": "Permanent Notes/HowTo/202205231624 - Initial Setup.md"
     },
     {
-      "basename": "Rayleigh Quotients",
-      "path": "Topics/5 EigenProblems/Rayleigh Quotients.md"
+      "basename": "202205231647 - Markdown_html",
+      "path": "Permanent Notes/HowTo/202205231647 - Markdown_html.md"
     },
     {
-      "basename": "29 SVD Applications",
-      "path": "Topics/5 EigenProblems/29 SVD Applications.md"
+      "basename": "Index",
+      "path": "Permanent Notes/Index.md"
     },
     {
-      "basename": "28 The Pseudo Inverse",
-      "path": "Topics/5 EigenProblems/28 The Pseudo Inverse.md"
+      "basename": "202205261605 - Data View",
+      "path": "Permanent Notes/HowTo/202205261605 - Data View.md"
     },
     {
-      "basename": "27 The Singular Value Decomposition (SVD)",
-      "path": "Topics/5 EigenProblems/27 The Singular Value Decomposition (SVD).md"
+      "basename": "202205231718 - New vault",
+      "path": "Permanent Notes/HowTo/202205231718 - New vault.md"
     },
     {
-      "basename": "26 The Gram Matrix",
-      "path": "Topics/5 EigenProblems/26 The Gram Matrix.md"
+      "basename": "202205261551 - Map View",
+      "path": "Permanent Notes/HowTo/202205261551 - Map View.md"
     },
     {
-      "basename": "25 Positive Definite Matrices",
-      "path": "Topics/5 EigenProblems/25 Positive Definite Matrices.md"
+      "basename": "202205252144 - Kanban Boards",
+      "path": "Permanent Notes/HowTo/202205252144 - Kanban Boards.md"
     },
     {
-      "basename": "24 The Spectral Theorem",
-      "path": "Topics/5 EigenProblems/24 The Spectral Theorem.md"
+      "basename": "202205251956 - Recent Files",
+      "path": "Permanent Notes/HowTo/202205251956 - Recent Files.md"
     },
     {
-      "basename": "19 Diagonalization of Matrices",
-      "path": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md"
+      "basename": "202205251350  - Excalidraw",
+      "path": "Permanent Notes/HowTo/202205251350  - Excalidraw.md"
     },
     {
-      "basename": "18 Eigen Computations",
-      "path": "Topics/5 EigenProblems/18 Eigen Computations.md"
+      "basename": "202205251349 - Plotly",
+      "path": "Permanent Notes/HowTo/202205251349 - Plotly.md"
     },
     {
-      "basename": "17 Eigen Analysis",
-      "path": "Topics/5 EigenProblems/17 Eigen Analysis.md"
+      "basename": "202205250917 - draw.io Diagrams",
+      "path": "Permanent Notes/HowTo/202205250917 - draw.io Diagrams.md"
     },
     {
-      "basename": "Regression",
-      "path": "Topics/4. Length of Vectors and Matrices/Regression.md"
+      "basename": "202205242135 - Mermaid Graphs",
+      "path": "Permanent Notes/HowTo/202205242135 - Mermaid Graphs.md"
     },
     {
-      "basename": "other Least Mean Squares",
-      "path": "Topics/4. Length of Vectors and Matrices/other Least Mean Squares.md"
+      "basename": "202205241832 - Ant Charts",
+      "path": "Permanent Notes/HowTo/202205241832 - Ant Charts.md"
     },
     {
-      "basename": "30 Vector and Matrix Norms",
-      "path": "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md"
+      "basename": "202205241528 - Tabs and Panes",
+      "path": "Permanent Notes/HowTo/202205241528 - Tabs and Panes.md"
     },
     {
-      "basename": "23 Metric Spaces",
-      "path": "Topics/4. Length of Vectors and Matrices/23 Metric Spaces.md"
+      "basename": "202205241508 - Key commands",
+      "path": "Permanent Notes/HowTo/202205241508 - Key commands.md"
     },
     {
-      "basename": "22 QR Decomposition",
-      "path": "Topics/4. Length of Vectors and Matrices/22 QR Decomposition.md"
+      "basename": "202205241055 - Multi Columns",
+      "path": "Permanent Notes/HowTo/202205241055 - Multi Columns.md"
     },
     {
-      "basename": "21a Linear Transformations, Gram-Schmidt",
-      "path": "Topics/4. Length of Vectors and Matrices/21a Linear Transformations, Gram-Schmidt.md"
+      "basename": "202205240844 - Latex Suite",
+      "path": "Permanent Notes/HowTo/202205240844 - Latex Suite.md"
     },
     {
-      "basename": "21 Linear Transformations, Normal Equations",
-      "path": "Topics/4. Length of Vectors and Matrices/21 Linear Transformations, Normal Equations.md"
+      "basename": "202205240832 - Git Backup",
+      "path": "Permanent Notes/HowTo/202205240832 - Git Backup.md"
     },
     {
-      "basename": "20 Length and Orthogonality",
-      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
+      "basename": "202205232108 - Tables",
+      "path": "Permanent Notes/HowTo/202205232108 - Tables.md"
     },
     {
-      "basename": "14 Determinants",
-      "path": "Topics/4. Length of Vectors and Matrices/14 Determinants.md"
+      "basename": "202205232014 - Sketches and Drawings",
+      "path": "Permanent Notes/HowTo/202205232014 - Sketches and Drawings.md"
     },
     {
-      "basename": "13 The Wedge Product",
-      "path": "Topics/4. Length of Vectors and Matrices/13 The Wedge Product.md"
+      "basename": "202205231845 - Checklists",
+      "path": "Permanent Notes/HowTo/202205231845 - Checklists.md"
     },
     {
-      "basename": "other Projections",
-      "path": "Topics/3 Linear Transformations/other Projections.md"
+      "basename": "202205231729 - Calendar",
+      "path": "Permanent Notes/HowTo/202205231729 - Calendar.md"
     },
     {
-      "basename": "other Geogebra",
-      "path": "Topics/3 Linear Transformations/other Geogebra.md"
+      "basename": "Introductory Videos",
+      "path": "Permanent Notes/Introductory Videos.md"
     },
     {
-      "basename": "10c Linear Transformations with GeoGebra",
-      "path": "Topics/3 Linear Transformations/10c Linear Transformations with GeoGebra.md"
+      "basename": "Weekly Note",
+      "path": "Templates/Weekly Note.md"
     },
     {
-      "basename": "10b Linear Tansformation Examples",
-      "path": "Topics/3 Linear Transformations/10b Linear Tansformation Examples.md"
-    },
-    {
-      "basename": "10a Linear Transformations Examples",
-      "path": "Topics/3 Linear Transformations/10a Linear Transformations Examples.md"
-    },
-    {
-      "basename": "09 Linear Transformations",
-      "path": "Topics/3 Linear Transformations/09 Linear Transformations.md"
-    },
-    {
-      "basename": "The Fourier Matrix",
-      "path": "Topics/2 Gaussian Elimination and Consequences/The Fourier Matrix.md"
-    },
-    {
-      "basename": "other Three Bases Example",
-      "path": "Topics/2 Gaussian Elimination and Consequences/other Three Bases Example.md"
-    },
-    {
-      "basename": "16 Basis fo a Vector Space",
-      "path": "Topics/2 Gaussian Elimination and Consequences/16 Basis fo a Vector Space.md"
-    },
-    {
-      "basename": "15 Vector Spaces",
-      "path": "Topics/2 Gaussian Elimination and Consequences/15 Vector Spaces.md"
-    },
-    {
-      "basename": "12 LU Decomposition",
-      "path": "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md"
-    },
-    {
-      "basename": "11 The Inverse of a Matrix",
-      "path": "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md"
-    },
-    {
-      "basename": "08 Linear Independence",
-      "path": "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md"
-    },
-    {
-      "basename": "07 Gaussian Elimination Algorithm",
-      "path": "Topics/2 Gaussian Elimination and Consequences/07 Gaussian Elimination Algorithm.md"
-    },
-    {
-      "basename": "06 Gaussian Elimination - Elementary Operations",
-      "path": "Topics/2 Gaussian Elimination and Consequences/06 Gaussian Elimination - Elementary Operations.md"
-    },
-    {
-      "basename": "05 Rowechelon Form Systems",
-      "path": "Topics/2 Gaussian Elimination and Consequences/05 Rowechelon Form Systems.md"
-    },
-    {
-      "basename": "Matrix Multiplication Summary",
-      "path": "Topics/1 Basic Operations/Matrix Multiplication Summary.md"
+      "basename": "Daily Note",
+      "path": "Templates/Daily Note.md"
     }
   ],
   "omittedPaths": [

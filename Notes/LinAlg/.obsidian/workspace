@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "c5d03f2629b4db07",
+        "id": "de0d2b572bf6825a",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
+            "file": "Topics/1 Basic Operations/03 Matrix Multiplication.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 402.5121879577637
+    "width": 313.5068016052246
   },
   "right": {
     "id": "d03cfb8e4965b34f",
@@ -78,6 +78,7 @@
       {
         "id": "30897a24a7517720",
         "type": "tabs",
+        "dimension": 31.490384615384613,
         "children": [
           {
             "id": "a4918e9bc430af41",
@@ -85,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
+                "file": "Topics/1 Basic Operations/03 Matrix Multiplication.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -124,43 +125,97 @@
             }
           },
           {
-            "id": "9d6e45519289f259",
+            "id": "4c31851809ebc77d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "54884632ae430254",
+            "type": "leaf",
+            "state": {
+              "type": "BC-matrix",
+              "state": {}
+            }
+          },
+          {
+            "id": "193a91b9e339bf2d",
+            "type": "leaf",
+            "state": {
+              "type": "BC-tree",
+              "state": {}
+            }
+          },
+          {
+            "id": "1c281d5ea816695a",
+            "type": "leaf",
+            "state": {
+              "type": "juggl_nodes",
+              "state": {}
+            }
+          },
+          {
+            "id": "21ed9577147b1cee",
+            "type": "leaf",
+            "state": {
+              "type": "juggl_style",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "664e7e08e787b064",
+        "type": "tabs",
+        "dimension": 44.471153846153854,
+        "children": [
+          {
+            "id": "6b76bf8e84fd702a",
             "type": "leaf",
             "state": {
               "type": "calendar",
               "state": {}
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "439b170363ffcd52",
+        "type": "tabs",
+        "dimension": 24.038461538461537,
+        "children": [
           {
-            "id": "c02cb60af9efa8f9",
+            "id": "b14bc6699827de10",
             "type": "leaf",
             "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              }
+              "type": "timeline",
+              "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
     "width": 281.2394714355469
   },
-  "active": "c5d03f2629b4db07",
+  "active": "de0d2b572bf6825a",
   "lastOpenFiles": [
-    "Topics/1 Basic Operations/01 Scalars, Vectors, Matrices.md",
-    "jupyter.md",
-    "INDEX.md",
-    "Status Board.md",
-    "Generate Problems.md",
-    "Topics/8 Appendices/GE Layout Display.md",
-    "Topics/8 Appendices/A2 Matrix Layout Displays.md",
-    "Topics/8 Appendices/A1 Analytic Geometry.md",
-    "Topics/6 Computational Methods/Randomized SVD.md",
-    "Topics/6 Computational Methods/other Iteration Examples.md"
+    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+    "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
+    "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
+    "Permanent Notes/HowTo/202205271436 - Note Refactoring.md",
+    "Permanent Notes/Experiments/DataView_0.md",
+    "Permanent Notes/Experiments/DataView_3.md",
+    "Permanent Notes/Experiments/DataView_1.md",
+    "conflict-files-obsidian-git.md",
+    "Permanent Notes/HowTo/202205262241 - Image in Editor.md",
+    "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md"
   ]
 }
