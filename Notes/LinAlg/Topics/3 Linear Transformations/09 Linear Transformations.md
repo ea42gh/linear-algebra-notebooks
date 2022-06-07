@@ -21,7 +21,7 @@ next: [[10a Linear Transformations Examples]]
 ## 2.2 A Linear Transformation from $\mathbb{F}^N \rightarrow \mathbb{F}^M$ Can be Represented by a Matrix
 ## 2.3 The Composition of Linear Transformations is a Linear Transformation
 ## 2.4 One-to-one Transformations and Onto Transformations
-## 2.5 The Mapping of the 0 Vector
+## 2.5 The Mapping of the $0$ Vector
 # 3. Checking Whether a Transformation is Linear
 ## 3.1 The Test
 ## 3.2 Examples ( Scalars in $\mathbb{R}$ )

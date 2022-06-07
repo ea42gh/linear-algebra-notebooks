@@ -6,7 +6,7 @@ media:
 status: 'complete'
 tags:   ['operations', 'scalars', 'vectors', 'matrices']
 up: [[INDEX]]
-next: [[02 Addition, Scalar Multiplication, Dot product]]
+next: [[02 Addition Scalar Multiplication Dot product]]
 ---
 
 File: [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/01_ScalarsVectorsMatrices.ipynb)

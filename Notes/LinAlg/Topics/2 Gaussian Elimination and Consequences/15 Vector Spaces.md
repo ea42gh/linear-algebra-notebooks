@@ -38,6 +38,7 @@ next: [[16 Basis fo a Vector Space]]
 #### 2.2.1.4 Another Set of Vectors that is Not a Hyperplane
 ### 2.2.2 Matrices
 #### 2.2.2.1 Invertible Matrices
+#### 2.2.2.2 Projection Matrices
 ### 2.2.3 Functions
 #### 2.2.3.1 The subspace $\mathscr{C}^2(-1,1)$
 #### 2.2.3.2 A Set of Functions that is Not a Subspace

@@ -6,7 +6,7 @@ media:
 status: 'SoSo'
 tags:   []
 up: [[INDEX]]
-next: [[06 Gaussian Elimination - Elementary Operations:w]]
+next: [[06 Gaussian Elimination - Elementary Operations]]
 ---
 
 05_RowEchelonForm_Systems.ipynb
@@ -18,5 +18,6 @@ next: [[06 Gaussian Elimination - Elementary Operations:w]]
 ## 2.1 Two Simple Examples
 ## 2.2 Systems that do NOT have an Equation for Each of the Variables
 # 3. The Backsubstitution Algorithm
-### 3.1.1 Definition
+## 3.1 Definition
+## 3.2 The Algorithm
 # 4. Take Away

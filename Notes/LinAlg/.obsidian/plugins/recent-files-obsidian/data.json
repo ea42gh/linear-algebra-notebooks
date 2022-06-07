@@ -1,6 +1,54 @@
 {
   "recentFiles": [
     {
+      "basename": "10a Linear Transformations Examples",
+      "path": "Topics/3 Linear Transformations/10a Linear Transformations Examples.md"
+    },
+    {
+      "basename": "09 Linear Transformations",
+      "path": "Topics/3 Linear Transformations/09 Linear Transformations.md"
+    },
+    {
+      "basename": "16 Basis fo a Vector Space",
+      "path": "Topics/2 Gaussian Elimination and Consequences/16 Basis fo a Vector Space.md"
+    },
+    {
+      "basename": "15 Vector Spaces",
+      "path": "Topics/2 Gaussian Elimination and Consequences/15 Vector Spaces.md"
+    },
+    {
+      "basename": "12 LU Decomposition",
+      "path": "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md"
+    },
+    {
+      "basename": "11 The Inverse of a Matrix",
+      "path": "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md"
+    },
+    {
+      "basename": "08 Linear Independence",
+      "path": "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md"
+    },
+    {
+      "basename": "07 Gaussian Elimination Algorithm",
+      "path": "Topics/2 Gaussian Elimination and Consequences/07 Gaussian Elimination Algorithm.md"
+    },
+    {
+      "basename": "06 Gaussian Elimination - Elementary Operations",
+      "path": "Topics/2 Gaussian Elimination and Consequences/06 Gaussian Elimination - Elementary Operations.md"
+    },
+    {
+      "basename": "05 Rowechelon Form Systems",
+      "path": "Topics/2 Gaussian Elimination and Consequences/05 Rowechelon Form Systems.md"
+    },
+    {
+      "basename": "Matrix Multiplication Summary",
+      "path": "Topics/1 Basic Operations/Matrix Multiplication Summary.md"
+    },
+    {
+      "basename": "04 Vector and Matrix Algebra",
+      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
+    },
+    {
       "basename": "03 Matrix Multiplication",
       "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
     },

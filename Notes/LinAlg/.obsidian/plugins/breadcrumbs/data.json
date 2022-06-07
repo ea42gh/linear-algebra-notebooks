@@ -35,7 +35,7 @@
   "namingSystemRegex": "",
   "namingSystemSplit": ".",
   "namingSystemEndsWithDelimiter": false,
-  "refreshOnNoteChange": false,
+  "refreshOnNoteChange": true,
   "useAllMetadata": true,
   "openMatrixOnLoad": true,
   "openDuckOnLoad": false,

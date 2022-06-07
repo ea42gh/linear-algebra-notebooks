@@ -23,6 +23,9 @@ next: [[11 The Inverse of a Matrix]]
 ### 3.2.2 Special Cases
 # 4. Take Away
 
+- - -
+**Linear Independence of Functions...**
+
 LinearIndependence.ipynb
 
 # 1. Linear Independence

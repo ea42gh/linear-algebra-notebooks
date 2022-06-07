@@ -19,14 +19,15 @@ next: [[15 Vector Spaces]]
 # 2. The PLU Decomposition
 ## 2.1 Required Row Exchange(s)
 ### 2.1.1 Example
-### 2.1.2 Solving $\;$ P L U x = b
+### 2.1.2 Solving $\; P L U x = b$
 ## 2.2 Variations
-### 2.2.1 The PLDU Decomposition
+### 2.2.1 The $P L D U$ Decomposition
 ### 2.2.2 Symmetric Matrices
 # 3. Take Away
-
+--- 
 LU.ipynb
 
-## 1. Theory
+# 1. Theory
 ### 1.1 A simple Example
-### 1.3. An example with a larger matrix
+### 1.2 An example with a larger matrix
+# 2. $P L U$ Decomposition

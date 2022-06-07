@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+            "file": "Topics/3 Linear Transformations/10a Linear Transformations Examples.md",
             "mode": "source",
             "source": false
           }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+                "file": "Topics/3 Linear Transformations/10a Linear Transformations Examples.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -130,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+                "file": "Topics/3 Linear Transformations/10a Linear Transformations Examples.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -207,15 +207,15 @@
   },
   "active": "de0d2b572bf6825a",
   "lastOpenFiles": [
-    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
-    "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
-    "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
-    "Permanent Notes/HowTo/202205271436 - Note Refactoring.md",
-    "Permanent Notes/Experiments/DataView_0.md",
-    "Permanent Notes/Experiments/DataView_3.md",
-    "Permanent Notes/Experiments/DataView_1.md",
-    "conflict-files-obsidian-git.md",
-    "Permanent Notes/HowTo/202205262241 - Image in Editor.md",
-    "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md"
+    "Topics/3 Linear Transformations/10a Linear Transformations Examples.md",
+    "Topics/3 Linear Transformations/09 Linear Transformations.md",
+    "Topics/2 Gaussian Elimination and Consequences/16 Basis fo a Vector Space.md",
+    "Topics/2 Gaussian Elimination and Consequences/15 Vector Spaces.md",
+    "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md",
+    "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md",
+    "Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md",
+    "Topics/2 Gaussian Elimination and Consequences/07 Gaussian Elimination Algorithm.md",
+    "Topics/2 Gaussian Elimination and Consequences/06 Gaussian Elimination - Elementary Operations.md",
+    "Topics/2 Gaussian Elimination and Consequences/05 Rowechelon Form Systems.md"
   ]
 }

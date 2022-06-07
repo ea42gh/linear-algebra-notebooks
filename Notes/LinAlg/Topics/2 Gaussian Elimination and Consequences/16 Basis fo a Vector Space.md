@@ -26,7 +26,7 @@ next: [[09 Linear Transformations]]
 ### 1.3.3 Example: The Dimension of a Subspace
 ### 1.3.4 (OMIT) The Dimension of a Subspace of the Vector Space of Functions
 ### 1.3.5 Some Simple but Useful Theorems to Keep in Mind:
-# 2. Subspaces Associated with a Matrix
+# 2. Fundamental Subspaces Associated with a Matrix
 ## 2.1 Definitions
 ## 2.2 A Basis for $\mathscr{C}(A)$
 ## 2.3 A Basis for $\mathscr{R}(A)$
