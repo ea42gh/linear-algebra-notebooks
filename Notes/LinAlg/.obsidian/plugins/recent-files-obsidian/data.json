@@ -1,6 +1,58 @@
 {
   "recentFiles": [
     {
+      "basename": "19 Diagonalization of Matrices",
+      "path": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md"
+    },
+    {
+      "basename": "18 Eigen Computations",
+      "path": "Topics/5 EigenProblems/18 Eigen Computations.md"
+    },
+    {
+      "basename": "17 Eigen Analysis",
+      "path": "Topics/5 EigenProblems/17 Eigen Analysis.md"
+    },
+    {
+      "basename": "14 Determinants",
+      "path": "Topics/4. Length of Vectors and Matrices/14 Determinants.md"
+    },
+    {
+      "basename": "13 The Wedge Product",
+      "path": "Topics/4. Length of Vectors and Matrices/13 The Wedge Product.md"
+    },
+    {
+      "basename": "23 Metric Spaces",
+      "path": "Topics/4. Length of Vectors and Matrices/23 Metric Spaces.md"
+    },
+    {
+      "basename": "22 QR Decomposition",
+      "path": "Topics/4. Length of Vectors and Matrices/22 QR Decomposition.md"
+    },
+    {
+      "basename": "21 Linear Transformations; Normal Equations",
+      "path": "Topics/4. Length of Vectors and Matrices/21 Linear Transformations; Normal Equations.md"
+    },
+    {
+      "basename": "20 Length and Orthogonality",
+      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
+    },
+    {
+      "basename": "21a Linear Transformations; Gram-Schmidt",
+      "path": "Topics/4. Length of Vectors and Matrices/21a Linear Transformations; Gram-Schmidt.md"
+    },
+    {
+      "basename": "10c Linear Transformations with GeoGebra",
+      "path": "Topics/3 Linear Transformations/10c Linear Transformations with GeoGebra.md"
+    },
+    {
+      "basename": "29 SVD Applications",
+      "path": "Topics/5 EigenProblems/29 SVD Applications.md"
+    },
+    {
+      "basename": "10b Linear Tansformation Examples",
+      "path": "Topics/3 Linear Transformations/10b Linear Tansformation Examples.md"
+    },
+    {
       "basename": "10a Linear Transformations Examples",
       "path": "Topics/3 Linear Transformations/10a Linear Transformations Examples.md"
     },
@@ -147,54 +199,6 @@
     {
       "basename": "202205241832 - Ant Charts",
       "path": "Permanent Notes/HowTo/202205241832 - Ant Charts.md"
-    },
-    {
-      "basename": "202205241528 - Tabs and Panes",
-      "path": "Permanent Notes/HowTo/202205241528 - Tabs and Panes.md"
-    },
-    {
-      "basename": "202205241508 - Key commands",
-      "path": "Permanent Notes/HowTo/202205241508 - Key commands.md"
-    },
-    {
-      "basename": "202205241055 - Multi Columns",
-      "path": "Permanent Notes/HowTo/202205241055 - Multi Columns.md"
-    },
-    {
-      "basename": "202205240844 - Latex Suite",
-      "path": "Permanent Notes/HowTo/202205240844 - Latex Suite.md"
-    },
-    {
-      "basename": "202205240832 - Git Backup",
-      "path": "Permanent Notes/HowTo/202205240832 - Git Backup.md"
-    },
-    {
-      "basename": "202205232108 - Tables",
-      "path": "Permanent Notes/HowTo/202205232108 - Tables.md"
-    },
-    {
-      "basename": "202205232014 - Sketches and Drawings",
-      "path": "Permanent Notes/HowTo/202205232014 - Sketches and Drawings.md"
-    },
-    {
-      "basename": "202205231845 - Checklists",
-      "path": "Permanent Notes/HowTo/202205231845 - Checklists.md"
-    },
-    {
-      "basename": "202205231729 - Calendar",
-      "path": "Permanent Notes/HowTo/202205231729 - Calendar.md"
-    },
-    {
-      "basename": "Introductory Videos",
-      "path": "Permanent Notes/Introductory Videos.md"
-    },
-    {
-      "basename": "Weekly Note",
-      "path": "Templates/Weekly Note.md"
-    },
-    {
-      "basename": "Daily Note",
-      "path": "Templates/Daily Note.md"
     }
   ],
   "omittedPaths": [

@@ -32,7 +32,7 @@ tags: [#index]
 ## Length and its Consequences
 
 [[20 Length and Orthogonality]]
-[[21a Linear Transformations, Gram-Schmidt]]
+[[21a Linear Transformations; Gram-Schmidt]]
 [[22 QR Decomposition]]
 [[23 Metric Spaces]]
 [[13 The Wedge Product]]

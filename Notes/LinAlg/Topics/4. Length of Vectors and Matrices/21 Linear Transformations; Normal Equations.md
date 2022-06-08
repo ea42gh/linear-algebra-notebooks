@@ -6,7 +6,7 @@ media:
 status: 'notebook'
 tags:   [#fix]
 up: [[INDEX]]
-next: [[21a Linear Transformations, Gram-Schmidt]]
+next: [[21a Linear Transformations; Gram-Schmidt]]
 ---
 
 21a_LinearTx_NormalEquations.ipynb

@@ -6,7 +6,7 @@ media:
 status: 'notebook'
 tags:   []
 up: [[INDEX]]
-next: [[21 Linear Transformations, Normal Equations]]
+next: [[21 Linear Transformations; Normal Equations]]
 ---
 
 20_LengthOrthogonality.ipynb
@@ -36,6 +36,7 @@ next: [[21 Linear Transformations, Normal Equations]]
 ## 4.2 The Normal Equation
 
 
+---
 Orthogonality.ipynb
 
 # 1. Inner Product Spaces and Metrics
@@ -49,9 +50,10 @@ Orthogonality.ipynb
 ### 1.3.3 Use the Normal Equation to Decompose a Vector
 # 2. The Normal Equation
 ## 2.1 Basic Properties of the Normal Equation
+## 2.2 Examples
 ### 2.2.1 Split a Vector
-### 2.1.2 Distance of a vector from a hyperplane
-### 2.1.3 Special Case: the columns of $A$ are mutually orthogonal
+### 2.2.2 Distance of a vector from a hyperplane
+### 2.2.3 Special Case: the columns of $A$ are mutually orthogonal
 # 3. Projection Matrices, Orthogonal Matrices and Unitary Matrices
 ## 3.1 Orthogonal Projection Matrices
 ### 3.1.1 Theory

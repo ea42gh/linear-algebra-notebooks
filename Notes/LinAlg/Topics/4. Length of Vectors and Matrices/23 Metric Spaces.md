@@ -6,7 +6,7 @@ media:
 status: 'SoSo'
 tags:   []
 up: [[INDEX]]
-next: [[13 The Wedge Product:w]]
+next: [[13 The Wedge Product]]
 ---
 
 23_MetricSpaces.ipynb
@@ -16,4 +16,4 @@ next: [[13 The Wedge Product:w]]
 ## 1.2  Inner Products in Function Spaces
 # 2. Orthogonality
 # 3. Gram Schmidt
-# 4.Take Away
+# 4. Take Away

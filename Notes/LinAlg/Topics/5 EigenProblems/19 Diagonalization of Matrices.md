@@ -24,6 +24,7 @@ next: [[24 The Spectral Theorem]]
 # 2. Diagonalization
 ## 2.1 Basic Theory
 ### 2.1.1 Diagonalizable Matrices
+### 2.1.2 Nondiagonalizable Matrices
 ## 2.2 Special Cases
 ### 2.2.1 Complex Eigenvalues
 ### 2.2.2 When is a Matrix Diagonalizable?
