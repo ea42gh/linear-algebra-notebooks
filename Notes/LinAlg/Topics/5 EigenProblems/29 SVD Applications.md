@@ -6,7 +6,7 @@ media:
 status: 'SoSo'
 tags:   []
 up: [[INDEX]]
-next: [[20 Length and Orthogonality]]
+next: [[30 Vector and Matrix Norms]]
 ---
 
 29_SVDapplications.ipynb

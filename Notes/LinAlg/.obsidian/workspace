@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md",
+            "file": "Topics/6 Computational Methods/Randomized SVD.md",
             "mode": "source",
             "source": false
           }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md",
+                "file": "Topics/6 Computational Methods/Randomized SVD.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -130,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md",
+                "file": "Topics/6 Computational Methods/Randomized SVD.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -207,15 +207,15 @@
   },
   "active": "de0d2b572bf6825a",
   "lastOpenFiles": [
-    "Topics/5 EigenProblems/19 Diagonalization of Matrices.md",
-    "Topics/5 EigenProblems/18 Eigen Computations.md",
-    "Topics/5 EigenProblems/17 Eigen Analysis.md",
-    "Topics/4. Length of Vectors and Matrices/14 Determinants.md",
-    "Topics/4. Length of Vectors and Matrices/13 The Wedge Product.md",
-    "Topics/4. Length of Vectors and Matrices/23 Metric Spaces.md",
-    "Topics/4. Length of Vectors and Matrices/22 QR Decomposition.md",
-    "Topics/4. Length of Vectors and Matrices/21 Linear Transformations; Normal Equations.md",
-    "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md",
-    "Topics/4. Length of Vectors and Matrices/21a Linear Transformations; Gram-Schmidt.md"
+    "Topics/6 Computational Methods/Randomized SVD.md",
+    "Topics/6 Computational Methods/other Iteration Examples.md",
+    "Topics/6 Computational Methods/Iterative Methods with Julia.md",
+    "Topics/6 Computational Methods/Iterative Methods with Python.md",
+    "Topics/6 Computational Methods/Iterative Methods.md",
+    "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md",
+    "Topics/5 EigenProblems/Rayleigh Quotients.md",
+    "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md",
+    "Topics/5 EigenProblems/29 SVD Applications.md",
+    "Topics/5 EigenProblems/28 The Pseudo Inverse.md"
   ]
 }

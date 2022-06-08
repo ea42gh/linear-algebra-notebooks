@@ -1,6 +1,66 @@
 {
   "recentFiles": [
     {
+      "basename": "Randomized SVD",
+      "path": "Topics/6 Computational Methods/Randomized SVD.md"
+    },
+    {
+      "basename": "other Iteration Examples",
+      "path": "Topics/6 Computational Methods/other Iteration Examples.md"
+    },
+    {
+      "basename": "Iterative Methods with Julia",
+      "path": "Topics/6 Computational Methods/Iterative Methods with Julia.md"
+    },
+    {
+      "basename": "Iterative Methods with Python",
+      "path": "Topics/6 Computational Methods/Iterative Methods with Python.md"
+    },
+    {
+      "basename": "Iterative Methods",
+      "path": "Topics/6 Computational Methods/Iterative Methods.md"
+    },
+    {
+      "basename": "The Hamilton  Cayley Theorem",
+      "path": "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md"
+    },
+    {
+      "basename": "Rayleigh Quotients",
+      "path": "Topics/5 EigenProblems/Rayleigh Quotients.md"
+    },
+    {
+      "basename": "30 Vector and Matrix Norms",
+      "path": "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md"
+    },
+    {
+      "basename": "29 SVD Applications",
+      "path": "Topics/5 EigenProblems/29 SVD Applications.md"
+    },
+    {
+      "basename": "28 The Pseudo Inverse",
+      "path": "Topics/5 EigenProblems/28 The Pseudo Inverse.md"
+    },
+    {
+      "basename": "20 Length and Orthogonality",
+      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
+    },
+    {
+      "basename": "27 The Singular Value Decomposition (SVD)",
+      "path": "Topics/5 EigenProblems/27 The Singular Value Decomposition (SVD).md"
+    },
+    {
+      "basename": "26 The Gram Matrix",
+      "path": "Topics/5 EigenProblems/26 The Gram Matrix.md"
+    },
+    {
+      "basename": "25 Positive Definite Matrices",
+      "path": "Topics/5 EigenProblems/25 Positive Definite Matrices.md"
+    },
+    {
+      "basename": "24 The Spectral Theorem",
+      "path": "Topics/5 EigenProblems/24 The Spectral Theorem.md"
+    },
+    {
       "basename": "19 Diagonalization of Matrices",
       "path": "Topics/5 EigenProblems/19 Diagonalization of Matrices.md"
     },
@@ -33,20 +93,12 @@
       "path": "Topics/4. Length of Vectors and Matrices/21 Linear Transformations; Normal Equations.md"
     },
     {
-      "basename": "20 Length and Orthogonality",
-      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
-    },
-    {
       "basename": "21a Linear Transformations; Gram-Schmidt",
       "path": "Topics/4. Length of Vectors and Matrices/21a Linear Transformations; Gram-Schmidt.md"
     },
     {
       "basename": "10c Linear Transformations with GeoGebra",
       "path": "Topics/3 Linear Transformations/10c Linear Transformations with GeoGebra.md"
-    },
-    {
-      "basename": "29 SVD Applications",
-      "path": "Topics/5 EigenProblems/29 SVD Applications.md"
     },
     {
       "basename": "10b Linear Tansformation Examples",
@@ -147,58 +199,6 @@
     {
       "basename": "zoo-quickref",
       "path": "Fleeting Notes/zoo-quickref.pdf"
-    },
-    {
-      "basename": "202205231624 - Initial Setup",
-      "path": "Permanent Notes/HowTo/202205231624 - Initial Setup.md"
-    },
-    {
-      "basename": "202205231647 - Markdown_html",
-      "path": "Permanent Notes/HowTo/202205231647 - Markdown_html.md"
-    },
-    {
-      "basename": "Index",
-      "path": "Permanent Notes/Index.md"
-    },
-    {
-      "basename": "202205261605 - Data View",
-      "path": "Permanent Notes/HowTo/202205261605 - Data View.md"
-    },
-    {
-      "basename": "202205231718 - New vault",
-      "path": "Permanent Notes/HowTo/202205231718 - New vault.md"
-    },
-    {
-      "basename": "202205261551 - Map View",
-      "path": "Permanent Notes/HowTo/202205261551 - Map View.md"
-    },
-    {
-      "basename": "202205252144 - Kanban Boards",
-      "path": "Permanent Notes/HowTo/202205252144 - Kanban Boards.md"
-    },
-    {
-      "basename": "202205251956 - Recent Files",
-      "path": "Permanent Notes/HowTo/202205251956 - Recent Files.md"
-    },
-    {
-      "basename": "202205251350  - Excalidraw",
-      "path": "Permanent Notes/HowTo/202205251350  - Excalidraw.md"
-    },
-    {
-      "basename": "202205251349 - Plotly",
-      "path": "Permanent Notes/HowTo/202205251349 - Plotly.md"
-    },
-    {
-      "basename": "202205250917 - draw.io Diagrams",
-      "path": "Permanent Notes/HowTo/202205250917 - draw.io Diagrams.md"
-    },
-    {
-      "basename": "202205242135 - Mermaid Graphs",
-      "path": "Permanent Notes/HowTo/202205242135 - Mermaid Graphs.md"
-    },
-    {
-      "basename": "202205241832 - Ant Charts",
-      "path": "Permanent Notes/HowTo/202205241832 - Ant Charts.md"
     }
   ],
   "omittedPaths": [
