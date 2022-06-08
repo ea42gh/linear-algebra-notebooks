@@ -2,9 +2,9 @@
 topic: 'Linear Algebra'
 media:
     youtube: ''
-    notebook: ''
+    notebook: '03_MatrixMultiplication.ipynb'
 status: 'complete'
-tags:   [#fix]
+tags:   []
 up: [[INDEX]]
 next: [[04 Vector and Matrix Algebra]]
 ---

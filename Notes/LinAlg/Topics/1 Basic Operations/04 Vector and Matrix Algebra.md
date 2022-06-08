@@ -2,8 +2,8 @@
 topic: 'Linear Algebra'
 media:
     youtube: ''
-    notebook: ''
-status: 'SoSo'
+    notebook: '04_MatrixAlgebra.ipynb'
+status: 'complete'
 tags:   []
 up: [[INDEX]]
 next: [[05 Rowechelon Form Systems]]

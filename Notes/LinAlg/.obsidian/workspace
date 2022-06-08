@@ -7,8 +7,12 @@
         "id": "024ae128c853a230",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -82,6 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -125,6 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -163,7 +169,7 @@
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 1
       },
       {
         "id": "664e7e08e787b064",
@@ -197,19 +203,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 281.2394714355469
+    "width": 330.0420227050781
   },
   "active": "024ae128c853a230",
   "lastOpenFiles": [
+    "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
+    "INDEX.md",
+    "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md",
+    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+    "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
     "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md",
     "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md",
     "Topics/6 Computational Methods/Randomized SVD.md",
     "Topics/6 Computational Methods/other Iteration Examples.md",
-    "Topics/6 Computational Methods/Iterative Methods with Julia.md",
-    "Topics/6 Computational Methods/Iterative Methods with Python.md",
-    "Topics/6 Computational Methods/Iterative Methods.md",
-    "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md",
-    "Topics/5 EigenProblems/Rayleigh Quotients.md",
-    "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md"
+    "Topics/6 Computational Methods/Iterative Methods with Julia.md"
   ]
 }

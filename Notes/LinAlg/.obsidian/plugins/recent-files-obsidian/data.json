@@ -1,6 +1,26 @@
 {
   "recentFiles": [
     {
+      "basename": "01 Scalars Vectors  Matrices",
+      "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
+    },
+    {
+      "basename": "INDEX",
+      "path": "INDEX.md"
+    },
+    {
+      "basename": "04 Vector and Matrix Algebra",
+      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
+    },
+    {
+      "basename": "03 Matrix Multiplication",
+      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
+    },
+    {
+      "basename": "02 Addition Scalar Multiplication Dot product",
+      "path": "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md"
+    },
+    {
       "basename": "11 The Inverse of a Matrix",
       "path": "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md"
     },
@@ -149,22 +169,6 @@
       "path": "Topics/1 Basic Operations/Matrix Multiplication Summary.md"
     },
     {
-      "basename": "04 Vector and Matrix Algebra",
-      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
-    },
-    {
-      "basename": "03 Matrix Multiplication",
-      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
-    },
-    {
-      "basename": "02 Addition Scalar Multiplication Dot product",
-      "path": "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md"
-    },
-    {
-      "basename": "01 Scalars Vectors  Matrices",
-      "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
-    },
-    {
       "basename": "202205271436 - Note Refactoring",
       "path": "Permanent Notes/HowTo/202205271436 - Note Refactoring.md"
     },
@@ -195,10 +199,6 @@
     {
       "basename": "zoo-quickref annotation",
       "path": "Fleeting Notes/zoo-quickref annotation.md"
-    },
-    {
-      "basename": "zoo-quickref",
-      "path": "Fleeting Notes/zoo-quickref.pdf"
     }
   ],
   "omittedPaths": [
