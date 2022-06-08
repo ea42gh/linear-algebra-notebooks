@@ -4,15 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "de0d2b572bf6825a",
+        "id": "024ae128c853a230",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Topics/6 Computational Methods/Randomized SVD.md",
-            "mode": "source",
-            "source": false
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -86,7 +82,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Topics/6 Computational Methods/Randomized SVD.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -130,7 +125,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Topics/6 Computational Methods/Randomized SVD.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -205,8 +199,10 @@
     "direction": "horizontal",
     "width": 281.2394714355469
   },
-  "active": "de0d2b572bf6825a",
+  "active": "024ae128c853a230",
   "lastOpenFiles": [
+    "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md",
+    "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md",
     "Topics/6 Computational Methods/Randomized SVD.md",
     "Topics/6 Computational Methods/other Iteration Examples.md",
     "Topics/6 Computational Methods/Iterative Methods with Julia.md",
@@ -214,8 +210,6 @@
     "Topics/6 Computational Methods/Iterative Methods.md",
     "Topics/5 EigenProblems/The Hamilton  Cayley Theorem.md",
     "Topics/5 EigenProblems/Rayleigh Quotients.md",
-    "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md",
-    "Topics/5 EigenProblems/29 SVD Applications.md",
-    "Topics/5 EigenProblems/28 The Pseudo Inverse.md"
+    "Topics/4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md"
   ]
 }

@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "11 The Inverse of a Matrix",
+      "path": "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md"
+    },
+    {
+      "basename": "20 Length and Orthogonality",
+      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
+    },
+    {
       "basename": "Randomized SVD",
       "path": "Topics/6 Computational Methods/Randomized SVD.md"
     },
@@ -39,10 +47,6 @@
     {
       "basename": "28 The Pseudo Inverse",
       "path": "Topics/5 EigenProblems/28 The Pseudo Inverse.md"
-    },
-    {
-      "basename": "20 Length and Orthogonality",
-      "path": "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md"
     },
     {
       "basename": "27 The Singular Value Decomposition (SVD)",
@@ -123,10 +127,6 @@
     {
       "basename": "12 LU Decomposition",
       "path": "Topics/2 Gaussian Elimination and Consequences/12 LU Decomposition.md"
-    },
-    {
-      "basename": "11 The Inverse of a Matrix",
-      "path": "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md"
     },
     {
       "basename": "08 Linear Independence",
