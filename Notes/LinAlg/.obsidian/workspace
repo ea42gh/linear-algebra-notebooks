@@ -132,7 +132,7 @@
               "state": {
                 "file": "Topics/6 Computational Methods/Randomized SVD.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               }
             }
           },
@@ -169,7 +169,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       },
       {
         "id": "664e7e08e787b064",
