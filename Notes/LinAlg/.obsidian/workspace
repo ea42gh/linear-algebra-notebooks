@@ -41,7 +41,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#HowTo/math",
+                "query": "tag:#operations",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -50,7 +50,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "4470acb136677a04",
@@ -69,7 +70,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 313.5068016052246
+    "width": 313.5068016052246,
+    "collapsed": true
   },
   "right": {
     "id": "d03cfb8e4965b34f",
@@ -202,7 +204,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 330.0420227050781
+    "width": 330.0420227050781,
+    "collapsed": true
   },
   "active": "024ae128c853a230",
   "lastOpenFiles": [

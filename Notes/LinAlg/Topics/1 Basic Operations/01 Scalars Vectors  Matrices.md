@@ -10,6 +10,7 @@ next: [[02 Addition Scalar Multiplication Dot product]]
 ---
 
 File: [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/01_ScalarsVectorsMatrices.ipynb)
+[new tab, same server](http://localhost:8888/lab/workspaces/auto-K/tree/NOTEBOOKS/file:///home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/01_ScalarsVectorsMatrices.ipynb)
 
 # 1. Introduction
 ## 1.1 Scalars
@@ -21,3 +22,4 @@ File: [notebook](file:/home/lab/NOTEBOOKS/elementary-linear-algebra/notebooks/01
 ## 3.1 Arrows
 ## 3.2 Functions
 # 4. Take Away
+
