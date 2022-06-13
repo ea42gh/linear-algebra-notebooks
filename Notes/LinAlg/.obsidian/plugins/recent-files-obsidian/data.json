@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "ff Add Link from Clipboard",
+      "path": "templates/ff Add Link from Clipboard.md"
+    },
+    {
       "basename": "01 Scalars Vectors  Matrices",
       "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
     },
@@ -175,30 +179,6 @@
     {
       "basename": "DataView_0",
       "path": "Permanent Notes/Experiments/DataView_0.md"
-    },
-    {
-      "basename": "DataView_3",
-      "path": "Permanent Notes/Experiments/DataView_3.md"
-    },
-    {
-      "basename": "DataView_1",
-      "path": "Permanent Notes/Experiments/DataView_1.md"
-    },
-    {
-      "basename": "202205262241 - Image in Editor",
-      "path": "Permanent Notes/HowTo/202205262241 - Image in Editor.md"
-    },
-    {
-      "basename": "202205261710 - Annotate Pdf",
-      "path": "Permanent Notes/HowTo/202205261710 - Annotate Pdf.md"
-    },
-    {
-      "basename": "PDF Annotation",
-      "path": "Templates/PDF Annotation.md"
-    },
-    {
-      "basename": "zoo-quickref annotation",
-      "path": "Fleeting Notes/zoo-quickref annotation.md"
     }
   ],
   "omittedPaths": [

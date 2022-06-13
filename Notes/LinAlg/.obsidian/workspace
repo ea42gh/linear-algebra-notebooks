@@ -4,15 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "024ae128c853a230",
+        "id": "ff5ea88c052d2fef",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
-            "mode": "source",
-            "source": false
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -86,7 +82,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -122,7 +117,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -197,17 +191,16 @@
     "width": 330.0420227050781,
     "collapsed": true
   },
-  "active": "024ae128c853a230",
+  "active": "ff5ea88c052d2fef",
   "lastOpenFiles": [
+    "Topics/20220613_foo.md",
+    "Topics/20220613_foo.md",
+    "templates/ff Add Link from Clipboard.md",
+    "templates/templatesJS/youtube.js.md",
+    "templates/ss Youtube.md",
+    "Topics/20220613_fooo.md",
+    "templates/Highlightr.md",
     "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
-    "INDEX.md",
-    "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md",
-    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
-    "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
-    "Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md",
-    "Topics/4. Length of Vectors and Matrices/20 Length and Orthogonality.md",
-    "Topics/6 Computational Methods/Randomized SVD.md",
-    "Topics/6 Computational Methods/other Iteration Examples.md",
-    "Topics/6 Computational Methods/Iterative Methods with Julia.md"
+    "INDEX.md"
   ]
 }
