@@ -1,8 +1,12 @@
 {
   "recentFiles": [
     {
-      "basename": "Untitled",
-      "path": "Untitled.md"
+      "basename": "HowTo",
+      "path": "HowTo.md"
+    },
+    {
+      "basename": "ff Add Note",
+      "path": "Templates/ff Add Note.md"
     },
     {
       "basename": "01 Scalars Vectors  Matrices",
@@ -23,10 +27,6 @@
     {
       "basename": "INDEX",
       "path": "INDEX.md"
-    },
-    {
-      "basename": "ff Add Note",
-      "path": "Templates/ff Add Note.md"
     },
     {
       "basename": "ff Add Link from Clipboard",
