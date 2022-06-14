@@ -1,0 +1,57 @@
+for i in \
+'4. Length of Vectors and Matrices/21 Linear Transformations, Normal Equations.md' \
+'4. Length of Vectors and Matrices/other Least Mean Squares.md' \
+'4. Length of Vectors and Matrices/22 QR Decomposition.md' \
+'4. Length of Vectors and Matrices/20 Length and Orthogonality.md' \
+'4. Length of Vectors and Matrices/Regression.md' \
+'4. Length of Vectors and Matrices/30 Vector and Matrix Norms.md' \
+'4. Length of Vectors and Matrices/21a Linear Transformations, Gram-Schmidt.md' \
+'4. Length of Vectors and Matrices/other Least Squares Fitting.md' \
+'4. Length of Vectors and Matrices/13 The Wedge Product.md' \
+'4. Length of Vectors and Matrices/14 Determinants.md' \
+'4. Length of Vectors and Matrices/23 Metric Spaces.md' \
+'8 Appendices/A2 Matrix Layout Displays.md' \
+'8 Appendices/GE Layout Display.md' \
+'8 Appendices/A1 Analytic Geometry.md' \
+'3 Linear Transformations/10c Linear Transformations with GeoGebra.md' \
+'3 Linear Transformations/10a Linear Transformations Examples.md' \
+'3 Linear Transformations/other Geogebra.md' \
+'3 Linear Transformations/09 Linear Transformations.md' \
+'3 Linear Transformations/10b Linear Tansformation Examples.md' \
+'3 Linear Transformations/other Projections.md' \
+'5 EigenProblems/Rayleigh Quotients.md' \
+'5 EigenProblems/26 The Gram Matrix.md' \
+'5 EigenProblems/17 Eigen Analysis.md' \
+'5 EigenProblems/5. EigenProblems.md' \
+'5 EigenProblems/TheHamilton Cayley Theorem.md' \
+'5 EigenProblems/29 SVD Applications.md' \
+'5 EigenProblems/24 The Spectral Theorem.md' \
+'5 EigenProblems/28 The Pseudo Inverse.md' \
+'5 EigenProblems/18 Eigen Computations.md' \
+'5 EigenProblems/27 The Singular Value Decomposition (SVD).md' \
+'5 EigenProblems/25 Positive Definite Matrices.md' \
+'5 EigenProblems/19 Diagonalization of Matrices.md' \
+'1 Basic Operations/Matrix Multiplication Summary.md' \
+'1 Basic Operations/04 Vector and Matrix Algebra.md' \
+'1 Basic Operations/01 Scalars, Vectors, Matrices.md' \
+'1 Basic Operations/03 Matrix Multiplication.md' \
+'1 Basic Operations/02 Addition, Scalar Multiplication, Dot product.md' \
+'6 Computational Methods/Randomized SVD.md' \
+'6 Computational Methods/Iterative Methods with Julia.md' \
+'6 Computational Methods/Iterative Methods.md' \
+'6 Computational Methods/Iterative Methods with Python.md' \
+'6 Computational Methods/other Iteration Examples.md' \
+'2 Gaussian Elimination and Consequences/08 Linear Independence.md' \
+'2 Gaussian Elimination and Consequences/06 Gaussian Elimination - Elementary Operations.md' \
+'2 Gaussian Elimination and Consequences/other Three Bases Example.md' \
+'2 Gaussian Elimination and Consequences/16 Basis fo a Vector Space.md' \
+'2 Gaussian Elimination and Consequences/The Fourier Matrix.md' \
+'2 Gaussian Elimination and Consequences/07 Gaussian Elimination Algorithm.md' \
+'2 Gaussian Elimination and Consequences/12 LU Decomposition.md' \
+'2 Gaussian Elimination and Consequences/05 Rowechelon Form Systems.md' \
+'2 Gaussian Elimination and Consequences/15 Vector Spaces.md' \
+'2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md'
+do
+echo ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; $i"
+grep FIX "$i"
+done

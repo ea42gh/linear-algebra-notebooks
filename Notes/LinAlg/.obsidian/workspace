@@ -4,24 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "bfe2cacae4d2ce98",
+        "id": "4677c9edd9af4e06",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "INDEX.md",
-            "mode": "source",
-            "source": false
-          }
-        }
-      },
-      {
-        "id": "3509491d37681daa",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "INDEX.md",
+            "file": "HowTo.md",
             "mode": "source",
             "source": false
           }
@@ -53,13 +41,48 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#HowTo/math",
+                "query": "tag:#operations",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
+            }
+          },
+          {
+            "id": "e51999850a3a2127",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "1c281d5ea816695a",
+            "type": "leaf",
+            "state": {
+              "type": "juggl_nodes",
+              "state": {}
+            }
+          },
+          {
+            "id": "21ed9577147b1cee",
+            "type": "leaf",
+            "state": {
+              "type": "juggl_style",
+              "state": {}
+            }
+          },
+          {
+            "id": "6ed118c5b453022e",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
             }
           }
         ]
@@ -90,6 +113,7 @@
       {
         "id": "30897a24a7517720",
         "type": "tabs",
+        "dimension": 31.490384615384613,
         "children": [
           {
             "id": "a4918e9bc430af41",
@@ -97,82 +121,101 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INDEX.md",
+                "file": "HowTo.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
                 "showSearch": true,
                 "searchQuery": "",
-                "backlinkCollapsed": false,
+                "backlinkCollapsed": true,
                 "unlinkedCollapsed": false
               }
             }
           },
           {
-            "id": "562649b0eb0e569b",
+            "id": "4c31851809ebc77d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "HowTo.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": false
+              }
+            }
+          },
+          {
+            "id": "54884632ae430254",
+            "type": "leaf",
+            "state": {
+              "type": "BC-matrix",
+              "state": {}
+            }
+          },
+          {
+            "id": "193a91b9e339bf2d",
+            "type": "leaf",
+            "state": {
+              "type": "BC-tree",
+              "state": {}
+            }
+          },
+          {
+            "id": "7fc96688cb943bc5",
             "type": "leaf",
             "state": {
               "type": "git-view",
               "state": {}
             }
-          },
+          }
+        ],
+        "currentTab": 4
+      },
+      {
+        "id": "664e7e08e787b064",
+        "type": "tabs",
+        "dimension": 44.471153846153854,
+        "children": [
           {
-            "id": "6ed118c5b453022e",
-            "type": "leaf",
-            "state": {
-              "type": "advanced-tables-toolbar",
-              "state": {}
-            }
-          },
-          {
-            "id": "e51999850a3a2127",
-            "type": "leaf",
-            "state": {
-              "type": "tag",
-              "state": {
-                "sortOrder": "frequency",
-                "useHierarchy": true
-              }
-            }
-          },
-          {
-            "id": "9d6e45519289f259",
+            "id": "6b76bf8e84fd702a",
             "type": "leaf",
             "state": {
               "type": "calendar",
               "state": {}
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "439b170363ffcd52",
+        "type": "tabs",
+        "dimension": 24.038461538461537,
+        "children": [
           {
-            "id": "c02cb60af9efa8f9",
+            "id": "b14bc6699827de10",
             "type": "leaf",
             "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "INDEX.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              }
+              "type": "timeline",
+              "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 281.2394714355469
+    "width": 541.2352294921875
   },
-  "active": "3509491d37681daa",
+  "active": "4677c9edd9af4e06",
   "lastOpenFiles": [
+    "HowTo.md",
+    "Templates/ff Add Note.md",
+    "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
+    "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
+    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+    "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md",
     "INDEX.md",
-    "04 Matrix Multiplication.md",
-    "03 Matrix Multiplication.md",
-    "other Projections.md",
-    "other Three Bases Example.md",
-    "other Least Squares Fitting.md",
-    "other Least Mean Squares.md",
-    "other Iteration Examples.md",
-    "other Geogebra.md",
-    "Matrix Multiplication Summary.md"
+    "Templates/ff Add Link from Clipboard.md",
+    "Topics/20220613_foo.md",
+    "Generate Problems.md"
   ]
 }
