@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "INDEX.md",
+            "file": "Untitled.md",
             "mode": "source",
             "source": false
           }
@@ -85,8 +85,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 5
+        ]
       },
       {
         "id": "4470acb136677a04",
@@ -122,7 +121,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INDEX.md",
+                "file": "Untitled.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -139,7 +138,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "INDEX.md",
+                "file": "Untitled.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -208,15 +207,15 @@
   },
   "active": "a42b14c39d89126e",
   "lastOpenFiles": [
-    "INDEX.md",
     "Untitled.md",
+    "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
+    "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
+    "Topics/1 Basic Operations/03 Matrix Multiplication.md",
+    "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md",
+    "INDEX.md",
     "Templates/ff Add Note.md",
     "Templates/ff Add Link from Clipboard.md",
     "Topics/20220613_foo.md",
-    "Generate Problems.md",
-    "templates/templatesJS/youtube.js.md",
-    "templates/ss Youtube.md",
-    "Topics/20220613_fooo.md",
-    "templates/Highlightr.md"
+    "Generate Problems.md"
   ]
 }

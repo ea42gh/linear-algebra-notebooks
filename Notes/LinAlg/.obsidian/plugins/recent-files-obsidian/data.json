@@ -1,6 +1,26 @@
 {
   "recentFiles": [
     {
+      "basename": "Untitled",
+      "path": "Untitled.md"
+    },
+    {
+      "basename": "01 Scalars Vectors  Matrices",
+      "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
+    },
+    {
+      "basename": "02 Addition Scalar Multiplication Dot product",
+      "path": "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md"
+    },
+    {
+      "basename": "03 Matrix Multiplication",
+      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
+    },
+    {
+      "basename": "04 Vector and Matrix Algebra",
+      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
+    },
+    {
       "basename": "INDEX",
       "path": "INDEX.md"
     },
@@ -15,22 +35,6 @@
     {
       "basename": "Generate Problems",
       "path": "Generate Problems.md"
-    },
-    {
-      "basename": "01 Scalars Vectors  Matrices",
-      "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
-    },
-    {
-      "basename": "04 Vector and Matrix Algebra",
-      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
-    },
-    {
-      "basename": "03 Matrix Multiplication",
-      "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
-    },
-    {
-      "basename": "02 Addition Scalar Multiplication Dot product",
-      "path": "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md"
     },
     {
       "basename": "11 The Inverse of a Matrix",
