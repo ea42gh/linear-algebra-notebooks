@@ -13,7 +13,6 @@
   "obsidian-latex-suite",
   "obsidian-map-view",
   "multi-column-markdown",
-  "obsidian-git",
   "oz-image-plugin",
   "periodic-notes",
   "obsidian-plotly",
@@ -22,5 +21,6 @@
   "tag-wrangler",
   "breadcrumbs",
   "juggl",
-  "templater-obsidian"
+  "templater-obsidian",
+  "obsidian-git"
 ]

@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "INDEX",
+      "path": "INDEX.md"
+    },
+    {
       "basename": "ff Add Note",
       "path": "Templates/ff Add Note.md"
     },
@@ -9,20 +13,12 @@
       "path": "Templates/ff Add Link from Clipboard.md"
     },
     {
-      "basename": "Untitled",
-      "path": "Untitled.md"
-    },
-    {
       "basename": "Generate Problems",
       "path": "Generate Problems.md"
     },
     {
       "basename": "01 Scalars Vectors  Matrices",
       "path": "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md"
-    },
-    {
-      "basename": "INDEX",
-      "path": "INDEX.md"
     },
     {
       "basename": "04 Vector and Matrix Algebra",
