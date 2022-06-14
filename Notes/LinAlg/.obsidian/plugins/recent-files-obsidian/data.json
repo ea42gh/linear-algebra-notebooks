@@ -1,8 +1,20 @@
 {
   "recentFiles": [
     {
+      "basename": "ff Add Note",
+      "path": "Templates/ff Add Note.md"
+    },
+    {
       "basename": "ff Add Link from Clipboard",
-      "path": "templates/ff Add Link from Clipboard.md"
+      "path": "Templates/ff Add Link from Clipboard.md"
+    },
+    {
+      "basename": "Untitled",
+      "path": "Untitled.md"
+    },
+    {
+      "basename": "Generate Problems",
+      "path": "Generate Problems.md"
     },
     {
       "basename": "01 Scalars Vectors  Matrices",
