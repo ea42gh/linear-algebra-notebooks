@@ -40,7 +40,7 @@
     "pip": false,
     "fullscreen": true
   },
-  "timestampTemplate": "\n{{TIMESTAMP}}\n",
+  "timestampTemplate": "\n{{TIMESTAMP}} <% tp.file.cursor(0) %>\n",
   "timestampOffset": 0,
   "hideEmbedControls": false
 }
