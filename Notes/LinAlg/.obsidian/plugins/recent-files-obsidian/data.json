@@ -5,6 +5,10 @@
       "path": "HowTo.md"
     },
     {
+      "basename": "Generate Problems",
+      "path": "Generate Problems.md"
+    },
+    {
       "basename": "ff Add Note",
       "path": "Templates/ff Add Note.md"
     },
@@ -31,10 +35,6 @@
     {
       "basename": "ff Add Link from Clipboard",
       "path": "Templates/ff Add Link from Clipboard.md"
-    },
-    {
-      "basename": "Generate Problems",
-      "path": "Generate Problems.md"
     },
     {
       "basename": "11 The Inverse of a Matrix",
