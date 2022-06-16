@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "04 Vector and Matrix Algebra",
+      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
+    },
+    {
       "basename": "HowTo",
       "path": "HowTo.md"
     },
@@ -23,10 +27,6 @@
     {
       "basename": "03 Matrix Multiplication",
       "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
-    },
-    {
-      "basename": "04 Vector and Matrix Algebra",
-      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
     },
     {
       "basename": "INDEX",

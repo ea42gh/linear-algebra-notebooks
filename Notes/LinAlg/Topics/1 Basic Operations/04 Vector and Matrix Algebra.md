@@ -9,7 +9,7 @@ up: [[INDEX]]
 next: [[05 Rowechelon Form Systems]]
 ---
 
-04_MatrixAlgebra.ipynb
+[Lecture 04:  Matrix_algebra]( jupyter_link NOTEBOOKS/elementary_linear_algebra/notebooks/04_MatrixAlgebra.ipynb)
 
 # 1. Algebra
 ## 1.1 Preliminary Remarks: Addition and Scalar Multiplication

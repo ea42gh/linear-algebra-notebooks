@@ -4,15 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "c854b21a423a011d",
+        "id": "d589ddf87f18f731",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "HowTo.md",
-            "mode": "source",
-            "source": false
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -121,7 +117,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HowTo.md",
                 "collapseAll": false,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -138,7 +133,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HowTo.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -205,8 +199,10 @@
     "direction": "horizontal",
     "width": 541.2352294921875
   },
-  "active": "c854b21a423a011d",
+  "active": "d589ddf87f18f731",
   "lastOpenFiles": [
+    "jupyter_link.md",
+    "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md",
     "HowTo.md",
     "Topics/20220615_foo.md",
     "Generate Problems.md",
@@ -214,8 +210,6 @@
     "Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
     "Topics/1 Basic Operations/02 Addition Scalar Multiplication Dot product.md",
     "Topics/1 Basic Operations/03 Matrix Multiplication.md",
-    "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md",
-    "INDEX.md",
-    "Templates/ff Add Link from Clipboard.md"
+    "INDEX.md"
   ]
 }
