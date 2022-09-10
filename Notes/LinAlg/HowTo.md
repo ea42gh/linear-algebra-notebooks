@@ -24,3 +24,7 @@ up: [[INDEX]]
 
 [lecture 1](http://localhost:8888/lab/tree/NOTEBOOKS/elementary-linear-algebra/notebooks/01_ScalarsVectorsMatrices.ipynb)
 
+
+## Obsidian Media Extended: The Best Way To Take Notes On Videos 🎥️ - YouTube
+▬▬▬▬▬▬▬▬▬▬ ► CHECK THESE OUT ◀︎▬▬▬▬▬▬▬▬▬▬📧️ NEWSLETTER: https://bryanjenkstech.ck.page/d4ec0713d5💬 DISCORD:  https://discord.gg/MxCVshN🗣️ SOCIALS:  https:...
+[Obsidian Media Extended: The Best Way To Take Notes On Videos 🎥️ - YouTube](https://www.youtube.com/watch?v=GQXVWtNkeZw)

@@ -1,8 +1,16 @@
 {
   "recentFiles": [
     {
+      "basename": "04 Vector and Matrix Algebra",
+      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
+    },
+    {
       "basename": "HowTo",
       "path": "HowTo.md"
+    },
+    {
+      "basename": "Generate Problems",
+      "path": "Generate Problems.md"
     },
     {
       "basename": "ff Add Note",
@@ -21,20 +29,12 @@
       "path": "Topics/1 Basic Operations/03 Matrix Multiplication.md"
     },
     {
-      "basename": "04 Vector and Matrix Algebra",
-      "path": "Topics/1 Basic Operations/04 Vector and Matrix Algebra.md"
-    },
-    {
       "basename": "INDEX",
       "path": "INDEX.md"
     },
     {
       "basename": "ff Add Link from Clipboard",
       "path": "Templates/ff Add Link from Clipboard.md"
-    },
-    {
-      "basename": "Generate Problems",
-      "path": "Generate Problems.md"
     },
     {
       "basename": "11 The Inverse of a Matrix",
