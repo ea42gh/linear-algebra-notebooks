@@ -66,6 +66,7 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
 #    MINIFORGE_VERSION="${miniforge_version}"
 RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
     rm Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh && \
+    echo "========================================================================= HAVE conda" && \
     echo "conda ${CONDA_VER}" >> $CONDA_DIR/conda-meta/pinned && \
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true
@@ -96,7 +97,7 @@ RUN chown $NB_USER:$NB_GID $CONDA_DIR && \
     fix-permissions "${CONDA_DIR}"
 
 USER $NB_UID
-ARG PYTHON_VERSION="3.10"
+ARG PYTHON_VERSION="3.10.9"
 
 # Setup work directory for backward-compatibility
 RUN mkdir "/home/$NB_USER/work" && \
