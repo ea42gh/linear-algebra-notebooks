@@ -49,7 +49,8 @@ RUN apt-get update --yes && \
 ARG CONDA_VER="latest"
 ARG OS_TYPE="x86_64"
 ARG CONDA_DIR="/opt//conda"
-RUN curl -LO "http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh"
+RUN wget --quiet "http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh"
+#RUN curl -LO "http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh"
 RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
     rm Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh && \
     echo "conda ${CONDA_VER}" >> $CONDA_DIR/conda-meta/pinned && \
