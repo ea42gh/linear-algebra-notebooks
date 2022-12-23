@@ -19,14 +19,15 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 
 # =====================================================================   base notebook
-ARG conda_version="4.10.1"
-ARG miniforge_patch_number="0"
-ARG miniforge_arch="x86_64"
-ARG miniforge_python="Mambaforge"
+#ARG conda_version="4.10.1"
+#ARG miniforge_patch_number="0"
+#ARG miniforge_arch="x86_64"
+#ARG miniforge_python="Mambaforge"
 
-ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
-ARG miniforge_installer="${miniforge_python}-${miniforge_version}-Linux-${miniforge_arch}.sh"
-ARG miniforge_checksum="d4065b376f81b83cfef0c7316f97bb83337e4ae27eb988828363a578226e3a62"
+#ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
+#ARG miniforge_installer="${miniforge_python}-${miniforge_version}-Linux-${miniforge_arch}.sh"
+#ARG miniforge_checksum="d4065b376f81b83cfef0c7316f97bb83337e4ae27eb988828363a578226e3a62"
+
 
 # Install all OS dependencies for notebook server that starts but lacks all features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
@@ -44,6 +45,17 @@ RUN apt-get update --yes && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
 
+# Miniconda
+ARG CONDA_VER="latest"
+ARG OS_TYPE="x86_64"
+ARG CONDA_DIR="/opt//conda"
+RUN curl -LO "http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh"
+RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
+    rm Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh && \
+    echo "conda ${CONDA_VER}" >> $CONDA_DIR/conda-meta/pinned && \
+    conda config --system --set auto_update_conda false && \
+    conda config --system --set show_channel_urls true
+
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
@@ -55,8 +67,9 @@ ENV CONDA_DIR=/opt/conda \
     LANGUAGE=en_US.UTF-8
 ENV PATH=$CONDA_DIR/bin:$PATH \
     HOME=/home/$NB_USER \
-    CONDA_VERSION="${conda_version}" \
-    MINIFORGE_VERSION="${miniforge_version}"
+    CONDA_VERSION="${CONDA_VER}"
+#    MINIFORGE_VERSION="${miniforge_version}"
+
 
 # Copy a script that we will use to correct permissions after running certain commands
 COPY binder/fix-permissions /usr/local/bin/fix-permissions
@@ -75,14 +88,14 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
     useradd -l -m -s /bin/bash -N -g users -u $NB_UID $NB_USER
 
-RUN mkdir -p $CONDA_DIR && \
-    chown $NB_USER:$NB_GID $CONDA_DIR && \
+#RUN mkdir -p $CONDA_DIR &&
+RUN chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd && \
     fix-permissions "${HOME}" && \
     fix-permissions "${CONDA_DIR}"
 
 USER $NB_UID
-ARG PYTHON_VERSION="3.8"
+ARG PYTHON_VERSION="3.10"
 
 # Setup work directory for backward-compatibility
 RUN mkdir "/home/$NB_USER/work" && \
@@ -92,24 +105,25 @@ RUN mkdir "/home/$NB_USER/work" && \
 WORKDIR /tmp
 
 # Prerequisites installation: conda, mamba, pip, tini
-RUN wget --quiet "https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/${miniforge_installer}" && \
-    echo "${miniforge_checksum} *${miniforge_installer}" | sha256sum --check && \
-    /bin/bash "${miniforge_installer}" -f -b -p $CONDA_DIR && \
-    rm "${miniforge_installer}" && \
-    # Conda configuration see https://conda.io/projects/conda/en/latest/configuration.html
-    echo "conda ${CONDA_VERSION}" >> $CONDA_DIR/conda-meta/pinned && \
-    conda config --system --set auto_update_conda false && \
-    conda config --system --set show_channel_urls true && \
-    if [ ! $PYTHON_VERSION = 'default' ]; then conda install --yes python=$PYTHON_VERSION; fi && \
-    conda list python | grep '^python ' | tr -s ' ' | cut -d '.' -f 1,2 | sed 's/$/.*/' >> $CONDA_DIR/conda-meta/pinned && \
-    conda install --quiet --yes \
-    "conda=${CONDA_VERSION}" \
-    'pip' && \
-    conda update --all --quiet --yes && \
-    conda clean --all -f -y && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+# RUN wget --quiet "https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/${miniforge_installer}" && \
+#     echo "${miniforge_checksum} *${miniforge_installer}" | sha256sum --check && \
+#     /bin/bash "${miniforge_installer}" -f -b -p $CONDA_DIR && \
+#     rm "${miniforge_installer}" && \
+#     # Conda configuration see https://conda.io/projects/conda/en/latest/configuration.html
+#     echo "conda ${CONDA_VERSION}" >> $CONDA_DIR/conda-meta/pinned && \
+#     conda config --system --set auto_update_conda false && \
+#     conda config --system --set show_channel_urls true && \
+
+RUN \
+     if [ ! $PYTHON_VERSION = 'default' ]; then conda install --yes python=$PYTHON_VERSION; fi && \
+     conda list python | grep '^python ' | tr -s ' ' | cut -d '.' -f 1,2 | sed 's/$/.*/' >> $CONDA_DIR/conda-meta/pinned && \
+     conda install --quiet --yes \
+     'pip' && \
+     conda update --all --quiet --yes && \
+     conda clean --all -f -y && \
+     rm -rf /home/$NB_USER/.cache/yarn && \
+     fix-permissions "${CONDA_DIR}" && \
+     fix-permissions "/home/${NB_USER}"
 
 # Install Jupyter Notebook, Lab, and Hub
 #     Generate a notebook server config
@@ -182,7 +196,7 @@ RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://julialang.org/downloads/
-ARG julia_version="1.6.1"
+ARG julia_version="1.8.3"
 
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
@@ -370,4 +384,5 @@ RUN code-server --install-extension ms-python.python && \
     SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension RandomFractalsInc.geo-data-viewer && \
     SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension ritwickdey.liveserver
 
+RUN echo "======================================================= <<DONE>>"
 WORKDIR $HOME
