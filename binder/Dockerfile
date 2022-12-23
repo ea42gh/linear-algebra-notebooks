@@ -71,7 +71,6 @@ RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true
 
-RUN conda --list python
 
 # Copy a script that we will use to correct permissions after running certain commands
 COPY binder/fix-permissions /usr/local/bin/fix-permissions
@@ -97,7 +96,7 @@ RUN chown $NB_USER:$NB_GID $CONDA_DIR && \
     fix-permissions "${CONDA_DIR}"
 
 USER $NB_UID
-ARG PYTHON_VERSION="3.10.9"
+ARG PYTHON_VERSION="default"
 
 # Setup work directory for backward-compatibility
 RUN mkdir "/home/$NB_USER/work" && \
