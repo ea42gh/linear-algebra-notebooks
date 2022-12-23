@@ -71,7 +71,7 @@ RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true
 
-
+RUN conda --list python
 
 # Copy a script that we will use to correct permissions after running certain commands
 COPY binder/fix-permissions /usr/local/bin/fix-permissions
@@ -125,7 +125,8 @@ RUN \
      conda clean --all -f -y && \
      rm -rf /home/$NB_USER/.cache/yarn && \
      fix-permissions "${CONDA_DIR}" && \
-     fix-permissions "/home/${NB_USER}"
+     fix-permissions "/home/${NB_USER}" && \
+     echo "========================================================================= HAVE python"
 
 # Install Jupyter Notebook, Lab, and Hub
 #     Generate a notebook server config
@@ -142,7 +143,8 @@ RUN conda install --quiet --yes \
     jupyter lab clean && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+    fix-permissions "/home/${NB_USER}" && \
+     echo "========================================================================= HAVE jupyter"
 
 EXPOSE 8888
 
@@ -187,7 +189,8 @@ RUN apt-get update --yes && \
     tzdata \
     unzip \
     nano-tiny && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+     echo "========================================================================= HAVE texlive"
 
 # Create alternative for nano -> nano-tiny
 RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
@@ -221,7 +224,8 @@ RUN mkdir /etc/julia && \
     # Create JULIA_PKGDIR \
     mkdir "${JULIA_PKGDIR}" && \
     chown "${NB_USER}" "${JULIA_PKGDIR}" && \
-    fix-permissions "${JULIA_PKGDIR}"
+    fix-permissions "${JULIA_PKGDIR}" && \
+    echo "========================================================================= HAVE julia"
 
 USER $NB_UID
 
