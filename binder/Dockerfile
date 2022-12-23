@@ -51,12 +51,6 @@ ARG OS_TYPE="x86_64"
 ARG CONDA_DIR="/opt//conda"
 RUN wget --quiet "http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh"
 #RUN curl -LO "http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh"
-RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
-    rm Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh && \
-    echo "conda ${CONDA_VER}" >> $CONDA_DIR/conda-meta/pinned && \
-    conda config --system --set auto_update_conda false && \
-    conda config --system --set show_channel_urls true
-
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
@@ -70,6 +64,12 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
     HOME=/home/$NB_USER \
     CONDA_VERSION="${CONDA_VER}"
 #    MINIFORGE_VERSION="${miniforge_version}"
+RUN bash Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh -p ${CONDA_DIR} -b && \
+    rm Miniconda3-${CONDA_VER}-Linux-${OS_TYPE}.sh && \
+    echo "conda ${CONDA_VER}" >> $CONDA_DIR/conda-meta/pinned && \
+    conda config --system --set auto_update_conda false && \
+    conda config --system --set show_channel_urls true
+
 
 
 # Copy a script that we will use to correct permissions after running certain commands
