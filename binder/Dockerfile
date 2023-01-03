@@ -308,7 +308,9 @@ RUN pip3 install pycharts
 
 RUN conda install -c conda-forge --yes \
     code-server \
-    panel holoviews hvplot colorcet param datashader \
+    panel holoviews hvplot colorcet param datashader 
+
+RUN conda install -c conda-forge --yes \
     graphviz python-graphviz
 
 USER root
