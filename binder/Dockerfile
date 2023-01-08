@@ -275,6 +275,7 @@ RUN conda install \
     h5py \
     ipympl\
     ipywidgets \
+    julia \
     jupyter_bokeh \
     jupyter-vscode-proxy \
     k3d \
@@ -322,13 +323,6 @@ RUN apt-get update --yes && \
 
 # =====================================================================   start
 #USER root
-
-WORKDIR /tmp
-RUN echo "======================================================= update nicematrix" && \
-    curl -fL -o nicematrix.dtx  "http://mirrors.ctan.org/macros/latex/contrib/nicematrix/nicematrix.dtx" && \
-    curl -fL -o nicematrix.ins  "http://mirrors.ctan.org/macros/latex/contrib/nicematrix/nicematrix.ins" && \
-    latex nicematrix.ins && \
-    cp nicematrix.sty /usr/share/texlive/texmf-dist/tex/latex/nicematrix
 
 #RUN curl https://static.geogebra.org/linux/office@geogebra.org.gpg.key | gpg --dearmor | sudo dd of=/usr/keyrings/riot-archive-keyring.gpg && \
 #    apt-add-repository -u 'deb http://www.geogebra.net/linux/ stable main' && \
