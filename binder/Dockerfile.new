@@ -185,7 +185,7 @@ RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://julialang.org/downloads/
-ARG julia_version="1.6.1"
+ARG julia_version="1.8.2"
 
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
