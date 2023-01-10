@@ -1,2 +1,4 @@
 *.swp
-*.swo
+*.swp
+.ipynb-checkpoints
+notebooks/.ipynb-checkpoints
