@@ -340,7 +340,8 @@ USER $NB_UID
 WORKDIR $HOME
 
 RUN mkdir notebooks
-COPY GenLinAlgProblems $$HOME
+RUN mkdir GenLinAlgProblems
+COPY GenLinAlgProblems $HOME
 COPY notebooks notebooks
 RUN ln -s /tmp tmp
 #RUN jupyter trust $(find notebooks -name '*.ipynb')
