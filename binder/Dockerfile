@@ -200,7 +200,7 @@ RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://julialang.org/downloads/
-ARG julia_version="1.8.3"
+ARG julia_version="1.8.5"
 
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
@@ -249,8 +249,8 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'using Pkg; pkg"add TestImages";    pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add MosaicViews";   pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add PrettyTables";  pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Pluto";         pkg"precompile"' && \
     julia -e 'using Pkg; pkg"add PyCall";        pkg"precompile"' && \
+    julia -e 'using Pkg; pkg"add Resolve";        pkg"precompile"' && \
     # move kernelspec out of home \
     mv "${HOME}/.local/share/jupyter/kernels/julia"* "${CONDA_DIR}/share/jupyter/kernels/" && \
     chmod -R go+rx "${CONDA_DIR}/share/jupyter" && \
@@ -340,6 +340,7 @@ USER $NB_UID
 WORKDIR $HOME
 
 RUN mkdir notebooks
+COPY GenLinAlgProblems $$HOME
 COPY notebooks notebooks
 RUN ln -s /tmp tmp
 #RUN jupyter trust $(find notebooks -name '*.ipynb')
