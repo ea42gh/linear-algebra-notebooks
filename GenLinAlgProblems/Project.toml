@@ -1,0 +1,21 @@
+name = "GenLinAlgProblems"
+uuid = "3c0f76d2-298f-40a4-82ea-fb4356fbbd2d"
+authors = ["ea42gh <ea42_github@mail.com> and contributors"]
+version = "0.1.0"
+
+[deps]
+Hadamard = "4a05ff16-5f95-55f4-bb53-bb3f467c689a"
+Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+RowEchelon = "af85af4c-bcd5-5d23-b03a-a909639aa875"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
