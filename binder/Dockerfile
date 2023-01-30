@@ -232,26 +232,7 @@ USER $NB_UID
 # Install IJulia as jovyan and then move the kernelspec out
 # to the system share location. Avoids problems with runtime UID change not
 # taking effect properly on the .local folder in the jovyan home dir.
-RUN julia -e 'import Pkg; Pkg.update()' && \
-    julia -e 'import Pkg; Pkg.add("HDF5")' && \
-    julia -e 'using Pkg; pkg"add IJulia";        pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add LinearAlgebra"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Hadamard";      pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Random";        pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add RowEchelon";    pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Latexify";      pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add LaTeXStrings";  pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Plots";         pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Interact";      pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add SymPy";         pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Distributions"; pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Images";        pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add TestImages";    pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add MosaicViews";   pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add PrettyTables";  pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add PyCall";        pkg"precompile"' && \
-    julia -e 'using Pkg; pkg"add Resolve";        pkg"precompile"' && \
-    # move kernelspec out of home \
+RUN julia -e 'import Pkg; Pkg.update(); Pkg.add.([ "HDF5", "IJulia", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "MosaicViews", "PrettyTables", "PyCall", "Resolve"])' && \
     mv "${HOME}/.local/share/jupyter/kernels/julia"* "${CONDA_DIR}/share/jupyter/kernels/" && \
     chmod -R go+rx "${CONDA_DIR}/share/jupyter" && \
     rm -rf "${HOME}/.local" && \
