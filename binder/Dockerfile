@@ -322,7 +322,7 @@ WORKDIR $HOME
 
 RUN mkdir notebooks
 RUN mkdir GenLinAlgProblems
-COPY GenLinAlgProblems $HOME
+COPY GenLinAlgProblems GenLinAlgProblems
 COPY notebooks notebooks
 RUN ln -s /tmp tmp
 #RUN jupyter trust $(find notebooks -name '*.ipynb')
