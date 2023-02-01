@@ -22,12 +22,12 @@ export W_4_matrix, Q_4_matrix
 export W_matrix, Q_matrix, sparse_W_matrix, sparse_Q_matrix
 
 # GE and GJ problems
-export particular_solution, homogeneous_solutions
+export split_R_RHS, particular_solution, homogeneous_solutions
 export gen_particular_solution
 export gen_gj_matrix, gen_rhs, gen_gj_pb
 export gen_inv_pb, gen_lu_pb, gen_plu_pb
 
-export reduce_to_ref
+export reduce_to_ref, decorate_ge, ge_variable_type
 
 # normal equation and QR problems
 export ca_projection_matrix
