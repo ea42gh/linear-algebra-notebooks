@@ -2,3 +2,8 @@
 *.swp
 .ipynb-checkpoints
 notebooks/.ipynb-checkpoints
+GenLinAlgProblems/notebooks/.ipynb-checkpoints
+tmp
+notebooks/tmp
+GenLinAlgProblems/tmp
+GenLinAlgProblems/notebooks/tmp
