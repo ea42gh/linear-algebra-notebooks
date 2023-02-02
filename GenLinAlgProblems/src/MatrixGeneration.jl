@@ -170,14 +170,11 @@ end
 # ------------------------------------------------------------------------------
 function gen_gj_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false )
     M,pivot_cols=rref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
-    i = 1
-    for j in pivot_cols
-        M[i,j] = rand([-maxint:-1; 1:maxint])
-        M[i,j+1:end] *= M[i,j]
-        i += 1
-    end
 
-    A = unit_lower(m,maxint=maxint) * unit_lower(m,maxint=maxint)' * M
+    s = ones( Int, n )
+    s[pivot_cols] = rand( [-maxint:-1;1:maxint], r )
+
+    A = unit_lower(m,maxint=maxint) * unit_lower(m,maxint=maxint)' * M * Diagonal(s)
     pivot_cols, A
 end
 # ------------------------------------------------------------------------------

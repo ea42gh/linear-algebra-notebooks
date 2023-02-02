@@ -182,12 +182,13 @@ function decorate_ge( description, m;
         if desc[1] == "elim"   # type, row, col, gj
             loc = (desc[2]-1,desc[3]-1)
             if add
-                for l in level:length(description)+1
+                for l in level:length(description)
                     push!( pivot_locs[l], loc )
                 end
             end
             push!( pivot_list, [(level+1,  0), [(cur_rank,cur_rank)] ])
             push!( bg_list,    [ level+1,  0,  [(cur_rank,cur_rank)], pivot_color ])
+
             push!( path_list,  [ level,    1,  pivot_locs[level],     "vv", path_color ])
 
             # Fix elim display in E
@@ -199,13 +200,10 @@ function decorate_ge( description, m;
 
         elseif desc[1] == "exchange"   # type, row, pivot_row, col
             desired_pivot_loc = (desc[2]-1,desc[4]-1)
-            for l in level+1:length(description)+1
+            for l in level+1:length(description)
                 push!( pivot_locs[l], desired_pivot_loc )
             end
             push!( bg_list, [ level,1, [desired_pivot_loc,(desc[3]-1,desc[4]-1)], missing_pivot_color ])
-
-            #println( "exchange $level: push path $(pivot_locs[level])")
-            #push!( path_list,  [ level+1,    1,  pivot_locs[level+1],     "vv", path_color ])
 
             # add colored box to E at next level
             loc =[ (desc[2]-1,desc[3]-1), (desc[3]-1,desc[2]-1)] 
@@ -272,7 +270,7 @@ function qr_layout(A)
                   [ :none,     W',   WtA,      WtW ],
                   [     S,     Qt,     R,    :none ] ]
 
-    convert_to_latex( matrices )
+    to_latex( matrices )
 end
 # ------------------------------------------------------------------------------
 # -------------------------------------------------------------- Normal Equation

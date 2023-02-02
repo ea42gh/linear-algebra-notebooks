@@ -4,7 +4,7 @@ using Random, Hadamard
 
 # general utility
 export apply_function, factor_out_denominator
-export to_latex, convert_to_latex, print_np_array_def
+export to_latex, print_np_array_def
 export round_value, round_matrices
 
 

@@ -39,7 +39,7 @@ end
 # ------------------------------------------------------------------------------
 to_latex(x) = latexify(x)
 # ------------------------------------------------------------------------------
-function to_latex(x::T) where T <: Real
+function to_latex(x::Real)
     if x < 0  # fix up minus signs
         replace( "-"*latexify(-x), "\$"=>"")
     else
@@ -61,7 +61,7 @@ function to_latex(x::Complex)
     end
 end
 # ------------------------------------------------------------------------------
-function convert_to_latex(matrices)
+function to_latex(matrices::Vector)
     apply_function( to_latex, matrices)
 end
 # -------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ function round_value(x, digits)
     v
 end
 # -------------------------------------------------------------------------------
-function round_value(x::Complex{T}, digits) where T <: Real
+function round_value(x::Complex, digits)
     Complex( round_value(real(x), digits), round_value(imag(x), digits) )
 end
 # ------------------------------------------------------------------------------
