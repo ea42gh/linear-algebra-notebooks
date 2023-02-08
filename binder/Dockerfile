@@ -45,6 +45,8 @@ RUN apt-get update --yes && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
 
+#RUN apt-get install --yes nodejs
+
 # Miniconda
 ARG CONDA_VER="latest"
 ARG OS_TYPE="x86_64"
@@ -132,6 +134,7 @@ RUN \
 #     Cleanup temporary files
 #     Correct permissions
 #     Do all this in a single RUN command to avoid duplicating all of the files across image layers when the permissions change
+RUN conda install --quiet --yes -c conda-forge nodejs
 RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
@@ -285,11 +288,11 @@ RUN conda install \
     fix-permissions "/home/${NB_USER}"
 
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
+#RUN conda install -c conda-forge code-server
 
 RUN pip3 install pycharts
 
-RUN conda install -c conda-forge --yes \
-    code-server \
+RUN conda install -c pyviz --yes \
     panel holoviews hvplot colorcet param datashader 
 
 RUN conda install -c conda-forge --yes \
@@ -360,13 +363,12 @@ RUN \
 RUN echo "======================================================= install itikz"
 RUN pip install git+https://github.com/ea42gh/itikz.git
 
-RUN conda update --all
-
-RUN code-server --install-extension ms-python.python && \
-    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension wesbos.theme-cobalt2 && \
-    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension RandomFractalsInc.vscode-data-preview && \
-    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension RandomFractalsInc.geo-data-viewer && \
-    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension ritwickdey.liveserver
+#RUN conda update --all
+#RUN code-server --install-extension ms-python.python && \
+#    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension wesbos.theme-cobalt2 && \
+#    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension RandomFractalsInc.vscode-data-preview && \
+#    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension RandomFractalsInc.geo-data-viewer && \
+#    SERVICE_URL=https://open-vsx.org/vscode/gallery ITEM_URL=https://open-vsx.org/vscode/item code-server --install-extension ritwickdey.liveserver
 
 RUN echo "======================================================= <<DONE>>"
 WORKDIR $HOME
