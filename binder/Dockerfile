@@ -140,8 +140,7 @@ WORKDIR $HOME
 RUN fix-permissions /opt/conda
 RUN fix-permissions $HOME
 
-ENTRYPOINT ["tini", "-g", "--"]
-CMD ["start-notebook.sh"]
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER $NB_USER
 WORKDIR $HOME
