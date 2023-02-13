@@ -25,7 +25,7 @@ export W_matrix, Q_matrix, sparse_W_matrix, sparse_Q_matrix
 export split_R_RHS, particular_solution, homogeneous_solutions
 export gen_particular_solution
 export gen_gj_matrix, gen_rhs, gen_gj_pb
-export gen_inv_pb, gen_lu_pb, gen_plu_pb
+export gen_inv_pb, gen_lu_pb, gen_plu_pb, gen_ldlt_pb
 
 export reduce_to_ref, decorate_ge, ge_variable_type
 

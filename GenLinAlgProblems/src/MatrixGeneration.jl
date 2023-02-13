@@ -159,7 +159,7 @@ end
 # ------------------------------------------------------------------------------
 function gen_permutation_matrix(n)
     locs = randperm(n)
-    P    = 1I(n)
+    P    = zeros(Int, (n,n))
     for i in 1:n
         P[i,locs[i]] = 1
     end
@@ -216,6 +216,14 @@ function gen_inv_pb(n; maxint=3)
     A, Int64.(round.(A_inv))
 end
 # ------------------------------------------------------------------------------
+function gen_ldlt_pb(m;maxint=3)
+    L   = unit_lower(m,maxint=maxint) 
+    D   = Diagonal( rand( 1:maxint, m))
+
+    A = L * D * L'
+    L, D, A
+end
+# ------------------------------------------------------------------------------
 function gen_lu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     U,pivot_cols = ref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
     rng = _int_range( maxint, false)
@@ -240,9 +248,9 @@ function gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)   #
         end
     end
 
-    L = unit_lower(m,maxint=maxint)
-    A = L * P * U
-    pivot_cols, P, P'L*P, U, A
+    L  = unit_lower(m,maxint = maxint)
+    A  = L * P * U
+    pivot_cols, P, U, A
 end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------- orthogonal matrices
