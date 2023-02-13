@@ -53,10 +53,16 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     sudo \
     locales \
-    texlive-science \
     texlive-pstricks \
-    texlive-pictures \
     texlive-xetex \
+    texlive-fonts-recommended \
+    texlive-plain-generic \
+    texlive-latex-base \
+    texlive-latex-extra \
+    texlive-latex-recommended \
+    texlive-publishers \
+    texlive-science \
+    texlive-pictures \
     latexmk \
     fonts-liberation \
     run-one \
@@ -133,6 +139,9 @@ RUN rm /tmp/*
 WORKDIR $HOME
 RUN fix-permissions /opt/conda
 RUN fix-permissions $HOME
+
+ENTRYPOINT ["tini", "-g", "--"]
+CMD ["start-notebook.sh"]
 
 USER $NB_USER
 WORKDIR $HOME
