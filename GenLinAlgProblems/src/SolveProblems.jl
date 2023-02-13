@@ -336,7 +336,7 @@ function decorate_ge( description, pivot_cols, sizeA;
                 bg_dict[   (level,  0)] = [ level,  0,  pl, missing_pivot_color ]
 
             elseif typeof(desc) == DoScaling
-                pl = [(c,c) for c in 0:M]
+                pl = [(c,c) for c in 0:M-1]
                 pivot_dict[(level,  0)] = [(level,  0), pl ]
                 bg_dict[   (level,  0)] = [ level,  0,  pl, pivot_color ]
             end
