@@ -261,7 +261,7 @@ function decorate_ge( description, pivot_cols, sizeA;
                 row   = desc.row-1
                 col   = desc.col-1
                 first = desc.gj ? 0 : row
-                bg_dict[  (level,1)] = [ level,1,  [(row,col), [(first, col),(M-1,col)]], pivot_color, 1 ]
+                bg_dict[  (level,1)] = [bg_dict[(level,1)], [ level,1,  [(row,col), [(first, col),(M-1,col)]], pivot_color, 1 ]]
 
                 if desc.yes == false
                     path_dict[(level,1)] = [ level,1, plist(desc.pivot_cols), "vh", path_color] 
@@ -288,6 +288,8 @@ function decorate_ge( description, pivot_cols, sizeA;
                 if len != 0
                     pl = plist( desc.pivot_cols )
                     pivot_dict[(level, 1)] = [(level,1), pl ]
+                    bg_dict[   (level, 1)] = [ level,1,  pl, pivot_color ]
+                if level==1 println("3.DBG $level ReqElim: ", bg_dict[(level,1)]); println(".  ", pivot_dict[(level,1)]) end
 
                     path_dict[ (level, 1)] = [ level,1, pl, "vv", path_color] 
                 end
@@ -299,6 +301,7 @@ function decorate_ge( description, pivot_cols, sizeA;
                     if update
                         pivot_dict[(level, 1)] = [(level,  1), pl ]
                         bg_dict[   (level, 1)] = [ level,  1,  pl, pivot_color ]
+                if level==1 println("4.DBG $level ReqElim: ", bg_dict[(level,1)]); println(".  ", pivot_dict[(level,1)]) end
                     end
                     path_dict[(level, 1)] = [ level,  1,  pl, "vh", path_color] 
                 end
@@ -310,6 +313,7 @@ function decorate_ge( description, pivot_cols, sizeA;
                     pivot_dict[(level, 1)] = [(level,  1), pl ]
                     bg_dict[   (level, 1)] = [ level,  1,  pl, pivot_color ]
                     path_dict[ (level, 1)] = [ level,  1,  pl, "vh", path_color] 
+                if level==1 println("5.DBG $level ReqElim: ", bg_dict[(level,1)]); println(".  ", pivot_dict[(level,1)]) end
                 end
                 update = true
             end
