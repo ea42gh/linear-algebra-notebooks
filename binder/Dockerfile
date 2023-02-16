@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook
+FROM jupyter/base-notebook:lab-3.6.1
 
 USER root
 WORKDIR /tmp
