@@ -289,7 +289,6 @@ function decorate_ge( description, pivot_cols, sizeA;
                     pl = plist( desc.pivot_cols )
                     pivot_dict[(level, 1)] = [(level,1), pl ]
                     bg_dict[   (level, 1)] = [ level,1,  pl, pivot_color ]
-                if level==1 println("3.DBG $level ReqElim: ", bg_dict[(level,1)]); println(".  ", pivot_dict[(level,1)]) end
 
                     path_dict[ (level, 1)] = [ level,1, pl, "vv", path_color] 
                 end
@@ -301,7 +300,6 @@ function decorate_ge( description, pivot_cols, sizeA;
                     if update
                         pivot_dict[(level, 1)] = [(level,  1), pl ]
                         bg_dict[   (level, 1)] = [ level,  1,  pl, pivot_color ]
-                if level==1 println("4.DBG $level ReqElim: ", bg_dict[(level,1)]); println(".  ", pivot_dict[(level,1)]) end
                     end
                     path_dict[(level, 1)] = [ level,  1,  pl, "vh", path_color] 
                 end
@@ -313,7 +311,6 @@ function decorate_ge( description, pivot_cols, sizeA;
                     pivot_dict[(level, 1)] = [(level,  1), pl ]
                     bg_dict[   (level, 1)] = [ level,  1,  pl, pivot_color ]
                     path_dict[ (level, 1)] = [ level,  1,  pl, "vh", path_color] 
-                if level==1 println("5.DBG $level ReqElim: ", bg_dict[(level,1)]); println(".  ", pivot_dict[(level,1)]) end
                 end
                 update = true
             end
