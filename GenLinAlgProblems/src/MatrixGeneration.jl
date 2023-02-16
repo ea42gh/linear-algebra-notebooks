@@ -216,9 +216,15 @@ function gen_inv_pb(n; maxint=3)
     A, Int64.(round.(A_inv))
 end
 # ------------------------------------------------------------------------------
-function gen_ldlt_pb(m;maxint=3)
+function gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
     L   = unit_lower(m,maxint=maxint) 
-    D   = Diagonal( rand( 1:maxint, m))
+    p   =  squares ? (1:maxint).^2 : 1:maxint
+    if rank != :none
+        pivots = [rand( p, rank); zeros(Int, m-rank)]
+        D   = Diagonal( pivots )
+    else
+        D   = Diagonal( rand( p, m))
+    end
 
     A = L * D * L'
     L, D, A
@@ -226,7 +232,6 @@ end
 # ------------------------------------------------------------------------------
 function gen_lu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     U,pivot_cols = ref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
-    rng = _int_range( maxint, false)
     L   = unit_lower(m,maxint=maxint) 
 
     A = L * U
