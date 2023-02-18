@@ -39,7 +39,7 @@ USER root
 RUN pip install -U jupyter_contrib_nbextensions
 RUN pip install -U jupyter_nbextensions_configurator
 RUN jupyter contrib nbextension install
-RUN jupyter nbextensions_configurator enable
+RUN jupyter nbextensions_configurator enable --user
 # turn on extensions
 RUN jupyter nbextension enable collapsible_headings/main
 RUN jupyter nbextension enable rubberband/main
