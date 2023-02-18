@@ -7,7 +7,7 @@ Youtube channel for these notebooks:
 
 Binder access to these notebooks:
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=lab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)
 
 The languages used are Julia and Python. The binder environment creates the following directory structure:
 * notebooks  : readonly: the Jupyter notebooks used for the YouTube channel lectures
