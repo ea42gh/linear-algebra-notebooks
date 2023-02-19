@@ -37,9 +37,15 @@ RUN pip install holoviews[recommended]
 USER root
 # enable jupyter extensions
 RUN pip install -U jupyter_contrib_nbextensions
-RUN pip install -U jupyter_nbextensions_configurator
-RUN jupyter contrib nbextension install
-RUN jupyter nbextensions_configurator enable
+
+#RUN jupyter contrib nbextension install
+#RUN pip install -U jupyter_nbextensions_configurator
+#RUN jupyter nbextensions_configurator enable --system
+
+RUN jupyter nbextension install --sys-prefix --py jupyter_nbextensions_configurator --overwrite  && \
+    jupyter nbextension enable --sys-prefix --py jupyter_nbextensions_configurator && \
+    jupyter serverextension enable --sys-prefix --py jupyter_nbextensions_configurator
+
 # turn on extensions
 RUN jupyter nbextension enable collapsible_headings/main
 RUN jupyter nbextension enable rubberband/main
