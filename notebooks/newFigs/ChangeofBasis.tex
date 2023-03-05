@@ -1,0 +1,48 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{ffqqqq}{rgb}{1,0,0}
+
+\definecolor{la_white}{RGB}{233,235,223}   %#E9EBDF
+\definecolor{la_dark}{RGB}{59,54,81}       %#3B3651
+\definecolor{la_gray}{RGB}{96,112,139}     %#60708B
+%\definecolor{la_tan}{RGB}{152,159,122}     %#989F7A
+\definecolor{la_tan}{RGB}{0,0,255}     %#989F7A
+
+
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+    \tikzstyle{every node}=[font=\huge]
+\begin{axis}[
+x=1cm,y=1cm,
+axis lines=middle,
+xmin=-5.7802672940650694,
+xmax=9.828991134236725,
+ymin=-1.6328196699015434,
+ymax=8.343401017005347,
+xtick={-4,-2,...,9},
+ytick={-2,0,...,8},]
+\clip(-5.7802672940650694,-1.6328196699015434) rectangle (9.828991134236725,8.343401017005347);
+\draw [->,line width=2pt,color=la_dark] (0,0) -- (1,0);
+\draw [->,line width=2pt,color=la_dark] (0,0) -- (0,1);
+\draw [->,line width=2pt,color=ffqqqq] (0,0) -- (3,2);
+\draw [->,line width=2pt,color=ffqqqq] (0,0) -- (-3,3);
+\draw [->,line width=2pt] (0,0) -- (1,6);
+\draw [line width=0.8pt,dotted,domain=-5.7802672940650694:9.828991134236725] plot(\x,{(--16--2*\x)/3});
+\draw [line width=0.8pt,dotted,domain=-5.7802672940650694:9.828991134236725] plot(\x,{(-21--3*\x)/-3});
+\draw [line width=0.4pt,dotted,domain=-5.7802672940650694:0] plot(\x,{(-0--3.215322654708023*\x)/-3.177016017937966});
+\draw [line width=0.8pt,dotted,domain=0:9.828991134236725] plot(\x,{(-0--2.79903003963331*\x)/4.20096996036669});
+\begin{scriptsize}
+\draw [fill=la_tan] (1,6) circle (2.5pt);
+\draw[color=la_tan] (3.5,6.5)  node {$\Huge{P = x_1 a_1 + x_2 a_2}$};
+\draw[color=la_dark] (1.1,0.3)   node {$\Huge{e_1}$};
+\draw[color=la_dark] (-0.2,1.2)  node {$\Huge{{e_2}}$};
+\draw[color=ffqqqq] (2.2,0.9)    node {$\Huge{{a}_1}$};
+\draw[color=ffqqqq] (-1.30,2.00) node {$\Huge{{a}_2}$};
+\end{scriptsize}
+\end{axis}
+\end{tikzpicture}
+\end{document}
