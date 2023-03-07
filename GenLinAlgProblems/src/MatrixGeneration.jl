@@ -157,6 +157,15 @@ function i_with_onecol(m,c; maxint=3, with_zeros=false, lower=true, upper=true)
     E
 end
 # ------------------------------------------------------------------------------
+function gen_permutation_matrix(row_order::Vector{Int})
+    n = length(row_order)
+    P = zeros(Int, (n,n))
+    for i in 1:n
+        P[row_order[i],i] = 1
+    end
+    P
+end
+# ------------------------------------------------------------------------------
 function gen_permutation_matrix(n)
     locs = randperm(n)
     P    = zeros(Int, (n,n))
