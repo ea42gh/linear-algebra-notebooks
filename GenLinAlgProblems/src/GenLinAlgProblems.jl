@@ -37,8 +37,13 @@ export gram_schmidt_w, qr_layout
 # eigenproblems
 export gen_eigenproblem, gen_symmetric_eigenproblem, gen_non_diagonalizable_eigenproblem, gen_svd_problem
 
+# display stuff
+export ge
+export to_html, show_html
 
 include("LatexRepresentations.jl")
 include("MatrixGeneration.jl")
 include("SolveProblems.jl")
+include("show_html.jl")
+include("ge.jl")
 end # module GenLinAlgProblems
