@@ -87,9 +87,9 @@ function homogeneous_solutions( R, pivot_cols)
     # homogeneous solution from a reduced row echelon form R
     r = length(pivot_cols)                                                 # rank
     c = findall( j->j==1, [i in pivot_cols ? 0 : 1 for i in 1:size(R,2)] ) # free variable columns
-    H = zeros(Int64, (size(R,2),length(c)))                                   # matrix of homogeneous solutions
-    for j in eachindex( c )                                                   # homogeneous solution vector x_j
-        H[c[j],j] = 1                                                         # set the current free variable entry to 1
+    H = zeros(Int64, (size(R,2),length(c)))                                # matrix of homogeneous solutions
+    for j in eachindex( c )                                                # homogeneous solution vector x_j
+        H[c[j],j] = 1                                                      # set the current free variable entry to 1
         H[pivot_cols,j] = -R[1:r, c[j]]                                    # set the pivot variable values
     end
     H
