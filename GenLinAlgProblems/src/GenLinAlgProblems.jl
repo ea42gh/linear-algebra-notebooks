@@ -1,5 +1,9 @@
 module GenLinAlgProblems
-using LinearAlgebra, Latexify
+using PyCall
+itikz = pyimport("itikz")
+nM    = pyimport("itikz.nicematrix")
+
+using LinearAlgebra, Latexify, SymPy
 using Random, Hadamard
 
 # general utility

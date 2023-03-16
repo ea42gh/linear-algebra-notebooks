@@ -47,6 +47,18 @@ function to_latex(x::Real)
     end
 end
 # ------------------------------------------------------------------------------
+function to_latex(x::SymPy.Sym)
+    replace( latexify(x), "\$"=>"")
+end
+# ------------------------------------------------------------------------------
+function to_latex(x::Real)
+    if x < 0  # fix up minus signs
+        replace( "-"*latexify(-x), "\$"=>"")
+    else
+        replace( latexify(x), "\$"=>"")
+    end
+end
+# ------------------------------------------------------------------------------
 function to_latex(x::Complex)
     if imag(x) == 0
         return to_latex(real(x))
