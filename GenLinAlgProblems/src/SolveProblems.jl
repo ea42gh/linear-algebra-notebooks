@@ -391,7 +391,7 @@ function qr_layout(A)
     to_latex( matrices )
 end
 # ------------------------------------------------------------------------------
-function gram_schmidt_stable(A)
+function gram_schmidt_stable(A; reorthogonalize=false)
     n = size(A, 2)
     Q = similar(A)
     R = zeros(eltype(A), (n, n))
@@ -406,6 +406,21 @@ function gram_schmidt_stable(A)
         if R[j,j] == 0 # Column j is linearly dependent on previous columns
             continue
         end
+ 
+        if reorthogonalize # Reorthogonalize against previous vectors
+            for i in 1:j-1
+                d  = dot(Q[:,i], Q[:,j])
+                v -= d * Q[:,i]
+                R[i,j] += d
+            end
+
+            # Renormalize the vector
+            R[j,j] = norm(v)
+            if R[j,j] == 0 # Column j is linearly dependent on previous columns
+                continue
+            end
+        end
+
         Q[:,j] = v / R[j,j]
     end
 
