@@ -391,6 +391,27 @@ function qr_layout(A)
     to_latex( matrices )
 end
 # ------------------------------------------------------------------------------
+function gram_schmidt_stable(A)
+    n = size(A, 2)
+    Q = similar(A)
+    R = zeros(eltype(A), (n, n))
+
+    for j in 1:n
+        v = A[:,j]
+        for i in 1:j-1
+            R[i,j] = dot(Q[:,i], v)
+            v -= R[i,j] * Q[:,i]
+        end
+        R[j,j] = norm(v)
+        if R[j,j] == 0 # Column j is linearly dependent on previous columns
+            continue
+        end
+        Q[:,j] = v / R[j,j]
+    end
+
+    return Q, R
+end
+# ------------------------------------------------------------------------------
 # -------------------------------------------------------------- Normal Equation
 # ------------------------------------------------------------------------------
 # ==============================================================================

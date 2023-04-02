@@ -14,8 +14,8 @@ export round_value, round_matrices
 
 # matrices for GE and GJ
 export unit_lower, lower, gen_full_col_rank_matrix
-export rref_matrix, symmetric_matrix, skew_symmetric_matrix
-export i_with_onecol
+export ref_matrix, rref_matrix, symmetric_matrix, skew_symmetric_matrix
+export e_i, i_with_onecol
 export gen_permutation_matrix
 
 # matrices for GE and GJ
@@ -36,11 +36,11 @@ export reduce_to_ref, decorate_ge, ge_variable_type
 # normal equation and QR problems
 export ca_projection_matrix
 export gen_qr_problem_3, gen_qr_problem_4, gen_qr_problem
-export gram_schmidt_w, qr_layout
+export gram_schmidt_w, qr_layout, gram_schmidt_stable
 
 # eigenproblems
 export gen_eigenproblem, gen_symmetric_eigenproblem, gen_non_diagonalizable_eigenproblem, gen_svd_problem
-
+export jordan_block, jordan_form, gen_from_jordan_form
 # display stuff
 export ge
 export to_html, show_html
