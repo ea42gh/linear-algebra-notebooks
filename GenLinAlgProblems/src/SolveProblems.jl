@@ -391,37 +391,39 @@ function qr_layout(A)
     to_latex( matrices )
 end
 # ------------------------------------------------------------------------------
-function gram_schmidt_stable(A; reorthogonalize=false)
-    n = size(A, 2)
-    Q = similar(A)
-    R = zeros(eltype(A), (n, n))
+function gram_schmidt_stable(A::Array{T,2}; reorthogonalize=false) where T<:Number
+    """
+    Computes the QR factorization of the input matrix A using the stable Gram-Schmidt algorithm with reorthogonalization.
 
-    for j in 1:n
-        v = A[:,j]
-        for i in 1:j-1
-            R[i,j] = dot(Q[:,i], v)
-            v -= R[i,j] * Q[:,i]
-        end
-        R[j,j] = norm(v)
-        if R[j,j] == 0 # Column j is linearly dependent on previous columns
-            continue
-        end
- 
-        if reorthogonalize # Reorthogonalize against previous vectors
-            for i in 1:j-1
-                d  = dot(Q[:,i], Q[:,j])
-                v -= d * Q[:,i]
-                R[i,j] += d
-            end
+    Parameters:
+    A (Array{T,2}): The input matrix to be factorized.
 
-            # Renormalize the vector
-            R[j,j] = norm(v)
-            if R[j,j] == 0 # Column j is linearly dependent on previous columns
-                continue
+    Returns:
+    Q (Array{T,2}): The orthogonal factor of the QR factorization.
+    R (Array{T,2}): The upper triangular factor of the QR factorization.
+    """
+    m, n = size(A)
+    Q = zeros(T, m, n)
+    R = zeros(T, n, n)
+    E = zeros(T, n, n)
+
+    for j = 1:n
+        v = A[:, j]
+
+        if reorthogonalize              # Reorthogonalization step
+            for i = 1:j-1
+                E[i, j] = dot(Q[:, i], v)
+                v      -= E[i, j] * Q[:, i]
             end
         end
 
-        Q[:,j] = v / R[j,j]
+        R[j, j] = norm(v)               # Stable Gram-Schmidt step
+        Q[:, j] = v / R[j, j]
+
+        for i = j+1:n
+            E[j, i] = dot(Q[:, j], A[:, i])
+            A[:, i] -= E[j, i] * Q[:, j]
+        end
     end
 
     return Q, R

@@ -17,6 +17,11 @@ function factor_out_denominator( A )
     1, A
 end
 # ------------------------------------------------------------------------------
+function factor_out_denominator( A::Vector{Rational{Int}} )
+    d = reduce( lcm, denominator.(A) )
+    d, Int64.(d*A)
+end
+# ------------------------------------------------------------------------------
 function factor_out_denominator( A::Array{Rational{Int64},2} )
     d = reduce( lcm, denominator.(A) )
     d, Int64.(d*A)
@@ -47,18 +52,6 @@ function to_latex(x::Real)
     end
 end
 # ------------------------------------------------------------------------------
-function to_latex(x::SymPy.Sym)
-    replace( latexify(x), "\$"=>"")
-end
-# ------------------------------------------------------------------------------
-function to_latex(x::Real)
-    if x < 0  # fix up minus signs
-        replace( "-"*latexify(-x), "\$"=>"")
-    else
-        replace( latexify(x), "\$"=>"")
-    end
-end
-# ------------------------------------------------------------------------------
 function to_latex(x::Complex)
     if imag(x) == 0
         return to_latex(real(x))
@@ -71,6 +64,10 @@ function to_latex(x::Complex)
             return to_latex(real(x))*" + " * to_latex( imag(x))*"\\mathit{i}"
         end
     end
+end
+# ------------------------------------------------------------------------------
+function to_latex(x::SymPy.Sym)
+    replace( latexify(x), "\$"=>"")
 end
 # ------------------------------------------------------------------------------
 function to_latex(matrices::Vector)

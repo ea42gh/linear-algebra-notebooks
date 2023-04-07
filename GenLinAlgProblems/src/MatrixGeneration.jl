@@ -143,6 +143,12 @@ function skew_symmetric_matrix(m;maxint=3, with_zeros=false )
     A - A'
 end
 # ------------------------------------------------------------------------------
+function e_i(i,n)
+    v = zeros( Int, n )
+    v[i] = 1
+    v
+end
+# ------------------------------------------------------------------------------
 function i_with_onecol(m,c; maxint=3, with_zeros=false, lower=true, upper=true)
     rng = _int_range(maxint,with_zeros)
     # take I and set column c to random entries
@@ -415,6 +421,28 @@ function gen_non_diagonalizable_eigenproblem( e_dup, e; maxint=4 )
     S,S_inv = gen_inv_pb(3, maxint=maxint )
     Λ = [e_dup 1 0; 0 e_dup 0; 0 0 e]
     S * Λ * S_inv
+end
+# ------------------------------------------------------------------------------
+function jordan_block(lambda,k)
+    J = Bidiagonal( fill(lambda,k), ones(typeof(lambda),k-1),:U)
+end
+# ------------------------------------------------------------------------------
+function jordan_form( j_blocks )
+    sz = sum([ size(b,1) for b in j_blocks ])
+    A  = zeros( eltype( j_blocks[1]), sz, sz )
+    i = 1
+    for b in j_blocks
+        sz_b = size(b,1)
+        A[i:i+sz_b-1, i:i+sz_b-1] = b
+        i += sz_b
+    end
+    A
+end
+# ------------------------------------------------------------------------------
+function gen_from_jordan_form( j_blocks; maxint=3 )
+    A = jordan_form( j_blocks )
+    S,S_inv = gen_inv_pb( size(A,1), maxint=maxint )
+    S*A*S_inv
 end
 # ------------------------------------------------------------------------------
 function gen_svd_problem(m,n,σ; maxint = 3)
