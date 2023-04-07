@@ -1,0 +1,100 @@
+\documentclass[notitlepage]{article}
+\pagestyle{empty}
+\usepackage[margin=0cm,paperwidth=90in]{geometry}
+
+\usepackage{mathtools}
+\usepackage{xltxtra}
+\usepackage{pdflscape}
+\usepackage{graphicx}
+\usepackage[table,svgnames]{xcolor}
+\usepackage{nicematrix,tikz}
+\usetikzlibrary{calc,fit,decorations.markings}
+
+\newcommand*{\colorboxed}{}
+\def\colorboxed#1#{%
+  \colorboxedAux{#1}%
+}
+\newcommand*{\colorboxedAux}[3]{%
+  % #1: optional argument for color model
+  % #2: color specification
+  % #3: formula
+  \begingroup
+    \colorlet{cb@saved}{.}%
+    \color#1{#2}%
+    \boxed{%
+      \color{cb@saved}%
+      #3%
+    }%
+  \endgroup
+}
+
+% ---------------------------------------------------------------------------- extension
+%
+
+\begin{document}\begin{minipage}{\textwidth}
+\begin{landscape}
+
+% ---------------------------------------------------------------------------- preamble
+
+ \NiceMatrixOptions{cell-space-limits = 1pt}
+%
+% ============================================================================ NiceArray
+$\begin{NiceArray}[vlines-in-sub-matrix = I]{@{\hspace{9mm}}rr@{\hspace{9mm}}rrrIr@{\hspace{9mm}}l@{\hspace{2cm}}}[create-extra-nodes,create-medium-nodes]%
+\CodeBefore [create-cell-nodes]
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (7-3-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (8-4-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (3-3-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (4-4-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (4-4-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (3-4-medium) (4-4-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (6-2-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (5-2-medium) (6-2-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (1-3-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (1-3-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (1-3-medium) (2-3-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (5-3-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (6-4-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (7-1-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 0pt, fit = (8-2-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (3-1-medium) ] {} ;
+    \tikz \node [fill=yellow!40, inner sep = 1pt, fit = (3-1-medium) (4-1-medium) ] {} ;
+    %
+\Body
+ &  & \color{blue}{\boxed{\mathbf{\frac{5}{2}}}} & -3 & \frac{3}{2} & \frac{3}{2} &  \\
+ &  & 2 & 3 & 12 & 6 &  \\[2mm]
+\color{blue}{\boxed{\mathbf{1}}} & 0 & \color{blue}{\boxed{\mathbf{\frac{5}{2}}}} & -3 & \frac{3}{2} & \frac{3}{2} &  \\
+-\frac{4}{5} & 1 & 0 & \color{blue}{\boxed{\mathbf{\frac{27}{5}}}} & \frac{54}{5} & \frac{24}{5} &  \\[2mm]
+1 & \frac{5}{9} & \color{blue}{\boxed{\mathbf{\frac{5}{2}}}} & 0 & \frac{15}{2} & \frac{25}{6} &  \\
+0 & \color{blue}{\boxed{\mathbf{1}}} & 0 & \color{blue}{\boxed{\mathbf{\frac{27}{5}}}} & \frac{54}{5} & \frac{24}{5} &  \\[2mm]
+\color{blue}{\boxed{\mathbf{\frac{2}{5}}}} & 0 & \color{blue}{\boxed{\mathbf{1}}} & 0 & 3 & \frac{5}{3} &  \\
+0 & \color{blue}{\boxed{\mathbf{\frac{5}{27}}}} & 0 & \color{blue}{\boxed{\mathbf{1}}} & 2 & \frac{8}{9} &  \\[2mm]
+ &  & \color{blue}{\mathbf{\Uparrow}} & \color{blue}{\mathbf{\Uparrow}} & \mathbf{\uparrow} &  &  \\
+ &  & \color{blue}{\mathbf{x_1}} & \color{blue}{\mathbf{x_2}} & \mathbf{x_3} &  & 
+\CodeAfter %[ sub-matrix / extra-height=2mm, sub-matrix / xshift=2mm ]
+% --------------------------------------------------------------------------- submatrix delimiters
+    \SubMatrix({1-3}{2-6})[name=A0x1]
+    \SubMatrix({3-1}{4-2})[name=A1x0]
+    \SubMatrix({3-3}{4-6})[name=A1x1]
+    \SubMatrix({5-1}{6-2})[name=A2x0]
+    \SubMatrix({5-3}{6-6})[name=A2x1]
+    \SubMatrix({7-1}{8-2})[name=A3x0]
+    \SubMatrix({7-3}{8-6})[name=A3x1]
+    % --------------------------------------------------------------------------- pivot outlines
+\begin{tikzpicture}
+    \begin{scope}[every node/.style = draw]
+    \end{scope}
+%
+% --------------------------------------------------------------------------- explanatory text
+    %
+% --------------------------------------------------------------------------- row echelon form path
+     \tikz \draw[blue,line width=0.5mm] let \p1 = (A3x1.north west), \p2 = (A3x1.south east), \p3 = (8-|3), \p4 = (9-|4) in (\x1,\y1) -- (\x1,\y3) -- ($ (8-|4) + (0.1,0) $) -- ($ (\x4,\y2) + (0.1,0) $) -- (\x2,\y2);
+     \tikz \draw[blue,line width=0.5mm] let \p1 = (A1x1.north west), \p2 = (A1x1.south east), \p3 = (4-|3), \p4 = (5-|4) in (\x1,\y1) -- (\x1,\y3) -- ($ (4-|4) + (0.1,0) $) -- ($ (\x4,\y2) + (0.1,0) $);
+     \tikz \draw[blue,line width=0.5mm] let \p1 = (A2x0.north west), \p2 = (A2x0.south east), \p3 = (7-|2), \p4 = (7-|2) in ($ (5-|2) + (0.1,0) $) -- ($ (\x4,\y2) + (0.1,0) $);
+     \tikz \draw[blue,line width=0.5mm] let \p1 = (A0x1.north west), \p2 = (A0x1.south east), \p3 = (3-|3), \p4 = (3-|3) in (\x1,\y1) -- (\x4,\y2);
+     \tikz \draw[blue,line width=0.5mm] let \p1 = (A2x1.north west), \p2 = (A2x1.south east), \p3 = (6-|3), \p4 = (7-|4) in (\x1,\y1) -- (\x1,\y3) -- ($ (6-|4) + (0.1,0) $) -- ($ (\x4,\y2) + (0.1,0) $) -- (\x2,\y2);
+     \tikz \draw[blue,line width=0.5mm] let \p1 = (A1x0.north west), \p2 = (A1x0.south east), \p3 = (5-|1), \p4 = (5-|1) in (\x1,\y1) -- (\x1,\y2);
+    \end{tikzpicture}
+\end{NiceArray}$
+
+\end{landscape}
+\end{minipage}\end{document}

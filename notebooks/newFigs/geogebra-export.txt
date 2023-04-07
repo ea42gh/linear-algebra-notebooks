@@ -1,0 +1,24 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{tbtwvr}{rgb}{0.23137254901960785,0.21176470588235294,0.3176470588235294}
+\definecolor{zyzfxa}{rgb}{0.596078431372549,0.6235294117647059,0.47843137254901963}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+\clip(-4.376,-11.374) rectangle (14.676,6.71);
+\draw [line width=0.8pt] (-3,-1.5)-- (-1,0);
+\draw [line width=0.8pt] (2,-1.5)-- (4,0);
+\draw [line width=0.8pt] (-1,0)-- (4,0);
+\draw [line width=0.8pt] (-3,-1.5)-- (2,-1.5);
+\draw [->,line width=2.8pt,color=zyzfxa] (-1.5,-0.86) -- (-1.5,3.1);
+\draw [->,line width=2.8pt,color=tbtwvr] (-1.5,-0.86) -- (1.5,-0.86);
+\draw [color=zyzfxa](-1.318,4.268) node[anchor=north west] {\mathbf{$ \large{x_1} $}};
+\draw [color=tbtwvr](0.816,1.1) node[anchor=north west] {\mathbf{$ \large{x_2} $}};
+\draw (-4.288,6.248) node[anchor=north west] {\parbox{12.088 cm}{\textbf{Orthogonal Projection \textbackslash \textbackslash         into a Plane}}};
+\draw [color=tbtwvr](-3.122,-2.948) node[anchor=north west] {\mathbf{$ \large{P x_2 = x_2} $}};
+\draw [color=zyzfxa](-3.122,-1.408) node[anchor=north west] {\mathbf{$ \large{P x_1 = 0} $}};
+\end{tikzpicture}
+\end{document}

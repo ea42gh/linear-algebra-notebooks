@@ -1,0 +1,30 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{tbtwvr}{rgb}{0.23137254901960785,0.21176470588235294,0.3176470588235294}
+\definecolor{sdttwv}{rgb}{0.17647058823529413,0.2,0.396078431372549}
+\definecolor{baubur}{rgb}{0.7294117647058823,0.29411764705882354,0.2549019607843137}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+\clip(-16.098224338895122,-175.55606071479875) rectangle (16.53804634565745,186.4338418914917);
+\draw [line width=2.8pt,color=baubur] (0,-175.55606071479875) -- (0,186.4338418914917);
+\draw [line width=2.8pt,color=baubur,domain=-16.098224338895122:16.53804634565745] plot(\x,{(-0-0*\x)/-11});
+\draw (6.245745348103135,137.6113884415546) node[anchor=north west] {$ \huge{x y > 0} $};
+\draw (-10.908089647820724,-41.84411613118721) node[anchor=north west] {$ \huge{x y > 0} $};
+\draw (-10.908089647820724,138.05123036452702) node[anchor=north west] {$ \huge{x y < 0} $};
+\draw (6.245745348103135,-42.72379997713202) node[anchor=north west] {$ \huge{x y < 0} $};
+\draw [color=baubur](0.20524960594875102,174.99795189420914) node[anchor=north west] {$ \huge{ x=0} $};
+\draw [color=baubur](-14.573439005924111,50.08284577004573) node[anchor=north west] {$ \huge{ y=0} $};
+\draw [->,line width=4.8pt,color=sdttwv] (0,0) -- (4,20);
+\draw [->,line width=5.2pt,color=sdttwv] (0,0) -- (-1,-60);
+\draw [color=sdttwv](1.290193015947354,58.00000038354904) node[anchor=north west] {$ v_1 $};
+\draw [color=sdttwv](-2.52177031648017,1.7002342430810262) node[anchor=north west] {$ v_2 $};
+\draw [->,line width=4.8pt,color=tbtwvr] (0,0) -- (7,0);
+\draw [->,line width=4.8pt,color=tbtwvr] (0,0) -- (0,80);
+\draw [color=tbtwvr](-2.3165107524263804,95.82640575917598) node[anchor=north west] {$ u_2 $};
+\draw [color=tbtwvr](5.68861224567142,17.97438539306006) node[anchor=north west] {$ u_1 $};
+\end{tikzpicture}
+\end{document}

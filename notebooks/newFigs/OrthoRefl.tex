@@ -1,0 +1,26 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{tbtwvr}{rgb}{0.23137254901960785,0.21176470588235294,0.3176470588235294}
+\definecolor{zyzfxa}{rgb}{0.596078431372549,0.6235294117647059,0.47843137254901963}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+\clip(-4.7081729622503685,-10.863668089415196) rectangle (13.826966162454632,6.729731864981481);
+\draw [line width=0.8pt] (-3,-1.5)-- (-1,0);
+\draw [line width=0.8pt] (2,-1.5)-- (4,0);
+\draw [line width=0.8pt] (-1,0)-- (4,0);
+\draw [line width=0.8pt] (-3,-1.5)-- (2,-1.5);
+\draw [->,line width=2.8pt,color=zyzfxa] (-1.5,-0.86) -- (-1.5,3.1);
+\draw [->,line width=2.8pt,color=tbtwvr] (-1.5,-0.86) -- (1.5,-0.86);
+\draw [color=zyzfxa](-1.4548921920942943,3.8617080281333607) node[anchor=north west] {\mathbf{$ \large{x_1} $}};
+\draw [color=tbtwvr](0.8352462447918892,1.186312657939219) node[anchor=north west] {\mathbf{$ \large{x_2} $}};
+\draw (-4.280109703019306,6.216055953904206) node[anchor=north west] {\parbox{11.787194132622773 cm}{\textbf{Orthogonal Reflection \textbackslash \textbackslash       through a Plane}}};
+\draw [color=tbtwvr](-0.2349119032857666,-2.3666123936786017) node[anchor=north west] {\mathbf{$ \large{R x_2 = x_2} $}};
+\draw [color=zyzfxa](-0.2349119032857666,-1.4248732233702637) node[anchor=north west] {\mathbf{$ \large{R x_1 = - x_1} $}};
+\draw [->,line width=2.8pt,dash pattern=on 1pt off 1pt,color=zyzfxa] (-1.494,-0.8486312769749038) -- (-1.5,-4.81);
+\draw [color=zyzfxa](-4.087481236365328,-2.55924086033258) node[anchor=north west] {\mathbf{$ \large{-x_1} $}};
+\end{tikzpicture}
+\end{document}

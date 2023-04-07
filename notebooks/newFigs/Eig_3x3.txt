@@ -1,0 +1,11 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+\clip(-7.7049660127781365,-6.979015766678447) rectangle (2.728158841368978,3.4541090874686664);
+\end{tikzpicture}
+\end{document}
