@@ -40,6 +40,7 @@ export gram_schmidt_w, qr_layout, gram_schmidt_stable
 
 # eigenproblems
 export gen_eigenproblem, gen_symmetric_eigenproblem, gen_non_diagonalizable_eigenproblem, gen_svd_problem
+export gen_cx_eigenproblem 
 export jordan_block, jordan_form, gen_from_jordan_form
 # display stuff
 export ge
