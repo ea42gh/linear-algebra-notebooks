@@ -410,6 +410,33 @@ function gen_eigenproblem( e_vals; maxint=3 )
     S,Λ,S_inv, S*Λ*S_inv
 end
 # ------------------------------------------------------------------------------
+function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
+    function construct_diagonal_blocks( e_vals )
+        t = typeof( real( evals_no_conj[1] ))
+        function f(x)
+            if imag(x) == zero( t )
+                [x]
+            else
+                [real(x) -imag(x); imag(x) real(x)]
+            end
+        end
+        blocks  = [f(x) for x in evals_no_conj ]
+        sz = sum( (x->size(x,1)).(blocks))
+        A = zeros( t, sz, sz)
+        k = 1
+        for b in blocks
+            l = size(b,1)-1
+            A[k:k+l, k:k+l] = b
+            k += l+1
+        end
+        A
+    end
+
+    Λ       = construct_diagonal_blocks( evals_no_conj)
+    S,S_inv = gen_inv_pb( size(Λ,1), maxint=maxint )
+    S,Λ,S_inv, S*Λ*S_inv
+end
+# ------------------------------------------------------------------------------
 function gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false )
     S = Q_matrix( size(e_vals,1); maxint=maxint, with_zeros=with_zeros )
     Λ = Diagonal( e_vals )
