@@ -8,8 +8,8 @@ Youtube channel for these notebooks:
 Binder access to these notebooks:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)   opens a directory view<br>
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb) opens Index.ipynb with links to individual notebooks
-[![Binder](https://mybinder.org/v2/gh/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb) opens Index.ipynb with links to individual notebooks<br>
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
 * The notebook **Index.ipynb** lists currently available notebooks.
 * The Notes directory is an [obsidian](https://obsidian.md/) vault listing the headings found in each notebook<br>
 It is intended as a starting point for individualized notes.
