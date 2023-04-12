@@ -1,2 +1,13 @@
 #!/bin/sh
-egrep '"#+ [0-9]' $1  | sed 's/"//g'
+echo "---
+topic: 'Linear Algebra'
+media:
+    youtube: ''
+    notebook: '${1}'
+status: ''
+tags:   ['LinearAlgebra']
+up: [[INDEX]]
+prev: ''
+---
+"
+egrep '"#+ [0-9]' $1  | sed 's/^[^"]*//;s/"//g;s/\\n//;s/,$//;s/\\\\/\\/g'
