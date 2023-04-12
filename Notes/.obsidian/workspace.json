@@ -1,0 +1,189 @@
+{
+  "main": {
+    "id": "9fcc64110b8218f2",
+    "type": "split",
+    "children": [
+      {
+        "id": "c7b9aa7bcc92018d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c692ef5e8e239282",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "INDEX.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3213130bf2983dc3",
+    "type": "split",
+    "children": [
+      {
+        "id": "e37ca68bd2824fea",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aea27c725ae8b476",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "b283128d470d945e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "79a2bd6ce9351100",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 450.5
+  },
+  "right": {
+    "id": "489d3afeb1d347db",
+    "type": "split",
+    "children": [
+      {
+        "id": "7ef01578c27287fa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "65e57d72228aba55",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "INDEX.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a3e1d1050a15da21",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "INDEX.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "70f885852fdefeb8",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "4b7a7b6908c9639a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "INDEX.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "c692ef5e8e239282",
+  "lastOpenFiles": [
+    "02 Addition Scalar Multiplication Dot product.md",
+    "INDEX.md",
+    "Course Content.canvas",
+    "Linear_Algebra/4._Length_and_Areas,_Orthogonality/14_Determinants.md",
+    "LinAlgNew/AudioProcessing.md",
+    "Linear_Algebra/2._Gaussian_Elimination/HouseholderReflections.md",
+    "Linear_Algebra/5._Linear_Transformations/NonLinearTransformations.md",
+    "Linear_Algebra/6._EigenProblems/25_PositiveDefiniteMatrices.md",
+    "Linear_Algebra/5._Linear_Transformations/10d_LinearTx_Examples.md",
+    "LinAlgNew/9._Additional_Material/sed73E8Zq",
+    "LinAlgNew/9._Additional_Material/sedVC8Y90",
+    "LinAlgNew/8._Computations_and_Iterative_Methods/sedVwHkPJ",
+    "LinAlgNew/8._Computations_and_Iterative_Methods/sedW8YrEW",
+    "LinAlgNew/8._Computations_and_Iterative_Methods/seddekQyC",
+    "LinAlgNew/8._Computations_and_Iterative_Methods/sedvlUzYj",
+    "LinAlgNew/8._Computations_and_Iterative_Methods/sedrIfREa",
+    "LinAlgNew/8._Computations_and_Iterative_Methods/sedCcK4Gc",
+    "LinAlgNew/7._Singular_Values/sedcPMxbK",
+    "LinAlgNew/7._Singular_Values/sed6mxlgM",
+    "Linear_Algebra/6._EigenProblems/17_EigenAnalysis.md",
+    "Linear_Algebra/6._EigenProblems/18_EigenComputations.md",
+    "Linear_Algebra/5._Linear_Transformations/09_LinearTransformations.md",
+    "Linear_Algebra/2._Gaussian_Elimination/LU.md",
+    "Linear_Algebra/2._Gaussian_Elimination/GivensRotations.md",
+    "Linear_Algebra/4._Length_and_Areas,_Orthogonality/CxFundamentalTheorem.md",
+    "Linear_Algebra/4._Length_and_Areas,_Orthogonality/NormalEquation.md",
+    "Linear_Algebra/2._Gaussian_Elimination/08_LinearIndependence.md",
+    "Linear_Algebra/2._Gaussian_Elimination/05_RowEchelonForm_Systems.md",
+    "Linear_Algebra/2._Gaussian_Elimination/CholeskyDecomposition.md",
+    "Linear_Algebra/2._Gaussian_Elimination/06_GE_Systems.md",
+    "Linear_Algebra/2._Gaussian_Elimination/07_GE_Systems.md",
+    "LinAlgOld/Topics/2 Gaussian Elimination and Consequences/06 Gaussian Elimination - Elementary Operations.md",
+    "LinAlgOld/Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md",
+    "LinAlgOld/Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md",
+    "LinAlgOld/Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
+    "Linear_Algebra/5._Linear_Transformations/10b_LinearTx_Examples.md",
+    "Linear_Algebra/5._Linear_Transformations/10a_LinearTx_Examples.md"
+  ]
+}
