@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "c7b9aa7bcc92018d",
+        "id": "b7ce632d7b99eff6",
         "type": "tabs",
         "children": [
           {
-            "id": "c692ef5e8e239282",
+            "id": "a7ddeddc573a9494",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "INDEX.md",
+                "file": "Linear_Algebra/10._Example_Generation,_Displays,_Symbolic_Variables/SymbolicVariables.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "INDEX.md",
+                "file": "Linear_Algebra/10._Example_Generation,_Displays,_Symbolic_Variables/SymbolicVariables.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "INDEX.md",
+                "file": "Linear_Algebra/10._Example_Generation,_Displays,_Symbolic_Variables/SymbolicVariables.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "INDEX.md"
+                "file": "Linear_Algebra/10._Example_Generation,_Displays,_Symbolic_Variables/SymbolicVariables.md"
               }
             }
           }
@@ -146,17 +146,35 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c692ef5e8e239282",
+  "active": "a7ddeddc573a9494",
   "lastOpenFiles": [
-    "02 Addition Scalar Multiplication Dot product.md",
-    "INDEX.md",
-    "Course Content.canvas",
-    "Linear_Algebra/4._Length_and_Areas,_Orthogonality/14_Determinants.md",
-    "LinAlgNew/AudioProcessing.md",
-    "Linear_Algebra/2._Gaussian_Elimination/HouseholderReflections.md",
-    "Linear_Algebra/5._Linear_Transformations/NonLinearTransformations.md",
+    "Linear_Algebra/9._Additional_Material/A2_Matrix_Layout_Displays.md",
+    "Linear_Algebra/9._Additional_Material/A1_AnalyticGeometry.md",
+    "Linear_Algebra/8._Computations_and_Iterative_Methods/rSVD.md",
+    "Linear_Algebra/8._Computations_and_Iterative_Methods/RandomizedLA.md",
+    "Linear_Algebra/8._Computations_and_Iterative_Methods/KrylovMethods.md",
+    "Linear_Algebra/8._Computations_and_Iterative_Methods/IterativeMethods_python.md",
+    "Linear_Algebra/8._Computations_and_Iterative_Methods/IterativeMethods_julia.md",
+    "Linear_Algebra/8._Computations_and_Iterative_Methods/ConditionNumber.md",
+    "Linear_Algebra/7._Singular_Values/26_GramMatrix.md",
+    "Linear_Algebra/6._EigenProblems/RayleighQuotients.md",
+    "Linear_Algebra/6._EigenProblems/QuadricSurfaceDisplay.md",
+    "Linear_Algebra/6._EigenProblems/HamiltonCayley.md",
+    "Linear_Algebra/6._EigenProblems/EigenPbApplications.md",
+    "Linear_Algebra/6._EigenProblems/ComplexEigenProblems.md",
+    "Linear_Algebra/6._EigenProblems/25a_QuadricSurfaceDisplay.md",
     "Linear_Algebra/6._EigenProblems/25_PositiveDefiniteMatrices.md",
+    "Linear_Algebra/6._EigenProblems/24_SpectralTheorem.md",
+    "Linear_Algebra/6._EigenProblems/19_Diagonalization.md",
+    "Linear_Algebra/6._EigenProblems/18_EigenComputations.md",
+    "Linear_Algebra/6._EigenProblems/17_EigenAnalysis.md",
+    "Linear_Algebra/5._Linear_Transformations/NonLinearTransformations.md",
     "Linear_Algebra/5._Linear_Transformations/10d_LinearTx_Examples.md",
+    "Linear_Algebra/5._Linear_Transformations/10c_GeoGebra.md",
+    "Linear_Algebra/5._Linear_Transformations/10b_LinearTx_Examples.md",
+    "Linear_Algebra/5._Linear_Transformations/10a_LinearTx_Examples.md",
+    "Linear_Algebra/5._Linear_Transformations/09_LinearTransformations.md",
+    "Course Content.canvas",
     "LinAlgNew/9._Additional_Material/sed73E8Zq",
     "LinAlgNew/9._Additional_Material/sedVC8Y90",
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedVwHkPJ",
@@ -166,24 +184,6 @@
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedrIfREa",
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedCcK4Gc",
     "LinAlgNew/7._Singular_Values/sedcPMxbK",
-    "LinAlgNew/7._Singular_Values/sed6mxlgM",
-    "Linear_Algebra/6._EigenProblems/17_EigenAnalysis.md",
-    "Linear_Algebra/6._EigenProblems/18_EigenComputations.md",
-    "Linear_Algebra/5._Linear_Transformations/09_LinearTransformations.md",
-    "Linear_Algebra/2._Gaussian_Elimination/LU.md",
-    "Linear_Algebra/2._Gaussian_Elimination/GivensRotations.md",
-    "Linear_Algebra/4._Length_and_Areas,_Orthogonality/CxFundamentalTheorem.md",
-    "Linear_Algebra/4._Length_and_Areas,_Orthogonality/NormalEquation.md",
-    "Linear_Algebra/2._Gaussian_Elimination/08_LinearIndependence.md",
-    "Linear_Algebra/2._Gaussian_Elimination/05_RowEchelonForm_Systems.md",
-    "Linear_Algebra/2._Gaussian_Elimination/CholeskyDecomposition.md",
-    "Linear_Algebra/2._Gaussian_Elimination/06_GE_Systems.md",
-    "Linear_Algebra/2._Gaussian_Elimination/07_GE_Systems.md",
-    "LinAlgOld/Topics/2 Gaussian Elimination and Consequences/06 Gaussian Elimination - Elementary Operations.md",
-    "LinAlgOld/Topics/2 Gaussian Elimination and Consequences/11 The Inverse of a Matrix.md",
-    "LinAlgOld/Topics/2 Gaussian Elimination and Consequences/08 Linear Independence.md",
-    "LinAlgOld/Topics/1 Basic Operations/01 Scalars Vectors  Matrices.md",
-    "Linear_Algebra/5._Linear_Transformations/10b_LinearTx_Examples.md",
-    "Linear_Algebra/5._Linear_Transformations/10a_LinearTx_Examples.md"
+    "LinAlgNew/7._Singular_Values/sed6mxlgM"
   ]
 }

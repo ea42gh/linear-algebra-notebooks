@@ -1,4 +1,3 @@
-
 ---
 topic: 'Linear Algebra'
 media:
@@ -10,3 +9,6 @@ up: [[INDEX]]
 prev: ''
 ---
 
+# 1. Some Comments and Definition
+# 2 Examples
+# 3. Take Away

@@ -1,4 +1,3 @@
-
 ---
 topic: 'Linear Algebra'
 media:
@@ -10,3 +9,5 @@ up: [[INDEX]]
 prev: ''
 ---
 
+# 1. K3D Display Functions
+# 2. Setup and Run the Display
