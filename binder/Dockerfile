@@ -55,6 +55,7 @@ RUN jupyter nbextension enable toc2/main
 RUN jupyter nbextension enable codefolding/main
 RUN jupyter nbextension enable scratchpad/main
 RUN jupyter nbextension enable --py widgetsnbextension
+RUN python -m pip install --upgrade webio_jupyter_extension
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --yes && \
