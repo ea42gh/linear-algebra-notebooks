@@ -34,6 +34,7 @@ RUN conda clean --all -f -y && \
 
 USER ${NB_UID}
 RUN pip install holoviews[recommended]
+RUN pip install plotly
 
 USER root
 # enable jupyter extensions
