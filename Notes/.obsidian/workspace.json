@@ -11,14 +11,11 @@
             "id": "a7ddeddc573a9494",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Course Content.canvas",
-                "viewState": {
-                  "x": 1163.8472124825787,
-                  "y": -307.67241524558034,
-                  "zoom": -1.3816419283555716
-                }
+                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -88,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Course Content.canvas",
+                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Course Content.canvas",
+                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -128,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Course Content.canvas"
+                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md"
               }
             }
           }
@@ -136,8 +133,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 586.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -151,6 +147,9 @@
   },
   "active": "a7ddeddc573a9494",
   "lastOpenFiles": [
+    "Linear_Algebra/7._Singular_Values/PCA_and_SVD.md",
+    "Linear_Algebra/7._Singular_Values/Eigenfaces.md",
+    "Course Content.canvas",
     "LAcompanion.pdf",
     "Linear_Algebra/LAcompanion.pdf",
     "INDEX.md",
@@ -177,8 +176,6 @@
     "Linear_Algebra/6._EigenProblems/17_EigenAnalysis.md",
     "Linear_Algebra/5._Linear_Transformations/NonLinearTransformations.md",
     "Linear_Algebra/5._Linear_Transformations/10d_LinearTx_Examples.md",
-    "Linear_Algebra/5._Linear_Transformations/10c_GeoGebra.md",
-    "Course Content.canvas",
     "LinAlgNew/9._Additional_Material/sed73E8Zq",
     "LinAlgNew/9._Additional_Material/sedVC8Y90",
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedVwHkPJ",
@@ -186,7 +183,6 @@
     "LinAlgNew/8._Computations_and_Iterative_Methods/seddekQyC",
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedvlUzYj",
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedrIfREa",
-    "LinAlgNew/8._Computations_and_Iterative_Methods/sedCcK4Gc",
-    "LinAlgNew/7._Singular_Values/sedcPMxbK"
+    "LinAlgNew/8._Computations_and_Iterative_Methods/sedCcK4Gc"
   ]
 }
