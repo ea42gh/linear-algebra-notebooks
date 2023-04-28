@@ -128,7 +128,7 @@ RUN mkdir /etc/julia && \
 RUN fix-permissions $HOME
 USER ${NB_UID}
 WORKDIR $HOME
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsPlots", "StatsBase", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsPlots", "StatsBase", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
 
 RUN echo "PS1='-> '" >> .bashrc
 RUN echo "PS2='->>  '" >> .bashrc
