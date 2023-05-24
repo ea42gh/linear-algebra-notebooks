@@ -36,6 +36,7 @@ USER ${NB_UID}
 RUN pip install holoviews[recommended]
 RUN pip install plotly
 RUN pip install scipy
+RUN pip install julia
 
 USER root
 # enable jupyter extensions
