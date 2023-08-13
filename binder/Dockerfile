@@ -40,23 +40,26 @@ RUN pip install julia
 
 USER root
 # enable jupyter extensions
-RUN pip install -U jupyter_contrib_nbextensions
+RUN pip install jupyter_contrib_nbextensions
+RUN pip install jupyter_nbextensions_configurator
+##_RUN jupyter contrib nbextension install --user
 
-#RUN jupyter contrib nbextension install
-#RUN pip install -U jupyter_nbextensions_configurator
-#RUN jupyter nbextensions_configurator enable --system
-
-RUN jupyter nbextension install --sys-prefix --py jupyter_nbextensions_configurator --overwrite  && \
-    jupyter nbextension enable --sys-prefix --py jupyter_nbextensions_configurator && \
-    jupyter serverextension enable --sys-prefix --py jupyter_nbextensions_configurator
+##_#RUN pip install -U jupyter_nbextensions_configurator
+##_#RUN jupyter nbextensions_configurator enable --system
+##_
+##_RUN jupyter nbextension install --sys-prefix --py jupyter_nbextensions_configurator --overwrite  && \
+##_    jupyter nbextension enable --sys-prefix --py jupyter_nbextensions_configurator && \
+##_    jupyter serverextension enable --sys-prefix --py jupyter_nbextensions_configurator
+##_
 
 # turn on extensions
-RUN jupyter nbextension enable collapsible_headings/main
-RUN jupyter nbextension enable rubberband/main
-RUN jupyter nbextension enable toc2/main
-RUN jupyter nbextension enable codefolding/main
-RUN jupyter nbextension enable scratchpad/main
-RUN jupyter nbextension enable --py widgetsnbextension
+##_RUN jupyter nbextension enable collapsible_headings/main
+##_RUN jupyter nbextension enable rubberband/main
+##_RUN jupyter nbextension enable toc2/main
+##_RUN jupyter nbextension enable codefolding/main
+##_RUN jupyter nbextension enable scratchpad/main
+##_RUN jupyter nbextension enable --py widgetsnbextension
+
 RUN python -m pip install --upgrade webio_jupyter_extension
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -100,7 +103,7 @@ RUN conda clean --all -f -y && \
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://julialang.org/downloads/
-ARG julia_version="1.8.5"
+ARG julia_version="1.9.0"
 
 # ============================================================================================================
 # Julia dependencies
