@@ -9,7 +9,7 @@ function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=n
              start_index=1, func=nothing, fig_scale=nothing, tmp_dir=nothing, keep_file=nothing )
 
     M = size(matrices[1][end],1)
-    N = size(matrices[1][end],2)-Nrhs
+    N = size(matrices[1][end],2)-sum(Nrhs)
 
     pivot_list, bg_for_entries, ref_path_list, variable_summary = decorate_ge(desc, pivot_cols, (M,N); pivot_color=pivot_colors[2]);
 
@@ -25,4 +25,8 @@ function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=n
                fig_scale        = fig_scale,
                tmp_dir          = tmp_dir, keep_file=keep_file    )
     h
+end
+function show_solution( matrices; tmp_dir=nothing )
+    cascade = nM.BacksubstitutionCascade.from_ref_Ab( Int.(matrices[end][end] ))
+    cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=tmp_dir)
 end
