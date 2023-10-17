@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:lab-3.6.3
+FROM jupyter/base-notebook:lab-4.0.5
 
 USER root
 WORKDIR /tmp
@@ -40,8 +40,8 @@ RUN pip install julia
 
 USER root
 # enable jupyter extensions
-RUN pip install jupyter_contrib_nbextensions
-RUN pip install jupyter_nbextensions_configurator
+#RUN pip install jupyter_contrib_nbextensions
+##RUN pip install jupyter_nbextensions_configurator
 ##_RUN jupyter contrib nbextension install --user
 
 ##_#RUN pip install -U jupyter_nbextensions_configurator
@@ -60,7 +60,8 @@ RUN pip install jupyter_nbextensions_configurator
 ##_RUN jupyter nbextension enable scratchpad/main
 ##_RUN jupyter nbextension enable --py widgetsnbextension
 
-RUN python -m pip install --upgrade webio_jupyter_extension
+RUN pip install --upgrade webio_jupyter_extension
+#RUN python -m pip install --upgrade webio_jupyter_extension
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --yes && \
@@ -103,7 +104,7 @@ RUN conda clean --all -f -y && \
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://julialang.org/downloads/
-ARG julia_version="1.9.0"
+ARG julia_version="1.9.3"
 
 # ============================================================================================================
 # Julia dependencies
