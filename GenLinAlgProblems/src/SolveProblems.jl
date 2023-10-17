@@ -125,12 +125,43 @@ function eliminate( A, pivot_row, row, alpha)
     end
 end
 # ------------------------------------------------------------------------------
+function normal_eq_reduce_to_ref(A; n=:none, gj=false)
+    if n == :none
+      n = size(A,2)
+    else
+      n = Int(n)
+    end
+    if eltype(A) == Complex{Int64}
+      A = Complex{Rational{Int64}}.(copy(A))
+    elseif eltype(A) == Int64
+      A = Rational{Int64}.(copy(A))
+    else
+      A = copy(A)
+    end
+
+    if n == :none
+      matrices    = [[ :none, A  ],
+                     [ A',    A'A]]
+    else
+      At          = A[:, 1:n]'
+      matrices    = [[ :none, A  ],
+                     [ At,    At*A]]
+    end
+    
+  _reduce_to_ref( matrices, n; gj=gj)
+end
+# ------------------------------------------------------------------------------
 """
 function reduce_to_ref(A; n=:none, gj=false)
 reduce A if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
 """
 function reduce_to_ref(A; n=:none, gj=false)
+    if n == :none
+      n = size(A,2)
+    else
+      n = Int(n)
+    end
     if eltype(A) == Complex{Int64}
         A = Complex{Rational{Int64}}.(copy(A))
     elseif eltype(A) == Int64
@@ -139,13 +170,24 @@ function reduce_to_ref(A; n=:none, gj=false)
         A = copy(A)  # caller took care of the type
     end
 
-    matrices        = [[ :none, copy(A) ]]
-    pivot_cols      = Int[]
+    matrices    = [[ :none, A ]]
+
+    _reduce_to_ref( matrices, n; gj=gj)
+end 
+# ------------------------------------------------------------------------------
+"""
+function _reduce_to_ref(matrices, n; gj=false)
+reduce matrices[end][end] to REF if gj = false, to RREF if gj=true
+if n is given, only the first n columns of A are reduced.
+"""
+function _reduce_to_ref(matrices, n; gj=false)
+    A           = copy(matrices[end][end])
+    pivot_cols  = Int[]
     description = []
 
     M,N = size(A)
-    if n != :none N = min(n,N) end
-    row = 1; col = 1; cur_rank = 0; level=0;
+    N = min(n,N)
+    row = 1; col = 1; cur_rank = 0; level=size(matrices, 1)-1;
     while true
         p = find_pivot(A, row, col)
         if p < 0
@@ -222,6 +264,7 @@ function reduce_to_ref(A; n=:none, gj=false)
 
     matrices, pivot_cols, description
 end 
+# ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 function ge_variable_type( pivot_cols, n)
     l = Vector{Any}([ false for _ in 1:n])

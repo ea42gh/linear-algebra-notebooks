@@ -31,7 +31,7 @@ export gen_particular_solution
 export gen_gj_matrix, gen_rhs, gen_gj_pb
 export gen_inv_pb, gen_lu_pb, gen_plu_pb, gen_ldlt_pb
 
-export reduce_to_ref, decorate_ge, ge_variable_type
+export normal_eq_reduce_to_ref, reduce_to_ref, decorate_ge, ge_variable_type
 
 # normal equation and QR problems
 export ca_projection_matrix
@@ -43,7 +43,7 @@ export gen_eigenproblem, gen_symmetric_eigenproblem, gen_non_diagonalizable_eige
 export gen_cx_eigenproblem 
 export jordan_block, jordan_form, gen_from_jordan_form
 # display stuff
-export ge
+export ge, show_solution
 export to_html, show_html
 
 include("LatexRepresentations.jl")
