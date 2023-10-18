@@ -25,9 +25,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ==============================================================================
 RUN conda update --all -y && \
-    conda install -c conda-forge -y k3d pdf2svg sympy \
-    graphviz python-graphviz ffmpeg \
-    gcc
+    conda install -c conda-forge -y k3d pdf2svg sympy && \
+    conda install -c conda-forge -y graphviz python-graphviz ffmpeg && \
+    conda install -c conda-forge -y gcc
 
 RUN conda clean --all -f -y && \
     fix-permissions /opt/conda
@@ -61,7 +61,6 @@ USER root
 ##_RUN jupyter nbextension enable --py widgetsnbextension
 
 RUN pip install --upgrade webio_jupyter_extension
-#RUN python -m pip install --upgrade webio_jupyter_extension
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --yes && \
@@ -94,7 +93,6 @@ RUN usermod -aG sudo jovyan
 RUN adduser $NB_USER sudo \
  && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN pip install git+https://github.com/ea42gh/itikz.git
 RUN conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter lab clean
@@ -134,11 +132,12 @@ RUN mkdir /etc/julia && \
 RUN fix-permissions $HOME
 USER ${NB_UID}
 WORKDIR $HOME
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsPlots", "StatsBase", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
 
 RUN echo "PS1='-> '" >> .bashrc
 RUN echo "PS2='->>  '" >> .bashrc
 
+RUN pip install git+https://github.com/ea42gh/itikz.git
 RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
 
 WORKDIR $HOME
