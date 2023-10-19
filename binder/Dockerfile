@@ -25,9 +25,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ==============================================================================
 RUN conda update --all -y && \
-    conda install -c conda-forge -y k3d pdf2svg sympy && \
-    conda install -c conda-forge -y graphviz python-graphviz ffmpeg && \
-    conda install -c conda-forge -y gcc
+    conda install -c conda-forge -y k3d pdf2svg sympy
+RUN conda install -c conda-forge -y graphviz python-graphviz ffmpeg
+RUN conda install -c conda-forge -y gcc
 
 RUN conda clean --all -f -y && \
     fix-permissions /opt/conda
