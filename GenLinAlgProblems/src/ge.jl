@@ -12,7 +12,7 @@ function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=n
 
     pivot_list, bg_for_entries, ref_path_list, variable_summary = decorate_ge(desc, pivot_cols, (M,N); pivot_color=pivot_colors[2]);
 
-    s=py_nM._to_svg_str( formater(matrices), formater=x->x, Nrhs=Nrhs,
+    s=nM._to_svg_str( formater(matrices), formater=x->x, Nrhs=Nrhs,
                pivot_list       = pivot_list,
                bg_for_entries   = bg_for_entries,
                variable_colors  = variable_colors,pivot_text_color=pivot_colors[1],
@@ -27,6 +27,6 @@ function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=n
 end
 # ------------------------------------------------------------------------------------------
 function show_solution( matrices; tmp_dir=nothing )
-    cascade = py_nM.BacksubstitutionCascade.from_ref_Ab( Int.(matrices[end][end] ))
+    cascade = nM.BacksubstitutionCascade.from_ref_Ab( Int.(matrices[end][end] ))
     cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=tmp_dir)
 end

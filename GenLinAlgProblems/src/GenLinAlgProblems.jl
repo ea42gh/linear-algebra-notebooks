@@ -4,12 +4,12 @@ using PyCall
 #nM    = pyimport("itikz.nicematrix")
 
 const py_itikz  = PyNULL()
-const py_nM     = PyNULL()
+const nM     = PyNULL()
 function __init__()
   copy!(py_itikz, pyimport( "itikz"))
-  copy!(py_nM,    pyimport( "itikz.nicematrix"))
+  copy!(nM,    pyimport( "itikz.nicematrix"))
 end
-export py_itikz, py_nM
+export py_itikz, nM
 
 using LinearAlgebra, Latexify, SymPy
 using Random, Hadamard
