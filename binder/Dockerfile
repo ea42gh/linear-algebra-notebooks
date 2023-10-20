@@ -15,6 +15,8 @@ RUN apt-get install -y \
     vim-tiny \
     openssh-client \
     fonts-dejavu fonts-hack \
+    build-essential \
+    pdf2svg \
     xclip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -24,15 +26,26 @@ RUN chpasswd <<<"jovyan:password"
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ==============================================================================
-RUN conda update --all -y && \
-    conda install -c conda-forge -y k3d pdf2svg sympy
-RUN conda install -c conda-forge -y graphviz python-graphviz ffmpeg
-RUN conda install -c conda-forge -y gcc
+RUN apt-get update && \
+    apt-get install -y \
+    graphviz graphviz-dev \
+    ffmpeg
 
-RUN conda clean --all -f -y && \
-    fix-permissions /opt/conda
+#RUN conda update --all -y && \
+#    conda install -c conda-forge -y k3d pdf2svg sympy
+#RUN conda install -c conda-forge -y graphviz python-graphviz ffmpeg
+#RUN conda install -c conda-forge -y gcc
+
+#RUN conda clean --all -f -y && \
+#    fix-permissions /opt/conda
 
 USER ${NB_UID}
+RUN pip install sympy && \
+    pip install numpy && \
+    pip install numpy && \
+    pip install k3d
+RUN pip install pygraphviz
+
 RUN pip install holoviews[recommended]
 RUN pip install plotly
 RUN pip install scipy
