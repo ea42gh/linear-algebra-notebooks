@@ -31,6 +31,7 @@ RUN apt-get update && \
     graphviz graphviz-dev \
     ffmpeg
 
+RUN conda update --all -y
 #RUN conda update --all -y && \
 #    conda install -c conda-forge -y k3d pdf2svg sympy
 #RUN conda install -c conda-forge -y graphviz python-graphviz ffmpeg
