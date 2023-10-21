@@ -5,7 +5,6 @@ WORKDIR /tmp
 
 RUN apt-get update
 RUN apt-get install -y \
-    pip \
     git \
     wget \
     openssh-client \
@@ -31,14 +30,15 @@ RUN apt-get update && \
     graphviz graphviz-dev \
     ffmpeg
 
-RUN conda update --all -y
+RUN conda update --all -y && \
+    conda install -c conda-forge -y pip
 #RUN conda update --all -y && \
 #    conda install -c conda-forge -y k3d pdf2svg sympy
 #RUN conda install -c conda-forge -y graphviz python-graphviz ffmpeg
 #RUN conda install -c conda-forge -y gcc
 
-#RUN conda clean --all -f -y && \
-#    fix-permissions /opt/conda
+RUN conda clean --all -f -y && \
+    fix-permissions /opt/conda
 
 USER ${NB_UID}
 RUN pip install sympy && \
@@ -146,7 +146,7 @@ RUN mkdir /etc/julia && \
 RUN fix-permissions $HOME
 USER ${NB_UID}
 WORKDIR $HOME
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "Conda", "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
 
 RUN echo "PS1='-> '" >> .bashrc
 RUN echo "PS2='->>  '" >> .bashrc
