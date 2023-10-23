@@ -1,10 +1,11 @@
-FROM jupyter/base-notebook:lab-4.0.5
+FROM quay.io/jupyter/base-notebook:lab-4.0.7
+#FROM jupyter/base-notebook:lab-4.0.7
 
 USER root
 WORKDIR /tmp
 
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
     git \
     wget \
     openssh-client \
@@ -22,7 +23,6 @@ RUN apt-get install -y \
 RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
 RUN chpasswd <<<"jovyan:password"
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ==============================================================================
 RUN apt-get update && \
@@ -30,6 +30,7 @@ RUN apt-get update && \
     graphviz graphviz-dev \
     ffmpeg
 
+ARG CONDA_DIR="/opt/conda"
 RUN conda update --all -y && \
     conda install -c conda-forge -y pip
 #RUN conda update --all -y && \
@@ -43,14 +44,12 @@ RUN conda clean --all -f -y && \
 USER ${NB_UID}
 RUN pip install sympy && \
     pip install numpy && \
-    pip install numpy && \
-    pip install k3d
-RUN pip install pygraphviz
-
-RUN pip install holoviews[recommended]
-RUN pip install plotly
-RUN pip install scipy
-RUN pip install julia
+    pip install pandas && \
+    pip install k3d   && \
+    pip install pygraphviz && \
+    pip install holoviews[recommended] && \
+    pip install plotly && \
+    pip install scipy
 
 USER root
 # enable jupyter extensions
@@ -100,16 +99,16 @@ RUN apt-get update --yes && \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen
-
-# Make NB_USER a sudoer
-RUN usermod -aG sudo jovyan
-RUN adduser $NB_USER sudo \
- && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-RUN conda clean --all -f -y && \
+    locale-gen && \
+    conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter lab clean
+
+
+# Make NB_USER a sudoer
+RUN usermod -aG sudo jovyan && \
+    adduser $NB_USER sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # ============================================================================================================
 # Julia installation
@@ -118,7 +117,7 @@ RUN conda clean --all -f -y && \
 # Check https://julialang.org/downloads/
 ARG julia_version="1.9.3"
 
-# ============================================================================================================
+# ------------------------------------------------------------------------------------------------------------
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
 ENV JULIA_DEPOT_PATH=/opt/julia \
@@ -132,7 +131,7 @@ RUN mkdir "/opt/julia-${JULIA_VERSION}" && \
     wget -q https://julialang-s3.julialang.org/bin/linux/x64/$(echo "${JULIA_VERSION}" | cut -d. -f 1,2)"/julia-${JULIA_VERSION}-linux-x86_64.tar.gz" && \
     tar xzf "julia-${JULIA_VERSION}-linux-x86_64.tar.gz" -C "/opt/julia-${JULIA_VERSION}" --strip-components=1 && \
     rm "/tmp/julia-${JULIA_VERSION}-linux-x86_64.tar.gz" && \
-    ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
+    ln -fs /opt/julia-${JULIA_VERSION}/bin/julia /usr/local/bin/julia
 
 # Show Julia where conda libraries are \
 RUN mkdir /etc/julia && \
@@ -145,14 +144,17 @@ RUN mkdir /etc/julia && \
 
 RUN fix-permissions $HOME
 USER ${NB_UID}
+RUN echo "PS1='-> '" >> .bashrc && \
+    echo "PS2='->>  '" >> .bashrc
+
 WORKDIR $HOME
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "Conda", "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "ImageView", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p); Pkg.build.(p)'
+# -----------------------------------------------------------------------------------------
+RUN pip install julia && \
+    pip install git+https://github.com/ea42gh/itikz.git && \
+    git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
 
-RUN echo "PS1='-> '" >> .bashrc
-RUN echo "PS2='->>  '" >> .bashrc
-
-RUN pip install git+https://github.com/ea42gh/itikz.git
-RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);' && \
+    julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
 
 WORKDIR $HOME
 RUN ln -s /tmp tmp && \
@@ -165,8 +167,8 @@ RUN ln -s /tmp tmp && \
 USER root
 RUN rm /tmp/*
 WORKDIR $HOME
-RUN fix-permissions /opt/conda
-RUN fix-permissions $HOME
+RUN fix-permissions /opt/conda && \
+    fix-permissions $HOME
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
