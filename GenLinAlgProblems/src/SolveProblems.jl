@@ -472,6 +472,17 @@ function gram_schmidt_stable(A::Array{T,2}; reorthogonalize=false) where T<:Numb
     return Q, R
 end
 # ------------------------------------------------------------------------------
-# -------------------------------------------------------------- Normal Equation
+# ---------------------------------------------------------------------- charpoy
 # ------------------------------------------------------------------------------
+Rq, λ = AbstractAlgebra.QQ["λ"]
+function AbstractAlgebra.charpoly(A::Matrix{Rational{Int64}})
+    M = matrix(Rq, A)
+    B = M - λ*one(M)
+    det(B)
+end
+function AbstractAlgebra.charpoly(A::Matrix{Int64})
+    M = matrix(Rq, A)
+    B = M - λ*one(M)
+    det(B)
+end
 # ==============================================================================
