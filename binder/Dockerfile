@@ -49,9 +49,13 @@ RUN pip install sympy && \
     pip install pygraphviz && \
     pip install holoviews[recommended] && \
     pip install plotly && \
-    pip install scipy
+    pip install streamz && \
+    pip install scipy && \
+    pip install jupyterlab_myst
 
 USER root
+RUN npm install -g mystmd
+
 # enable jupyter extensions
 #RUN pip install jupyter_contrib_nbextensions
 ##RUN pip install jupyter_nbextensions_configurator
