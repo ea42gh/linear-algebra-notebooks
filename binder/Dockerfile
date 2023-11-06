@@ -15,7 +15,7 @@ ENV DEBIAN_FRONTEND noninteractive
 #ENV LANG en_US.utf8
 ENV MAKEFLAGS -j4
 
-RUN PWD
+RUN pwd
 
 RUN mkdir /app
 WORKDIR /app
