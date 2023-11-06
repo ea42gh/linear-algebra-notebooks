@@ -167,7 +167,8 @@ EXPOSE $JUPYTER_PORT
 CMD ["start-notebook.py"]
 
 # Copy local files as late as possible to avoid cache busting
-RUN echo "DIRECTORY ${PWD}"
+RUN pwd
+RUN ls
 COPY start-notebook.py start-notebook.sh start-singleuser.py start-singleuser.sh /usr/local/bin/
 
 COPY jupyter_server_config.py docker_healthcheck.py /etc/jupyter/
