@@ -169,9 +169,10 @@ CMD ["start-notebook.py"]
 # Copy local files as late as possible to avoid cache busting
 WORKDIR $HOME/elementary-linear-algebra/binder
 RUN mv start-notebook.py start-notebook.sh start-singleuser.py start-singleuser.sh /usr/local/bin/
-RUN mv jupyter_server_config.py docker_healthcheck.py /etc/jupyter/
-RUN mv run-hooks.sh start.sh /usr/local/bin/
-RUN mv fix-permissions /usr/local/bin/fix-permissions
+RUN mkdir /etc/jupyter && \
+    mv jupyter_server_config.py docker_healthcheck.py /etc/jupyter/
+RUN mv run-hooks.sh start.sh /usr/local/bin/ && \
+    mv fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}" && \
