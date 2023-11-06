@@ -15,8 +15,6 @@ ENV DEBIAN_FRONTEND noninteractive
 #ENV LANG en_US.utf8
 ENV MAKEFLAGS -j4
 
-RUN pwd
-
 RUN mkdir /app
 WORKDIR /app
 
@@ -169,10 +167,8 @@ EXPOSE $JUPYTER_PORT
 CMD ["start-notebook.py"]
 
 # Copy local files as late as possible to avoid cache busting
-RUN pwd
-RUN ls
+WORKDIR $HOME/elementary-linear-algebra/binder
 COPY start-notebook.py start-notebook.sh start-singleuser.py start-singleuser.sh /usr/local/bin/
-
 COPY jupyter_server_config.py docker_healthcheck.py /etc/jupyter/
 COPY run-hooks.sh start.sh /usr/local/bin/
 COPY fix-permissions /usr/local/bin/fix-permissions
