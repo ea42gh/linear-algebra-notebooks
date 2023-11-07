@@ -270,7 +270,7 @@ function gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)   #
 
     L  = unit_lower(m,maxint = maxint)
     A  = L * P * U
-    pivot_cols, P, U, A
+    pivot_cols, P, L, U, A
 end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------- orthogonal matrices

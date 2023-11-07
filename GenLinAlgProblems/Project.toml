@@ -1,9 +1,10 @@
 name = "GenLinAlgProblems"
 uuid = "3c0f76d2-298f-40a4-82ea-fb4356fbbd2d"
 authors = ["ea42gh <ea42_github@mail.com> and contributors"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
+AbstractAlgebra = "c3fe647b-3220-5bb0-a1ea-a7954cac585d"
 Hadamard = "4a05ff16-5f95-55f4-bb53-bb3f467c689a"
 Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
