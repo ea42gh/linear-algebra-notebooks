@@ -215,14 +215,14 @@ function _reduce_to_ref(matrices, n; gj=false)
                 E = Matrix{eltype(A)}(I, M, M)
 
                 for r in (row+1):M
-                    alpha = -A[r,col] / A[row,col]
+                    alpha = -A[r,col] // A[row,col]
                     eliminate(A, row, r, alpha )
                     eliminate(E, row, r, alpha )
                 end
 
                 if gj
                     for r in 1:(row-1)
-                        alpha = -A[r,col] / A[row,col]
+                        alpha = -A[r,col] // A[row,col]
                         eliminate(A, row, r, alpha )
                         eliminate(E, row, r, alpha )
                     end

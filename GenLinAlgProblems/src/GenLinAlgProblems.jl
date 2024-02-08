@@ -53,6 +53,7 @@ export jordan_block, jordan_form, gen_from_jordan_form
 export charpoly
 # display stuff
 export ge, show_solution
+export ShowGe, ref!, show_layout!, show_system, show_backsubstitution!
 export to_html, show_html
 
 include("LatexRepresentations.jl")
