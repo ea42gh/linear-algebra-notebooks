@@ -1,7 +1,94 @@
 #using PyCall
 #itikz = pyimport("itikz")
 #nM    = pyimport("itikz.nicematrix")
+# ==============================================================================================================
+mutable struct ShowGe{T<:Number}
+    A
+    B
+    num_rhs
+    tmp_dir
 
+    matrices
+    cascade
+    pivot_cols
+    desc
+    pivot_list
+    bg_for_entries
+    ref_path_list
+    basic_var
+    h
+    m
+
+    function ShowGe{T}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
+        new(A,B,size(B,2), tmp_dir)
+    end
+  function ShowGe{Rational{T}}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
+        new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
+  end
+end
+# --------------------------------------------------------------------------------------------------------------
+function ref!( pb::ShowGe{T}; gj::Bool=false )  where T <: Number
+        pb.matrices, pb.pivot_cols, pb.desc = reduce_to_ref( [pb.A pb.B], n=size(pb.A,2), gj=gj );
+        pb.pivot_list, pb.bg_for_entries, pb.ref_path_list, pb.basic_var = decorate_ge(pb.desc,pb.pivot_cols,size(pb.A); pivot_color="yellow!40");
+        nothing
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_layout!(  pb::ShowGe{T} )   where T <: Number
+        pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=pb.num_rhs,
+                       fig_scale=0.9,
+                       pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
+                       bg_for_entries   = pb.bg_for_entries,
+                       ref_path_list    = pb.ref_path_list,
+                       variable_summary = pb.basic_var,
+                       tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_layout")
+        pb.h
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_system(  pb::ShowGe{T}; b_col=1 )   where T <: Number
+    cascade = nM.BacksubstitutionCascade( pb.A, pb.B[:,b_col] )
+    cascade.show( pb.A, pb.B[:,b_col], show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
+end
+function show_system(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Number
+    cnv(x) = (numerator(x),denominator(x))
+    A = cnv.(pb.A)
+    b = cnv.(pb.B[:,b_col])
+    cascade = nM.BacksubstitutionCascade( A, b )
+    cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
+end
+function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number
+    cnv(x) = (numerator(x),denominator(x))
+    A = cnv.(pb.A)
+    b = cnv.(pb.B[:,b_col])
+    cascade = nM.BacksubstitutionCascade( A, b )
+    cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number
+    cnv(x) = (numerator(x),denominator(x))
+    Ab     = cnv.(pb.matrices[end][end])
+    A      = Ab[:, 1:size(pb.A,2)]
+    b      = Ab[:, size(pb.A,2)+b_col]
+    pb.cascade = nM.BacksubstitutionCascade(A,b)
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Number
+    cnv(x) = (numerator(x),denominator(x))
+    Ab     = cnv.(pb.matrices[end][end])
+    A      = Ab[:, 1:size(pb.A,2)]
+    b      = Ab[:, size(pb.A,2)+b_col]
+    pb.cascade = nM.BacksubstitutionCascade(A,b)
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
+end
+function show_backsubstitution!(  pb::ShowGe{T}; b_col=1 )   where T <: Integer
+    Ab = pb.matrices[end][end]
+    A      = Ab[:, 1:size(pb.A,2)]
+    b      = Ab[:, size(pb.A,2)+b_col]
+
+    pb.cascade = nM.BacksubstitutionCascade(A,b)
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
+end
+# ==============================================================================================================
 # Using the computer to produce a nice layout of the computations
 function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing,
              variable_colors=["blue","black"], pivot_colors=["blue","yellow!40"],

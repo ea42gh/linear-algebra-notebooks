@@ -1,0 +1,96 @@
+\documentclass[notitlepage]{article}
+\pagestyle{empty}
+\usepackage[margin=0cm,paperwidth=90in]{geometry}
+
+\usepackage{mathtools}
+\usepackage{xltxtra}
+\usepackage{pdflscape}
+\usepackage{graphicx}
+\usepackage[table,svgnames]{xcolor}
+\usepackage{nicematrix,tikz}
+\usetikzlibrary{calc,fit,decorations.markings}
+
+\newcommand*{\colorboxed}{}
+\def\colorboxed#1#{%
+  \colorboxedAux{#1}%
+}
+\newcommand*{\colorboxedAux}[3]{%
+  % #1: optional argument for color model
+  % #2: color specification
+  % #3: formula
+  \begingroup
+    \colorlet{cb@saved}{.}%
+    \color#1{#2}%
+    \boxed{%
+      \color{cb@saved}%
+      #3%
+    }%
+  \endgroup
+}
+
+% ---------------------------------------------------------------------------- extension
+%
+
+\begin{document}\begin{minipage}{\textwidth}
+\begin{landscape}
+
+% ---------------------------------------------------------------------------- preamble
+
+ \NiceMatrixOptions{cell-space-limits = 1pt}
+%
+% ============================================================================ NiceArray
+$\begin{NiceArray}[vlines-in-sub-matrix = I]{@{\hspace{9mm}}rrrr@{\hspace{9mm}}rrrrIrrrr}[create-extra-nodes,create-medium-nodes]%
+\CodeBefore [create-cell-nodes]
+    \tikz \node [fill=yellow!15, inner sep = 0pt, fit = (5-5-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 0pt, fit = (6-6-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (6-6-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (6-6-medium) (8-6-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (10-2-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (10-2-medium) (12-2-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 0pt, fit = (1-5-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (1-5-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (1-5-medium) (4-5-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (5-1-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 1pt, fit = (5-1-medium) (8-1-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 0pt, fit = (9-5-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 0pt, fit = (10-6-medium) ] {} ;
+    \tikz \node [fill=yellow!15, inner sep = 0pt, fit = (12-8-medium) ] {} ;
+    %
+\Body
+ &  &  &  & \color{red}{\boxed{\mathbf{1}}} & 2 & -1 & 1 & 1 & 0 & 0 & 0 \\
+ &  &  &  & 2 & 13 & 7 & 11 & 0 & 1 & 0 & 0 \\
+ &  &  &  & -1 & 7 & 10 & 8 & 0 & 0 & 1 & 0 \\
+ &  &  &  & 1 & 11 & 8 & 14 & 0 & 0 & 0 & 1 \\[2mm]
+\color{red}{\boxed{\mathbf{1}}} & 0 & 0 & 0 & \color{red}{\boxed{\mathbf{1}}} & 2 & -1 & 1 & 1 & 0 & 0 & 0 \\
+-2 & 1 & 0 & 0 & 0 & \color{red}{\boxed{\mathbf{9}}} & 9 & 9 & -2 & 1 & 0 & 0 \\
+1 & 0 & 1 & 0 & 0 & 9 & 9 & 9 & 1 & 0 & 1 & 0 \\
+-1 & 0 & 0 & 1 & 0 & 9 & 9 & 13 & -1 & 0 & 0 & 1 \\[2mm]
+1 & 0 & 0 & 0 & \color{red}{\boxed{\mathbf{1}}} & 2 & -1 & 1 & 1 & 0 & 0 & 0 \\
+0 & \color{red}{\boxed{\mathbf{1}}} & 0 & 0 & 0 & \color{red}{\boxed{\mathbf{9}}} & 9 & 9 & -2 & 1 & 0 & 0 \\
+0 & -1 & 1 & 0 & 0 & 0 & 0 & 0 & 3 & -1 & 1 & 0 \\
+0 & -1 & 0 & 1 & 0 & 0 & 0 & \color{red}{\boxed{\mathbf{4}}} & 1 & -1 & 0 & 1
+\CodeAfter %[ sub-matrix / extra-height=2mm, sub-matrix / xshift=2mm ]
+% --------------------------------------------------------------------------- submatrix delimiters
+    \SubMatrix({1-5}{4-12})[name=A0x1]
+    \SubMatrix({5-1}{8-4})[name=A1x0]
+    \SubMatrix({5-5}{8-12})[name=A1x1]
+    \SubMatrix({9-1}{12-4})[name=A2x0]
+    \SubMatrix({9-5}{12-12})[name=A2x1]
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (A0x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{$\mathbf{ \left(  A \mid  I \right) }$};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (A1x0.north west) + (-0.02,0.02) $) -- +(-0.6cm,0.3cm) node[blue, above left=-3pt] {$\mathbf{ E_1 }$};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (A1x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{$\mathbf{ \left(  E_1 A \mid  E_1  \right) }$};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (A2x0.north west) + (-0.02,0.02) $) -- +(-0.6cm,0.3cm) node[blue, above left=-3pt] {$\mathbf{ E_2 }$};
+    \tikz \draw[<-,>=stealth,blue,thick] ($ (A2x1.north east) + (0.02,0.02) $) -- +(0.6cm,0.3cm)    node[blue, above right=-3pt]{$\mathbf{ \left(  E_2  E_1 A \mid  E_2  E_1  \right) }$};
+    % --------------------------------------------------------------------------- pivot outlines
+\begin{tikzpicture}
+    \begin{scope}[every node/.style = draw]
+    \end{scope}
+%
+% --------------------------------------------------------------------------- explanatory text
+    %
+% --------------------------------------------------------------------------- row echelon form path
+    \end{tikzpicture}
+\end{NiceArray}$
+
+\end{landscape}
+\end{minipage}\end{document}

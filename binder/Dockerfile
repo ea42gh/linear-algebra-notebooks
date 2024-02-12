@@ -136,12 +136,12 @@ RUN pip install sympy && \
     pip install plotly && \
     pip install streamz && \
     pip install scipy && \
-    pip install jupyterlab_myst && \
     pip install --upgrade webio_jupyter_extension && \
     pip install pygraphviz && \
     pip install julia && \
     pip install git+https://github.com/ea42gh/itikz.git && \
     git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
+#    pip install jupyterlab_myst && \
 
 RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);' && \
     julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
@@ -173,9 +173,10 @@ RUN mkdir /etc/jupyter && \
     mv jupyter_server_config.py docker_healthcheck.py /etc/jupyter/
 RUN mv run-hooks.sh start.sh /usr/local/bin/ && \
     mv fix-permissions /usr/local/bin/fix-permissions
-RUN chmod a+rx /usr/local/bin/fix-permissions && \
+RUN chmod a+rx /usr/local/bin/fix-permissions /usr/local/bin/start* && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}" && \
+    fix-permissions "/usr/local/bin" && \
     fix-permissions /etc/jupyter
 
 RUN mkdir /usr/local/bin/start-notebook.d && \
