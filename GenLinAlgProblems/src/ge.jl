@@ -16,6 +16,7 @@ mutable struct ShowGe{T<:Number}
     bg_for_entries
     ref_path_list
     basic_var
+    rank
     h
     m
 
@@ -30,6 +31,7 @@ end
 function ref!( pb::ShowGe{T}; gj::Bool=false )  where T <: Number
         pb.matrices, pb.pivot_cols, pb.desc = reduce_to_ref( [pb.A pb.B], n=size(pb.A,2), gj=gj );
         pb.pivot_list, pb.bg_for_entries, pb.ref_path_list, pb.basic_var = decorate_ge(pb.desc,pb.pivot_cols,size(pb.A); pivot_color="yellow!40");
+        pb.rank = length( pb.pivot_cols )
         nothing
 end
 # --------------------------------------------------------------------------------------------------------------
@@ -63,31 +65,92 @@ function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: 
     cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
 end
 # --------------------------------------------------------------------------------------------------------------
-function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number
+function create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
     A      = Ab[:, 1:size(pb.A,2)]
     b      = Ab[:, size(pb.A,2)+b_col]
     pb.cascade = nM.BacksubstitutionCascade(A,b)
-    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
 end
 # --------------------------------------------------------------------------------------------------------------
-function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Number
+function create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
     A      = Ab[:, 1:size(pb.A,2)]
     b      = Ab[:, size(pb.A,2)+b_col]
     pb.cascade = nM.BacksubstitutionCascade(A,b)
-    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
 end
-function show_backsubstitution!(  pb::ShowGe{T}; b_col=1 )   where T <: Integer
+# --------------------------------------------------------------------------------------------------------------
+function create_cascade!(  pb::ShowGe{T}; b_col=1 )   where T <: Integer
     Ab = pb.matrices[end][end]
     A      = Ab[:, 1:size(pb.A,2)]
     b      = Ab[:, size(pb.A,2)+b_col]
 
     pb.cascade = nM.BacksubstitutionCascade(A,b)
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number
+    create_cascade!( pb; b_col=b_col )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
 end
+# --------------------------------------------------------------------------------------------------------------
+function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Number
+    create_cascade!( pb; b_col=b_col )
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
+end
+function show_backsubstitution!(  pb::ShowGe{T}; b_col=1 )   where T <: Integer
+    create_cascade!( pb; b_col=b_col )
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
+end
+# ==============================================================================================================
+function homogeneous_solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
+    M,N = size(pb.A)
+    if pb.rank == N return zeros( eltype(pb.A), M) end
+
+    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
+    free_cols = filter(x -> !(x in pivot_cols), 1:N)
+    
+    Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
+    F  = matrices[end][end][1:pb.rank,free_cols]
+
+    for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
+    Xh[1:pb.rank,:] = -F
+    Xh
+end
+function homogeneous_solutions(pb::ShowGe{Rational{T}} )   where T <: Number
+    M,N = size(pb.A)
+    if pb.rank == N return zeros( eltype(pb.A), M) end
+
+    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
+    free_cols = filter(x -> !(x in pivot_cols), 1:N)
+    
+    Xh = zeros(Rational{T}, N, N-pb.rank)
+    F  = matrices[end][end][1:pb.rank,free_cols]
+
+    for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
+    Xh[1:pb.rank,:] = -F
+    Xh
+end
+function homogeneous_solutions(pb::ShowGe{T} )   where T <: Number
+    M,N = size(pb.A)
+    if pb.rank == N return zeros( eltype(pb.A), M) end
+
+    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
+    free_cols = filter(x -> !(x in pivot_cols), 1:N)
+    
+    Xh = zeros(T, N, N-pb.rank)
+    F  = matrices[end][end][1:pb.rank,free_cols]
+
+    for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
+    Xh[1:pb.rank,:] = -F
+    Xh
+end
+# ==============================================================================================================
+#function homogeneous_solution(pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number)
+#  N = size(pb.A,2)
+#  matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][:,1:N], n=N, gj=true );
+#  Xh = similar(pb.A, size(pb.A,1), A - pb.rank)
+#end
 # ==============================================================================================================
 # Using the computer to produce a nice layout of the computations
 function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing,
