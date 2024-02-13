@@ -119,7 +119,7 @@ function homogeneous_solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: N
 end
 function homogeneous_solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     M,N = size(pb.A)
-    if pb.rank == N return zeros( eltype(pb.A), M) end
+    if pb.rank == N return zeros( eltype(pb.A), N) end
 
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
     free_cols = filter(x -> !(x in pivot_cols), 1:N)
@@ -133,7 +133,7 @@ function homogeneous_solutions(pb::ShowGe{Rational{T}} )   where T <: Number
 end
 function homogeneous_solutions(pb::ShowGe{T} )   where T <: Number
     M,N = size(pb.A)
-    if pb.rank == N return zeros( eltype(pb.A), M) end
+    if pb.rank == N return zeros( eltype(pb.A), N) end
 
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
     free_cols = filter(x -> !(x in pivot_cols), 1:N)
