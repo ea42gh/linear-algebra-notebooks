@@ -20,11 +20,17 @@ mutable struct ShowGe{T<:Number}
     h
     m
 
-    function ShowGe{T}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
-        new(A,B,size(B,2), tmp_dir)
-    end
+  function ShowGe{T}(A::Matrix{T}, B::Vector{T}, tmp_dir="tmp") where T <: Number
+      new(A,B,size(B,2), tmp_dir)
+  end
+  function ShowGe{Rational{T}}(A::Matrix{T}, B::Vector{T}, tmp_dir="tmp") where T <: Number
+      new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
+  end
+  function ShowGe{T}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
+      new(A,B,size(B,2), tmp_dir)
+  end
   function ShowGe{Rational{T}}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
-        new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
+      new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
   end
 end
 # --------------------------------------------------------------------------------------------------------------
