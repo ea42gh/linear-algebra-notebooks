@@ -2,9 +2,9 @@
 #FROM ubuntu:23.10
 FROM ubuntu:22.04
 
-#ARG PYTHON_VERSION=3.12.0
-ARG PYTHON_VERSION=3.11.4
-ARG JULIA_VERSION=1.9.3
+ARG PYTHON_VERSION=3.12.0
+#ARG PYTHON_VERSION=3.12.2
+ARG JULIA_VERSION=1.10.1
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -60,7 +60,8 @@ RUN apt-get purge -y gcc make wget zlib1g-dev libffi-dev libssl-dev \
         libncurses5-dev libncursesw5-dev xz-utils && \
     apt-get autoremove -y
 
-RUN pip install jupyterlab notebook nbclassic
+RUN pip install jupyterlab notebook 
+#nbclassic
 
 # ------------------------------------------------------------ local USER
 # Configure environment
