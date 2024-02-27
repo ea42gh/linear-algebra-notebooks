@@ -130,7 +130,7 @@ function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
     free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
-    Xp                         = zeros(Rational{T}}, N, size(pb.B,2))
+    Xp                         = zeros(Rational{T}, N, size(pb.B,2))
     F                          = matrices[end][end][1:pb.rank,N+1:end]
     Xp[pivot_cols,:]           = F
 
