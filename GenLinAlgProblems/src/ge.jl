@@ -20,16 +20,16 @@ mutable struct ShowGe{T<:Number}
     h
     m
 
-  function ShowGe{T}(A::Matrix{T}, B::Vector{T}, tmp_dir="tmp") where T <: Number
+  function ShowGe{T}(A::Matrix{T}, B::Vector{T}; tmp_dir="tmp") where T <: Number
       new(A,B,size(B,2), tmp_dir)
   end
-  function ShowGe{Rational{T}}(A::Matrix{T}, B::Vector{T}, tmp_dir="tmp") where T <: Number
+  function ShowGe{Rational{T}}(A::Matrix{T}, B::Vector{T}; tmp_dir="tmp") where T <: Number
       new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
   end
-  function ShowGe{T}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
+  function ShowGe{T}(A::Matrix{T}, B::Matrix{T}; tmp_dir="tmp") where T <: Number
       new(A,B,size(B,2), tmp_dir)
   end
-  function ShowGe{Rational{T}}(A::Matrix{T}, B::Matrix{T}, tmp_dir="tmp") where T <: Number
+  function ShowGe{Rational{T}}(A::Matrix{T}, B::Matrix{T}; tmp_dir="tmp") where T <: Number
       new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
   end
 end
@@ -109,47 +109,53 @@ function show_backsubstitution!(  pb::ShowGe{T}; b_col=1 )   where T <: Integer
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/backsubstitution")
 end
 # ==============================================================================================================
-function homogeneous_solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
-    M,N = size(pb.A)
-    if pb.rank == N return zeros( eltype(pb.A), N) end
+function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
+    M,N                        = size(pb.A)
+    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
+    free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
-    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
-    free_cols = filter(x -> !(x in pivot_cols), 1:N)
-    
+    Xp                         = zeros(Complex{Rational{T}}, N, size(pb.B,2))
+    F                          = matrices[end][end][1:pb.rank,N+1:end]
+    Xp[pivot_cols,:]           = F
+
     Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,free_cols]
 
     for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
-    Xh[1:pb.rank,:] = -F
-    Xh
+    Xh[pivot_cols,:] = -F
+    Xp, Xh
 end
-function homogeneous_solutions(pb::ShowGe{Rational{T}} )   where T <: Number
-    M,N = size(pb.A)
-    if pb.rank == N return zeros( eltype(pb.A), N) end
+function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
+    M,N                        = size(pb.A)
+    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
+    free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
-    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
-    free_cols = filter(x -> !(x in pivot_cols), 1:N)
-    
-    Xh = zeros(Rational{T}, N, N-pb.rank)
+    Xp                         = zeros(Rational{T}}, N, size(pb.B,2))
+    F                          = matrices[end][end][1:pb.rank,N+1:end]
+    Xp[pivot_cols,:]           = F
+
+    Xh = zeros(Rational{T}}, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,free_cols]
 
     for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
-    Xh[1:pb.rank,:] = -F
-    Xh
+    Xh[pivot_cols,:] = -F
+    Xp, Xh
 end
-function homogeneous_solutions(pb::ShowGe{T} )   where T <: Number
-    M,N = size(pb.A)
-    if pb.rank == N return zeros( eltype(pb.A), N) end
+function solutions(pb::ShowGe{T} )   where T <: Number
+    M,N                        = size(pb.A)
+    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
+    free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
-    matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:N], n=N, gj=true )
-    free_cols = filter(x -> !(x in pivot_cols), 1:N)
-    
+    Xp                         = zeros(T, N, size(pb.B,2))
+    F                          = matrices[end][end][1:pb.rank,N+1:end]
+    Xp[pivot_cols,:]           = F
+
     Xh = zeros(T, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,free_cols]
 
     for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
-    Xh[1:pb.rank,:] = -F
-    Xh
+    Xh[pivot_cols,:] = -F
+    Xp, Xh
 end
 # ==============================================================================================================
 #function homogeneous_solution(pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number)
