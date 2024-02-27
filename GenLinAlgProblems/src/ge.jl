@@ -134,7 +134,7 @@ function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     F                          = matrices[end][end][1:pb.rank,N+1:end]
     Xp[pivot_cols,:]           = F
 
-    Xh = zeros(Rational{T}}, N, N-pb.rank)
+    Xh = zeros(Rational{T}, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,free_cols]
 
     for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
