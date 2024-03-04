@@ -53,8 +53,8 @@ export jordan_block, jordan_form, gen_from_jordan_form
 export charpoly
 # display stuff
 export ge, show_solution
-export ShowGe, ref!, show_layout!, show_system, show_backsubstitution!
-export to_html, show_html
+export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, solutions
+export to_html, show_html, pr
 
 include("LatexRepresentations.jl")
 include("MatrixGeneration.jl")
