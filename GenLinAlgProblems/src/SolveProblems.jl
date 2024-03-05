@@ -187,6 +187,7 @@ function _reduce_to_ref(matrices, n; gj=false)
 
     M,N = size(A)
     N = min(n,N)
+  
     row = 1; col = 1; cur_rank = 0; level=size(matrices, 1)-1;
     while true
         p = find_pivot(A, row, col)

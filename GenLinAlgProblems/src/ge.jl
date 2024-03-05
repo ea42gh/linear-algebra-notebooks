@@ -11,6 +11,7 @@ mutable struct ShowGe{T<:Number}
     matrices
     cascade
     pivot_cols
+    free_cols
     desc
     pivot_list
     bg_for_entries
@@ -34,22 +35,31 @@ mutable struct ShowGe{T<:Number}
   end
 end
 # --------------------------------------------------------------------------------------------------------------
-function ref!( pb::ShowGe{T}; gj::Bool=false )  where T <: Number
-        pb.matrices, pb.pivot_cols, pb.desc = reduce_to_ref( [pb.A pb.B], n=size(pb.A,2), gj=gj );
-        pb.pivot_list, pb.bg_for_entries, pb.ref_path_list, pb.basic_var = decorate_ge(pb.desc,pb.pivot_cols,size(pb.A); pivot_color="yellow!40");
-        pb.rank = length( pb.pivot_cols )
-        nothing
+function ref!( pb::ShowGe{T}; gj::Bool=false, normal_eq::Bool=false )  where T <: Number
+    M,N = size(pb.A)
+    if normal_eq
+      pb.matrices, pb.pivot_cols, pb.desc = normal_eq_reduce_to_ref( [pb.A pb.B], n=N, gj=gj );
+      sz = (N,N)
+    else
+      pb.matrices, pb.pivot_cols, pb.desc = reduce_to_ref( [pb.A pb.B], n=N, gj=gj );
+      sz = (M,N)
+    end
+    pb.free_cols = filter(x -> !(x in pb.pivot_cols), 1:N)
+
+    pb.pivot_list, pb.bg_for_entries, pb.ref_path_list, pb.basic_var = decorate_ge(pb.desc,pb.pivot_cols,sz; pivot_color="yellow!40");
+    pb.rank = length( pb.pivot_cols )
+    nothing
 end
 # --------------------------------------------------------------------------------------------------------------
 function show_layout!(  pb::ShowGe{T} )   where T <: Number
-        pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=pb.num_rhs,
-                       fig_scale=0.9,
-                       pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
-                       bg_for_entries   = pb.bg_for_entries,
-                       ref_path_list    = pb.ref_path_list,
-                       variable_summary = pb.basic_var,
-                       tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_layout")
-        pb.h
+    pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=pb.num_rhs,
+                   fig_scale=0.9,
+                   pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
+                   bg_for_entries   = pb.bg_for_entries,
+                   ref_path_list    = pb.ref_path_list,
+                   variable_summary = pb.basic_var,
+                   tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_layout")
+    pb.h
 end
 # --------------------------------------------------------------------------------------------------------------
 function show_system(  pb::ShowGe{T}; b_col=1 )   where T <: Number
@@ -112,48 +122,45 @@ end
 function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
-    free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
     Xp                         = zeros(Complex{Rational{T}}, N, size(pb.B,2))
     F                          = matrices[end][end][1:pb.rank,N+1:end]
     Xp[pivot_cols,:]           = F
 
     Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
-    F  = matrices[end][end][1:pb.rank,free_cols]
+    F  = matrices[end][end][1:pb.rank,pb.free_cols]
 
-    for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
+    for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
     Xh[pivot_cols,:] = -F
     Xp, Xh
 end
 function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
-    free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
     Xp                         = zeros(Rational{T}, N, size(pb.B,2))
     F                          = matrices[end][end][1:pb.rank,N+1:end]
     Xp[pivot_cols,:]           = F
 
     Xh = zeros(Rational{T}, N, N-pb.rank)
-    F  = matrices[end][end][1:pb.rank,free_cols]
+    F  = matrices[end][end][1:pb.rank,pb.free_cols]
 
-    for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
+    for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
     Xh[pivot_cols,:] = -F
     Xp, Xh
 end
 function solutions(pb::ShowGe{T} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
-    free_cols                  = filter(x -> !(x in pivot_cols), 1:N)
 
     Xp                         = zeros(T, N, size(pb.B,2))
     F                          = matrices[end][end][1:pb.rank,N+1:end]
     Xp[pivot_cols,:]           = F
 
     Xh = zeros(T, N, N-pb.rank)
-    F  = matrices[end][end][1:pb.rank,free_cols]
+    F  = matrices[end][end][1:pb.rank,pb.free_cols]
 
-    for (col,row) in enumerate(free_cols)  Xh[row,col] = 1  end
+    for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
     Xh[pivot_cols,:] = -F
     Xp, Xh
 end
