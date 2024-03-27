@@ -91,3 +91,5 @@ function round_matrices( matrices, digits )
     apply_function( x->round_value(x,digits), matrices)
 end
 # ==============================================================================
+function latex(s::String) LaTeXStrings.LaTeXString(s) end
+

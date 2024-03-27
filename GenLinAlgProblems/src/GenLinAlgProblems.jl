@@ -11,12 +11,16 @@ function __init__()
 end
 export py_itikz, nM
 
-using AbstractAlgebra, LinearAlgebra, Latexify, SymPy
+using AbstractAlgebra, LinearAlgebra, Latexify, LaTeXStrings, SymPy
 using Random, Hadamard
 
 # general utility
+function Base.adjoint(s::LaTeXString) s end
+function Base.adjoint(s::String) s end
+function Base.adjoint(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
+
 export apply_function, factor_out_denominator
-export to_latex, print_np_array_def
+export latex, to_latex, print_np_array_def
 export round_value, round_matrices
 
 
