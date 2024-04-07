@@ -60,7 +60,7 @@ RUN apt-get purge -y gcc make wget zlib1g-dev libffi-dev libssl-dev \
         libncurses5-dev libncursesw5-dev xz-utils && \
     apt-get autoremove -y
 
-RUN pip install jupyterlab notebook 
+RUN python -m pip install jupyterlab notebook 
 #nbclassic
 
 # ------------------------------------------------------------ local USER
@@ -128,24 +128,27 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 USER $NB_USER
 WORKDIR $HOME
 
-RUN pip install sympy && \
-    pip install numpy && \
-    pip install pandas && \
-    pip install k3d   && \
-    pip install holoviews[recommended] && \
-    pip install hvplot && \
-    pip install plotly && \
-    pip install streamz && \
-    pip install scipy && \
-    pip install --upgrade webio_jupyter_extension && \
-    pip install pygraphviz && \
-    pip install julia && \
-    pip install git+https://github.com/ea42gh/itikz.git && \
-    git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
-#    pip install jupyterlab_myst && \
+RUN python -m pip install sympy && \
+    python -m pip install numpy && \
+    python -m pip install pandas && \
+    python -m pip install k3d   && \
+    python -m pip install holoviews[recommended] && \
+    python -m pip install hvplot && \
+    python -m pip install plotly && \
+    python -m pip install streamz && \
+    python -m pip install scipy && \
+    python -m pip install --upgrade webio_jupyter_extension && \
+    python -m pip install pygraphviz && \
+    python -m pip install julia && \
+    python -m pip install git+https://github.com/ea42gh/itikz.git && \
+    git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git && \
+    git clone https://github.com/ea42gh/itikz.git   # wanted to patch latexmk
+#    python -m pip install jupyterlab_myst && \
 
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages", "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);' && \
-    julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "IJulia", "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings"]; Pkg.add.(p);'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "TestImages"]; Pkg.add.(p);'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);'
+RUN julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
 
 RUN echo -e "\
 export PS1='-> ' \n\
@@ -153,6 +156,9 @@ export PS2='->>  ' \n\
 " > .bashrc
 
 USER root
+WORKDIR $HOME
+RUN patch /usr/bin/latexmk < itikz/patch.latexmk
+
 WORKDIR /tmp
 
 RUN jupyter server --generate-config && \
@@ -190,6 +196,7 @@ USER $NB_USER
 WORKDIR $HOME
 
 RUN ln -s /tmp tmp && \
+    rm -rf itikz && \
     mv elementary-linear-algebra/* . && \
     rm -rf bin binder tasks .gitignore \
        README.md Makefile tex2svg textosvg.py xetex2svg \
