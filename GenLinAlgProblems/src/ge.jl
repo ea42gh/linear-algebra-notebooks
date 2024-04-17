@@ -3,10 +3,10 @@
 #nM    = pyimport("itikz.nicematrix")
 # ==============================================================================================================
 mutable struct ShowGe{T<:Number}
+    tmp_dir
     A
     B
     num_rhs
-    tmp_dir
 
     matrices
     cascade
@@ -21,27 +21,41 @@ mutable struct ShowGe{T<:Number}
     h
     m
 
+
+  function ShowGe{T}(A::Matrix{T}; tmp_dir="tmp") where T <: Number
+      new(tmp_dir, A)
+  end
+  function ShowGe{Rational{T}}(A::Matrix{T}; tmp_dir="tmp") where T <: Number
+      new(tmp_dir, Rational{T}.(A) )
+  end
+
   function ShowGe{T}(A::Matrix{T}, B::Vector{T}; tmp_dir="tmp") where T <: Number
-      new(A,B,size(B,2), tmp_dir)
+      new(tmp_dir, A,B,size(B,2))
   end
   function ShowGe{Rational{T}}(A::Matrix{T}, B::Vector{T}; tmp_dir="tmp") where T <: Number
-      new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
+      new(tmp_dir, Rational{T}.(A),Rational{T}.(B),size(B,2))
   end
   function ShowGe{T}(A::Matrix{T}, B::Matrix{T}; tmp_dir="tmp") where T <: Number
-      new(A,B,size(B,2), tmp_dir)
+      new(tmp_dir, A,B,size(B,2))
   end
   function ShowGe{Rational{T}}(A::Matrix{T}, B::Matrix{T}; tmp_dir="tmp") where T <: Number
-      new(Rational{T}.(A),Rational{T}.(B),size(B,2), tmp_dir)
+      new(tmp_dir, Rational{T}.(A),Rational{T}.(B),size(B,2))
   end
 end
 # --------------------------------------------------------------------------------------------------------------
 function ref!( pb::ShowGe{T}; gj::Bool=false, normal_eq::Bool=false )  where T <: Number
     M,N = size(pb.A)
+    if isdefined( pb, :B)
+       A = [pb.A pb.B]
+    else
+       A = pb.A
+       pb.num_rhs = 0
+    end
     if normal_eq
-      pb.matrices, pb.pivot_cols, pb.desc = normal_eq_reduce_to_ref( [pb.A pb.B], n=N, gj=gj );
+      pb.matrices, pb.pivot_cols, pb.desc = normal_eq_reduce_to_ref( A, n=N, gj=gj );
       sz = (N,N)
     else
-      pb.matrices, pb.pivot_cols, pb.desc = reduce_to_ref( [pb.A pb.B], n=N, gj=gj );
+      pb.matrices, pb.pivot_cols, pb.desc = reduce_to_ref( A, n=N, gj=gj );
       sz = (M,N)
     end
     pb.free_cols = filter(x -> !(x in pb.pivot_cols), 1:N)
@@ -52,7 +66,12 @@ function ref!( pb::ShowGe{T}; gj::Bool=false, normal_eq::Bool=false )  where T <
 end
 # --------------------------------------------------------------------------------------------------------------
 function show_layout!(  pb::ShowGe{T} )   where T <: Number
-    pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=pb.num_rhs,
+    if isdefined( pb, :B)
+       num_rhs = pb.num_rhs
+    else
+       num_rhs = 0
+    end
+    pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=num_rhs,
                    fig_scale=0.9,
                    pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
                    bg_for_entries   = pb.bg_for_entries,
@@ -63,20 +82,35 @@ function show_layout!(  pb::ShowGe{T} )   where T <: Number
 end
 # --------------------------------------------------------------------------------------------------------------
 function show_system(  pb::ShowGe{T}; b_col=1 )   where T <: Number
-    cascade = nM.BacksubstitutionCascade( pb.A, pb.B[:,b_col] )
-    cascade.show( pb.A, pb.B[:,b_col], show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
+    if isdefined( pb, :B)
+       b = pb.N[:,b_col]
+    else
+       b = zeros( eltype(pb.A), size(pb.A,1), 1)
+    end
+
+    cascade = nM.BacksubstitutionCascade( pb.A, b )
+    cascade.show( pb.A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
 end
 function show_system(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     A = cnv.(pb.A)
-    b = cnv.(pb.B[:,b_col])
+    if isdefined( pb, :B)
+       b = cnv.(pb.B[:,b_col])
+    else
+       b = cnv.(zeros( eltype(pb.A), size(A,1), 1))
+    end
+
     cascade = nM.BacksubstitutionCascade( A, b )
     cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
 end
 function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     A = cnv.(pb.A)
-    b = cnv.(pb.B[:,b_col])
+    if isdefined( pb, :B)
+       b = cnv.(pb.B[:,b_col])
+    else
+       b = cnv.(zeros( eltype(A), size(A,1), 1))
+    end
     cascade = nM.BacksubstitutionCascade( A, b )
     cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.tmp_dir*"/show_system")
 end
@@ -85,7 +119,11 @@ function create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1 )   where T
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
     A      = Ab[:, 1:size(pb.A,2)]
-    b      = Ab[:, size(pb.A,2)+b_col]
+    if isdefined( pb, :B)
+       b = Ab[:, size(pb.A,2)+b_col]
+    else
+       b = zeros( eltype(A), size(A,1), 1)
+    end
     pb.cascade = nM.BacksubstitutionCascade(A,b)
 end
 # --------------------------------------------------------------------------------------------------------------
@@ -93,14 +131,22 @@ function create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1 )   where T <: Numbe
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
     A      = Ab[:, 1:size(pb.A,2)]
-    b      = Ab[:, size(pb.A,2)+b_col]
+    if isdefined( pb, :B)
+       b = Ab[:, size(pb.A,2)+b_col]
+    else
+       b = cnv.(zeros( eltype(pb.A), size(A,1), 1))
+    end
     pb.cascade = nM.BacksubstitutionCascade(A,b)
 end
 # --------------------------------------------------------------------------------------------------------------
 function create_cascade!(  pb::ShowGe{T}; b_col=1 )   where T <: Integer
     Ab = pb.matrices[end][end]
     A      = Ab[:, 1:size(pb.A,2)]
-    b      = Ab[:, size(pb.A,2)+b_col]
+    if isdefined( pb, :B)
+       b = Ab[:, size(pb.A,2)+b_col]
+    else
+       b = zeros( eltype(A), size(A,1), 1)
+    end
 
     pb.cascade = nM.BacksubstitutionCascade(A,b)
 end
@@ -123,9 +169,13 @@ function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
 
-    Xp                         = zeros(Complex{Rational{T}}, N, size(pb.B,2))
-    F                          = matrices[end][end][1:pb.rank,N+1:end]
-    Xp[pivot_cols,:]           = F
+    if pb.num_rhs > 0
+        Xp                         = zeros(Complex{Rational{T}}, N, pb.num_rhs)
+        F                          = matrices[end][end][1:pb.rank,N+1:end]
+        Xp[pivot_cols,:]           = F
+    else
+        Xp                         = zeros(Complex{Rational{T}}, N, 1)
+    end
 
     Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,pb.free_cols]
@@ -138,9 +188,13 @@ function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
 
-    Xp                         = zeros(Rational{T}, N, size(pb.B,2))
-    F                          = matrices[end][end][1:pb.rank,N+1:end]
-    Xp[pivot_cols,:]           = F
+    if pb.num_rhs > 0
+        Xp                         = zeros(Rational{T}, N, pb.num_rhs)
+        F                          = matrices[end][end][1:pb.rank,N+1:end]
+        Xp[pivot_cols,:]           = F
+    else
+        Xp                         = zeros(Rational{T}, N, 1)
+    end
 
     Xh = zeros(Rational{T}, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,pb.free_cols]
@@ -153,9 +207,13 @@ function solutions(pb::ShowGe{T} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
 
-    Xp                         = zeros(T, N, size(pb.B,2))
-    F                          = matrices[end][end][1:pb.rank,N+1:end]
-    Xp[pivot_cols,:]           = F
+    if pb.num_rhs > 0
+        Xp                         = zeros(T, N, pb.num_rhs)
+        F                          = matrices[end][end][1:pb.rank,N+1:end]
+        Xp[pivot_cols,:]           = F
+    else
+        Xp                         = zeros(T, N, 1)
+    end
 
     Xh = zeros(T, N, N-pb.rank)
     F  = matrices[end][end][1:pb.rank,pb.free_cols]
