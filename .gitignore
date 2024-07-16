@@ -1,8 +1,8 @@
 *.swp
-*.swp
-.ipynb-checkpoints
-notebooks/.ipynb-checkpoints
-GenLinAlgProblems/.ipynb-checkpoints
+*/*.swp
+.ipynb-checkpoints/
+.ipynb-checkpoints/*
+*/.ipynb-checkpoints/
 GenLinAlgProblems/notebooks/.ipynb-checkpoints
 tmp
 notebooks/tmp
