@@ -247,13 +247,13 @@ end
 # ------------------------------------------------------------------------------
 function gen_lu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     U,pivot_cols = ref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
-    L   = unit_lower(m,maxint=maxint) 
+    L   = unit_lower(m,maxint=maxint)
 
     A = L * U
     pivot_cols, L, U, A
 end
 # ------------------------------------------------------------------------------
-function gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)   # TODO: generate P
+function gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     pivot_cols, L, U, A = gen_lu_pb(m,n,r;maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros)
 
     P   = Matrix{eltype(U)}(I, m,m )
