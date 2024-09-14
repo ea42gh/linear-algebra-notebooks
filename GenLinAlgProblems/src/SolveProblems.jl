@@ -95,6 +95,13 @@ function homogeneous_solutions( R, pivot_cols)
     H
 end
 # ------------------------------------------------------------------------------
+function find_diag_pivot(A, row, col)
+    for i in row:size(A,1)
+        if A[i,i] != 0  return i end
+    end
+    -1
+end
+# ------------------------------------------------------------------------------
 function find_pivot(A, row, col)
     for i in row:size(A,1)
         if A[i,col] != 0  return i end
@@ -125,7 +132,7 @@ function eliminate( A, pivot_row, row, alpha)
     end
 end
 # ------------------------------------------------------------------------------
-function normal_eq_reduce_to_ref(A; n=:none, gj=false)
+function normal_eq_reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
     if n == :none
       n = size(A,2)
     else
@@ -148,15 +155,15 @@ function normal_eq_reduce_to_ref(A; n=:none, gj=false)
                      [ At,    At*A]]
     end
     
-  _reduce_to_ref( matrices, n; gj=gj)
+  _reduce_to_ref( matrices, n; gj=gj, find_pivot=find_pivot)
 end
 # ------------------------------------------------------------------------------
 """
-function reduce_to_ref(A; n=:none, gj=false)
+function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
 reduce A if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
 """
-function reduce_to_ref(A; n=:none, gj=false)
+function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
     if n == :none
       n = size(A,2)
     else
@@ -172,15 +179,15 @@ function reduce_to_ref(A; n=:none, gj=false)
 
     matrices    = [[ :none, A ]]
 
-    _reduce_to_ref( matrices, n; gj=gj)
+    _reduce_to_ref( matrices, n; gj=gj, find_pivot=find_pivot)
 end 
 # ------------------------------------------------------------------------------
 """
-function _reduce_to_ref(matrices, n; gj=false)
+function _reduce_to_ref(matrices, n; gj=false, find_pivot=find_pivot)
 reduce matrices[end][end] to REF if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
 """
-function _reduce_to_ref(matrices, n; gj=false)
+function _reduce_to_ref(matrices, n; gj=false, find_pivot=find_pivot)
     A           = copy(matrices[end][end])
     pivot_cols  = Int[]
     description = []
@@ -265,7 +272,6 @@ function _reduce_to_ref(matrices, n; gj=false)
 
     matrices, pivot_cols, description
 end 
-# ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 function ge_variable_type( pivot_cols, n)
     l = Vector{Any}([ false for _ in 1:n])
