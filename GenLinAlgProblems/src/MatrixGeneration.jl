@@ -256,21 +256,17 @@ end
 function gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     pivot_cols, L, U, A = gen_lu_pb(m,n,r;maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros)
 
-    P   = Matrix{eltype(U)}(I, m,m )
+    P  = gen_permutation_matrix(m)
+    A            = L * P * U
 
-    if m > r
-        num_rows_to_exchange  = min(m-r,rand(1:r))
-        rows_to_exchange      = randperm(r)[1:num_rows_to_exchange]
-        for i in eachindex(rows_to_exchange)
-            j = rows_to_exchange[i]
-            P[j,  j] = zero(eltype(P)); P[r+i,r+i] = zero(eltype(P))
-            P[r+i,j] = one(eltype(P));  P[j,  r+i] = one(eltype(P))
-        end
+    matrices,_,_ = reduce_to_ref(P'A)
+    if length(matrices) > 1
+        L̃            = 1I-sum([tril(l[1],-1) for l in matrices[2:end]])
+    else
+        L̃            = 1I(m)
     end
-
-    L  = unit_lower(m,maxint = maxint)
-    A  = L * P * U
-    pivot_cols, P, L, U, A
+    Ũ            = inv(Rational{Int}.(L̃))*P'*A
+    pivot_cols, P, L̃, Ũ, A
 end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------- orthogonal matrices
