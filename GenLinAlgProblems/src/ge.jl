@@ -75,7 +75,7 @@ function ref!( pb::ShowGe{T}; gj::Bool=false, normal_eq::Bool=false )  where T <
     nothing
 end
 # --------------------------------------------------------------------------------------------------------------
-function show_layout!(  pb::ShowGe{T} )   where T <: Number
+function show_layout!(  pb::ShowGe{T}; array_names=None )   where T <: Number
     if isdefined( pb, :B)
        num_rhs = pb.num_rhs
     else
@@ -87,6 +87,7 @@ function show_layout!(  pb::ShowGe{T} )   where T <: Number
                    bg_for_entries   = pb.bg_for_entries,
                    ref_path_list    = pb.ref_path_list,
                    variable_summary = pb.basic_var,
+                   array_names      = array_names,
                    tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
     pb.h
 end
