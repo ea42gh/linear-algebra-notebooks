@@ -75,7 +75,7 @@ function ref!( pb::ShowGe{T}; gj::Bool=false, normal_eq::Bool=false )  where T <
     nothing
 end
 # --------------------------------------------------------------------------------------------------------------
-function show_layout!(  pb::ShowGe{T}; array_names=:None )   where T <: Number
+function show_layout!(  pb::ShowGe{T}; array_names=nothing )   where T <: Number
     if isdefined( pb, :B)
        num_rhs = pb.num_rhs
     else
