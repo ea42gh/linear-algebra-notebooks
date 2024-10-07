@@ -180,12 +180,12 @@ function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
 
-    if pb.num_rhs > 0
-        Xp                         = zeros(Complex{Rational{T}}, N, pb.num_rhs)
-        F                          = matrices[end][end][1:pb.rank,N+1:end]
-        Xp[pivot_cols,:]           = F
+    if sum(pb.num_rhs) > 0
+      Xp                         = zeros(Complex{Rational{T}}, N, sum(pb.num_rhs))
+      F                          = matrices[end][end][1:pb.rank,N+1:end]
+      Xp[pivot_cols,:]           = F
     else
-        Xp                         = zeros(Complex{Rational{T}}, N, 1)
+      Xp                         = zeros(Complex{Rational{T}}, N, 1)
     end
 
     Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
@@ -199,12 +199,12 @@ function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
 
-    if pb.num_rhs > 0
-        Xp                         = zeros(Rational{T}, N, pb.num_rhs)
-        F                          = matrices[end][end][1:pb.rank,N+1:end]
-        Xp[pivot_cols,:]           = F
+    if sum(pb.num_rhs) > 0
+      Xp                         = zeros(Rational{T}, N, sum(pb.num_rhs))
+      F                          = matrices[end][end][1:pb.rank,N+1:end]
+      Xp[pivot_cols,:]           = F
     else
-        Xp                         = zeros(Rational{T}, N, 1)
+      Xp                         = zeros(Rational{T}, N, 1)
     end
 
     Xh = zeros(Rational{T}, N, N-pb.rank)
@@ -218,12 +218,12 @@ function solutions(pb::ShowGe{T} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
 
-    if pb.num_rhs > 0
-        Xp                         = zeros(T, N, pb.num_rhs)
-        F                          = matrices[end][end][1:pb.rank,N+1:end]
-        Xp[pivot_cols,:]           = F
+    if sum(pb.num_rhs) > 0
+      Xp                         = zeros(T, N, sum(pb.num_rhs))
+      F                          = matrices[end][end][1:pb.rank,N+1:end]
+      Xp[pivot_cols,:]           = F
     else
-        Xp                         = zeros(T, N, 1)
+      Xp                         = zeros(T, N, 1)
     end
 
     Xh = zeros(T, N, N-pb.rank)
