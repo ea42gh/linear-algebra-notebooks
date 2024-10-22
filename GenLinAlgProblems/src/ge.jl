@@ -78,7 +78,7 @@ function ref!( pb::ShowGe{T}; N_rhs=:None, gj::Bool=false, normal_eq::Bool=false
     nothing
 end
 # --------------------------------------------------------------------------------------------------------------
-function show_layout!(  pb::ShowGe{T}; array_names=nothing )   where T <: Number
+function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true )   where T <: Number
     if isdefined( pb, :B)
        num_rhs = pb.num_rhs
     else
@@ -89,7 +89,7 @@ function show_layout!(  pb::ShowGe{T}; array_names=nothing )   where T <: Number
                    pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
                    bg_for_entries   = pb.bg_for_entries,
                    ref_path_list    = pb.ref_path_list,
-                   variable_summary = pb.basic_var,
+                   variable_summary = show_variables ? pb.basic_var : nothing,
                    array_names      = array_names,
                    tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
     pb.h
