@@ -3,8 +3,14 @@
 .ipynb-checkpoints/
 .ipynb-checkpoints/*
 */.ipynb-checkpoints/
+*/.ipynb-checkpoints/*
 GenLinAlgProblems/notebooks/.ipynb-checkpoints
 tmp
 notebooks/tmp
 GenLinAlgProblems/tmp
+GenLinAlgProblems/Manifest.toml
 GenLinAlgProblems/notebooks/tmp
+GenLinAlgProblems/notebooks/.ipynb-checkpoints
+Notes/.obsidian
+MISC/
+othermaterial
