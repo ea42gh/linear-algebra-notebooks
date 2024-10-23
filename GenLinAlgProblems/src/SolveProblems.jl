@@ -424,6 +424,20 @@ function gram_schmidt_w(A)
     Int64.(W)
 end
 # ------------------------------------------------------------------------------
+function gram_schmidt_q(A)
+    W = gram_schmidt_w(A)
+
+    WtW  = Diagonal(W'W)
+    WtA  = W'A
+    S    =  ((x-> Rational{Int64}(round(sqrt(x)))).(WtW))^(-1)
+
+    Qt = S * W'
+    R  = S * WtA
+    dQ,Qint = factor_out_denominator( Qt' )
+    dR,Rint = factor_out_denominator( R )
+    dQ, Qint, dR, Rint 
+end
+# ------------------------------------------------------------------------------
 function qr_layout(A)
     W = gram_schmidt_w(A)
 
