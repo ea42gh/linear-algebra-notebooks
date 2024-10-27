@@ -407,7 +407,7 @@ function gen_eigenproblem( e_vals; maxint=3 )
 end
 # ------------------------------------------------------------------------------
 function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
-    function construct_diagonal_blocks( e_vals )
+    function construct_diagonal_blocks()
         t = typeof( real( evals_no_conj[1] ))
         function f(x)
             if imag(x) == zero( t )
@@ -428,7 +428,7 @@ function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
         A
     end
 
-    Λ       = construct_diagonal_blocks( evals_no_conj)
+    Λ       = construct_diagonal_blocks()
     S,S_inv = gen_inv_pb( size(Λ,1), maxint=maxint )
     S,Λ,S_inv, S*Λ*S_inv
 end
