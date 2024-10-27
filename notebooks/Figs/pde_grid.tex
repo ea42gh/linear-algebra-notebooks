@@ -1,0 +1,122 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary {arrows.meta}
+
+\begin{document}
+{\pgfkeys{/pgf/fpu/.try=false}%
+\ifx\XFigwidth\undefined\dimen1=0pt\else\dimen1\XFigwidth\fi
+\divide\dimen1 by 6327
+\ifx\XFigheight\undefined\dimen3=0pt\else\dimen3\XFigheight\fi
+\divide\dimen3 by 6067
+\ifdim\dimen1=0pt\ifdim\dimen3=0pt\dimen1=3946sp\dimen3\dimen1
+  \else\dimen1\dimen3\fi\else\ifdim\dimen3=0pt\dimen3\dimen1\fi\fi
+\tikzpicture[x=+\dimen1, y=+\dimen3]
+{\ifx\XFigu\undefined\catcode`\@11
+\def\temp{\alloc@1\dimen\dimendef\insc@unt}\temp\XFigu\catcode`\@12\fi}
+\XFigu3946sp
+% Uncomment to scale line thicknesses with the same
+% factor as width of the drawing.
+%\pgfextractx\XFigu{\pgfqpointxy{1}{1}}
+\ifdim\XFigu<0pt\XFigu-\XFigu\fi
+%EGB \pgfdeclarearrow{
+%EGB   name = xfiga1,
+%EGB   parameters = {
+%EGB     \the\pgfarrowlinewidth \the\pgfarrowlength \the\pgfarrowwidth\ifpgfarrowopen o\fi},
+%EGB   defaults = {
+%EGB 	  line width=+7.5\XFigu, length=+120\XFigu, width=+60\XFigu},
+%EGB   setup code = {
+%EGB     % miter protrusion = thk * sqrt(wd^2 + (tipmv*len)^2) / (2 * wd)
+%EGB     \dimen7 2.1\pgfarrowlength\pgfmathveclen{\the\dimen7}{\the\pgfarrowwidth}
+%EGB     \dimen7 2\pgfarrowwidth\pgfmathdivide{\pgfmathresult}{\the\dimen7}
+%EGB     \dimen7 \pgfmathresult\pgfarrowlinewidth
+%EGB     \pgfarrowssettipend{+\dimen7}
+%EGB     \pgfarrowssetbackend{+-\pgfarrowlength}
+%EGB     \dimen9 -\pgfarrowlength\advance\dimen9 by-0.45\pgfarrowlinewidth
+%EGB     \pgfarrowssetlineend{+\dimen9}
+%EGB     \dimen9 -\pgfarrowlength\advance\dimen9 by-0.5\pgfarrowlinewidth
+%EGB     \pgfarrowssetvisualbackend{+\dimen9}
+%EGB     \pgfarrowshullpoint{+\dimen7}{+0pt}
+%EGB     \pgfarrowsupperhullpoint{+-\pgfarrowlength}{+0.5\pgfarrowwidth}
+%EGB     \pgfarrowssavethe\pgfarrowlinewidth
+%EGB     \pgfarrowssavethe\pgfarrowlength
+%EGB     \pgfarrowssavethe\pgfarrowwidth
+%EGB   },
+%EGB   drawing code = {\pgfsetdash{}{+0pt}
+%EGB     %EGB \ifdim\pgfarrowlinewidth=\pgflinewidth\else\pgfsetlinewidth{+\pgfarrowlinewidth}\fi
+%EGB     \pgfpathmoveto{\pgfqpoint{-\pgfarrowlength}{-0.5\pgfarrowwidth}}
+%EGB     \pgfpathlineto{\pgfqpoint{0pt}{0pt}}
+%EGB     \pgfpathlineto{\pgfqpoint{-\pgfarrowlength}{0.5\pgfarrowwidth}}
+%EGB     \pgfpathclose
+%EGB     \ifpgfarrowopen\pgfusepathqstroke\else\pgfsetfillcolor{.}
+%EGB 	%EGB \ifdim\pgfarrowlinewidth>0pt\pgfusepathqfillstroke\else\pgfusepathqfill\fi\fi
+%EGB   }
+%EGB }
+\clip(585,-6355) rectangle (6912,-288);
+\tikzset{inner sep=+0pt, outer sep=+0pt}
+\pgfsetlinewidth{+7.5\XFigu}
+\pgfsetstrokecolor{black}
+\draw  (2400,-4800) circle [radius=+75];
+\draw  (4800,-4800) circle [radius=+75];
+\draw  (6000,-4800) circle [radius=+75];
+\draw  (6000,-6000) circle [radius=+75];
+\draw  (4800,-6000) circle [radius=+75];
+\draw  (3600,-6000) circle [radius=+75];
+\draw  (2400,-6000) circle [radius=+75];
+\draw  (1200,-4800) circle [radius=+75];
+\draw  (1200,-6000) circle [radius=+75];
+\draw  (1200,-3600) circle [radius=+75];
+\draw  (1200,-2400) circle [radius=+75];
+\draw  (1200,-1200) circle [radius=+75];
+\draw  (2400,-1200) circle [radius=+75];
+\draw  (2400,-2400) circle [radius=+75];
+\draw  (4800,-2400) circle [radius=+75];
+\draw  (3600,-1200) circle [radius=+75];
+\draw  (4800,-1200) circle [radius=+75];
+\draw  (6000,-1200) circle [radius=+75];
+\draw  (6000,-2400) circle [radius=+75];
+\draw  (6000,-3600) circle [radius=+75];
+\pgfsetcolor{black}
+\filldraw  (2400,-3600) circle [radius=+75];
+\filldraw  (3600,-4800) circle [radius=+75];
+\filldraw  (3600,-3600) circle [radius=+75];
+\filldraw  (3600,-2400) circle [radius=+75];
+\filldraw  (4800,-3600) circle [radius=+75];
+\draw (1200,-1200) rectangle (6000,-6000);
+\draw (3600,-1200)--(3600,-6000);
+\draw (4800,-1200)--(4800,-6000);
+\draw (1200,-2400)--(6000,-2400);
+\draw (1200,-3600)--(6000,-3600);
+\draw (1200,-4800)--(6000,-4800);
+\draw (2400,-1200)--(2400,-6000);
+\pgfsetlinewidth{+45\XFigu}
+\draw (2400,-3600)--(4800,-3600);
+\draw (3600,-2400)--(3600,-4800);
+\pgfsetlinewidth{+7.5\XFigu}
+%EGB \pgfsetarrows{[line width=7.5\XFigu]}
+%EGB \pgfsetarrows{xfiga1-xfiga1}
+\draw[->] (4800,-900)--(6000,-900);
+\draw[<-] (6300,-1200)--(6300,-2400);
+\pgfsetarrowsstart{}
+\draw[->] (6300,-6000)--(6900,-6000);
+\draw[->] (1200,-900)--(1200,-300);
+\pgftext[base,left,at=\pgfqpointxy{3675}{-3525}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$u_{i,j}$}
+\pgftext[base,left,at=\pgfqpointxy{3675}{-4725}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$u_{i,j-1}$}
+\pgftext[base,left,at=\pgfqpointxy{3675}{-2325}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$u_{i,j+1}$}
+\pgftext[base,left,at=\pgfqpointxy{2475}{-3525}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$u_{i-1,j}$}
+\pgftext[base,left,at=\pgfqpointxy{4875}{-3525}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$u_{i+1,j}$}
+\pgftext[base,left,at=\pgfqpointxy{5175}{-825}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$\Delta x$}
+\pgftext[base,left,at=\pgfqpointxy{6375}{-1875}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$\Delta y$}
+\pgftext[base,left,at=\pgfqpointxy{600}{-2475}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$j=3$}
+\pgftext[base,left,at=\pgfqpointxy{600}{-1275}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$j=4$}
+\pgftext[base,left,at=\pgfqpointxy{600}{-3675}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$j=2$}
+\pgftext[base,left,at=\pgfqpointxy{600}{-4875}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$j=1$}
+\pgftext[base,left,at=\pgfqpointxy{600}{-6075}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$j=0$}
+\pgftext[base,left,at=\pgfqpointxy{1050}{-6300}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$i=0$}
+\pgftext[base,left,at=\pgfqpointxy{2250}{-6300}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$i=1$}
+\pgftext[base,left,at=\pgfqpointxy{3450}{-6300}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$i=2$}
+\pgftext[base,left,at=\pgfqpointxy{4650}{-6300}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$i=3$}
+\pgftext[base,left,at=\pgfqpointxy{5850}{-6300}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$i=4$}
+\pgftext[base,left,at=\pgfqpointxy{1275}{-900}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$y$}
+\pgftext[base,left,at=\pgfqpointxy{6300}{-5925}] {\fontsize{12}{14.4}\usefont{T1}{ptm}{m}{n}$x$}
+\endtikzpicture}%
+\end{document}
