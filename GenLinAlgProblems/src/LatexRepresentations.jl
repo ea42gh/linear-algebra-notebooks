@@ -18,12 +18,12 @@ function factor_out_denominator( A )
 end
 # ------------------------------------------------------------------------------
 function factor_out_denominator( A::Vector{Rational{Int}} )
-    d = reduce( lcm, denominator.(A) )
+    d = reduce( lcm, denominator.(Vector(A)) )
     d, Int64.(d*A)
 end
 # ------------------------------------------------------------------------------
 function factor_out_denominator( A::Array{Rational{Int64},2} )
-    d = reduce( lcm, denominator.(A) )
+    d = reduce( lcm, denominator.(Matrix(A)) )
     d, Int64.(d*A)
 end
 # ------------------------------------------------------------------------------
