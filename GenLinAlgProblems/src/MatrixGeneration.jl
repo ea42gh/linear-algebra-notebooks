@@ -348,12 +348,14 @@ function W_matrix(n)
     Aint
 end
 # ------------------------------------------------------------------------------
-function Q_matrix(n; maxint=3, with_zeros=false )
+function Q_matrix(n; maxint=3, with_zeros=false, general=false )
+  if general == false
     if     n == 2 return Q_2_matrix()
     elseif n == 3 return Q_3_matrix()
     end
-    S=skew_symmetric_matrix(n,maxint=maxint, with_zeros=with_zeros)
-    inv(S-(1//1)I(size(S,1))) * (S+1I(size(S,1)))
+  end
+  S=skew_symmetric_matrix(n,maxint=maxint, with_zeros=with_zeros)
+  inv(S-(1//1)I(size(S,1))) * (S+1I(size(S,1)))
 end
 # ------------------------------------------------------------------------------
 function sparse_Q_matrix(n; maxint=3, with_zeros=false )
