@@ -50,7 +50,9 @@ ENV JULIA_DEPOT_PATH=/opt/julia \
 RUN /opt/setup-scripts/setup_julia.py
 
 USER ${NB_UID}
+
 # Add additional Python libraries
+
 RUN python -m pip install git+https://github.com/ea42gh/itikz.git && \
     git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git && \
     git clone https://github.com/ea42gh/itikz.git
@@ -61,7 +63,10 @@ RUN \
     python -m pip install hvplot && \
     python -m pip install streamz && \
     python -m pip install networkx && \
-    python -m pip install --upgrade webio_jupyter_extension
+    python -m pip install --upgrade webio_jupyter_extension && \
+    python -m pip install streamz && \
+    python -m pip install graphviz
+
 
 RUN python -m pip install pygraphviz && \
     python -m pip install julia
