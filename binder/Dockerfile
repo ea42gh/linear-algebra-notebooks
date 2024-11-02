@@ -87,6 +87,8 @@ export PS1='-> ' \n\
 export PS2='->>  ' \n\
 " > .bashrc
 
+RUN git config --global credential.helper store
+
 #RUN mkdir ${HOME}/work
 
 USER root
