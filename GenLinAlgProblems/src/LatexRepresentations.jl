@@ -98,6 +98,7 @@ function l_show(args...)
     f(A::Diagonal)      = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
     f(s::String)        = L"\text{%$(s)}"
     f(s::LaTeXString)   = s
+    f(n::Number)        = L"%$(latexify(n))"
 
     LaTeXString( join( map(f, args) ))
 end
