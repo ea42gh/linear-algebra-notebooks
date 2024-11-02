@@ -92,4 +92,12 @@ function round_matrices( matrices, digits )
 end
 # ==============================================================================
 function latex(s::String) LaTeXStrings.LaTeXString(s) end
+function l_show(args...)
+    f(A::Array)         = L"%$(latexify(A, adjustment=:r, arraystyle=:round))"
+    f(A::Adjoint)       = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
+    f(A::Diagonal)      = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
+    f(s::String)        = L"\text{%$(s)}"
+    f(s::LaTeXString)   = s
 
+    LaTeXString( join( map(f, args) ))
+end
