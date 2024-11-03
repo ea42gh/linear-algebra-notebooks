@@ -20,7 +20,7 @@ function Base.adjoint(s::String) s end
 function Base.adjoint(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
 
 export apply_function, factor_out_denominator
-export latex, to_latex, print_np_array_def
+export l_show, latex, to_latex, print_np_array_def
 export round_value, round_matrices
 
 
