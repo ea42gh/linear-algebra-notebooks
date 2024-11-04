@@ -1,5 +1,7 @@
 module GenLinAlgProblems
 using PyCall
+using IOCapture
+
 #itikz = pyimport("itikz")
 #nM    = pyimport("itikz.nicematrix")
 
@@ -59,6 +61,7 @@ export charpoly
 export ge, show_solution
 export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, solutions
 export to_html, show_html, pr
+export capture_output, display_side_by_side
 
 include("LatexRepresentations.jl")
 include("MatrixGeneration.jl")
