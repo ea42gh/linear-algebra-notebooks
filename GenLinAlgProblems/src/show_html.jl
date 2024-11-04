@@ -32,19 +32,29 @@ function capture_output(f, args...)
     return captured.output
 end
 
-function display_side_by_side(captured_outputs, titles=nothing)
+function show_side_by_side(captured_outputs, titles=nothing)
     html = """
     <div style="display: flex; justify-content: space-between;">
     """
 
-    for (i, output) in enumerate(captured_outputs)
-        title = isnothing(titles) ? "Output $i" : titles[i]
-        html *= """
-        <div style="flex: 1; margin-right: 10px;">
-        <h4>$title</h4>
-        <pre>$output</pre>
-        </div>
-        """
+    if isnothing(titles)
+        for (i, output) in enumerate(captured_outputs)
+            html *= """
+            <div style="flex: 1; margin-right: 10px;">
+            <pre>$output</pre>
+            </div>
+            """
+        end
+    else
+        for (i, output) in enumerate(captured_outputs)
+            title = titles[i]
+            html *= """
+            <div style="flex: 1; margin-right: 10px;">
+            <h4>$title</h4>
+            <pre>$output</pre>
+            </div>
+            """
+        end
     end
 
     html *= "</div>"

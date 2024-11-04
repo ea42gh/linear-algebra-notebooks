@@ -61,7 +61,7 @@ export charpoly
 export ge, show_solution
 export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, solutions
 export to_html, show_html, pr
-export capture_output, display_side_by_side
+export capture_output, show_side_by_side
 
 include("LatexRepresentations.jl")
 include("MatrixGeneration.jl")
