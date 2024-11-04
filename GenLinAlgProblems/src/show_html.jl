@@ -40,7 +40,7 @@ function show_side_by_side(captured_outputs, titles=nothing)
     if isnothing(titles)
         for (i, output) in enumerate(captured_outputs)
             html *= """
-            <div style="flex: 1; margin-right: 10px;">
+            <div style="flex: 1; align-content:flex-start; margin-right: 10px;">
             <pre>$output</pre>
             </div>
             """
@@ -49,7 +49,7 @@ function show_side_by_side(captured_outputs, titles=nothing)
         for (i, output) in enumerate(captured_outputs)
             title = titles[i]
             html *= """
-            <div style="flex: 1; margin-right: 10px;">
+            <div style="flex: 1; align-content:flex-start; margin-right: 10px;">
             <h4>$title</h4>
             <pre>$output</pre>
             </div>
