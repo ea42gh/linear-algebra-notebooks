@@ -75,7 +75,7 @@ RUN python -m pip install pygraphviz && \
 RUN /opt/setup-scripts/setup-julia-packages.bash
 
 # Add additional Julia Packages
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings"]; Pkg.add.(p);'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "AbstractAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "QuadGK", "IOCapture"]; Pkg.add.(p);'
 RUN julia -e 'import Pkg; Pkg.update(); p = [ "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "ImageView", "TestImages"]; Pkg.add.(p);'
 RUN julia -e 'import Pkg; Pkg.update(); p = [ "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);'
 RUN julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
@@ -86,6 +86,8 @@ RUN echo -e "\
 export PS1='-> ' \n\
 export PS2='->>  ' \n\
 " > .bashrc
+
+RUN git config --global credential.helper store
 
 #RUN mkdir ${HOME}/work
 
