@@ -7,6 +7,7 @@ version = "0.2.0"
 AbstractAlgebra = "c3fe647b-3220-5bb0-a1ea-a7954cac585d"
 AngleBetweenVectors = "ec570357-d46e-52ed-9726-18773498274d"
 Hadamard = "4a05ff16-5f95-55f4-bb53-bb3f467c689a"
+IOCapture = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -17,6 +18,7 @@ RowEchelon = "af85af4c-bcd5-5d23-b03a-a909639aa875"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 
 [compat]
+IOCapture = "0.2.5"
 julia = "1"
 
 [extras]
