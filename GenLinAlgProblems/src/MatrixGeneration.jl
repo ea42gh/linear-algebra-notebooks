@@ -221,6 +221,23 @@ function gen_gj_pb(m,n; maxint=3)
     gen_gj_pb( m,n,min(m,n); maxint=maxint )
 end
 # ------------------------------------------------------------------------------
+#HERE function ref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
+#function gen_inconsistent_gj_problem(m,n,r;
+#        maxint=3, pivot_in_first_col=true, has_zeros=false, num_rhs=1 )
+#    M,pivot_cols=rref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
+#
+#    s = ones( Int, n )
+#    s[pivot_cols] = rand( [-maxint:-1;1:maxint], r )
+#
+#    E = unit_lower(m,maxint=maxint) * unit_lower(m,maxint=maxint)'
+#
+#    A = E * M * Diagonal(s)
+#
+#    X,B=gen_rhs(A, pivot_cols; maxint=maxint,num_rhs=num_rhs,has_zeros=has_zeros)
+#
+#    A,X,B
+#end
+# ------------------------------------------------------------------------------
 function gen_inv_pb(n; maxint=3)
     # create an invertible matix problem of size n x n
     e1 = unit_lower( n,n, maxint=maxint )
@@ -338,14 +355,16 @@ function Q_4_matrix()
     W//d
 end
 # ------------------------------------------------------------------------------
-function W_matrix(n)
+function W_matrix(n; general=false)
+  if general == false
     if     n == 2 return W_2_matrix()
     elseif n == 3 return W_3_matrix()
     elseif n == 4 return W_4_matrix()
     end
-    A = Q_matrix(n)
-    _,Aint = factor_out_denominator( A )
-    Aint
+  end
+  A = Q_matrix(n; general=general)
+  _,Aint = factor_out_denominator( A )
+  Aint
 end
 # ------------------------------------------------------------------------------
 function Q_matrix(n; maxint=3, with_zeros=false, general=false )
@@ -435,8 +454,8 @@ function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
     S,Λ,S_inv, S*Λ*S_inv
 end
 # ------------------------------------------------------------------------------
-function gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false )
-    S = Q_matrix( size(e_vals,1); maxint=maxint, with_zeros=with_zeros )
+function gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false, general=false )
+    S = Q_matrix( size(e_vals,1); maxint=maxint, with_zeros=with_zeros, general=general )
     Λ = Diagonal( e_vals )
     S, Λ, S * Λ * S'
 end
