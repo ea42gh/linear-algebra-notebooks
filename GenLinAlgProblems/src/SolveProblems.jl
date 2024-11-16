@@ -433,9 +433,9 @@ function gram_schmidt_q(A)
 
     Qt = S * W'
     R  = S * WtA
-    dQ,Qint = factor_out_denominator( Qt' )
+    dQ,Qtint = factor_out_denominator( Qt )
     dR,Rint = factor_out_denominator( R )
-    dQ, Qint, dR, Rint 
+    dQ, Qtint', dR, Rint 
 end
 # ------------------------------------------------------------------------------
 function qr_layout(A)
