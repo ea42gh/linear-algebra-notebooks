@@ -7,9 +7,10 @@ Youtube channel for these notebooks:
 
 Binder access to these notebooks:
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
+
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)   opens a directory view<br>
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb) opens Index.ipynb with links to individual notebooks<br>
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
 * The notebook **Index.ipynb** lists currently available notebooks.
 * The Notes directory is an [obsidian](https://obsidian.md/) vault listing the headings found in each notebook<br>
 It is intended as a starting point for individualized notes.
@@ -25,13 +26,16 @@ When installing these files locally, the itikz directory of this library must be
 Itikz is located at:
 *   https://github.com/ea42gh/itikz
 
-Some of the Julia Notebooks still use a (mostly outdated) package LAcode.jl<br>
-To use these notebooks, execute the following in Julia:
->   using Pkg<br>
->   Pkg.develop(path="location_of_the_directory/LAcode.jl")
-
-
 Other software used:
 * Holoviews, Panel from http://holoviz.org/
 To see the commands used to install all relevant packages and libraries,
 check out the binder/Dockerfile in this directory.
+____
+Rather than installing the notebooks and their dependencies locally, one may choose to create and run a docker image:<br>
+Issue the following command in the binder subdirectory to create an image:<br>
+> docker build . -t la_image
+
+To update the notebooks, issue the following command in the elementary-linear-algebra file tree:
+> git fetch --all
+> git reset --hard origin/main
+(Note: this will undo any local changes in all directories except the work directory.)
