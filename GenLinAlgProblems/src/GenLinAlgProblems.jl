@@ -2,6 +2,11 @@ module GenLinAlgProblems
 using PyCall
 using IOCapture
 
+py_display = pyimport("IPython.display").display
+py_latex   = pyimport("IPython.display").Latex
+
+export py_display, py_latex, py_show   # ? why
+
 #itikz = pyimport("itikz")
 #nM    = pyimport("itikz.nicematrix")
 
@@ -27,7 +32,7 @@ export round_value, round_matrices
 
 
 # matrices for GE and GJ
-export unit_lower, lower, gen_full_col_rank_matrix
+export invert_unit_lower, unit_lower, lower, gen_full_col_rank_matrix
 export ref_matrix, rref_matrix, symmetric_matrix, skew_symmetric_matrix
 export e_i, i_with_onecol
 export gen_permutation_matrix
@@ -55,8 +60,9 @@ export gram_schmidt_w, gram_schmidt_q, qr_layout, gram_schmidt_stable
 # eigenproblems
 export gen_eigenproblem, gen_symmetric_eigenproblem, gen_non_diagonalizable_eigenproblem, gen_svd_problem
 export gen_cx_eigenproblem 
-export jordan_block, jordan_form, gen_from_jordan_form
+export jordan_block, jordan_form, gen_from_jordan_form, gen_degenerate_matrix
 export charpoly
+
 # display stuff
 export ge, show_solution
 export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, solutions
