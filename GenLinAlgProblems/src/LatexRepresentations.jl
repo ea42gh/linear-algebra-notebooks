@@ -1,5 +1,4 @@
 #using LinearAlgebra, Latexify
-
 # ------------------------------------------------------------------------------
 # ------------------------------------------ apply function to stack of matrices
 # ------------------------------------------------------------------------------
@@ -92,13 +91,48 @@ function round_matrices( matrices, digits )
 end
 # ==============================================================================
 function latex(s::String) LaTeXStrings.LaTeXString(s) end
-function l_show(args...)
-    f(A::Array)         = L"%$(latexify(A, adjustment=:r, arraystyle=:round))"
-    f(A::Adjoint)       = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
-    f(A::Diagonal)      = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
-    f(s::String)        = L"\text{%$(s)}"
-    f(s::LaTeXString)   = s
-    f(n::Number)        = L"%$(latexify(n))"
+#function l_show(args...)
+#    f(A::Array)         = L"%$(latexify(A, adjustment=:r, arraystyle=:round))"
+#    f(A::Adjoint)       = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
+#    f(A::Diagonal)      = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
+#    f(s::String)        = L"\text{%$(s)}"
+#    f(s::LaTeXString)   = s
+#    f(n::Number)        = L"%$(latexify(n))"
+#
+#    LaTeXString( join( map(f, args) ))
+#end
 
-    LaTeXString( join( map(f, args) ))
+function l_show(
+    args...; 
+    arraystyle       = :round, 
+    color            = nothing, 
+    number_formatter = nothing  # Optional function to format numbers
+)
+    # Helper function to apply optional LaTeX styling
+    style_wrapper(content::String) = begin
+        color_str = color !== nothing ? "\\textcolor{$color}{" : ""
+        prefix    = color_str
+        suffix    = (color !== nothing ? "}" : "")
+        "{$prefix$content$suffix}"
+    end
+
+    # Helper function to format arguments as LaTeX
+    f(x) = 
+        x isa Array       ? latexraw(x, arraystyle=arraystyle) :
+        x isa Adjoint     ? latexraw(Matrix(x), arraystyle=arraystyle) :
+        x isa Diagonal    ? latexraw(Matrix(x), arraystyle=arraystyle) :
+        x isa String      ? "\\text{" * replace(x, "_" => "\\_") * "}" :
+        x isa LaTeXString ? x.value :
+        x isa Number      ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
+        error("Unsupported type: $(typeof(x))")
+
+    # Combine formatted arguments and apply styling
+    styled_content = style_wrapper(join(map(f, args), " "))
+    "$styled_content\n"
 end
+
+# Wrapper for Python's LaTeX rendering: use from julia in Python notebook
+function py_show(args...; kwargs...)
+    latex_string = l_show(args...; kwargs...)
+    py_display(py_latex(latex_string))
+end;
