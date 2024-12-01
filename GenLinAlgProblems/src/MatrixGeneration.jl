@@ -238,14 +238,30 @@ end
 #    A,X,B
 #end
 # ------------------------------------------------------------------------------
+function invert_unit_lower(L::Matrix{Int})
+    n = size(L, 1)
+    L_inv = Matrix{Int}(I, n, n)
+
+    for j in n-1:-1:1 # current column of L_inv to update
+        for k in j+1:n   # Use these columns of L_inv
+            for i in k:n # each affected row
+                L_inv[i, j] -= L[k, j] * L_inv[i, k]
+            end
+        end
+    end
+    return L_inv
+end
+# ------------------------------------------------------------------------------
 function gen_inv_pb(n; maxint=3)
     # create an invertible matix problem of size n x n
+    # with maxint=2, this works for n <= 15 or so
     e1 = unit_lower( n,n, maxint=maxint )
     e2 = unit_lower( n,n, maxint=maxint )
     A  = e1*e2'
 
-    A_inv = inv(A)
-    A, Int64.(round.(A_inv))
+    #A_inv = invert_unit_lower(e2)'*invert_unit_lower(e1)
+    A_inv = Int.(inv(Rational{Int}.(A)))
+    A, A_inv
 end
 # ------------------------------------------------------------------------------
 function gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
@@ -489,6 +505,37 @@ function gen_from_jordan_form( j_blocks; maxint=3 )
     S*A*S_inv
 end
 # ------------------------------------------------------------------------------
+# Generate a degenerate matrix based on block sizes or (size, eigenvalue) pairs
+function gen_degenerate_matrix(block_descriptions::Vararg{Any}; maxint=3)
+    total_size = 0
+    for desc in block_descriptions
+        if isa(desc, Int)
+            total_size += desc  # Integer block size (nilpotent case)
+        elseif isa(desc, Tuple) && length(desc) == 2
+            total_size += desc[1]  # Tuple (block size, eigenvalue)
+        else
+            throw(ArgumentError("Each block description must be an integer or a tuple (n, λ)."))
+        end
+    end
+
+    J = zeros(eltype(block_descriptions[1]), total_size, total_size)
+    current_row = 1
+
+    for desc in block_descriptions
+        if isa(desc, Int)                                 # Nilpotent Jordan block
+            n = desc
+            J[current_row:(current_row+n-1), current_row:(current_row+n-1)] .= jordan_block(0, n)
+        elseif isa(desc, Tuple) && length(desc) == 2      # Degenerate Jordan block with eigenvalue
+            n, λ = desc
+            J[current_row:(current_row+n-1), current_row:(current_row+n-1)] .= jordan_block(λ, n)
+        end
+        current_row += desc isa Int ? desc : desc[1]
+    end
+
+    P, P_inv = gen_inv_pb(total_size, maxint=maxint)
+    P, J, P_inv, P * J * P_inv
+end
+# ------------------------------------------------------------------------------
 function gen_svd_problem(m,n,σ; maxint = 3)
     U  = sparse_Q_matrix( m, maxint=maxint)
     Vt = sparse_Q_matrix( n, maxint=maxint)
@@ -498,4 +545,5 @@ function gen_svd_problem(m,n,σ; maxint = 3)
         Σ[i,i] = σ[i]
     end
     U, Σ, Vt, U * Σ * Vt
-end# ==============================================================================
+end
+# ==============================================================================
