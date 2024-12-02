@@ -109,23 +109,29 @@ function L_show(
         "$prefix$content$suffix"
     end
 
-    # Helper function to format arguments as LaTeX
+    # Helper function to format individual entries
     f(x) =
-        x isa Array       ? latexraw(x, arraystyle=arraystyle) :
-        x isa Adjoint     ? latexraw(Matrix(x), arraystyle=arraystyle) :
-        x isa Diagonal    ? latexraw(Matrix(x), arraystyle=arraystyle) :
+        x isa SymPy.Sym   ? replace(latexify(x), "\$" => "") : # Handle SymPy symbolic entries
+        x isa Sym{PyObject} ? replace(latexify(x), "\$" => "") : # Handle Sym{PyObject} entries
         x isa String      ? replace(x, "_" => "\\_") :
         x isa LaTeXString ? strip(string(x), ['$', '\n']) :  # Remove $...$ from LaTeXString
         x isa Number      ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
         error("Unsupported type: $(typeof(x))")
 
-    # Format all arguments
-    formatted_args = map(f, args)
-    styled_content = join(formatted_args, " ")  # Join all parts into one string
+    # Recursive helper function to handle matrices
+    function latex_matrix(mat::AbstractMatrix; arraystyle=:round)
+        rows = [join(map(f, row), " & ") for row in eachrow(mat)]
+        "\\begin{bmatrix}\n" * join(rows, " \\\\\n") * "\n\\end{bmatrix}"
+    end
 
-    # Wrap the entire string based on `inline` flag
+    # Format the input arguments
+    formatted_args = map(arg -> 
+        arg isa AbstractMatrix ? latex_matrix(arg) : f(arg), args)
+    styled_content = join(formatted_args, " ")  # Combine formatted parts
+
+    # Wrap content as inline or block LaTeX
     if inline
-        return "\$" * styled_content * "\$\n"  # Single inline wrapping
+        return "\$" * styled_content * "\$\n"  # Inline wrapping
     else
         return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
     end
