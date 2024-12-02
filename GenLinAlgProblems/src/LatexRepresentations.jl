@@ -96,7 +96,7 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 "convert arguments to a LaTeX expression. Display in notebook with LaTeXString(L_show(...))"
 function L_show(
     args...;
-    arraystyle       = :round,
+    arraystyle       = :curly, # :round, :square, or other styles
     color            = nothing,
     number_formatter = nothing, # Optional function to format numbers
     inline           = false
@@ -111,29 +111,32 @@ function L_show(
 
     # Helper function to format individual entries
     f(x) =
-        x isa SymPy.Sym   ? replace(latexify(x), "\$" => "") : # Handle SymPy symbolic entries
+        x isa SymPy.Sym     ? replace(latexify(x), "\$" => "") : # Handle SymPy symbolic entries
         x isa Sym{PyObject} ? replace(latexify(x), "\$" => "") : # Handle Sym{PyObject} entries
-        x isa String      ? replace(x, "_" => "\\_") :
-        x isa LaTeXString ? strip(string(x), ['$', '\n']) :  # Remove $...$ from LaTeXString
-        x isa Number      ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
+        x isa String        ? replace(x, "_" => "\\_")         :
+        x isa LaTeXString   ? strip(string(x), ['$', '\n'])    : # Remove $...$ from LaTeXString
+        x isa Number        ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
         error("Unsupported type: $(typeof(x))")
 
-    # Recursive helper function to handle matrices
+    # Recursive helper function to handle matrices with different styles
     function latex_matrix(mat::AbstractMatrix; arraystyle=:round)
+        env = arraystyle == :round  ? "bmatrix" : # Default is "bmatrix" (round brackets)
+              arraystyle == :square ? "Bmatrix" : # Square brackets
+              arraystyle == :curly  ? "pmatrix" : # Curly braces (parentheses)
+              "bmatrix"                           # Fallback to round brackets
         rows = [join(map(f, row), " & ") for row in eachrow(mat)]
-        "\\begin{bmatrix}\n" * join(rows, " \\\\\n") * "\n\\end{bmatrix}"
+        "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
     end
 
     # Format the input arguments
-    formatted_args = map(arg -> 
-        arg isa AbstractMatrix ? latex_matrix(arg) : f(arg), args)
-    styled_content = join(formatted_args, " ")  # Combine formatted parts
+    formatted_args = map(arg -> arg isa AbstractMatrix
+                                ? latex_matrix(arg, arraystyle=arraystyle) : f(arg), args)
+
+    styled_content = join(formatted_args, " ")
 
     # Wrap content as inline or block LaTeX
-    if inline
-        return "\$" * styled_content * "\$\n"  # Inline wrapping
-    else
-        return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
+    if inline return "\$"  * styled_content * "\$\n"   # Inline wrapping
+    else      return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
     end
 end
 
