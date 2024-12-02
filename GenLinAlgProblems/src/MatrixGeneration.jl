@@ -505,16 +505,16 @@ function gen_from_jordan_form( j_blocks; maxint=3 )
     S*A*S_inv
 end
 # ------------------------------------------------------------------------------
-# Generate a degenerate matrix based on block sizes or (size, eigenvalue) pairs
+# Generate a degenerate matrix based on block sizes or (eigenvalue, size) pairs
 function gen_degenerate_matrix(block_descriptions::Vararg{Any}; maxint=3)
     total_size = 0
     for desc in block_descriptions
         if isa(desc, Int)
             total_size += desc  # Integer block size (nilpotent case)
         elseif isa(desc, Tuple) && length(desc) == 2
-            total_size += desc[1]  # Tuple (block size, eigenvalue)
+            total_size += desc[2]  # Tuple (block eigenvalue, size)
         else
-            throw(ArgumentError("Each block description must be an integer or a tuple (n, λ)."))
+            throw(ArgumentError("Each block description must be an integer or a tuple (λ, n)."))
         end
     end
 
@@ -526,7 +526,7 @@ function gen_degenerate_matrix(block_descriptions::Vararg{Any}; maxint=3)
             n = desc
             J[current_row:(current_row+n-1), current_row:(current_row+n-1)] .= jordan_block(0, n)
         elseif isa(desc, Tuple) && length(desc) == 2      # Degenerate Jordan block with eigenvalue
-            n, λ = desc
+            λ,n = desc
             J[current_row:(current_row+n-1), current_row:(current_row+n-1)] .= jordan_block(λ, n)
         end
         current_row += desc isa Int ? desc : desc[1]
