@@ -2,10 +2,7 @@ module GenLinAlgProblems
 using PyCall
 using IOCapture
 
-py_display = pyimport("IPython.display").display
-py_latex   = pyimport("IPython.display").Latex
-
-export py_display, py_latex, py_show   # ? why
+export py_show   # for use in julia cell of Python notebook
 
 #itikz = pyimport("itikz")
 #nM    = pyimport("itikz.nicematrix")
@@ -27,7 +24,7 @@ function Base.adjoint(s::String) s end
 function Base.adjoint(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
 
 export apply_function, factor_out_denominator
-export l_show, latex, to_latex, print_np_array_def
+export l_show, L_show, latex, to_latex, print_np_array_def
 export round_value, round_matrices
 
 
