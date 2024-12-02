@@ -95,9 +95,9 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 
 "convert arguments to a LaTeX expression. Display in notebook with LaTeXString(L_show(...))"
 function L_show(
-    args...; 
-    arraystyle       = :round, 
-    color            = nothing, 
+    args...;
+    arraystyle       = :round,
+    color            = nothing,
     number_formatter = nothing, # Optional function to format numbers
     inline           = false
 )
@@ -110,19 +110,25 @@ function L_show(
     end
 
     # Helper function to format arguments as LaTeX
-    f(x) = 
+    f(x) =
         x isa Array       ? latexraw(x, arraystyle=arraystyle) :
         x isa Adjoint     ? latexraw(Matrix(x), arraystyle=arraystyle) :
         x isa Diagonal    ? latexraw(Matrix(x), arraystyle=arraystyle) :
         x isa String      ? replace(x, "_" => "\\_") :
-        x isa LaTeXString ? x.value :
+        x isa LaTeXString ? strip(string(x), ['$', '\n']) :  # Remove $...$ from LaTeXString
         x isa Number      ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
         error("Unsupported type: $(typeof(x))")
 
-    # Combine formatted arguments and apply styling
-    styled_content = style_wrapper(join(map(f, args), " "))
-    if inline return "\$ $styled_content \$\n" end
-    "\\[$styled_content\\]\n"
+    # Format all arguments
+    formatted_args = map(f, args)
+    styled_content = join(formatted_args, " ")  # Join all parts into one string
+
+    # Wrap the entire string based on `inline` flag
+    if inline
+        return "\$" * styled_content * "\$\n"  # Single inline wrapping
+    else
+        return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
+    end
 end
 
 "convert arguments to a LaTeX expression. directly display in notebook"
