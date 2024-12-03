@@ -100,7 +100,7 @@ function L_show(
     color            = nothing,
     number_formatter = nothing, # Optional function to format numbers
     inline           = false
-)
+)   
     # Helper function to apply optional LaTeX styling
     style_wrapper(content::String) = begin
         color_str = color !== nothing ? "\\textcolor{$color}{" : ""
@@ -132,7 +132,11 @@ function L_show(
     formatted_args = map(arg -> arg isa AbstractMatrix
                                 ? latex_matrix(arg, arraystyle=arraystyle) : f(arg), args)
 
+    # Combine formatted arguments
     styled_content = join(formatted_args, " ")
+
+    # Apply the style wrapper to the entire content
+    styled_content = style_wrapper(styled_content)
 
     # Wrap content as inline or block LaTeX
     if inline return "\$"  * styled_content * "\$\n"   # Inline wrapping
