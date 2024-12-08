@@ -34,6 +34,9 @@ The **Notes** directory contains Obsidian-compatible markdown files summarizing 
 - **work/**: Writable directory for creating new notebooks and running computations.
 - **tmp/**: Temporary directory for file storage during computations.
 
+### Wiki
+- Explore the [Wiki](./-/wikis/home).
+
 ---
 
 ## Docker Image
