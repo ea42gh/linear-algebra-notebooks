@@ -35,7 +35,7 @@ The **Notes** directory contains Obsidian-compatible markdown files summarizing 
 - **tmp/**: Temporary directory for file storage during computations.
 
 ### Wiki
-- Explore the [Wiki](./-/wikis/home).
+- Explore the [Wiki](https://gitlab.com/ea42gh/elementary-linear-algebra/-/wikis/home).
 
 ---
 
