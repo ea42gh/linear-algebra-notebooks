@@ -40,13 +40,14 @@ Simplify your environment setup using our pre-built Docker image:
 ### Download the Docker Image
 ```bash
 docker pull ea42gh/la_image
-
+```
 
 ### Build the Docker Image Locally
 
 To build the Docker image locally, navigate to the binder subdirectory and issue the following command:
 ```bash
 docker build . -t la_image
+```
 
 ### Update the Repository
 
@@ -54,6 +55,7 @@ To fetch the latest notebooks, use the following commands:
 ```bash
 git fetch --all
 git reset --hard origin/main
+```
 
 Note: This command will reset all changes in the repository except those in the work directory.
 
