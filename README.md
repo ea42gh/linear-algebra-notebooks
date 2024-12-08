@@ -13,10 +13,11 @@ Enhance your learning with detailed video lectures and tutorials that accompany 
 ### Interactive Access via Binder
 
 Run the notebooks interactively in your browser (slow):
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)   opens a directory view<br>
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb) opens Index.ipynb with links to individual notebooks<br>
+- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
+
+- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)   opens a directory view<br>
+- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb) opens Index.ipynb with links to individual notebooks<br>
 
 ---
 
