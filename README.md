@@ -11,10 +11,12 @@ Enhance your learning with detailed video lectures and tutorials that accompany 
 - [YouTube Playlist](https://www.youtube.com/playlist?list=PLBDUlnmEqyXD_llq6wETUqRkJGRiu8wFU)
 
 ### Interactive Access via Binder
-Run the notebooks interactively in your browser:
-- [Open Index.ipynb with Jupyter Lab](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb)
-- [Explore Notebooks via Directory View](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)
-- [Open Index.ipynb with Links to Individual Notebooks](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb)
+
+Run the notebooks interactively in your browser (slow):
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?urlpath=lab/tree/notebooks/Index.ipynb) opens Index.ipynb with jupyter lab
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/HEAD?urlpath=tree)   opens a directory view<br>
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/ea42gh%2Felementary-linear-algebra/master?filepath=notebooks/Index.ipynb) opens Index.ipynb with links to individual notebooks<br>
 
 ---
 
