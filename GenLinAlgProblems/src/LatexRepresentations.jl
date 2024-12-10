@@ -127,6 +127,9 @@ function L_show(
         rows = [join(map(f, row), " & ") for row in eachrow(mat)]
         "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
     end
+    function latex_vector(vec::AbstractVector; arraystyle=:round)
+        latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
+    end
 
     # Format the input arguments
     formatted_args = map(arg -> arg isa AbstractMatrix
