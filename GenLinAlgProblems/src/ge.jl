@@ -78,14 +78,14 @@ function ref!( pb::ShowGe{T}; N_rhs=:None, gj::Bool=false, normal_eq::Bool=false
     nothing
 end
 # --------------------------------------------------------------------------------------------------------------
-function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true )   where T <: Number
+function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true, fig_scale=1 )   where T <: Number
     if isdefined( pb, :B)
        num_rhs = pb.num_rhs
     else
        num_rhs = 0
     end
     pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=num_rhs,
-                   fig_scale=0.9,
+                   fig_scale=fig_scale,
                    pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
                    bg_for_entries   = pb.bg_for_entries,
                    ref_path_list    = pb.ref_path_list,
