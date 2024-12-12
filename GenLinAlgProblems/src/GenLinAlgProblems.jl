@@ -62,7 +62,7 @@ export charpoly
 
 # display stuff
 export ge, show_solution
-export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, solutions
+export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, show_solution!, solutions
 export to_html, show_html, pr
 export capture_output, show_side_by_side
 

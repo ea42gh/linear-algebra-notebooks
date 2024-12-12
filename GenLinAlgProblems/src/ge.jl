@@ -167,16 +167,32 @@ end
 # --------------------------------------------------------------------------------------------------------------
 function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
-    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
 function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
-    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
+# --------------------------------------------------------------------------------------------------------------
 function show_backsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
     create_cascade!( pb; b_col=b_col, var_name=var_name )
-    pb.cascade.show( show_system=true, show_cascade=true, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_solution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
+    create_cascade!( pb; b_col=b_col, var_name=var_name )
+    pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_solution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
+    create_cascade!( pb; b_col=b_col, var_name=var_name )
+    pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+end
+# --------------------------------------------------------------------------------------------------------------
+function show_solution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
+    create_cascade!( pb; b_col=b_col, var_name=var_name )
+    pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # ==============================================================================================================
 function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
