@@ -20,7 +20,8 @@ RUN usermod -aG sudo jovyan && \
 # itikz related requirements
 RUN apt-get update -y && \
     apt-get install --yes --no-install-recommends \
-    git pdf2svg xclip ffmpeg \
+    git pdf2svg xclip ffmpeg libcairo2-dev \
+    cmake build-essential pkg-config \
     fonts-liberation fonts-dejavu fonts-hack \
     graphviz graphviz-dev vim-tiny \
     latexmk \
@@ -66,6 +67,8 @@ RUN \
     python -m pip install --upgrade webio_jupyter_extension && \
     python -m pip install streamz && \
     python -m pip install graphviz
+
+#RUN python -m pip install manim
 
 
 RUN python -m pip install pygraphviz && \
