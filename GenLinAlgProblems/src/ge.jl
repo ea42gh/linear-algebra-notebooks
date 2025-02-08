@@ -207,11 +207,15 @@ function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
       Xp                         = zeros(Complex{Rational{T}}, N, 1)
     end
 
-    Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
-    F  = matrices[end][end][1:pb.rank,pb.free_cols]
+    if length(pb.free_cols) > 0
+        Xh = zeros(Complex{Rational{T}}, N, N-pb.rank)
+        F  = matrices[end][end][1:pb.rank,pb.free_cols]
+        for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
+        Xh[pivot_cols,:] = -F
+    else
+        Xh = zeros(Complex{Rational{T}}, N, 1)
+    end
 
-    for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
-    Xh[pivot_cols,:] = -F
     Xp, Xh
 end
 function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
@@ -226,11 +230,14 @@ function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
       Xp                         = zeros(Rational{T}, N, 1)
     end
 
-    Xh = zeros(Rational{T}, N, N-pb.rank)
-    F  = matrices[end][end][1:pb.rank,pb.free_cols]
-
-    for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
-    Xh[pivot_cols,:] = -F
+    if length(pb.free_cols) > 0
+      Xh = zeros(Rational{T}, N, N-pb.rank)
+      F  = matrices[end][end][1:pb.rank,pb.free_cols]
+      for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
+      Xh[pivot_cols,:] = -F
+    else
+      Xh = zeros(Rational{T}, N, 1)
+    end
     Xp, Xh
 end
 function solutions(pb::ShowGe{T} )   where T <: Number
@@ -245,11 +252,14 @@ function solutions(pb::ShowGe{T} )   where T <: Number
       Xp                         = zeros(T, N, 1)
     end
 
-    Xh = zeros(T, N, N-pb.rank)
-    F  = matrices[end][end][1:pb.rank,pb.free_cols]
-
-    for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
-    Xh[pivot_cols,:] = -F
+    if length(pb.free_cols) > 0
+      Xh = zeros(T, N, N-pb.rank)
+      F  = matrices[end][end][1:pb.rank,pb.free_cols]
+      for (col,row) in enumerate(pb.free_cols)  Xh[row,col] = 1  end
+      Xh[pivot_cols,:] = -F
+    else
+      Xh = zeros(T, N, 1)
+    end
     Xp, Xh
 end
 # ==============================================================================================================
