@@ -136,8 +136,10 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 #        env = arraystyle == :round  ? "bmatrix" : # Default is "bmatrix" (round brackets)
 #              arraystyle == :square ? "Bmatrix" : # Square brackets
 #              arraystyle == :curly  ? "pmatrix" : # Curly braces (parentheses)
+#              arraystyle == :curlyarray ? "pmatrix" : # Curly braces (parentheses)
 #              "bmatrix"                           # Fallback to round brackets
 #        rows = [join(map(f, row), " & ") for row in eachrow(mat)]
+#
 #        "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
 #    end
 #    function latex_vector(vec::AbstractVector; arraystyle=:round)
@@ -161,7 +163,7 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 #end
 function L_show(
     args...;  # Accepts a variable number of arguments
-    arraystyle       = :curly, # :round, :square, or other styles
+    arraystyle       = :curly,  # :round, :square, or other styles
     color            = nothing, # Optional color for LaTeX text
     number_formatter = nothing, # Optional function to format numbers
     inline           = false    # Whether to return inline or block LaTeX
@@ -200,12 +202,18 @@ function L_show(
 
     # Helper function to handle matrices
     function latex_matrix(mat::AbstractMatrix; arraystyle=:round)
-        env = arraystyle == :round  ? "bmatrix" : # Default is "bmatrix" (round brackets)
-              arraystyle == :square ? "Bmatrix" : # Square brackets
-              arraystyle == :curly  ? "pmatrix" : # Curly braces (parentheses)
-              "bmatrix"                           # Fallback to round brackets
+        env = arraystyle == :round      ? "bmatrix" : # Default is "bmatrix" (round brackets)
+              arraystyle == :square     ? "Bmatrix" : # Square brackets
+              arraystyle == :curly      ? "pmatrix" : # Curly braces (parentheses)
+              arraystyle == :curlyarray ? "array"   : # Curly braces (parentheses)
+              "bmatrix"                               # Fallback to round brackets
         rows = [join(map(f, row), " & ") for row in eachrow(mat)]
-        "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
+        if arraystyle == :curlyarray
+            "\\left(\\begin{array}{"* "r"^size(mat,1) *
+            "}\n" * join(rows, " \\\\\n") * "\n\\end{array}\\right)"
+        else
+            "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
+        end
     end
 
     # Helper function to handle vectors by converting them to column matrices
