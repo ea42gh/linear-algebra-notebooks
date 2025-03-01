@@ -76,25 +76,30 @@ function to_latex(x::Real; number_formatter=nothing)
 end
 # ------------------------------------------------------------------------------
 function to_latex(x::Rational{Int}; number_formatter=nothing)
-    # Apply number formatter if provided (converts rational to float)
     if number_formatter !== nothing
-        x = number_formatter(x)
-        return to_latex(x; number_formatter=nothing)  # Re-call with new value
+        return replace( latexify(number_formatter(x)), "\$" => "")
     end
-    return denominator(x) == 1 ? string(numerator(x)) : "\\frac{$(numerator(x))}{$(denominator(x))}"
+
+    n, d = numerator(x), denominator(x)
+    if d == 1
+        return string(n)
+    else
+        sign_str = n < 0 ? "-" : ""
+        return sign_str * "\\frac{$(abs(n))}{$d}"
+    end
 end
 # ------------------------------------------------------------------------------
 function to_latex(c::Complex; number_formatter=nothing)
     real_part = to_latex(real(c); number_formatter=number_formatter)
     imag_val = imag(c)
-    imag_val = number_formatter !== nothing ? number_formatter(imag_val) : imag_val  # Apply formatter
+    imag_val = number_formatter !== nothing ? number_formatter(imag_val) : imag_val
 
     if imag_val == 0
         return real_part  # Pure real number
     elseif real(c) == 0
         return imag_val == 1 ? "\\mathit{i}" :
                imag_val == -1 ? "-\\mathit{i}" :
-               to_latex(imag_val; number_formatter=number_formatter) * "\\mathit{i}"  # Pure imaginary
+               to_latex(imag_val; number_formatter=number_formatter) * "\\mathit{i}"
     else
         imag_sign = imag_val < 0 ? " - " : " + "
         imag_part = abs(imag_val) == 1 ? "\\mathit{i}" : to_latex(abs(imag_val); number_formatter=number_formatter) * "\\mathit{i}"
@@ -144,97 +149,126 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 
 "convert arguments to a LaTeX expression. Display in notebook with LaTeXString(L_show(...))"
 function L_show(
-    args...;  # Accepts a variable number of arguments
-    arraystyle       = :curlyarray,  # :curly, :round, :square, or other styles
-    color            = nothing,      # Optional color for LaTeX text
-    number_formatter = nothing,      # Optional function to format numbers
-    inline           = true          # Whether to return inline or block LaTeX
+    args...;
+    arraystyle       = :array,      # :pmatrix, :case and other latex matrix environments
+    color            = nothing,
+    number_formatter = nothing,
+    inline           = true,
+    factor_out       = true
 )
-    # Helper function to apply optional LaTeX styling
+
+    # Helper function to apply LaTeX styling
     style_wrapper(content::String) = begin
         color_str = color !== nothing ? "\\textcolor{$color}{" : ""
         prefix    = color_str
         suffix    = (color !== nothing ? "}" : "")
         "$prefix$content$suffix"
     end
-    # --------------------------------------------------------------------------
+
+    # ----------------------------------------------------------
     # Helper function to format individual entries
     function f(x)
-        x isa SymPy.Sym     ? replace(latexify(x), "\$" => "")                                 : # Handle SymPy symbolic entries
-        x isa Sym{PyObject} ? replace(latexify(x), "\$" => "")                                 : # Handle Sym{PyObject} entries
-        x isa String        ? "\\text{" * replace(x, "_" => "\\_") *"}"                        : # handle underscores
-        x isa LaTeXString   ? strip(string(x), ['$', '\n'])                                    : # Remove $...$ from LaTeXString
-        x isa Rational      ? to_latex(x;number_formatter=number_formatter)                    : # Handle Rational numbers
-        x isa Complex       ? to_latex(x;number_formatter=number_formatter)                    : # Handle Complex Numbers
-        x isa Number        ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
+        x isa SymPy.Sym       ? replace(latexify(x), "\$" => "") :
+        x isa Sym{PyObject}   ? replace(latexify(x), "\$" => "") :
+        x isa String          ? "\\text{" * replace(x, "_" => "\\_") * "}" :
+        x isa LaTeXString     ? strip(string(x), ['$', '\n']) :
+        x isa Rational        ? to_latex(x; number_formatter=number_formatter) :
+        x isa Complex         ? to_latex(x; number_formatter=number_formatter) :
+        x isa Number          ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
         error("Unsupported type: $(typeof(x))")
     end
 
-    # --------------------------------------------------------------------------
-    # Helper function to handle arrays
+    # ----------------------------------------------------------
+    # Generalized function to process arrays with optional factorization
     function process_array(A)
-        return "", A
+        if !factor_out
+            return "", A
+        end
+
+        d, intA = A isa AbstractArray{Rational{Int}} || A isa AbstractArray{Complex{Rational{Int}}} ?
+                  factor_out_denominator(A) : (1, A)  # Ensure d is numeric
+
+        return d == 1 ? ("", intA) : (1//Int(d), intA)  # Ensure `d` is an Integer
     end
-    function process_array(A::AbstractArray{Rational{Int}})
-        d, intA = factor_out_denominator(A)
-        return d == 1 ?  ("", intA) : ( 1//d, intA )
-    end
-    function process_array(A::AbstractArray{Complex{Rational{Int}}})
-        d, intA = factor_out_denominator(A)
-        return d == 1 ? ("", intA) : (1//d, intA)
+    # Extend `process_array` to handle new matrix types
+    function process_array(A::Adjoint)
+        d, intA = process_array(parent(A))
+        return d, adjoint(intA)
     end
 
-    # --------------------------------------------------------------------------
-    # Helper function to handle matrices
-    function latex_matrix(mat::AbstractMatrix; arraystyle=:curlyarray)
+    function process_array(A::Symmetric)
+        d, intA = process_array(parent(A))
+        return d, Symmetric(intA)
+    end
+
+    function process_array(A::Hermitian)
+        d, intA = process_array(parent(A))
+        return d, Hermitian(intA)
+    end
+
+    function process_array(A::Diagonal)
+        d, intA = process_array(parent(A))
+        return d, Diagonal(intA)
+    end
+
+    function process_array(A::SparseMatrixCSC)
+        d, intA = process_array(A)
+        return d, SparseMatrixCSC(intA)
+    end
+
+    # ----------------------------------------------------------
+    # LaTeX formatting for matrices
+
+    function latex_matrix(mat::AbstractMatrix; arraystyle=:array)
         if isempty(mat) return "\\emptyset" end
 
-        env = arraystyle == :round      ? "bmatrix" :  # Round brackets
-              arraystyle == :square     ? "Bmatrix" :  # Square brackets
-              arraystyle == :curly      ? "pmatrix" :  # Curly braces (parentheses)
-              arraystyle == :curlyarray ? "array"   :  # Curly array format
-              "bmatrix"                               # Default to round brackets
+        env = Dict( :bmatrix     => "bmatrix",     # Square brackets [ ]
+                    :Bmatrix     => "Bmatrix",     # Curly braces { }
+                    :pmatrix     => "pmatrix",     # Parentheses ( )
+                    :vmatrix     => "vmatrix",     # Vertical bars | |
+                    :Vmatrix     => "Vmatrix",     # Double vertical bars ‖ ‖
+                    :array       => "array",       # Custom arrays
+                 )
 
-        # Handle Rational matrices separately (factor out denominator)
-        factor, int_mat = process_array(mat)           # Always process, even if no scaling needed
-        factor_str      = f(factor)                    # Safe: factor is either "" or a rational number
-        rows            = [join(f.(row), " & ") for row in eachrow(int_mat)]
+        matrix_env = get(env, arraystyle, :array)
+        if arraystyle == :cases
+            return latex_cases(mat)  # Use separate handling for cases
+        end
 
-        # LaTeX matrix formatting
+
+        factor, int_mat = process_array(mat)
+        factor_str = f(factor)
+
+        rows = [join(f.(row), " & ") for row in eachrow(int_mat)]
         matrix_str = if arraystyle == :curlyarray
             "\\left(\\begin{array}{" * "r"^size(mat,2) * "}\n" *
             join(rows, " \\\\\n") * "\n\\end{array}\\right)"
         else
-            "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
+            "\\begin{$matrix_env}\n" * join(rows, " \\\\\n") * "\n\\end{$matrix_env}"
         end
 
         return isempty(factor_str) ? matrix_str : "$factor_str $matrix_str"
     end
 
-    # --------------------------------------------------------------------------
-    # Helper function to handle vectors by converting them to column matrices
+    # ----------------------------------------------------------
+    # LaTeX formatting for vectors
     function latex_vector(vec::AbstractVector; arraystyle=:round)
         latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
     end
 
-    # --------------------------------------------------------------------------
-    # Map the input arguments to their LaTeX representations
+    # ----------------------------------------------------------
+    # Convert input arguments into LaTeX
     formatted_args = map(arg ->
         arg isa AbstractVector ? latex_vector(arg, arraystyle=arraystyle) :
         arg isa AbstractMatrix ? latex_matrix(arg, arraystyle=arraystyle) :
         f(arg), args)
 
-    # Combine formatted arguments into a single LaTeX string
+    # Combine formatted arguments into LaTeX string
     styled_content = join(formatted_args, " ")
-
-    # Apply the style wrapper to the entire content
     styled_content = style_wrapper(styled_content)
-    # Wrap content as inline or block LaTeX
-    if inline
-        return "\$"  * styled_content * "\$\n"   # Inline wrapping
-    else
-        return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
-    end
+
+    # Return as inline or block LaTeX
+    return inline ? "\$" * styled_content * "\$\n" : "\\[" * styled_content * "\\]\n"
 end
 # ------------------------------------------------------------------------------
 "convert arguments to a LaTeX expression. directly display in notebook"
