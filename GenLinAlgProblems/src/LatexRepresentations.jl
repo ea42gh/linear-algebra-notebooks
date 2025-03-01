@@ -27,6 +27,31 @@ function factor_out_denominator( A::Array{Rational{Int64},2} )
     d, Int64.(d*A)
 end
 # ------------------------------------------------------------------------------
+function factor_out_denominator(A::Vector{Complex{Rational{Int}}})
+    # Extract denominators from real and imaginary parts
+    denominators_real = denominator.(real.(A))
+    denominators_imag = denominator.(imag.(A))
+
+    # Compute the LCM of all denominators
+    d = reduce(lcm, vcat(denominators_real, denominators_imag), init=1)
+
+    # Multiply vector by LCM and convert to Complex{Int}
+    A_int = Complex{Int64}.(d .* real.(A), d .* imag.(A))
+
+    return d, A_int  # Return LCM and the scaled vector
+end
+# ------------------------------------------------------------------------------
+function factor_out_denominator(A::Matrix{Complex{Rational{Int}}})
+    denominators_real = denominator.(real.(A))
+    denominators_imag = denominator.(imag.(A))
+
+    d = reduce(lcm, vcat(denominators_real, denominators_imag), init=1)
+
+    A_int = Complex{Int64}.(d .* real.(A), d .* imag.(A))
+
+    return d, A_int  # Return LCM and the scaled matrix
+end
+# ------------------------------------------------------------------------------
 # --------------------------------------------- convert to latex, print np_array
 # ------------------------------------------------------------------------------
 function print_np_array_def(A)
@@ -42,36 +67,60 @@ function print_np_array_def(A)
     println("])")
 end
 # ------------------------------------------------------------------------------
-to_latex(x) = latexify(x)
+to_latex(x; number_formatter=nothing) = latexify(x)
 # ------------------------------------------------------------------------------
-function to_latex(x::Real)
-    if x < 0  # fix up minus signs
-        replace( "-"*latexify(-x), "\$"=>"")
+function to_latex(x::Real; number_formatter=nothing)
+    # Apply number formatter if provided
+    x = number_formatter !== nothing ? number_formatter(x) : x
+    return x < 0 ? replace("-" * latexify(-x), "\$" => "") : replace(latexify(x), "\$" => "")
+end
+# ------------------------------------------------------------------------------
+function to_latex(x::Rational{Int}; number_formatter=nothing)
+    # Apply number formatter if provided (converts rational to float)
+    if number_formatter !== nothing
+        x = number_formatter(x)
+        return to_latex(x; number_formatter=nothing)  # Re-call with new value
+    end
+    return denominator(x) == 1 ? string(numerator(x)) : "\\frac{$(numerator(x))}{$(denominator(x))}"
+end
+# ------------------------------------------------------------------------------
+function to_latex(c::Complex; number_formatter=nothing)
+    real_part = to_latex(real(c); number_formatter=number_formatter)
+    imag_val = imag(c)
+    imag_val = number_formatter !== nothing ? number_formatter(imag_val) : imag_val  # Apply formatter
+
+    if imag_val == 0
+        return real_part  # Pure real number
+    elseif real(c) == 0
+        return imag_val == 1 ? "\\mathit{i}" :
+               imag_val == -1 ? "-\\mathit{i}" :
+               to_latex(imag_val; number_formatter=number_formatter) * "\\mathit{i}"  # Pure imaginary
     else
-        replace( latexify(x), "\$"=>"")
+        imag_sign = imag_val < 0 ? " - " : " + "
+        imag_part = abs(imag_val) == 1 ? "\\mathit{i}" : to_latex(abs(imag_val); number_formatter=number_formatter) * "\\mathit{i}"
+        return real_part * imag_sign * imag_part
     end
 end
 # ------------------------------------------------------------------------------
-function to_latex(x::Complex)
-    if imag(x) == 0
-        return to_latex(real(x))
-    else
-        if real(x) == 0
-            return to_latex(imag(x))*"\\mathit{i}"
-        elseif imag(x) < 0
-            return to_latex(real(x))*" - " * to_latex(-imag(x))*"\\mathit{i}"
-        else
-            return to_latex(real(x))*" + " * to_latex( imag(x))*"\\mathit{i}"
+function to_latex(x::SymPy.Sym; number_formatter=nothing)
+    latex_expr = replace(latexify(x), "\$" => "")  # Convert to LaTeX
+
+    # Optionally evaluate the symbolic expression to a number, then apply formatter
+    if number_formatter !== nothing
+        try
+            num_value = SymPy.N(x)  # Convert symbolic expression to a numerical value
+            formatted_value = number_formatter(num_value)
+            return to_latex(formatted_value; number_formatter=nothing)  # Convert to LaTeX after formatting
+        catch
+            return latex_expr  # If conversion fails, return symbolic LaTeX
         end
+    else
+        return latex_expr  # Default symbolic LaTeX conversion
     end
 end
 # ------------------------------------------------------------------------------
-function to_latex(x::SymPy.Sym)
-    replace( latexify(x), "\$"=>"")
-end
-# ------------------------------------------------------------------------------
-function to_latex(matrices::Vector)
-    apply_function( to_latex, matrices)
+function to_latex(matrices::Vector; number_formatter=nothing)
+    apply_function(x -> to_latex(x; number_formatter=number_formatter), matrices)
 end
 # -------------------------------------------------------------------------------
 # -------------------------------------------------- rounding a stack of matrices
@@ -108,81 +157,49 @@ function L_show(
         suffix    = (color !== nothing ? "}" : "")
         "$prefix$content$suffix"
     end
-
+    # --------------------------------------------------------------------------
     # Helper function to format individual entries
-    f(x) =
-        x isa SymPy.Sym     ? replace(latexify(x), "\$" => "") : # Handle SymPy symbolic entries
-        x isa Sym{PyObject} ? replace(latexify(x), "\$" => "") : # Handle Sym{PyObject} entries
-        x isa String        ? replace(x, "_" => "\\_")         :
-        x isa LaTeXString   ? strip(string(x), ['$', '\n'])    : # Remove $...$ from LaTeXString
-        x isa Rational      ? "\\frac{$(numerator(x))}{$(denominator(x))}" : # Handle Rational numbers
-        x isa Complex       ? format_complex(x) :
+    function f(x)
+        x isa SymPy.Sym     ? replace(latexify(x), "\$" => "")                                 : # Handle SymPy symbolic entries
+        x isa Sym{PyObject} ? replace(latexify(x), "\$" => "")                                 : # Handle Sym{PyObject} entries
+        x isa String        ? "\\text{" * replace(x, "_" => "\\_") *"}"                        : # handle underscores
+        x isa LaTeXString   ? strip(string(x), ['$', '\n'])                                    : # Remove $...$ from LaTeXString
+        x isa Rational      ? to_latex(x;number_formatter=number_formatter)                    : # Handle Rational numbers
+        x isa Complex       ? to_latex(x;number_formatter=number_formatter)                    : # Handle Complex Numbers
         x isa Number        ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
         error("Unsupported type: $(typeof(x))")
-
-    # Helper function to format Complex numbers
-    function format_complex(c::Complex)
-        real_part = f(real(c))
-        imag_val = imag(c)
-
-        if imag_val == 0         return real_part
-        elseif imag_val == 1     return "$real_part + \\mathrm{i}"
-        elseif imag_val == -1    return "$real_part - \\mathrm{i}"
-        else
-            imag_part = f(abs(imag_val))
-            imag_sign = imag_val > 0 ? "+" : "-"
-            return "$real_part $imag_sign $imag_part \\mathrm{i}"
-        end
-    end
-    function format_complex(c::Complex{Rational{Int}})
-        real_part = f(real(c))
-        imag_val  = imag(c)
-
-        if     imag_val ==  0 return real_part
-        elseif imag_val ==  1 return "$real_part + \\mathrm{i}"
-        elseif imag_val == -1 return "$real_part - \\mathrm{i}"
-        else
-            imag_part = f(abs(imag_val))
-            imag_sign = imag_val > 0 ? "+" : "-"
-            return "$real_part $imag_sign $imag_part \\mathrm{i}"
-        end
     end
 
-    # Helper function to handle Rational{Int} arrays
-    function process_rational_array(A::AbstractArray{Rational{Int}})
+    # --------------------------------------------------------------------------
+    # Helper function to handle arrays
+    function process_array(A)
+        return "", A
+    end
+    function process_array(A::AbstractArray{Rational{Int}})
         d, intA = factor_out_denominator(A)
-        if d == 1
-            return "", intA
-        else
-            return 1//d, intA
-        end
+        return d == 1 ?  ("", intA) : ( 1//d, intA )
+    end
+    function process_array(A::AbstractArray{Complex{Rational{Int}}})
+        d, intA = factor_out_denominator(A)
+        return d == 1 ? ("", intA) : (1//d, intA)
     end
 
+    # --------------------------------------------------------------------------
     # Helper function to handle matrices
     function latex_matrix(mat::AbstractMatrix; arraystyle=:curlyarray)
         if isempty(mat) return "\\emptyset" end
-    
+
         env = arraystyle == :round      ? "bmatrix" :  # Round brackets
               arraystyle == :square     ? "Bmatrix" :  # Square brackets
               arraystyle == :curly      ? "pmatrix" :  # Curly braces (parentheses)
               arraystyle == :curlyarray ? "array"   :  # Curly array format
               "bmatrix"                               # Default to round brackets
-    
-        # Handle Rational{Int} matrices separately (factor out denominator)
-        if eltype(mat) == Rational{Int}
-            factor, int_mat = process_rational_array(mat)
-            factor_str = f(factor)  # Safe since factor is a single number
-            rows = [join(f.(row), " & ") for row in eachrow(int_mat)]  # FIXED: Apply f element-wise
-        else
-            factor_str = ""
-            rows = [join(f.(row), " & ") for row in eachrow(mat)]  # FIXED: Apply f element-wise
-        end
-    
-        # Ensure correct handling of integer and complex elements
-        if eltype(mat) <: Integer || eltype(mat) <: Complex
-            rows = [join(f.(row), " & ") for row in eachrow(mat)]  # FIXED: Apply f element-wise
-        end
-    
+
+        # Handle Rational matrices separately (factor out denominator)
+        factor, int_mat = process_array(mat)           # Always process, even if no scaling needed
+        factor_str      = f(factor)                    # Safe: factor is either "" or a rational number
+        rows            = [join(f.(row), " & ") for row in eachrow(int_mat)]
+
         # LaTeX matrix formatting
         matrix_str = if arraystyle == :curlyarray
             "\\left(\\begin{array}{" * "r"^size(mat,2) * "}\n" *
@@ -190,15 +207,17 @@ function L_show(
         else
             "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
         end
-    
-        return isempty(factor_str) ? matrix_str : "$factor_str \\cdot $matrix_str"
+
+        return isempty(factor_str) ? matrix_str : "$factor_str $matrix_str"
     end
-    
+
+    # --------------------------------------------------------------------------
     # Helper function to handle vectors by converting them to column matrices
     function latex_vector(vec::AbstractVector; arraystyle=:round)
         latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
     end
 
+    # --------------------------------------------------------------------------
     # Map the input arguments to their LaTeX representations
     formatted_args = map(arg ->
         arg isa AbstractVector ? latex_vector(arg, arraystyle=arraystyle) :
@@ -210,7 +229,6 @@ function L_show(
 
     # Apply the style wrapper to the entire content
     styled_content = style_wrapper(styled_content)
-
     # Wrap content as inline or block LaTeX
     if inline
         return "\$"  * styled_content * "\$\n"   # Inline wrapping
@@ -218,8 +236,7 @@ function L_show(
         return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
     end
 end
-
-
+# ------------------------------------------------------------------------------
 "convert arguments to a LaTeX expression. directly display in notebook"
 function l_show(args...; kwargs...)
      LaTeXString(L_show(args...; kwargs... ))
