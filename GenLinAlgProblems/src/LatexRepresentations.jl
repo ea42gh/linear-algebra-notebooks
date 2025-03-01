@@ -94,73 +94,6 @@ end
 function latex(s::String) LaTeXStrings.LaTeXString(s) end
 
 "convert arguments to a LaTeX expression. Display in notebook with LaTeXString(L_show(...))"
-#function L_show(
-#    args...;
-#    arraystyle       = :curly, # :round, :square, or other styles
-#    color            = nothing,
-#    number_formatter = nothing, # Optional function to format numbers
-#    inline           = false
-#)   
-#    # Helper function to apply optional LaTeX styling
-#    style_wrapper(content::String) = begin
-#        color_str = color !== nothing ? "\\textcolor{$color}{" : ""
-#        prefix    = color_str
-#        suffix    = (color !== nothing ? "}" : "")
-#        "$prefix$content$suffix"
-#    end
-#
-#    # Helper function to format individual entries
-#    f(x) =
-#        x isa SymPy.Sym     ? replace(latexify(x), "\$" => "") : # Handle SymPy symbolic entries
-#        x isa Sym{PyObject} ? replace(latexify(x), "\$" => "") : # Handle Sym{PyObject} entries
-#        x isa String        ? replace(x, "_" => "\\_")         :
-#        x isa LaTeXString   ? strip(string(x), ['$', '\n'])    : # Remove $...$ from LaTeXString
-#        x isa Complex       ? format_complex(x, number_formatter) :
-#        x isa Rational      ? "\\frac{$(numerator(x))}{$(denominator(x))}" : # LaTeX for rationals
-#        x isa Number        ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
-#        error("Unsupported type: $(typeof(x))")
-#    end
-#    
-#    function format_complex(c::Complex, number_formatter)
-#        real_part = f(real(c))  # Use `f` to format the real part
-#        imag_part = f(imag(c))  # Use `f` to format the imaginary part
-#        if imag(c) >= 0
-#            return "$real_part + $imag_part i"
-#        else
-#            return "$real_part - $(abs(imag_part)) i"
-#        end
-#    end
-#
-#    # Recursive helper function to handle matrices with different styles
-#    function latex_matrix(mat::AbstractMatrix; arraystyle=:round)
-#        env = arraystyle == :round  ? "bmatrix" : # Default is "bmatrix" (round brackets)
-#              arraystyle == :square ? "Bmatrix" : # Square brackets
-#              arraystyle == :curly  ? "pmatrix" : # Curly braces (parentheses)
-#              arraystyle == :curlyarray ? "pmatrix" : # Curly braces (parentheses)
-#              "bmatrix"                           # Fallback to round brackets
-#        rows = [join(map(f, row), " & ") for row in eachrow(mat)]
-#
-#        "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
-#    end
-#    function latex_vector(vec::AbstractVector; arraystyle=:round)
-#        latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
-#    end
-#
-#    # Format the input arguments
-#    formatted_args = map(arg -> arg isa AbstractMatrix
-#                                ? latex_matrix(arg, arraystyle=arraystyle) : f(arg), args)
-#
-#    # Combine formatted arguments
-#    styled_content = join(formatted_args, " ")
-#
-#    # Apply the style wrapper to the entire content
-#    styled_content = style_wrapper(styled_content)
-#
-#    # Wrap content as inline or block LaTeX
-#    if inline return "\$"  * styled_content * "\$\n"   # Inline wrapping
-#    else      return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
-#    end
-#end
 function L_show(
     args...;  # Accepts a variable number of arguments
     arraystyle       = :curly,  # :round, :square, or other styles
@@ -189,30 +122,71 @@ function L_show(
 
     # Helper function to format Complex numbers
     function format_complex(c::Complex)
-        real_part = f(real(c))  # Format the real part
-        imag_val = imag(c)      # Get the numeric value of the imaginary part
-        imag_part = f(abs(imag_val))  # Format the absolute value of the imaginary part
+        real_part = f(real(c))
+        imag_val = imag(c)
 
-        if imag_val >= 0
-            return "$real_part + $imag_part i"
+        if imag_val == 0         return real_part
+        elseif imag_val == 1     return "$real_part + \\mathrm{i}"
+        elseif imag_val == -1    return "$real_part - \\mathrm{i}"
         else
-            return "$real_part - $imag_part i"
+            imag_part = f(abs(imag_val))
+            imag_sign = imag_val > 0 ? "+" : "-"
+            return "$real_part $imag_sign $imag_part \\mathrm{i}"
+        end
+    end
+    function format_complex(c::Complex{Rational{Int}})
+        real_part = f(real(c))
+        imag_val  = imag(c)
+
+        if     imag_val ==  0 return real_part
+        elseif imag_val ==  1 return "$real_part + \\mathrm{i}"
+        elseif imag_val == -1 return "$real_part - \\mathrm{i}"
+        else
+            imag_part = f(abs(imag_val))
+            imag_sign = imag_val > 0 ? "+" : "-"
+            return "$real_part $imag_sign $imag_part \\mathrm{i}"
+        end
+    end
+
+    # Helper function to handle Rational{Int} arrays
+    function process_rational_array(A::AbstractArray{Rational{Int}})
+        d, intA = factor_out_denominator(A)
+        if d == 1
+            return intA, ""
+        else
+            return 1//d, intA
         end
     end
 
     # Helper function to handle matrices
-    function latex_matrix(mat::AbstractMatrix; arraystyle=:round)
+    function latex_matrix(mat::AbstractMatrix; arraystyle=:curlyarray)
+        if isempty(mat) return "\\emptyset" end
+
         env = arraystyle == :round      ? "bmatrix" : # Default is "bmatrix" (round brackets)
               arraystyle == :square     ? "Bmatrix" : # Square brackets
               arraystyle == :curly      ? "pmatrix" : # Curly braces (parentheses)
               arraystyle == :curlyarray ? "array"   : # Curly braces (parentheses)
               "bmatrix"                               # Fallback to round brackets
-        rows = [join(map(f, row), " & ") for row in eachrow(mat)]
-        if arraystyle == :curlyarray
-            "\\left(\\begin{array}{"* "r"^size(mat,1) *
-            "}\n" * join(rows, " \\\\\n") * "\n\\end{array}\\right)"
+        if eltype(mat) == Rational{Int}
+            factor, int_mat = process_rational_array(mat)
+            factor_str = f(factor)
+            rows = [join(map(f, row), " & ") for row in eachrow(int_mat)]
+        else
+            factor_str = ""
+            rows = [join(map(f, row), " & ") for row in eachrow(mat)]
+        end
+
+        matrix_str = if arraystyle == :curlyarray
+            "\\left(\\begin{array}{" * "r"^size(mat,2) * "}\n" *
+            join(rows, " \\\\\n") * "\n\\end{array}\\right)"
         else
             "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
+        end
+
+        if !isempty(factor_str)
+            return "$factor_str \\cdot $matrix_str"
+        else
+            return matrix_str
         end
     end
 
@@ -222,9 +196,9 @@ function L_show(
     end
 
     # Map the input arguments to their LaTeX representations
-    formatted_args = map(arg -> 
+    formatted_args = map(arg ->
         arg isa AbstractVector ? latex_vector(arg, arraystyle=arraystyle) :
-        arg isa AbstractMatrix ? latex_matrix(arg, arraystyle=arraystyle) : 
+        arg isa AbstractMatrix ? latex_matrix(arg, arraystyle=arraystyle) :
         f(arg), args)
 
     # Combine formatted arguments into a single LaTeX string
@@ -234,7 +208,7 @@ function L_show(
     styled_content = style_wrapper(styled_content)
 
     # Wrap content as inline or block LaTeX
-    if inline 
+    if inline
         return "\$"  * styled_content * "\$\n"   # Inline wrapping
     else
         return "\\[" * styled_content * "\\]\n"  # Block-style wrapping
@@ -244,14 +218,6 @@ end
 
 "convert arguments to a LaTeX expression. directly display in notebook"
 function l_show(args...; kwargs...)
-#    f(A::Array)         = L"%$(latexify(A, adjustment=:r, arraystyle=:round))"
-#    f(A::Adjoint)       = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
-#    f(A::Diagonal)      = L"%$(latexify(Matrix(A), adjustment=:r, arraystyle=:round))"
-#    f(s::String)        = L"\text{%$(s)}"
-#    f(s::LaTeXString)   = s
-#    f(n::Number)        = L"%$(latexify(n))"
-#
-#    LaTeXString( join( map(f, args) ))
      LaTeXString(L_show(args...; kwargs... ))
 end
 
