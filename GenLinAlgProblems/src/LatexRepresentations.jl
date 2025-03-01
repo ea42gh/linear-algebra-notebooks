@@ -96,10 +96,10 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 "convert arguments to a LaTeX expression. Display in notebook with LaTeXString(L_show(...))"
 function L_show(
     args...;  # Accepts a variable number of arguments
-    arraystyle       = :curly,  # :round, :square, or other styles
-    color            = nothing, # Optional color for LaTeX text
-    number_formatter = nothing, # Optional function to format numbers
-    inline           = false    # Whether to return inline or block LaTeX
+    arraystyle       = :curlyarray,  # :curly, :round, :square, or other styles
+    color            = nothing,      # Optional color for LaTeX text
+    number_formatter = nothing,      # Optional function to format numbers
+    inline           = true          # Whether to return inline or block LaTeX
 )
     # Helper function to apply optional LaTeX styling
     style_wrapper(content::String) = begin
@@ -152,7 +152,7 @@ function L_show(
     function process_rational_array(A::AbstractArray{Rational{Int}})
         d, intA = factor_out_denominator(A)
         if d == 1
-            return intA, ""
+            return "", intA
         else
             return 1//d, intA
         end
@@ -161,35 +161,39 @@ function L_show(
     # Helper function to handle matrices
     function latex_matrix(mat::AbstractMatrix; arraystyle=:curlyarray)
         if isempty(mat) return "\\emptyset" end
-
-        env = arraystyle == :round      ? "bmatrix" : # Default is "bmatrix" (round brackets)
-              arraystyle == :square     ? "Bmatrix" : # Square brackets
-              arraystyle == :curly      ? "pmatrix" : # Curly braces (parentheses)
-              arraystyle == :curlyarray ? "array"   : # Curly braces (parentheses)
-              "bmatrix"                               # Fallback to round brackets
+    
+        env = arraystyle == :round      ? "bmatrix" :  # Round brackets
+              arraystyle == :square     ? "Bmatrix" :  # Square brackets
+              arraystyle == :curly      ? "pmatrix" :  # Curly braces (parentheses)
+              arraystyle == :curlyarray ? "array"   :  # Curly array format
+              "bmatrix"                               # Default to round brackets
+    
+        # Handle Rational{Int} matrices separately (factor out denominator)
         if eltype(mat) == Rational{Int}
             factor, int_mat = process_rational_array(mat)
-            factor_str = f(factor)
-            rows = [join(map(f, row), " & ") for row in eachrow(int_mat)]
+            factor_str = f(factor)  # Safe since factor is a single number
+            rows = [join(f.(row), " & ") for row in eachrow(int_mat)]  # FIXED: Apply f element-wise
         else
             factor_str = ""
-            rows = [join(map(f, row), " & ") for row in eachrow(mat)]
+            rows = [join(f.(row), " & ") for row in eachrow(mat)]  # FIXED: Apply f element-wise
         end
-
+    
+        # Ensure correct handling of integer and complex elements
+        if eltype(mat) <: Integer || eltype(mat) <: Complex
+            rows = [join(f.(row), " & ") for row in eachrow(mat)]  # FIXED: Apply f element-wise
+        end
+    
+        # LaTeX matrix formatting
         matrix_str = if arraystyle == :curlyarray
             "\\left(\\begin{array}{" * "r"^size(mat,2) * "}\n" *
             join(rows, " \\\\\n") * "\n\\end{array}\\right)"
         else
             "\\begin{$env}\n" * join(rows, " \\\\\n") * "\n\\end{$env}"
         end
-
-        if !isempty(factor_str)
-            return "$factor_str \\cdot $matrix_str"
-        else
-            return matrix_str
-        end
+    
+        return isempty(factor_str) ? matrix_str : "$factor_str \\cdot $matrix_str"
     end
-
+    
     # Helper function to handle vectors by converting them to column matrices
     function latex_vector(vec::AbstractVector; arraystyle=:round)
         latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
