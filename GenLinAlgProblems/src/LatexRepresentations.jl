@@ -231,16 +231,12 @@ function L_show(
                  )
 
         matrix_env = get(env, arraystyle, :array)
-        if arraystyle == :cases
-            return latex_cases(mat)  # Use separate handling for cases
-        end
-
 
         factor, int_mat = process_array(mat)
         factor_str = f(factor)
 
         rows = [join(f.(row), " & ") for row in eachrow(int_mat)]
-        matrix_str = if arraystyle == :curlyarray
+        matrix_str = if arraystyle == :array
             "\\left(\\begin{array}{" * "r"^size(mat,2) * "}\n" *
             join(rows, " \\\\\n") * "\n\\end{array}\\right)"
         else
@@ -252,7 +248,7 @@ function L_show(
 
     # ----------------------------------------------------------
     # LaTeX formatting for vectors
-    function latex_vector(vec::AbstractVector; arraystyle=:round)
+    function latex_vector(vec::AbstractVector; arraystyle=:array)
         latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
     end
 
