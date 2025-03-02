@@ -124,6 +124,10 @@ function to_latex(x::SymPy.Sym; number_formatter=nothing)
     end
 end
 # ------------------------------------------------------------------------------
+function to_latex(x::Symbol; number_formatter=nothing)
+    return string(x)  # Simply return "x"
+end
+# ------------------------------------------------------------------------------
 function to_latex(matrices::Vector; number_formatter=nothing)
     apply_function(x -> to_latex(x; number_formatter=number_formatter), matrices)
 end
@@ -147,136 +151,190 @@ end
 # ==============================================================================
 function latex(s::String) LaTeXStrings.LaTeXString(s) end
 
-"convert arguments to a LaTeX expression. Display in notebook with LaTeXString(L_show(...))"
-function L_show(
-    args...;
-    arraystyle       = :array,      # :pmatrix, :case and other latex matrix environments
-    color            = nothing,
-    number_formatter = nothing,
-    inline           = true,
-    factor_out       = true
-)
+# ==============================================================================
+# 🟢 Apply optional LaTeX styling (color handling)
+function style_wrapper(content::Any, color_opt=nothing)
+    str_content = string(content)  # 🔥 Ensure everything is converted to a String
+    str_content = replace(str_content, r"^\$|\$$" => "")  # 🔥 Remove LaTeX `$...$` wrappers if they exist
 
-    # Helper function to apply LaTeX styling
-    style_wrapper(content::String) = begin
-        color_str = color !== nothing ? "\\textcolor{$color}{" : ""
-        prefix    = color_str
-        suffix    = (color !== nothing ? "}" : "")
-        "$prefix$content$suffix"
+    color_str = color_opt !== nothing ? "\\textcolor{$color_opt}{" : ""
+    prefix    = color_str
+    suffix    = (color_opt !== nothing ? "}" : "")
+
+    return "$prefix$str_content$suffix"
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Process Arrays: Factorization for Rational and Complex Rational Matrices
+function process_array(A, factor_out=true)
+    if !factor_out return 1, A end
+
+    factor, intA = factor_out_denominator(A)  # Use helper function
+    return factor, intA
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Numbers and Symbols using `to_latex`
+function L_show_number(x; color=nothing, number_formatter=nothing)
+    formatted_x = if number_formatter !== nothing number_formatter(x) else x end
+    formatted   = if formatted_x isa String formatted_x else to_latex(formatted_x) end
+    return style_wrapper(formatted, color)  # No `$...$` wrapping!
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Strings and LaTeXStrings
+function L_show_string(s; color=nothing)
+    if s isa LaTeXString
+        return style_wrapper(strip(string(s), ['$', '\n']), color)
+    else
+        return style_wrapper("\\text{" * replace(s, "_" => "\\_") * "}", color)
+    end
+end
+# ------------------------------------------------------------------------------
+# 🟢 Handle Matrices (including symbolic matrices)
+function L_show_matrix(A; arraystyle=:array, color=nothing, number_formatter=nothing,
+                          per_element_style=nothing, factor_out=true, bold_matrix=false)
+
+    # Convert vectors to column matrices for uniform handling
+    A = A isa AbstractVector ? reshape(A, :, 1) : A
+
+    # Handle special matrix types
+    if A isa SparseMatrixCSC
+        A = Matrix(A)  # Convert sparse to dense
+    elseif A isa Adjoint || A isa Symmetric || A isa Hermitian
+        A = parent(A)  # Extract parent matrix
+    elseif A isa Diagonal
+        A = Matrix(A)  # Convert to full matrix
     end
 
-    # ----------------------------------------------------------
-    # Helper function to format individual entries
-    function f(x)
-        x isa SymPy.Sym       ? replace(latexify(x), "\$" => "") :
-        x isa Sym{PyObject}   ? replace(latexify(x), "\$" => "") :
-        x isa String          ? "\\text{" * replace(x, "_" => "\\_") * "}" :
-        x isa LaTeXString     ? strip(string(x), ['$', '\n']) :
-        x isa Rational        ? to_latex(x; number_formatter=number_formatter) :
-        x isa Complex         ? to_latex(x; number_formatter=number_formatter) :
-        x isa Number          ? (number_formatter !== nothing ? number_formatter(x) : string(x)) :
-        error("Unsupported type: $(typeof(x))")
+    # Check for symbolic entries
+    contains_symbols = any(x -> x isa Symbol || x isa SymPy.Sym, A)
+
+    env = Dict(
+        :bmatrix  => "bmatrix",
+        :Bmatrix  => "Bmatrix",
+        :pmatrix  => "pmatrix",
+        :vmatrix  => "vmatrix",
+        :Vmatrix  => "Vmatrix",
+        :array    => "array"
+    )
+
+    matrix_env = get(env, arraystyle, "array")
+
+    # Factorization is only applicable for numerical matrices
+    factor, intA = contains_symbols ? (1, A) : process_array(A, factor_out)
+
+    # Apply `number_formatter` to `1//factor` BEFORE converting to LaTeX
+    if factor == 1
+        factor_str = ""
+    else
+        numeric_factor = 1//factor
+        formatted_factor = number_formatter !== nothing ? number_formatter(numeric_factor) : numeric_factor
+        factor_str = to_latex(formatted_factor)
+        if bold_matrix factor_str = "\\mathbf{" * factor_str * "}" end
     end
 
-    # ----------------------------------------------------------
-    # Generalized function to process arrays with optional factorization
-    function process_array(A)
-        if !factor_out
-            return "", A
+    # Apply styling to matrix elements
+    rows = [join(
+        [begin
+            x = intA[i, j]
+            formatted_x = number_formatter !== nothing ? number_formatter(x) : to_latex(x)
+
+            # Step 1: Apply `per_element_style` FIRST (e.g., colors, special formatting)
+            formatted_x = per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
+
+            # Step 2: Apply `\textbf{}` LAST to keep everything bold
+            bold_matrix ? "\\textbf{" * formatted_x * "}" : formatted_x
+        end for j in 1:size(A,2)], " & ") for i in 1:size(A,1)]
+
+    # Ensure empty matrices don't cause failures by checking `join(rows, " \\\\\n")`
+    matrix_body = if arraystyle == :array
+        "\\left(\\begin{array}{" * "r"^size(A,2) * "}\n" *
+        (isempty(rows) ? "" : join(rows, " \\\\\n")) * "\n\\end{array}\\right)"
+    else
+        "\\begin{$matrix_env}\n" * (isempty(rows) ? "" : join(rows, " \\\\\n")) * "\n\\end{$matrix_env}"
+    end
+
+    return isempty(factor_str) ? style_wrapper(matrix_body, color) : style_wrapper("$factor_str $matrix_body", color)
+end
+# ------------------------------------------------------------------------------
+# 🟢 Core function: Handles arguments but doesn't wrap in equation delimiters
+function L_show_core(obj; arraystyle=:array, color=nothing, number_formatter=nothing, 
+                        per_element_style=nothing, factor_out=true, bold_matrix=false)
+
+    # Handle NamedTuples with multiple options
+    if obj isa NamedTuple
+        # Extract the primary value (assume first non-keyword argument is the object)
+        value = nothing
+        options = Dict{Symbol, Any}()
+
+        for (key, val) in pairs(obj)
+            if value === nothing && !(key in [:arraystyle, :color, :number_formatter, :per_element_style, :factor_out, :bold_matrix])
+                value = val  # Assume first non-keyword argument is the main object
+            else
+                options[key] = val  # Store additional options
+            end
         end
 
-        d, intA = A isa AbstractArray{Rational{Int}} || A isa AbstractArray{Complex{Rational{Int}}} ?
-                  factor_out_denominator(A) : (1, A)  # Ensure d is numeric
-
-        return d == 1 ? ("", intA) : (1//Int(d), intA)  # Ensure `d` is an Integer
-    end
-    # Extend `process_array` to handle new matrix types
-    function process_array(A::Adjoint)
-        d, intA = process_array(parent(A))
-        return d, adjoint(intA)
-    end
-
-    function process_array(A::Symmetric)
-        d, intA = process_array(parent(A))
-        return d, Symmetric(intA)
-    end
-
-    function process_array(A::Hermitian)
-        d, intA = process_array(parent(A))
-        return d, Hermitian(intA)
-    end
-
-    function process_array(A::Diagonal)
-        d, intA = process_array(parent(A))
-        return d, Diagonal(intA)
-    end
-
-    function process_array(A::SparseMatrixCSC)
-        d, intA = process_array(A)
-        return d, SparseMatrixCSC(intA)
-    end
-
-    # ----------------------------------------------------------
-    # LaTeX formatting for matrices
-
-    function latex_matrix(mat::AbstractMatrix; arraystyle=:array)
-        if isempty(mat) return "\\emptyset" end
-
-        env = Dict( :bmatrix     => "bmatrix",     # Square brackets [ ]
-                    :Bmatrix     => "Bmatrix",     # Curly braces { }
-                    :pmatrix     => "pmatrix",     # Parentheses ( )
-                    :vmatrix     => "vmatrix",     # Vertical bars | |
-                    :Vmatrix     => "Vmatrix",     # Double vertical bars ‖ ‖
-                    :array       => "array",       # Custom arrays
-                 )
-
-        matrix_env = get(env, arraystyle, :array)
-
-        factor, int_mat = process_array(mat)
-        factor_str = f(factor)
-
-        rows = [join(f.(row), " & ") for row in eachrow(int_mat)]
-        matrix_str = if arraystyle == :array
-            "\\left(\\begin{array}{" * "r"^size(mat,2) * "}\n" *
-            join(rows, " \\\\\n") * "\n\\end{array}\\right)"
-        else
-            "\\begin{$matrix_env}\n" * join(rows, " \\\\\n") * "\n\\end{$matrix_env}"
+        if value === nothing
+            error("NamedTuple must contain at least one primary value (e.g., text, matrix, number).")
         end
 
-        return isempty(factor_str) ? matrix_str : "$factor_str $matrix_str"
+        # Recursively call `L_show_core` with extracted options
+        return L_show_core(value; arraystyle=get(options, :arraystyle, arraystyle), 
+                                      color=get(options, :color, color), 
+                                      number_formatter=get(options, :number_formatter, number_formatter), 
+                                      per_element_style=get(options, :per_element_style, per_element_style), 
+                                      factor_out=get(options, :factor_out, factor_out), 
+                                      bold_matrix=get(options, :bold_matrix, bold_matrix))
     end
 
-    # ----------------------------------------------------------
-    # LaTeX formatting for vectors
-    function latex_vector(vec::AbstractVector; arraystyle=:array)
-        latex_matrix(reshape(vec, :, 1); arraystyle=arraystyle)
+    if obj isa AbstractMatrix || obj isa AbstractVector                             # 🔥 Matrices & Vectors
+        return L_show_matrix(obj; arraystyle=arraystyle, color=color, 
+                                  number_formatter=number_formatter, 
+                                  per_element_style=per_element_style, 
+                                  factor_out=factor_out, bold_matrix=bold_matrix)
+
+    elseif obj isa String || obj isa LaTeXString                                    # 🔥 Handles Strings
+        return L_show_string(obj; color=color)
+
+    elseif obj isa Number || obj isa Symbol || obj isa SymPy.Sym                    # 🔥 Handles Numbers & Symbols
+        return L_show_number(obj; color=color, number_formatter=number_formatter)
+
+    else
+        error("Unsupported argument type: $(typeof(obj))")
     end
+end
 
-    # ----------------------------------------------------------
-    # Convert input arguments into LaTeX
-    formatted_args = map(arg ->
-        arg isa AbstractVector ? latex_vector(arg, arraystyle=arraystyle) :
-        arg isa AbstractMatrix ? latex_matrix(arg, arraystyle=arraystyle) :
-        f(arg), args)
+# ------------------------------------------------------------------------------
+# 🟢 Convert arguments to valid LaTeX 
+function L_show(objs...; arraystyle=:array, color=nothing, number_formatter=nothing, 
+                 inline=true, factor_out=true, bold_matrix=false, per_element_style=nothing)
 
-    # Combine formatted arguments into LaTeX string
-    styled_content = join(formatted_args, " ")
-    styled_content = style_wrapper(styled_content)
+    # Step 1: Process each argument separately
+    formatted_objs = map(obj -> L_show_core(obj; 
+                                arraystyle=arraystyle, color=color, 
+                                number_formatter=number_formatter, 
+                                factor_out=factor_out, bold_matrix=bold_matrix, 
+                                per_element_style=per_element_style), objs)
 
-    # Return as inline or block LaTeX
+    # Step 2: Combine processed arguments into a single LaTeX string
+    styled_content = join(formatted_objs, " ")
+
+    # Step 3: Apply inline or block wrapping
     return inline ? "\$" * styled_content * "\$\n" : "\\[" * styled_content * "\\]\n"
 end
 # ------------------------------------------------------------------------------
+# 🟢 Display arguments in python notebook
 "convert arguments to a LaTeX expression. directly display in notebook"
 function l_show(args...; kwargs...)
      LaTeXString(L_show(args...; kwargs... ))
 end
-
-
-# Wrapper for Python's LaTeX rendering: use from julia in Python notebook
+# ------------------------------------------------------------------------------
+# 🟢  Wrapper for Python's LaTeX rendering: use from julia in Python notebook
 function py_show(args...; kwargs...)
-    py_display = pyimport("IPython.display").display
-    py_latex   = pyimport("IPython.display").Latex
+    py_display   = pyimport("IPython.display").display
+    py_latex     = pyimport("IPython.display").Latex
     latex_string = L_show(args...; kwargs...)
     py_display(py_latex(latex_string))
 end
