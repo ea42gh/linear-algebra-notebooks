@@ -78,7 +78,7 @@ RUN python -m pip install pygraphviz && \
 RUN /opt/setup-scripts/setup-julia-packages.bash
 
 # Add additional Julia Packages
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "AbstractAlgebra", "GenericLinearAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "QuadGK", "IOCapture"]; Pkg.add.(p);'
+RUN julia -e 'import Pkg; Pkg.update(); p = [ "AbstractAlgebra", "BlockArrays", "GenericLinearAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "QuadGK", "IOCapture"]; Pkg.add.(p);'
 RUN julia -e 'import Pkg; Pkg.update(); p = [ "FFTW", "DSP", "ToeplitzMatrices", "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "ImageView", "TestImages"]; Pkg.add.(p);'
 RUN julia -e 'import Pkg; Pkg.update(); p = [ "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);'
 RUN julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
