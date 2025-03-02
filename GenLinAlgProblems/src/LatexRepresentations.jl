@@ -154,8 +154,8 @@ function latex(s::String) LaTeXStrings.LaTeXString(s) end
 # ==============================================================================
 # 🟢 Apply optional LaTeX styling (color handling)
 function style_wrapper(content::Any, color_opt=nothing)
-    str_content = string(content)  # 🔥 Ensure everything is converted to a String
-    str_content = replace(str_content, r"^\$|\$$" => "")  # 🔥 Remove LaTeX `$...$` wrappers if they exist
+    str_content = string(content)  #  Ensure everything is converted to a String
+    str_content = replace(str_content, r"^\$|\$$" => "")  #  Remove LaTeX `$...$` wrappers if they exist
 
     color_str = color_opt !== nothing ? "\\textcolor{$color_opt}{" : ""
     prefix    = color_str
@@ -192,87 +192,115 @@ function L_show_string(s; color=nothing)
 end
 # ------------------------------------------------------------------------------
 # 🟢 Handle Matrices (including symbolic matrices)
-function L_show_matrix(A; arraystyle=:array, color=nothing, number_formatter=nothing,
+function L_show_matrix(A; arraystyle=:parray, color=nothing, number_formatter=nothing,
                           per_element_style=nothing, factor_out=true, bold_matrix=false)
 
-    # Convert vectors to column matrices for uniform handling
-    A = A isa AbstractVector ? reshape(A, :, 1) : A
-
+    # Convert vectors and adjoint vectors appropriately
+    if A isa AbstractVector  
+        A = reshape(A, :, 1)  # Convert to column vector
+    elseif A isa Adjoint{T, Vector{T}} where T
+        A = reshape(parent(A), 1, :)  # Convert adjoint vector to row vector
+    end
+    
     # Handle special matrix types
-    if A isa SparseMatrixCSC
+    if A isa SparseMatrixCSC 
         A = Matrix(A)  # Convert sparse to dense
     elseif A isa Adjoint || A isa Symmetric || A isa Hermitian
         A = parent(A)  # Extract parent matrix
-    elseif A isa Diagonal
+    elseif A isa Diagonal    
         A = Matrix(A)  # Convert to full matrix
     end
 
-    # Check for symbolic entries
+    # Check for symbolic entries 
     contains_symbols = any(x -> x isa Symbol || x isa SymPy.Sym, A)
 
+    #  Map array styles to LaTeX environments
     env = Dict(
         :bmatrix  => "bmatrix",
         :Bmatrix  => "Bmatrix",
         :pmatrix  => "pmatrix",
         :vmatrix  => "vmatrix",
         :Vmatrix  => "Vmatrix",
-        :array    => "array"
+        :array    => "array",
+        :barray   => "array",
+        :Barray   => "array",
+        :parray   => "array",
+        :varray   => "array",
+        :Varray   => "array"
     )
 
     matrix_env = get(env, arraystyle, "array")
 
-    # Factorization is only applicable for numerical matrices
+    #  Map array styles to enclosing brackets (always apply regardless of factorization)
+    bracket_format = Dict(
+        :barray   => ("\\left[", "\\right]"),   # Square brackets [ ]
+        :Barray   => ("\\left\\{", "\\right\\}"), # Curly braces { }
+        :parray   => ("\\left(", "\\right)"),   # Parentheses ( )
+        :varray   => ("\\left|", "\\right|"),   # Single vertical bars | |
+        :Varray   => ("\\left\\|", "\\right\\|"), # Double vertical bars ‖ ‖
+        :array    => ("", ""),                  # No enclosing brackets
+    )
+
+    left_bracket, right_bracket = get(bracket_format, arraystyle, ("", ""))
+
+    #  Ensure `number_formatter` is applied BEFORE LaTeX conversion
+    if number_formatter !== nothing
+        A = map(x -> number_formatter(x), A)  # Apply formatting before LaTeX conversion
+    end
+
+    #  Factorization (numerical matrices only)
     factor, intA = contains_symbols ? (1, A) : process_array(A, factor_out)
 
-    # Apply `number_formatter` to `1//factor` BEFORE converting to LaTeX
+    #  Convert `1//factor` to LaTeX
     if factor == 1
         factor_str = ""
     else
         numeric_factor = 1//factor
-        formatted_factor = number_formatter !== nothing ? number_formatter(numeric_factor) : numeric_factor
-        factor_str = to_latex(formatted_factor)
-        if bold_matrix factor_str = "\\mathbf{" * factor_str * "}" end
+        formatted_factor = to_latex(numeric_factor)  # Convert to LaTeX fraction
+        factor_str = bold_matrix ? "\\mathbf{$formatted_factor}" : formatted_factor
     end
 
-    # Apply styling to matrix elements
+    #  Convert numbers to LaTeX AFTER number formatting
     rows = [join(
         [begin
             x = intA[i, j]
-            formatted_x = number_formatter !== nothing ? number_formatter(x) : to_latex(x)
+            formatted_x = to_latex(x)  #  Convert to LaTeX fraction first
 
             # Step 1: Apply `per_element_style` FIRST (e.g., colors, special formatting)
             formatted_x = per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
 
-            # Step 2: Apply `\textbf{}` LAST to keep everything bold
-            bold_matrix ? "\\textbf{" * formatted_x * "}" : formatted_x
+            # Step 2: Apply `\mathbf{}` LAST to keep everything bold
+            bold_matrix ? "\\mathbf{$formatted_x}" : formatted_x
         end for j in 1:size(A,2)], " & ") for i in 1:size(A,1)]
 
-    # Ensure empty matrices don't cause failures by checking `join(rows, " \\\\\n")`
-    matrix_body = if arraystyle == :array
-        "\\left(\\begin{array}{" * "r"^size(A,2) * "}\n" *
-        (isempty(rows) ? "" : join(rows, " \\\\\n")) * "\n\\end{array}\\right)"
-    else
-        "\\begin{$matrix_env}\n" * (isempty(rows) ? "" : join(rows, " \\\\\n")) * "\n\\end{$matrix_env}"
-    end
+    #  Fix column formatting for `array`-style environments
+    col_format = "r"^max(1, size(A,2))  # Ensure at least one column
+
+    #  Generate LaTeX matrix representation (Always apply brackets)
+    matrix_body = left_bracket * (
+        "\\begin{$matrix_env}" * (arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ? "{ $col_format }" : "") * "\n" *
+        (isempty(rows) ? "" : join(rows, " \\\\\n")) *
+        "\n\\end{$matrix_env}"
+    ) * right_bracket
 
     return isempty(factor_str) ? style_wrapper(matrix_body, color) : style_wrapper("$factor_str $matrix_body", color)
 end
+
 # ------------------------------------------------------------------------------
 # 🟢 Core function: Handles arguments but doesn't wrap in equation delimiters
-function L_show_core(obj; arraystyle=:array, color=nothing, number_formatter=nothing, 
+function L_show_core(obj; arraystyle=:parray, color=nothing, number_formatter=nothing,
                         per_element_style=nothing, factor_out=true, bold_matrix=false)
 
     # Handle NamedTuples with multiple options
     if obj isa NamedTuple
-        # Extract the primary value (assume first non-keyword argument is the object)
         value = nothing
         options = Dict{Symbol, Any}()
 
         for (key, val) in pairs(obj)
             if value === nothing && !(key in [:arraystyle, :color, :number_formatter, :per_element_style, :factor_out, :bold_matrix])
-                value = val  # Assume first non-keyword argument is the main object
+                value = val  # First non-keyword argument is treated as primary object
             else
-                options[key] = val  # Store additional options
+                options[key] = val  # Store additional formatting options
             end
         end
 
@@ -280,26 +308,45 @@ function L_show_core(obj; arraystyle=:array, color=nothing, number_formatter=not
             error("NamedTuple must contain at least one primary value (e.g., text, matrix, number).")
         end
 
-        # Recursively call `L_show_core` with extracted options
-        return L_show_core(value; arraystyle=get(options, :arraystyle, arraystyle), 
-                                      color=get(options, :color, color), 
-                                      number_formatter=get(options, :number_formatter, number_formatter), 
-                                      per_element_style=get(options, :per_element_style, per_element_style), 
-                                      factor_out=get(options, :factor_out, factor_out), 
-                                      bold_matrix=get(options, :bold_matrix, bold_matrix))
+        #  Recursively call `L_show_core` with extracted options
+        return L_show_core(value;
+                           arraystyle=get(options, :arraystyle, arraystyle),
+                           color=get(options, :color, color),
+                           number_formatter=get(options, :number_formatter, number_formatter),
+                           per_element_style=get(options, :per_element_style, per_element_style),
+                           factor_out=get(options, :factor_out, factor_out),
+                           bold_matrix=get(options, :bold_matrix, bold_matrix))
     end
 
-    if obj isa AbstractMatrix || obj isa AbstractVector                             # 🔥 Matrices & Vectors
-        return L_show_matrix(obj; arraystyle=arraystyle, color=color, 
-                                  number_formatter=number_formatter, 
-                                  per_element_style=per_element_style, 
-                                  factor_out=factor_out, bold_matrix=bold_matrix)
-
-    elseif obj isa String || obj isa LaTeXString                                    # 🔥 Handles Strings
+    # Ensure Strings and LaTeXStrings are treated the same way
+    if obj isa String || obj isa LaTeXString
         return L_show_string(obj; color=color)
 
-    elseif obj isa Number || obj isa Symbol || obj isa SymPy.Sym                    # 🔥 Handles Numbers & Symbols
-        return L_show_number(obj; color=color, number_formatter=number_formatter)
+    # Handle Matrices, Vectors, Adjoint Vectors
+    elseif obj isa AbstractMatrix || obj isa AbstractVector || obj isa Adjoint{T, Vector{T}} where T
+        return L_show_matrix(obj;
+                             arraystyle=arraystyle,
+                             color=color,
+                             number_formatter=number_formatter,
+                             per_element_style=per_element_style,
+                             factor_out=factor_out,
+                             bold_matrix=bold_matrix)
+
+    # Handle Adjoint Matrices (Extract Parent)
+    elseif obj isa Adjoint{T, AbstractMatrix{T}} where T
+        return L_show_matrix(parent(obj);
+                             arraystyle=arraystyle,
+                             color=color,
+                             number_formatter=number_formatter,
+                             per_element_style=per_element_style,
+                             factor_out=factor_out,
+                             bold_matrix=bold_matrix)
+
+    # Handle Numbers, Symbols, and SymPy Expressions
+    elseif obj isa Number || obj isa Symbol || obj isa SymPy.Sym
+        return L_show_number(obj;
+                             color=color,
+                             number_formatter=number_formatter)
 
     else
         error("Unsupported argument type: $(typeof(obj))")
@@ -307,15 +354,15 @@ function L_show_core(obj; arraystyle=:array, color=nothing, number_formatter=not
 end
 
 # ------------------------------------------------------------------------------
-# 🟢 Convert arguments to valid LaTeX 
-function L_show(objs...; arraystyle=:array, color=nothing, number_formatter=nothing, 
+# 🟢 Convert arguments to valid LaTeX
+function L_show(objs...; arraystyle=:parray, color=nothing, number_formatter=nothing,
                  inline=true, factor_out=true, bold_matrix=false, per_element_style=nothing)
 
     # Step 1: Process each argument separately
-    formatted_objs = map(obj -> L_show_core(obj; 
-                                arraystyle=arraystyle, color=color, 
-                                number_formatter=number_formatter, 
-                                factor_out=factor_out, bold_matrix=bold_matrix, 
+    formatted_objs = map(obj -> L_show_core(obj;
+                                arraystyle=arraystyle, color=color,
+                                number_formatter=number_formatter,
+                                factor_out=factor_out, bold_matrix=bold_matrix,
                                 per_element_style=per_element_style), objs)
 
     # Step 2: Combine processed arguments into a single LaTeX string
