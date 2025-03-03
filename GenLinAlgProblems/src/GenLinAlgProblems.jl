@@ -15,7 +15,7 @@ function __init__()
 end
 export py_itikz, nM
 
-using AbstractAlgebra, LinearAlgebra, Latexify, LaTeXStrings, SymPy
+using AbstractAlgebra, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings, SymPy
 using Random, Hadamard
 
 # general utility
