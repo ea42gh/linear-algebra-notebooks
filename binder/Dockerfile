@@ -20,6 +20,9 @@ RUN usermod -aG sudo jovyan && \
 # itikz related requirements
 RUN apt-get update -y && \
     apt-get install --yes --no-install-recommends \
+    x11-apps xdg-utils libgtk-3-dev \
+    libglib2.0-dev libgdk-pixbuf2.0-dev \
+    libpango1.0-dev libx11-dev libxext-dev
     git pdf2svg xclip ffmpeg libcairo2-dev \
     cmake build-essential pkg-config \
     fonts-liberation fonts-dejavu fonts-hack \
