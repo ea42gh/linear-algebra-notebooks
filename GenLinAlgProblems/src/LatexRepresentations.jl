@@ -13,35 +13,47 @@ end
 # ------------------------------------------------------------------------------
 # -------------------------- factor out a denominator from an array of Rationals
 # ------------------------------------------------------------------------------
-function factor_out_denominator( A )
-    1, A
+# 🟢 Generalized function for factorizing denominators
+"""Factor out denominator from vectors and matrices"""
+function factor_out_denominator(A)
+    1, A  # Default case: No factorization needed
 end
-# ------------------------------------------------------------------------------
-function factor_out_denominator( A::Vector{Rational{Int}} )
-    d = reduce( lcm, denominator.(Vector(A)) )
-    d, Int64.(d*A)
+
+# 🟢 Generalized function for factorizing denominators
+function factor_out_denominator(A::AbstractArray)
+    1, A  # Default case: No factorization needed
 end
+
 # ------------------------------------------------------------------------------
-function factor_out_denominator( A::Array{Rational{Int64},2} )
-    d = reduce( lcm, denominator.(Matrix(A)) )
-    d, Int64.(d*A)
+# 🟢 Handle Vectors of Rational{Int}
+function factor_out_denominator(A::AbstractVector{Rational{Int}})
+    d = reduce(lcm, denominator.(A))
+    d, Int64.(d .* A)
 end
+
 # ------------------------------------------------------------------------------
-function factor_out_denominator(A::Vector{Complex{Rational{Int}}})
-    # Extract denominators from real and imaginary parts
+# 🟢 Handle Matrices of Rational{Int}
+function factor_out_denominator(A::AbstractMatrix{Rational{Int}})
+    d = reduce(lcm, denominator.(A))
+    d, Int64.(d .* A)
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Vectors of Complex{Rational{Int}}
+function factor_out_denominator(A::AbstractVector{Complex{Rational{Int}}})
     denominators_real = denominator.(real.(A))
     denominators_imag = denominator.(imag.(A))
 
-    # Compute the LCM of all denominators
     d = reduce(lcm, vcat(denominators_real, denominators_imag), init=1)
 
-    # Multiply vector by LCM and convert to Complex{Int}
     A_int = Complex{Int64}.(d .* real.(A), d .* imag.(A))
 
     return d, A_int  # Return LCM and the scaled vector
 end
+
 # ------------------------------------------------------------------------------
-function factor_out_denominator(A::Matrix{Complex{Rational{Int}}})
+# 🟢 Handle Matrices of Complex{Rational{Int}}
+function factor_out_denominator(A::AbstractMatrix{Complex{Rational{Int}}})
     denominators_real = denominator.(real.(A))
     denominators_imag = denominator.(imag.(A))
 
@@ -51,6 +63,44 @@ function factor_out_denominator(A::Matrix{Complex{Rational{Int}}})
 
     return d, A_int  # Return LCM and the scaled matrix
 end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Transpose and Hermitian Transpose (Adjoint)
+function factor_out_denominator(A::Transpose)
+    d, A_factored = factor_out_denominator(parent(A))
+    return d, transpose(A_factored)  # Preserve transposition
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle BlockArrays by factoring the entire BlockMatrix correctly
+function factor_out_denominator(A::BlockArray)
+    # Convert BlockArray into a single contiguous Matrix representation
+    full_matrix = copy(Matrix(A))  # Extract numerical content while preserving structure
+
+    # Factorize the matrix without recursion
+    d, A_factored = factor_out_denominator(full_matrix)
+
+    # Reconstruct BlockArray with original block partitioning
+    return d, BlockArray(A_factored, axes(A))
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Adjoints
+function factor_out_denominator(A::Adjoint)
+    d, A_factored = factor_out_denominator(parent(A))
+    return d, A_factored'  # Preserve Hermitian transpose
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Reshaped Transposed Vectors
+function factor_out_denominator(A::Base.ReshapedArray{T, 2, Adjoint{T, Vector{T}}, Tuple{}}) where T
+    original_shape = size(A)  # Preserve the original shape
+    d, A_factored = factor_out_denominator(parent(A))  # Factorize without reshaping
+
+    reshaped_A_factored = reshape(A_factored, original_shape)
+    return d, reshaped_A_factored
+end
+
 # ------------------------------------------------------------------------------
 # --------------------------------------------- convert to latex, print np_array
 # ------------------------------------------------------------------------------
@@ -165,6 +215,69 @@ function style_wrapper(content::Any, color_opt=nothing)
 end
 
 # ------------------------------------------------------------------------------
+# 🟢 parse arraystyle argument
+function parse_arraystyle(arraystyle, is_block_array=false)
+    # Convert matrix environments to array environments if handling BlockArray
+    if is_block_array
+        arraystyle_map = Dict(
+            :bmatrix  => :barray, 
+            :Bmatrix  => :Barray, 
+            :pmatrix  => :parray,
+            :vmatrix  => :varray, 
+            :Vmatrix  => :Varray, 
+            :array    => :array  # No change needed
+        )
+        arraystyle = get(arraystyle_map, arraystyle, arraystyle)
+    end
+
+    # Map styles to LaTeX environments
+    env_map = Dict(
+        :bmatrix  => "bmatrix",
+        :Bmatrix  => "Bmatrix",
+        :pmatrix  => "pmatrix",
+        :vmatrix  => "vmatrix",
+        :Vmatrix  => "Vmatrix",
+        :array    => "array",
+        :barray   => "array",
+        :Barray   => "array",
+        :parray   => "array",
+        :varray   => "array",
+        :Varray   => "array"
+    )
+    matrix_env = get(env_map, arraystyle, "array")
+
+    # Map array styles to enclosing brackets
+    bracket_format = Dict(
+        :barray   => ("\\left[", "\\right]"),  
+        :Barray   => ("\\left\\{", "\\right\\}"),  
+        :parray   => ("\\left(", "\\right)"),  
+        :varray   => ("\\left|", "\\right|"),  
+        :Varray   => ("\\left\\|", "\\right\\|"),  
+        :array    => ("", "")
+    )
+    left_bracket, right_bracket = get(bracket_format, arraystyle, ("", ""))
+
+    return arraystyle, matrix_env, left_bracket, right_bracket
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Construct column format strings for array environments
+function construct_col_format(num_cols, col_dividers)
+    # Ensure the last column does NOT get a vertical divider
+    if !isempty(col_dividers) && col_dividers[end] == num_cols
+        pop!(col_dividers)  # Remove last column divider
+    end
+    col_format_parts = String[]
+    for j in 1:num_cols
+        push!(col_format_parts, "r")
+        if j in col_dividers
+            push!(col_format_parts, "|")  # Add vertical divider at block boundaries
+        end
+    end
+    return "{" * join(col_format_parts, "") * "}"
+end
+
+# ------------------------------------------------------------------------------
 # 🟢 Process Arrays: Factorization for Rational and Complex Rational Matrices
 function process_array(A, factor_out=true)
     if !factor_out return 1, A end
@@ -191,105 +304,115 @@ function L_show_string(s; color=nothing)
     end
 end
 # ------------------------------------------------------------------------------
-# 🟢 Handle Matrices (including symbolic matrices)
-function L_show_matrix(A; arraystyle=:parray, color=nothing, number_formatter=nothing,
-                          per_element_style=nothing, factor_out=true, bold_matrix=false)
+# 🟢 Construct the LaTeX representation of a matrix
+function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style, 
+                                     factor_out, bold_matrix, number_formatter, 
+                                     is_transposed, is_hermitian)
 
-    # Convert vectors and adjoint vectors appropriately
-    if A isa AbstractVector  
-        A = reshape(A, :, 1)  # Convert to column vector
-    elseif A isa Adjoint{T, Vector{T}} where T
-        A = reshape(parent(A), 1, :)  # Convert adjoint vector to row vector
+    # 🟢 Step 1: Parse the LaTeX environment based on arraystyle
+    arraystyle, matrix_env, left_bracket, right_bracket = parse_arraystyle(arraystyle, is_block_array)
+
+    # 🟢 Step 2: Adjust for transposition (Swap row & column dividers)
+    row_dividers, col_dividers = Int[], Int[]
+    if is_block_array
+        row_blocks, col_blocks = axes(A)
+        row_dividers = cumsum(vcat(0, row_blocks.lasts[1:end-1]))
+        col_dividers = cumsum(vcat(0, col_blocks.lasts[1:end-1]))
+    end
+
+    # 🟢 Step 3: Ensure the last column does NOT get an extra vertical divider
+
+    col_format_str = arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ? 
+                 construct_col_format(is_transposed || is_hermitian ? size(A,1) : size(A,2), col_dividers) : ""
+
+    # 🟢 Step 4: Apply number formatting if provided
+    if number_formatter !== nothing
+        A = map(x -> number_formatter(x), A)  
+    end
+
+    # 🟢 Step 5: Factorization (numerical matrices only)
+    contains_symbols = any(x -> x isa Symbol || x isa SymPy.Sym, A)
+    factor, intA     = contains_symbols ? (1, A) : process_array(A, factor_out)
+
+    # 🟢 Step 6: Generate LaTeX representation of matrix body
+    matrix_rows = []
+    for i in 1:size(A, 1)
+        row = join(
+            [begin
+		x = intA[i,j]
+		formatted_x = to_latex( x )
+
+                # Apply per-element style if provided
+                formatted_x = per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
+
+
+                # Apply bold formatting last
+                bold_matrix ? "\\mathbf{$formatted_x}" : formatted_x
+            end for j in 1:size(A,2)], " & ")
+
+        if i in row_dividers && i < size(A, 1)
+            push!(matrix_rows, row * " \\\\ \\hline")  
+        else
+            push!(matrix_rows, row * " \\\\")
+        end
+    end
+
+    # 🟢 Step 7: Construct full LaTeX matrix
+    matrix_body = left_bracket * "\\begin{$matrix_env}$col_format_str\n" *
+                  join(matrix_rows, "\n") * "\n\\end{$matrix_env}" * right_bracket
+
+    # 🟢 Step 8: Factor formatting
+    one_over_factor_str = factor == 1 ? "" : to_latex(1//factor)
+    factor_str          = bold_matrix ? "\\mathbf{$one_over_factor_str}" : one_over_factor_str
+
+    return isempty(factor_str) ? matrix_body : "$factor_str $matrix_body"
+end
+
+#    one_over_factor_str = factor == 1 ? "" : to_latex(1//factor)
+#    factor_str = bold_matrix ? "\\mathbf{$one_over_factor_str}" : one_over_factor_str
+# ------------------------------------------------------------------------------
+# 🟢 Handle Matrices (including symbolic matrices)
+function L_show_matrix(A; arraystyle=:parray, is_block_array=false, color=nothing, 
+                       number_formatter=nothing, per_element_style=nothing, 
+                       factor_out=true, bold_matrix=false)
+
+    # 🟢 Detect if the input is transposed or Hermitian transposed
+    is_transposed =    A isa Transpose{<:Any, <:AbstractMatrix} ||
+                       A isa Transpose{<:Any, <:BlockArray}     ||
+                       A isa Transpose{<:Any, <:AbstractVector}  
+
+    is_hermitian  =    A isa Adjoint{<:Any, <:AbstractMatrix} ||
+                       A isa Adjoint{<:Any, <:BlockArray}     ||
+                       A isa Adjoint{<:Any, <:AbstractVector}
+
+    # 🟢 Convert vectors and adjoint vectors appropriately
+    if A isa Transpose{<:Any, <:AbstractVector} ||
+       A isa Adjoint{<:Any, <:AbstractVector} #A isa AbstractVector                     ||
+
+       A = reshape(A, 1, :)  # Convert transposed/adjoint vector to (1×N) row matrix
     end
     
-    # Handle special matrix types
+    # 🟢 Handle special matrix types
     if A isa SparseMatrixCSC 
         A = Matrix(A)  # Convert sparse to dense
-    elseif A isa Adjoint || A isa Symmetric || A isa Hermitian
-        A = parent(A)  # Extract parent matrix
+    elseif A isa Transpose{<:Any, <:BlockArray}   || A isa Adjoint{<:Any, <:BlockArray}  
+        is_block_array = true  
     elseif A isa Diagonal    
         A = Matrix(A)  # Convert to full matrix
     end
 
-    # Check for symbolic entries 
-    contains_symbols = any(x -> x isa Symbol || x isa SymPy.Sym, A)
+    # 🟢 Call helper function to construct LaTeX matrix representation
+    latex_output = construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style, 
+                                               factor_out, bold_matrix, number_formatter, 
+                                               is_transposed, is_hermitian)
 
-    #  Map array styles to LaTeX environments
-    env = Dict(
-        :bmatrix  => "bmatrix",
-        :Bmatrix  => "Bmatrix",
-        :pmatrix  => "pmatrix",
-        :vmatrix  => "vmatrix",
-        :Vmatrix  => "Vmatrix",
-        :array    => "array",
-        :barray   => "array",
-        :Barray   => "array",
-        :parray   => "array",
-        :varray   => "array",
-        :Varray   => "array"
-    )
-
-    matrix_env = get(env, arraystyle, "array")
-
-    #  Map array styles to enclosing brackets (always apply regardless of factorization)
-    bracket_format = Dict(
-        :barray   => ("\\left[", "\\right]"),   # Square brackets [ ]
-        :Barray   => ("\\left\\{", "\\right\\}"), # Curly braces { }
-        :parray   => ("\\left(", "\\right)"),   # Parentheses ( )
-        :varray   => ("\\left|", "\\right|"),   # Single vertical bars | |
-        :Varray   => ("\\left\\|", "\\right\\|"), # Double vertical bars ‖ ‖
-        :array    => ("", ""),                  # No enclosing brackets
-    )
-
-    left_bracket, right_bracket = get(bracket_format, arraystyle, ("", ""))
-
-    #  Ensure `number_formatter` is applied BEFORE LaTeX conversion
-    if number_formatter !== nothing
-        A = map(x -> number_formatter(x), A)  # Apply formatting before LaTeX conversion
-    end
-
-    #  Factorization (numerical matrices only)
-    factor, intA = contains_symbols ? (1, A) : process_array(A, factor_out)
-
-    #  Convert `1//factor` to LaTeX
-    if factor == 1
-        factor_str = ""
-    else
-        numeric_factor = 1//factor
-        formatted_factor = to_latex(numeric_factor)  # Convert to LaTeX fraction
-        factor_str = bold_matrix ? "\\mathbf{$formatted_factor}" : formatted_factor
-    end
-
-    #  Convert numbers to LaTeX AFTER number formatting
-    rows = [join(
-        [begin
-            x = intA[i, j]
-            formatted_x = to_latex(x)  #  Convert to LaTeX fraction first
-
-            # Step 1: Apply `per_element_style` FIRST (e.g., colors, special formatting)
-            formatted_x = per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
-
-            # Step 2: Apply `\mathbf{}` LAST to keep everything bold
-            bold_matrix ? "\\mathbf{$formatted_x}" : formatted_x
-        end for j in 1:size(A,2)], " & ") for i in 1:size(A,1)]
-
-    #  Fix column formatting for `array`-style environments
-    col_format = "r"^max(1, size(A,2))  # Ensure at least one column
-
-    #  Generate LaTeX matrix representation (Always apply brackets)
-    matrix_body = left_bracket * (
-        "\\begin{$matrix_env}" * (arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ? "{ $col_format }" : "") * "\n" *
-        (isempty(rows) ? "" : join(rows, " \\\\\n")) *
-        "\n\\end{$matrix_env}"
-    ) * right_bracket
-
-    return isempty(factor_str) ? style_wrapper(matrix_body, color) : style_wrapper("$factor_str $matrix_body", color)
+    return style_wrapper(latex_output, color)
 end
 
 # ------------------------------------------------------------------------------
 # 🟢 Core function: Handles arguments but doesn't wrap in equation delimiters
 function L_show_core(obj; arraystyle=:parray, color=nothing, number_formatter=nothing,
-                        per_element_style=nothing, factor_out=true, bold_matrix=false)
+                     per_element_style=nothing, factor_out=true, bold_matrix=false)
 
     # Handle NamedTuples with multiple options
     if obj isa NamedTuple
@@ -308,7 +431,7 @@ function L_show_core(obj; arraystyle=:parray, color=nothing, number_formatter=no
             error("NamedTuple must contain at least one primary value (e.g., text, matrix, number).")
         end
 
-        #  Recursively call `L_show_core` with extracted options
+        # Recursively call `L_show_core` with extracted options
         return L_show_core(value;
                            arraystyle=get(options, :arraystyle, arraystyle),
                            color=get(options, :color, color),
@@ -321,26 +444,26 @@ function L_show_core(obj; arraystyle=:parray, color=nothing, number_formatter=no
     # Ensure Strings and LaTeXStrings are treated the same way
     if obj isa String || obj isa LaTeXString
         return L_show_string(obj; color=color)
+    end
 
-    # Handle Matrices, Vectors, Adjoint Vectors
-    elseif obj isa AbstractMatrix || obj isa AbstractVector || obj isa Adjoint{T, Vector{T}} where T
+    # Determine if object is a BlockArray or its Adjoint
+    is_block_array = obj isa BlockArray || obj isa Adjoint{<:Any, <:BlockArray}
+
+    if  obj isa AbstractMatrix || 
+        obj isa AbstractVector || 
+        obj isa Transpose{<:Any, <:AbstractVector} || 
+        obj isa Transpose{<:Any, <:AbstractMatrix}
+        obj isa Adjoint{<:Any, <:AbstractVector} || 
+        obj isa Adjoint{<:Any, <:AbstractMatrix}
+
         return L_show_matrix(obj;
-                             arraystyle=arraystyle,
-                             color=color,
-                             number_formatter=number_formatter,
-                             per_element_style=per_element_style,
-                             factor_out=factor_out,
-                             bold_matrix=bold_matrix)
-
-    # Handle Adjoint Matrices (Extract Parent)
-    elseif obj isa Adjoint{T, AbstractMatrix{T}} where T
-        return L_show_matrix(parent(obj);
-                             arraystyle=arraystyle,
-                             color=color,
-                             number_formatter=number_formatter,
-                             per_element_style=per_element_style,
-                             factor_out=factor_out,
-                             bold_matrix=bold_matrix)
+                             arraystyle         = arraystyle,
+                             is_block_array     = is_block_array,  # Pass flag instead of modifying arraystyle
+                             color              = color,
+                             number_formatter   = number_formatter,
+                             per_element_style  = per_element_style,
+                             factor_out         = factor_out,
+                             bold_matrix        = bold_matrix)
 
     # Handle Numbers, Symbols, and SymPy Expressions
     elseif obj isa Number || obj isa Symbol || obj isa SymPy.Sym
@@ -355,6 +478,7 @@ end
 
 # ------------------------------------------------------------------------------
 # 🟢 Convert arguments to valid LaTeX
+"julia function to convert arguments to a LaTeX expression (see l_show)"
 function L_show(objs...; arraystyle=:parray, color=nothing, number_formatter=nothing,
                  inline=true, factor_out=true, bold_matrix=false, per_element_style=nothing)
 
@@ -373,12 +497,48 @@ function L_show(objs...; arraystyle=:parray, color=nothing, number_formatter=not
 end
 # ------------------------------------------------------------------------------
 # 🟢 Display arguments in python notebook
-"convert arguments to a LaTeX expression. directly display in notebook"
+"""
+    l_show(objs...; arraystyle=:parray, color=nothing, number_formatter=nothing,
+           inline=true, factor_out=true, bold_matrix=false, per_element_style=nothing)
+
+Convert numbers, vectors, matrices, and `BlockArray` structures into LaTeX-formatted strings.
+
+# Arguments
+- `objs...` : Numbers, matrices, vectors, `BlockArray`, `SymPy` expressions, etc.
+- `arraystyle::Symbol = :parray` : LaTeX matrix format (`:bmatrix`, `:pmatrix`, `:array`, etc.).
+- `color::Union{Nothing, String} = nothing` : Text color using `\textcolor{}` in LaTeX.
+- `number_formatter::Union{Nothing, Function} = nothing` : Function to format numbers before LaTeX conversion.
+- `inline::Bool = true` : If `true`, returns an inline LaTeX expression; otherwise, starts a new equation environment/
+- `factor_out::Bool = true` : Factor out common denominators in rational entries.
+- `bold_matrix::Bool = false` : Applies `\\mathbf{}` to all matrix elements.
+- `per_element_style::Union{Nothing, Function} = nothing` : Function `(x, i, j, formatted) -> styled_string` for per-element formatting.
+
+# Capabilities
+- Converts numbers, symbols, and matrices to LaTeX.
+- Handles rational, complex, symbolic (`SymPy`), and block-structured matrices.
+- Supports transposed (`Transpose`), Hermitian (`Adjoint`), and `BlockArray`.
+- Applies per-element styling (coloring, bold, etc.).
+- Handles LaTeX environments (`bmatrix`, `array`, etc.).
+- Optionally factors denominators in rational matrices.
+- Supports `per_element_style` for individual cell formatting.
+- Fully customizable with formatters and LaTeX options.
+
+# Example Usage
+```julia
+using BlockArrays
+
+A = BlockArray([1 2; 3 4], [1,1], [1,1])
+
+println(L_show(A; bold_matrix=true))
+This generates a LaTeX-formatted matrix with bold elements.
+
+"""
 function l_show(args...; kwargs...)
      LaTeXString(L_show(args...; kwargs... ))
 end
 # ------------------------------------------------------------------------------
 # 🟢  Wrapper for Python's LaTeX rendering: use from julia in Python notebook
+"julia function to convert arguments to a LaTeX expression directly displayed in a pythone notebook (see l_show)"
 function py_show(args...; kwargs...)
     py_display   = pyimport("IPython.display").display
     py_latex     = pyimport("IPython.display").Latex

@@ -15,7 +15,7 @@ function __init__()
 end
 export py_itikz, nM
 
-using AbstractAlgebra, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings, SymPy
+using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings, SymPy
 using Random, Hadamard
 
 # general utility
@@ -65,6 +65,8 @@ export ge, show_solution
 export ShowGe, ref!, show_layout!, show_system, create_cascade!, show_backsubstitution!, show_solution!, solutions
 export to_html, show_html, pr
 export capture_output, show_side_by_side
+
+export factor_out_denominator
 
 include("LatexRepresentations.jl")
 include("MatrixGeneration.jl")
