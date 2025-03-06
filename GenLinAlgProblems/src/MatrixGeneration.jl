@@ -47,6 +47,13 @@ PythagoreanNumberQuadruplets =
     4   8  19  21
     2   7  26  27 ];
 # ------------------------------------------------------------------------------
+# ------------------------------------------------------------ vector of symbols
+# ------------------------------------------------------------------------------
+""" symbol_vec = symbol_vector( s="x", indices )"""
+function symbol_vector( s, indices )
+   [Symbol(s*"_$i") for i in indices]
+end
+# ------------------------------------------------------------------------------
 # ------------------------------------- matrices for use in GE and GJ algorithms
 # ------------------------------------------------------------------------------
 function _int_range( maxint, has_zeros)
@@ -58,15 +65,21 @@ function _int_range( maxint, has_zeros)
     rng
 end
 # ------------------------------------------------------------------------------
+""" L = unit_lower(m,n; maxint=3)
+"""
 function unit_lower(m,n; maxint=3)
     # create a unit lower triangular matrix
     [ x>y ? rand(-maxint:maxint) : (x == y ? 1 : 0) for x in 1:m, y in 1:n]
 end
 # ------------------------------------------------------------------------------
+""" L = unit_lower(m; maxint=3)
+"""
 function unit_lower(m; maxint=3)
    unit_lower(m,m,maxint=maxint)
 end
 # ------------------------------------------------------------------------------
+""" L = lower(m,n; maxint=3)
+"""
 function lower(m,n; maxint=3)
     L = unit_lower(m,n; maxint=maxint)
     for i in 1:min(m,n)
@@ -75,10 +88,14 @@ function lower(m,n; maxint=3)
     L
 end
 # ------------------------------------------------------------------------------
+""" L = lower(m; maxint=3)
+"""
 function lower(m; maxint=3)
     lower(m,m,maxint=maxint)
 end
 # ------------------------------------------------------------------------------
+""" R,pivot_cols = rref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
+"""
 function rref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
     # create a reduced row echelon form matrix of size m x n and rank r
     if pivot_in_first_col || r==n
@@ -106,6 +123,8 @@ function rref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
     M, pivot_cols
 end
 # ------------------------------------------------------------------------------
+""" U, pivot_cols = ref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
+"""
 function ref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
     M,pivot_cols = rref_matrix(m,n,r; maxint=maxint, pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros)
     rng = _int_range( maxint, false)
@@ -113,6 +132,8 @@ function ref_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false)
     M, pivot_cols
 end
 # ------------------------------------------------------------------------------
+""" A = gen_full_col_rank_matrix(mc,nc; maxint=3)
+"""
 function gen_full_col_rank_matrix(mc,nc; maxint=3)
     # produce a reasonable A'A matrix; need m ≥ n
     m = sum(mc)
@@ -127,6 +148,8 @@ function gen_full_col_rank_matrix(mc,nc; maxint=3)
     Q[:,1:m]*unit_lower(m,maxint=maxint)*M
 end
 # ------------------------------------------------------------------------------
+""" S = symmetric_matrix(m;maxint=3, with_zeros=false )
+"""
 function symmetric_matrix(m;maxint=3, with_zeros=false )
     rng = _int_range(maxint,with_zeros)
     A = [ x>y ? rand(rng) : 0 for x in 1:m, y in 1:m]
@@ -137,18 +160,24 @@ function symmetric_matrix(m;maxint=3, with_zeros=false )
     A
 end
 # ------------------------------------------------------------------------------
+""" A = skew_symmetric_matrix(m;maxint=3, with_zeros=false )
+"""
 function skew_symmetric_matrix(m;maxint=3, with_zeros=false )
     rng = _int_range(maxint,with_zeros)
     A = [ i>j ? rand(rng) : 0 for i in 1:m, j in 1:m]
     A - A'
 end
 # ------------------------------------------------------------------------------
+""" e_i = e_i(i,n)
+"""
 function e_i(i,n)
     v = zeros( Int, n )
     v[i] = 1
     v
 end
 # ------------------------------------------------------------------------------
+""" E = i_with_onecol(m,c; maxint=3, with_zeros=false, lower=true, upper=true)
+"""
 function i_with_onecol(m,c; maxint=3, with_zeros=false, lower=true, upper=true)
     rng = _int_range(maxint,with_zeros)
     # take I and set column c to random entries
@@ -163,6 +192,8 @@ function i_with_onecol(m,c; maxint=3, with_zeros=false, lower=true, upper=true)
     E
 end
 # ------------------------------------------------------------------------------
+""" P = gen_permutation_matrix(row_order::Vector{Int})
+"""
 function gen_permutation_matrix(row_order::Vector{Int})
     n = length(row_order)
     P = zeros(Int, (n,n))
@@ -172,6 +203,8 @@ function gen_permutation_matrix(row_order::Vector{Int})
     P
 end
 # ------------------------------------------------------------------------------
+""" P = gen_permutation_matrix(n)
+"""
 function gen_permutation_matrix(n)
     locs = randperm(n)
     P    = zeros(Int, (n,n))
@@ -183,6 +216,8 @@ end
 # ------------------------------------------------------------------------------
 # -------------------------------------------------------------- GE, GJ problems
 # ------------------------------------------------------------------------------
+""" pivot_cols, A = gen_gj_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false )
+"""
 function gen_gj_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false )
     M,pivot_cols=rref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
 
@@ -193,6 +228,7 @@ function gen_gj_matrix(m,n,r; maxint=3, pivot_in_first_col=true, has_zeros=false
     pivot_cols, A
 end
 # ------------------------------------------------------------------------------
+""" X,B = gen_rhs( A, pivot_cols; maxint=3,num_rhs=1,has_zeros=false) """
 function gen_rhs( A, pivot_cols; maxint=3,num_rhs=1,has_zeros=false)
     rng = _int_range(maxint,has_zeros)
     X   = zeros(Int64, (size(A,2),num_rhs))
@@ -203,12 +239,16 @@ function gen_rhs( A, pivot_cols; maxint=3,num_rhs=1,has_zeros=false)
 end
 # ------------------------------------------------------------------------------
 # given the pivot locations, generate a particular solution of N integer entries, free variables set to zero
+""" X = gen_particular_solution( pivot_cols, n; maxint=3, num_rhs=1 )
+"""
 function gen_particular_solution( pivot_cols, n; maxint=3, num_rhs=1 )
     X               = zeros(Int64, (n,num_rhs))
     X[pivot_cols,:] = rand( [-maxint:-1; 1:maxint], (length(pivot_cols),num_rhs) )
     X
 end
 # ------------------------------------------------------------------------------
+""" A,X,B = gen_gj_pb(m,n,r;
+"""
 function gen_gj_pb(m,n,r;
         maxint=3, pivot_in_first_col=true, has_zeros=false, num_rhs=1 )
     pivot_cols,A = gen_gj_matrix(m,n,r;
@@ -217,6 +257,8 @@ function gen_gj_pb(m,n,r;
     A,X,B
 end
 # ------------------------------------------------------------------------------
+""" A,X,B = gen_gj_pb(m,n; maxint=3)
+"""
 function gen_gj_pb(m,n; maxint=3)
     gen_gj_pb( m,n,min(m,n); maxint=maxint )
 end
@@ -238,9 +280,11 @@ end
 #    A,X,B
 #end
 # ------------------------------------------------------------------------------
-function invert_unit_lower(L::Matrix{Int})
+""" L_inv = invert_unit_lower(L::Matrix{Int})
+"""
+function invert_unit_lower(L)
     n = size(L, 1)
-    L_inv = Matrix{Int}(I, n, n)
+    L_inv = Matrix{eltype(L)}(I, n, n)
 
     for j in n-1:-1:1 # current column of L_inv to update
         for k in j+1:n   # Use these columns of L_inv
@@ -252,6 +296,8 @@ function invert_unit_lower(L::Matrix{Int})
     return L_inv
 end
 # ------------------------------------------------------------------------------
+""" A, A_inv = gen_inv_pb(n; maxint=3)
+"""
 function gen_inv_pb(n; maxint=3)
     # create an invertible matix problem of size n x n
     # with maxint=2, this works for n <= 15 or so
@@ -264,6 +310,8 @@ function gen_inv_pb(n; maxint=3)
     A, A_inv
 end
 # ------------------------------------------------------------------------------
+""" L,D,A = gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
+"""
 function gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
     L   = unit_lower(m,maxint=maxint) 
     p   =  squares ? (1:maxint).^2 : 1:maxint
@@ -278,6 +326,8 @@ function gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
     L, D, A
 end
 # ------------------------------------------------------------------------------
+""" pivot_cols,L,U,A = gen_lu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
+"""
 function gen_lu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     U,pivot_cols = ref_matrix(m,n,r,maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros )
     L   = unit_lower(m,maxint=maxint)
@@ -286,6 +336,8 @@ function gen_lu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     pivot_cols, L, U, A
 end
 # ------------------------------------------------------------------------------
+"""pivot_cols,P,L,U,A =  gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
+"""
 function gen_plu_pb(m,n,r;maxint=3,pivot_in_first_col=true, has_zeros=false)
     pivot_cols, L, U, A = gen_lu_pb(m,n,r;maxint=maxint,pivot_in_first_col=pivot_in_first_col, has_zeros=has_zeros)
 
@@ -304,16 +356,22 @@ end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------- orthogonal matrices
 # ------------------------------------------------------------------------------
+""" c,W = W_2_matrix()
+"""
 function W_2_matrix()
     a,b,c = PythagoreanNumberTriplets[ rand(1:size(PythagoreanNumberTriplets,1)), : ]
     c,[ a -b; b a]
 end
 # ------------------------------------------------------------------------------
+""" Q = Q_2_matrix()
+"""
 function Q_2_matrix()
     c,W = W_2_matrix()
     W // c
 end
 # ------------------------------------------------------------------------------
+""" c,W =  W_3_matrix(; maxint=3)
+"""
 function W_3_matrix(; maxint=3)
     a,b,c = PythagoreanNumberTriplets[ rand(1:size(PythagoreanNumberTriplets,1)), : ]
     A = [ a -b 0
@@ -323,6 +381,8 @@ function W_3_matrix(; maxint=3)
     c,A[ :, shuffle(1:3)]
 end
 # ------------------------------------------------------------------------------
+""" Q = Q_3_matrix()
+"""
 function Q_3_matrix()
     a,b,c = PythagoreanNumberTriplets[ rand(1:size(PythagoreanNumberTriplets,1)), : ]
     A = [ a//c -b//c  0
@@ -333,6 +393,8 @@ function Q_3_matrix()
 end
 # ------------------------------------------------------------------------------
 # the following matrix has a block structure
+""" Q = Q_4_blocks()
+"""
 function Q_4_blocks()
     a1,b1,c1 = PythagoreanNumberTriplets[ rand(1:size(PythagoreanNumberTriplets,1)), : ]
     a2,b2,c2 = PythagoreanNumberTriplets[ rand(1:size(PythagoreanNumberTriplets,1)), : ]
@@ -346,6 +408,8 @@ function Q_4_blocks()
     A[ :, shuffle(1:4)]
 end
 # ------------------------------------------------------------------------------
+""" d,W = W_4_matrix()
+"""
 function W_4_matrix()
     a,b,c,d = PythagoreanNumberQuadruplets[ rand(1:size(PythagoreanNumberQuadruplets,1)), : ]
     p  = (a*a + b*b) * d*d
@@ -366,11 +430,15 @@ function W_4_matrix()
     d,A[ :, shuffle(1:4)] ,(a,-b,-c, a2,a3,a4)
 end
 # ------------------------------------------------------------------------------
+""" Q = Q_4_matrix()
+"""
 function Q_4_matrix()
     d,W = W_4_matrix()
     W//d
 end
 # ------------------------------------------------------------------------------
+""" W = W_matrix(n; general=false)
+"""
 function W_matrix(n; general=false)
   if general == false
     if     n == 2 return W_2_matrix()
@@ -383,6 +451,8 @@ function W_matrix(n; general=false)
   Aint
 end
 # ------------------------------------------------------------------------------
+""" Q = Q_matrix(n; maxint=3, with_zeros=false, general=false )
+"""
 function Q_matrix(n; maxint=3, with_zeros=false, general=false )
   if general == false
     if     n == 2 return Q_2_matrix()
@@ -393,6 +463,8 @@ function Q_matrix(n; maxint=3, with_zeros=false, general=false )
   inv(S-(1//1)I(size(S,1))) * (S+1I(size(S,1)))
 end
 # ------------------------------------------------------------------------------
+""" Q = sparse_Q_matrix(n; maxint=3, with_zeros=false )
+"""
 function sparse_Q_matrix(n; maxint=3, with_zeros=false )
     sz = sum(n)
     A  = zeros(Rational{Int64},(sz,sz))
@@ -410,6 +482,8 @@ function sparse_Q_matrix(n; maxint=3, with_zeros=false )
     A[ :, shuffle(1:sz)]
 end
 # ------------------------------------------------------------------------------
+""" d,W = sparse_W_matrix(n)
+"""
 function sparse_W_matrix(n)
     A = sparse_Q_matrix(n)
     factor_out_denominator(A)
@@ -417,19 +491,27 @@ end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------------- Orthogonality
 # ------------------------------------------------------------------------------
+""" P = ca_projection_matrix(A)
+"""
 function ca_projection_matrix(A)
     A*inv(A'A)*A'
 end
 # ------------------------------------------------------------------------------
+""" A = gen_qr_problem(even_n;maxint=3)
+"""
 function gen_qr_problem(even_n;maxint=3)
     hadamard(even_n)[:,shuffle(1:even_n)]*lower(even_n,maxint=maxint)'
 end
 
+""" A = gen_qr_problem_3(;maxint=3)
+"""
 function gen_qr_problem_3(;maxint=3)
     _,W = W_3_matrix(maxint=maxint)
     W*unit_lower(3, maxint=maxint)'
 end
 
+""" A = gen_qr_problem_4(;maxint=3)
+"""
 function gen_qr_problem_4(;maxint=3)
     _,W = W_4_matrix()
     W*unit_lower(4,maxint=maxint)'
@@ -437,12 +519,14 @@ end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------------- Eigenproblems
 # ------------------------------------------------------------------------------
+""" S,Λ,S_inv,A = function gen_eigenproblem( e_vals; maxint=3 ) """
 function gen_eigenproblem( e_vals; maxint=3 )
     Λ = Diagonal( e_vals )
     S,S_inv = gen_inv_pb( size(e_vals,1), maxint=maxint )
     S,Λ,S_inv, S*Λ*S_inv
 end
 # ------------------------------------------------------------------------------
+""" S,Λ,S_inv,A = gen_cx_eigenproblem( evals_no_conj; maxint=1 ) """
 function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
     function construct_diagonal_blocks()
         t = typeof( real( evals_no_conj[1] ))
@@ -470,12 +554,15 @@ function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
     S,Λ,S_inv, S*Λ*S_inv
 end
 # ------------------------------------------------------------------------------
+""" S, Λ, A = gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false, general=false ) """
 function gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false, general=false )
     S = Q_matrix( size(e_vals,1); maxint=maxint, with_zeros=with_zeros, general=general )
     Λ = Diagonal( e_vals )
     S, Λ, S * Λ * S'
 end
 # ------------------------------------------------------------------------------
+""" A = gen_non_diagonalizable_eigenproblem( e_dup, e; maxint=4 )
+"""
 function gen_non_diagonalizable_eigenproblem( e_dup, e; maxint=4 )
     # size 3x3 problem
     S,S_inv = gen_inv_pb(3, maxint=maxint )
@@ -483,10 +570,14 @@ function gen_non_diagonalizable_eigenproblem( e_dup, e; maxint=4 )
     S * Λ * S_inv
 end
 # ------------------------------------------------------------------------------
+""" J = jordan_block(lambda,k)
+"""
 function jordan_block(lambda,k)
     J = Bidiagonal( fill(lambda,k), ones(typeof(lambda),k-1),:U)
 end
 # ------------------------------------------------------------------------------
+""" A = jordan_form( j_blocks )
+"""
 function jordan_form( j_blocks )
     sz = sum([ size(b,1) for b in j_blocks ])
     A  = zeros( eltype( j_blocks[1]), sz, sz )
@@ -499,6 +590,8 @@ function jordan_form( j_blocks )
     A
 end
 # ------------------------------------------------------------------------------
+""" A = gen_from_jordan_form( j_blocks; maxint=3 )
+"""
 function gen_from_jordan_form( j_blocks; maxint=3 )
     A = jordan_form( j_blocks )
     S,S_inv = gen_inv_pb( size(A,1), maxint=maxint )
@@ -506,6 +599,8 @@ function gen_from_jordan_form( j_blocks; maxint=3 )
 end
 # ------------------------------------------------------------------------------
 # Generate a degenerate matrix based on block sizes or (eigenvalue, size) pairs
+""" P,J,P_inv,A = gen_degenerate_matrix(block_descriptions::Vararg{Any}; maxint=3)
+"""
 function gen_degenerate_matrix(block_descriptions::Vararg{Any}; maxint=3)
     total_size = 0
     for desc in block_descriptions
@@ -536,6 +631,7 @@ function gen_degenerate_matrix(block_descriptions::Vararg{Any}; maxint=3)
     P, J, P_inv, P * J * P_inv
 end
 # ------------------------------------------------------------------------------
+""" U, Σ, Vt, U * Σ * Vt = gen_svd_problem(m,n,σ; maxint = 3) """
 function gen_svd_problem(m,n,σ; maxint = 3)
     U  = sparse_Q_matrix( m, maxint=maxint)
     Vt = sparse_Q_matrix( n, maxint=maxint)

@@ -27,6 +27,7 @@ export apply_function, factor_out_denominator
 export l_show, L_show, latex, to_latex, print_np_array_def
 export round_value, round_matrices
 
+export symbol_vector
 
 # matrices for GE and GJ
 export invert_unit_lower, unit_lower, lower, gen_full_col_rank_matrix
