@@ -47,11 +47,31 @@ PythagoreanNumberQuadruplets =
     4   8  19  21
     2   7  26  27 ];
 # ------------------------------------------------------------------------------
-# ------------------------------------------------------------ vector of symbols
+# ---------------------------------------------- matrices and vectors of symbols
 # ------------------------------------------------------------------------------
 """ symbol_vec = symbol_vector( s="x", indices )"""
 function symbol_vector( s, indices )
-   [Symbol(s*"_$i") for i in indices]
+    [Symbol(s*"_$i") for i in collect(indices)]
+end
+# ------------------------------------------------------------------------------
+    """
+    Create a matrix of symbolic variables with names based on given indices.
+
+    symbols_matrix(s, row_indices, col_indices)
+
+    # Arguments
+    - `s::String`: Base string for the symbols (e.g., "a").
+    - `row_indices`: Iterable of row indices.
+    - `col_indices`: Iterable of column indices.
+
+    # Returns
+    - `Matrix{Sym}`: A matrix of symbolic variables.
+    """
+function symbols_matrix(s::String, row_indices, col_indices)
+    rows = collect(row_indices)
+    cols = collect(col_indices)
+    matrix = [symbols("$(s)_{$(i),$(j)}", real=true) for i in rows, j in cols]
+    return matrix
 end
 # ------------------------------------------------------------------------------
 # ------------------------------------- matrices for use in GE and GJ algorithms

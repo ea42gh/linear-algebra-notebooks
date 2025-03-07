@@ -175,7 +175,7 @@ function to_latex(x::SymPy.Sym; number_formatter=nothing)
 end
 # ------------------------------------------------------------------------------
 function to_latex(x::Symbol; number_formatter=nothing)
-    return string(x)  # Simply return "x"
+    return replace(latexify(x), "\$" => "")  # Convert to LaTeX
 end
 # ------------------------------------------------------------------------------
 function to_latex(matrices::Vector; number_formatter=nothing)
@@ -220,11 +220,11 @@ function parse_arraystyle(arraystyle, is_block_array=false)
     # Convert matrix environments to array environments if handling BlockArray
     if is_block_array
         arraystyle_map = Dict(
-            :bmatrix  => :barray, 
-            :Bmatrix  => :Barray, 
+            :bmatrix  => :barray,
+            :Bmatrix  => :Barray,
             :pmatrix  => :parray,
-            :vmatrix  => :varray, 
-            :Vmatrix  => :Varray, 
+            :vmatrix  => :varray,
+            :Vmatrix  => :Varray,
             :array    => :array  # No change needed
         )
         arraystyle = get(arraystyle_map, arraystyle, arraystyle)
@@ -248,11 +248,11 @@ function parse_arraystyle(arraystyle, is_block_array=false)
 
     # Map array styles to enclosing brackets
     bracket_format = Dict(
-        :barray   => ("\\left[", "\\right]"),  
-        :Barray   => ("\\left\\{", "\\right\\}"),  
-        :parray   => ("\\left(", "\\right)"),  
-        :varray   => ("\\left|", "\\right|"),  
-        :Varray   => ("\\left\\|", "\\right\\|"),  
+        :barray   => ("\\left[", "\\right]"),
+        :Barray   => ("\\left\\{", "\\right\\}"),
+        :parray   => ("\\left(", "\\right)"),
+        :varray   => ("\\left|", "\\right|"),
+        :Varray   => ("\\left\\|", "\\right\\|"),
         :array    => ("", "")
     )
     left_bracket, right_bracket = get(bracket_format, arraystyle, ("", ""))
@@ -305,8 +305,8 @@ function L_show_string(s; color=nothing)
 end
 # ------------------------------------------------------------------------------
 # 🟢 Construct the LaTeX representation of a matrix
-function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style, 
-                                     factor_out, bold_matrix, number_formatter, 
+function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style,
+                                     factor_out, bold_matrix, number_formatter,
                                      is_transposed, is_hermitian)
 
     # 🟢 Step 1: Parse the LaTeX environment based on arraystyle
@@ -322,12 +322,12 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
 
     # 🟢 Step 3: Ensure the last column does NOT get an extra vertical divider
 
-    col_format_str = arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ? 
+    col_format_str = arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ?
                  construct_col_format(is_transposed || is_hermitian ? size(A,1) : size(A,2), col_dividers) : ""
 
     # 🟢 Step 4: Apply number formatting if provided
     if number_formatter !== nothing
-        A = map(x -> number_formatter(x), A)  
+        A = map(x -> number_formatter(x), A)
     end
 
     # 🟢 Step 5: Factorization (numerical matrices only)
@@ -351,7 +351,7 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
             end for j in 1:size(A,2)], " & ")
 
         if i in row_dividers && i < size(A, 1)
-            push!(matrix_rows, row * " \\\\ \\hline")  
+            push!(matrix_rows, row * " \\\\ \\hline")
         else
             push!(matrix_rows, row * " \\\\")
         end
@@ -368,18 +368,16 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
     return isempty(factor_str) ? matrix_body : "$factor_str $matrix_body"
 end
 
-#    one_over_factor_str = factor == 1 ? "" : to_latex(1//factor)
-#    factor_str = bold_matrix ? "\\mathbf{$one_over_factor_str}" : one_over_factor_str
 # ------------------------------------------------------------------------------
 # 🟢 Handle Matrices (including symbolic matrices)
-function L_show_matrix(A; arraystyle=:parray, is_block_array=false, color=nothing, 
-                       number_formatter=nothing, per_element_style=nothing, 
+function L_show_matrix(A; arraystyle=:parray, is_block_array=false, color=nothing,
+                       number_formatter=nothing, per_element_style=nothing,
                        factor_out=true, bold_matrix=false)
 
     # 🟢 Detect if the input is transposed or Hermitian transposed
     is_transposed =    A isa Transpose{<:Any, <:AbstractMatrix} ||
                        A isa Transpose{<:Any, <:BlockArray}     ||
-                       A isa Transpose{<:Any, <:AbstractVector}  
+                       A isa Transpose{<:Any, <:AbstractVector}
 
     is_hermitian  =    A isa Adjoint{<:Any, <:AbstractMatrix} ||
                        A isa Adjoint{<:Any, <:BlockArray}     ||
@@ -391,110 +389,224 @@ function L_show_matrix(A; arraystyle=:parray, is_block_array=false, color=nothin
 
        A = reshape(A, 1, :)  # Convert transposed/adjoint vector to (1×N) row matrix
     end
-    
+
     # 🟢 Handle special matrix types
-    if A isa SparseMatrixCSC 
+    if A isa SparseMatrixCSC
         A = Matrix(A)  # Convert sparse to dense
-    elseif A isa Transpose{<:Any, <:BlockArray}   || A isa Adjoint{<:Any, <:BlockArray}  
-        is_block_array = true  
-    elseif A isa Diagonal    
+    elseif A isa Transpose{<:Any, <:BlockArray}   || A isa Adjoint{<:Any, <:BlockArray}
+        is_block_array = true
+    elseif A isa Diagonal
         A = Matrix(A)  # Convert to full matrix
     end
 
     # 🟢 Call helper function to construct LaTeX matrix representation
-    latex_output = construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style, 
-                                               factor_out, bold_matrix, number_formatter, 
+    latex_output = construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style,
+                                               factor_out, bold_matrix, number_formatter,
                                                is_transposed, is_hermitian)
 
     return style_wrapper(latex_output, color)
+ end
+# ------------------------------------------------------------------------------
+# 🟢 Parsing function: Handles tuple inputs
+"""
+Extracts content values and formatting options from a NamedTuple.
+Ensures symbols, numbers, and non-iterables are correctly handled.
+"""
+function parse_namedtuple_values(obj::NamedTuple)
+    #println("🔎 Parsing NamedTuple: ", obj)  # 🔴 DEBUGGING PRINT
+
+    # ✅ Separate formatting keys from content values
+    formatting_keys = [:arraystyle, :color, :separator, :number_formatter, :per_element_style, :factor_out, :bold_matrix]
+    formatting_options = Dict(k => v for (k, v) in pairs(obj) if k in formatting_keys)
+    
+    # ✅ Extract **actual** values, ensuring no erroneous splitting of strings
+    content_values = Tuple(v for (k, v) in pairs(obj) if !(k in formatting_keys))
+
+    #println("🎨 pairs(obj): ", pairs(obj))  # 🔴 DEBUGGING PRINT
+    #println("🎨 Formatting Options Extracted: ", formatting_options)  # 🔴 DEBUGGING PRINT
+    #println("📦 Raw Content Values Extracted: ", content_values)  # 🔴 DEBUGGING PRINT
+
+    # 🛑 **Fix iterate(::Symbol) error**  
+    # ✅ Ensure `content_values` remains a tuple and doesn't split into characters
+    if length(content_values) == 1 && !(content_values[1] isa Tuple)
+        content_values = (content_values[1],)  
+    end
+    
+    #println("📦 Final Content Values (Tuple): ", content_values)  # 🔴 DEBUGGING PRINT
+
+    return content_values, formatting_options
 end
 
 # ------------------------------------------------------------------------------
-# 🟢 Core function: Handles arguments but doesn't wrap in equation delimiters
-function L_show_core(obj; arraystyle=:parray, color=nothing, number_formatter=nothing,
-                     per_element_style=nothing, factor_out=true, bold_matrix=false)
+struct Group
+    entries::Tuple
+    options::NamedTuple
+end
 
-    # Handle NamedTuples with multiple options
-    if obj isa NamedTuple
-        value = nothing
-        options = Dict{Symbol, Any}()
+"""
+    group(args...; kwargs...) -> StyledSet
 
-        for (key, val) in pairs(obj)
-            if value === nothing && !(key in [:arraystyle, :color, :number_formatter, :per_element_style, :factor_out, :bold_matrix])
-                value = val  # First non-keyword argument is treated as primary object
-            else
-                options[key] = val  # Store additional formatting options
-            end
-        end
+Creates a structured grouping of LaTeX components with optional formatting.
+This prevents users from needing to interact directly with `StyledSet`.
+"""
+function group(entries...; kwargs...)
+    return Group(entries, (; kwargs...))
+end
 
-        if value === nothing
-            error("NamedTuple must contain at least one primary value (e.g., text, matrix, number).")
-        end
 
-        # Recursively call `L_show_core` with extracted options
-        return L_show_core(value;
-                           arraystyle=get(options, :arraystyle, arraystyle),
-                           color=get(options, :color, color),
-                           number_formatter=get(options, :number_formatter, number_formatter),
-                           per_element_style=get(options, :per_element_style, per_element_style),
-                           factor_out=get(options, :factor_out, factor_out),
-                           bold_matrix=get(options, :bold_matrix, bold_matrix))
+"""
+Handles LaTeX formatting for different object types (Tuples, NamedTuples, Matrices, Vectors, Numbers, Symbols, Strings).
+Automatically applies formatting options (color, arraystyle, etc.).
+"""
+function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
+                     number_formatter=nothing, per_element_style=nothing, 
+                     factor_out=true, bold_matrix=false)
+
+    # 🟢 Handle `Group` Struct
+    if obj isa Group
+        #println("🔎 Processing Group: ", obj)
+        return L_show_group(obj; groupstyle=groupstyle, obj.options...)  # ✅ Process group with its options
     end
 
-    # Ensure Strings and LaTeXStrings are treated the same way
+    # 🟢 Handle Empty Tuple (Format A with No Content)
+    if obj isa Tuple && isempty(obj)
+        #println("🔎 Detected empty tuple")  
+        _, _, left_delim, right_delim = parse_arraystyle(arraystyle)
+        return style_wrapper("$(left_delim) $(right_delim)", color)
+    end
+
+    # 🟢 Handle NamedTuples (Format A with Local Formatting Overrides)
+    if obj isa NamedTuple
+        #println("🔎 Detected NamedTuple: ", obj)
+
+        # ✅ Extract formatting options and primary content values
+        formatting_keys = [:groupstyle, :arraystyle, :color, :separator, :number_formatter, :per_element_style, :factor_out, :bold_matrix]
+        formatting_options = Dict(k => v for (k, v) in pairs(obj) if k in formatting_keys)
+        content_values = Tuple(v for (k, v) in pairs(obj) if !(k in formatting_keys))
+
+        #println("🎨 Formatting Options Extracted: ", formatting_options)
+        #println("📦 Content Values Extracted: ", content_values)
+
+        # ✅ Apply combined global & local formatting options
+        combined_options = merge(Dict(
+	    :groupstyle => groupstyle,
+            :arraystyle => arraystyle, :color => color, :separator => separator,
+            :number_formatter => number_formatter, :per_element_style => per_element_style,
+            :factor_out => factor_out, :bold_matrix => bold_matrix
+        ), formatting_options)
+
+        # ✅ Process NamedTuple Content (Each Entry Separately)
+        formatted_entries = [L_show_core(entry; combined_options...) for entry in content_values]
+        return join(formatted_entries, "")  # ✅ Inline Concatenation (NO SEPARATORS)
+    end
+
+    # 🟢 Handle **Tuples as Format A** (Inline Concatenation)
+    if obj isa Tuple
+        #println("🔎 Detected Tuple (Format A): ", obj)
+        formatted_entries = [L_show_core(entry; groupstyle=groupstyle, arraystyle=arraystyle, color=color, separator=separator) for entry in obj]
+        return join(formatted_entries, "")  # ✅ Tuples are concatenated inline
+    end
+
+    # 🟢 Handle Strings and LaTeXStrings
     if obj isa String || obj isa LaTeXString
+        #println("🔎 Detected String: ", obj)  
         return L_show_string(obj; color=color)
     end
 
-    # Determine if object is a BlockArray or its Adjoint
-    is_block_array = obj isa BlockArray || obj isa Adjoint{<:Any, <:BlockArray}
+    # 🟢 Handle Matrices, Vectors, and BlockArrays
+    is_block_array = obj isa BlockArray  || obj isa Transpose{<:BlockArray}  || obj isa Adjoint{<:BlockArray}  ||
+                     obj isa BlockMatrix || obj isa Transpose{<:BlockMatrix} || obj isa Adjoint{<:BlockMatrix}
 
-    if  obj isa AbstractMatrix || 
-        obj isa AbstractVector || 
-        obj isa Transpose{<:Any, <:AbstractVector} || 
-        obj isa Transpose{<:Any, <:AbstractMatrix}
-        obj isa Adjoint{<:Any, <:AbstractVector} || 
-        obj isa Adjoint{<:Any, <:AbstractMatrix}
+    if obj isa AbstractVector || obj isa Transpose{<:Any, <:AbstractVector} || obj isa Adjoint{<:Any, <:AbstractVector} ||
+       obj isa AbstractMatrix || obj isa Transpose{<:Any, <:AbstractMatrix} || obj isa Adjoint{<:Any, <:AbstractMatrix} ||
+       obj isa BlockMatrix    || obj isa Transpose{<:Any, <:BlockMatrix}    || obj isa Adjoint{<:Any, <:BlockMatrix}    ||
+       obj isa BlockArray     || obj isa Transpose{<:Any, <:BlockArray}     || obj isa Adjoint{<:Any, <:BlockArray}
 
-        return L_show_matrix(obj;
-                             arraystyle         = arraystyle,
-                             is_block_array     = is_block_array,  # Pass flag instead of modifying arraystyle
-                             color              = color,
-                             number_formatter   = number_formatter,
-                             per_element_style  = per_element_style,
-                             factor_out         = factor_out,
-                             bold_matrix        = bold_matrix)
 
-    # Handle Numbers, Symbols, and SymPy Expressions
-    elseif obj isa Number || obj isa Symbol || obj isa SymPy.Sym
-        return L_show_number(obj;
-                             color=color,
-                             number_formatter=number_formatter)
-
-    else
-        error("Unsupported argument type: $(typeof(obj))")
+        #println("🔎 Detected Matrix/Vector: ", obj)  
+        return L_show_matrix(obj; arraystyle=arraystyle, is_block_array=is_block_array,  
+                             color=color, number_formatter=number_formatter,
+                             per_element_style=per_element_style, factor_out=factor_out, bold_matrix=bold_matrix)
     end
+
+    # 🟢 Handle Numbers, Symbols, and SymPy Expressions
+    if obj isa Number || obj isa SymPy.Sym
+        #println("🔎 Detected Number/Symbol: ", obj)  
+        return L_show_number(obj; color=color, number_formatter=number_formatter)
+    elseif obj isa Symbol
+        #println("🔎 Detected Symbol: ", obj)  
+        return style_wrapper(to_latex(obj)*" ", color)
+    end
+
+    error("❌ Unsupported argument type: $(typeof(obj))")
 end
 
 # ------------------------------------------------------------------------------
-# 🟢 Convert arguments to valid LaTeX
+# 🟢 Handle Groups
+function L_show_group(obj_group; groupstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
+                      number_formatter=nothing, per_element_style=nothing)
+
+    #println("🔎 Processing group: ", obj_group)  # Debugging print
+    #println("🔎 Type of obj_group: ", typeof(obj_group))  # 🔴 Track the type
+
+    # ✅ Ensure `separator` is a LaTeXString but remove any unnecessary `$` wrappers
+    clean_separator = separator isa LaTeXString ? separator : LaTeXString(separator)
+    clean_separator = replace(string(clean_separator), "\$" => "")  # Remove spurious `$`
+
+    # ✅ Get LaTeX delimiters based on arraystyle
+    _, _, left_delim, right_delim = parse_arraystyle(groupstyle)
+
+    # 🚨 **Check if `obj_group` is actually a `Group`** 🚨
+    if !(obj_group isa Group)
+        error("❌ `L_show_group` expected a `Group`, but got: $(typeof(obj_group))")
+    end
+
+    # ✅ Process each group entry
+    obj_latex = map(obj -> begin
+        if obj isa Tuple
+            #println("⚠️ Detected tuple inside a group: ", obj)  # Debugging print
+            return L_show_core(obj...)  # Spread tuple contents to apply Format A overrides
+        else
+            return L_show_core(obj; arraystyle=arraystyle, 
+                               number_formatter=number_formatter, 
+                               per_element_style=per_element_style)
+        end
+    end, obj_group.entries)
+
+    # ✅ Ensure proper LaTeX concatenation without extra `$`
+    joined_latex = obj_latex[1]
+    for i in 2:length(obj_latex)
+        joined_latex *= " " * clean_separator * " " * obj_latex[i]
+    end  
+
+    # ✅ Wrap with delimiters (but no unnecessary `$`)
+    formatted_group = LaTeXString("$(left_delim) " * joined_latex * " $(right_delim)")
+    
+    return style_wrapper(formatted_group, color)
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Convert Objects to LaTeX Representation
 "julia function to convert arguments to a LaTeX expression (see l_show)"
-function L_show(objs...; arraystyle=:parray, color=nothing, number_formatter=nothing,
-                 inline=true, factor_out=true, bold_matrix=false, per_element_style=nothing)
+function L_show(objs...; groupstyle=:parray, arraystyle=:parray, separator=", ", color=nothing, 
+                number_formatter=nothing, per_element_style=nothing, factor_out=true, bold_matrix=false, inline=true)
 
-    # Step 1: Process each argument separately
-    formatted_objs = map(obj -> L_show_core(obj;
-                                arraystyle=arraystyle, color=color,
-                                number_formatter=number_formatter,
-                                factor_out=factor_out, bold_matrix=bold_matrix,
-                                per_element_style=per_element_style), objs)
+    formatted_objs = [
+        obj isa Tuple ? 
+            L_show_core(obj; arraystyle=arraystyle, separator=separator, color=color, 
+                        number_formatter=number_formatter, per_element_style=per_element_style, 
+                        factor_out=factor_out, bold_matrix=bold_matrix) :
+            L_show_core(obj; arraystyle=arraystyle, separator=separator, color=color, 
+                        number_formatter=number_formatter, per_element_style=per_element_style, 
+                        factor_out=factor_out, bold_matrix=bold_matrix)
+        for obj in objs
+    ]
 
-    # Step 2: Combine processed arguments into a single LaTeX string
-    styled_content = join(formatted_objs, " ")
+    styled_content = join(formatted_objs, " ")  # Concatenate processed objects
 
-    # Step 3: Apply inline or block wrapping
     return inline ? "\$" * styled_content * "\$\n" : "\\[" * styled_content * "\\]\n"
 end
+
 # ------------------------------------------------------------------------------
 # 🟢 Display arguments in python notebook
 """
