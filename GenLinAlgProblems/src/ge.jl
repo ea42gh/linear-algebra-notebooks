@@ -34,7 +34,10 @@ mutable struct ShowGe{T<:Number}
 
 
   function ShowGe(A::Matrix; tmp_dir="tmp", keep_file="tmp/show_layout")
-    ShowGe{eltype(A)}(A; tmp_dir=tmp_dir, keep_file=keep_file)
+	  ShowGe{eltype(A)}(A; tmp_dir=tmp_dir, keep_file=keep_file)
+  end
+  function ShowGe(A::Matrix, b; tmp_dir="tmp", keep_file="tmp/show_layout")
+    ShowGe{eltype(A)}(A, b; tmp_dir=tmp_dir, keep_file=keep_file)
   end
   function ShowGe{T}(A::Matrix{T}; tmp_dir="tmp", keep_file="tmp/show_layout") where T <: Number
       new(tmp_dir, keep_file, A)
@@ -113,7 +116,7 @@ end
 # --------------------------------------------------------------------------------------------------------------
 """function show_system(  pb::ShowGe{T}; b_col=1, var\\_name::String="x")   where T <: Number"""
 function show_system(  pb::ShowGe{T}; b_col=1, var_name::String="x")   where T <: Number
-    if isdefined( pb, :B)
+    if isdefined( pb, :B) && b_col
        b = pb.N[:,b_col]
     else
        b = zeros( eltype(pb.A), size(pb.A,1), 1)
@@ -126,7 +129,7 @@ end
 function show_system(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x" )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     A = cnv.(pb.A)
-    if isdefined( pb, :B)
+    if isdefined( pb, :B) && b_col
        b = cnv.(pb.B[:,b_col])
     else
        b = cnv.(zeros( eltype(pb.A), size(A,1), 1))
@@ -139,7 +142,7 @@ end
 function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x" )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     A = cnv.(pb.A)
-    if isdefined( pb, :B)
+    if isdefined(pb, :b) && pb.b isa Integer && 1 <= b <= size(pb.B, 2)
        b = cnv.(pb.B[:,b_col])
     else
        b = cnv.(zeros( eltype(A), size(A,1), 1))
@@ -153,7 +156,7 @@ function create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
     A      = Ab[:, 1:size(pb.A,2)]
-    if isdefined( pb, :B)
+    if isdefined(pb, :b) && pb.b isa Integer && 1 <= b <= size(pb.B, 2)
        b = Ab[:, size(pb.A,2)+b_col]
     else
        b = zeros( eltype(A), size(A,1), 1)
@@ -166,7 +169,7 @@ function create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
     A      = Ab[:, 1:size(pb.A,2)]
-    if isdefined( pb, :B)
+    if isdefined(pb, :b) && pb.b isa Integer && 1 <= b <= size(pb.B, 2)
        b = Ab[:, size(pb.A,2)+b_col]
     else
        b = cnv.(zeros( eltype(pb.A), size(A,1), 1))
@@ -174,11 +177,11 @@ function create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x
     pb.cascade = nM.BacksubstitutionCascade(A,b,var_name=var_name)
 end
 # --------------------------------------------------------------------------------------------------------------
-""" cascade = create_cascade!(  pb::ShowGe{T}; b_col=1, var\\_name::String="x" )   where T <: Integer"""
+""" cascade = create_cascade!(  pb::ShowGe{T}; b_col=nothing, var\\_name::String="x" )   where T <: Integer"""
 function create_cascade!(  pb::ShowGe{T}; b_col=1, var_name::String="x" )   where T <: Integer
     Ab = pb.matrices[end][end]
     A      = Ab[:, 1:size(pb.A,2)]
-    if isdefined( pb, :B)
+    if isdefined(pb, :b) && pb.b isa Integer && 1 <= b <= size(pb.B, 2)
        b = Ab[:, size(pb.A,2)+b_col]
     else
        b = zeros( eltype(A), size(A,1), 1)

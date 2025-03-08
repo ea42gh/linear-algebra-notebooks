@@ -1,6 +1,43 @@
 #using LinearAlgebra, Latexify
 
 # ------------------------------------------------------------------------------
+# ------------------------------------------------------ form linear combination
+# ------------------------------------------------------------------------------
+"""
+[ entries for L_show ] = form_linear_combination(s, Xh)
+"""
+function form_linear_combination(s, Xh)
+    k = length(s)
+    expr = Vector{Any}()
+
+    for i in 1:k
+        push!(expr, s[i])
+        push!(expr, Xh[:, i])
+        if i < k  # Add "+" only if it's not the last term
+            push!(expr, "+")
+        end
+    end
+
+    return expr
+end
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------- L string interpolation
+# ------------------------------------------------------------------------------
+raw"""
+interpolated_Lstring = L_interp(template::LaTeXString, substitutions::Dict{String, Any})
+
+Example:
+    expr = L_interp(L"\mathbb{R}^{$(n)}", Dict("n" => 6))
+"""
+function L_interp(template::LaTeXString, substitutions::Dict)
+    str = String(template)  # Convert LaTeXString to regular string
+    for (key, value) in substitutions
+        str = replace(str, "\$($key)" => string(value))  # Perform substitution
+    end
+    return LaTeXString(str)  # Convert back to LaTeXString
+end
+# ------------------------------------------------------------------------------
 # ------------------------------------------ apply function to stack of matrices
 # ------------------------------------------------------------------------------
 function apply_function( f, matrices)
