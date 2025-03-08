@@ -141,17 +141,33 @@ end
 # ------------------------------------------------------------------------------
 # --------------------------------------------- convert to latex, print np_array
 # ------------------------------------------------------------------------------
-function print_np_array_def(A)
-    M,N=size(A)
-    println("A = np.array([")
-    for i in 1:M
-        print("[")
-        for j in 1:(N-1)
-            print(" ", A[i,j], ",")
+function print_np_array_def(A; nm="A")
+    function format_element(x)
+        if x isa Rational
+            return string(numerator(x)) * "//" * string(denominator(x))
+        elseif x isa Complex
+            real_part = real(x)
+            imag_part = imag(x)
+            if imag_part < 0
+                return string(format_element(real_part)) * " - " * string(abs(imag_part)) * "j"
+            else
+                return string(format_element(real_part)) * " + " * string(imag_part) * "j"
+            end
+        elseif x isa Real
+            return string(x)
+        elseif x isa Integer
+            return string(x)
+        else
+            error("Unsupported type for printing as NumPy array: $(typeof(x))")
         end
-        println(" ", A[i, N], "],")
     end
-    println("])")
+    if ndims(A) == 1
+        return nm*" = np.array([" * join(format_element.(A), ", ") * "])"
+    else
+        M, N = size(A)
+        rows = ["[" * join(format_element.(A[i, :]), ", ") * "]" for i in 1:M]
+        return nm*" = np.array([\n" * join(rows, ",\n") * "\n])"
+    end
 end
 # ------------------------------------------------------------------------------
 to_latex(x; number_formatter=nothing) = latexify(x)
@@ -360,7 +376,8 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
     # 🟢 Step 3: Ensure the last column does NOT get an extra vertical divider
 
     col_format_str = arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ?
-                 construct_col_format(is_transposed || is_hermitian ? size(A,1) : size(A,2), col_dividers) : ""
+                 #construct_col_format(is_transposed || is_hermitian ? size(A,1) : size(A,2), col_dividers) : ""
+                 construct_col_format(size(A,2), col_dividers) : ""
 
     # 🟢 Step 4: Apply number formatting if provided
     if number_formatter !== nothing
@@ -450,7 +467,6 @@ Extracts content values and formatting options from a NamedTuple.
 Ensures symbols, numbers, and non-iterables are correctly handled.
 """
 function parse_namedtuple_values(obj::NamedTuple)
-    #println("🔎 Parsing NamedTuple: ", obj)  # 🔴 DEBUGGING PRINT
 
     # ✅ Separate formatting keys from content values
     formatting_keys = [:arraystyle, :color, :separator, :number_formatter, :per_element_style, :factor_out, :bold_matrix]
@@ -459,18 +475,11 @@ function parse_namedtuple_values(obj::NamedTuple)
     # ✅ Extract **actual** values, ensuring no erroneous splitting of strings
     content_values = Tuple(v for (k, v) in pairs(obj) if !(k in formatting_keys))
 
-    #println("🎨 pairs(obj): ", pairs(obj))  # 🔴 DEBUGGING PRINT
-    #println("🎨 Formatting Options Extracted: ", formatting_options)  # 🔴 DEBUGGING PRINT
-    #println("📦 Raw Content Values Extracted: ", content_values)  # 🔴 DEBUGGING PRINT
-
-    # 🛑 **Fix iterate(::Symbol) error**  
     # ✅ Ensure `content_values` remains a tuple and doesn't split into characters
     if length(content_values) == 1 && !(content_values[1] isa Tuple)
         content_values = (content_values[1],)  
     end
     
-    #println("📦 Final Content Values (Tuple): ", content_values)  # 🔴 DEBUGGING PRINT
-
     return content_values, formatting_options
 end
 
@@ -501,28 +510,23 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
 
     # 🟢 Handle `Group` Struct
     if obj isa Group
-        #println("🔎 Processing Group: ", obj)
         return L_show_group(obj; groupstyle=groupstyle, obj.options...)  # ✅ Process group with its options
     end
 
     # 🟢 Handle Empty Tuple (Format A with No Content)
     if obj isa Tuple && isempty(obj)
-        #println("🔎 Detected empty tuple")  
         _, _, left_delim, right_delim = parse_arraystyle(arraystyle)
         return style_wrapper("$(left_delim) $(right_delim)", color)
     end
 
     # 🟢 Handle NamedTuples (Format A with Local Formatting Overrides)
     if obj isa NamedTuple
-        #println("🔎 Detected NamedTuple: ", obj)
 
         # ✅ Extract formatting options and primary content values
         formatting_keys = [:groupstyle, :arraystyle, :color, :separator, :number_formatter, :per_element_style, :factor_out, :bold_matrix]
         formatting_options = Dict(k => v for (k, v) in pairs(obj) if k in formatting_keys)
         content_values = Tuple(v for (k, v) in pairs(obj) if !(k in formatting_keys))
 
-        #println("🎨 Formatting Options Extracted: ", formatting_options)
-        #println("📦 Content Values Extracted: ", content_values)
 
         # ✅ Apply combined global & local formatting options
         combined_options = merge(Dict(
@@ -539,14 +543,12 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
 
     # 🟢 Handle **Tuples as Format A** (Inline Concatenation)
     if obj isa Tuple
-        #println("🔎 Detected Tuple (Format A): ", obj)
         formatted_entries = [L_show_core(entry; groupstyle=groupstyle, arraystyle=arraystyle, color=color, separator=separator) for entry in obj]
         return join(formatted_entries, "")  # ✅ Tuples are concatenated inline
     end
 
     # 🟢 Handle Strings and LaTeXStrings
     if obj isa String || obj isa LaTeXString
-        #println("🔎 Detected String: ", obj)  
         return L_show_string(obj; color=color)
     end
 
@@ -560,7 +562,6 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
        obj isa BlockArray     || obj isa Transpose{<:Any, <:BlockArray}     || obj isa Adjoint{<:Any, <:BlockArray}
 
 
-        #println("🔎 Detected Matrix/Vector: ", obj)  
         return L_show_matrix(obj; arraystyle=arraystyle, is_block_array=is_block_array,  
                              color=color, number_formatter=number_formatter,
                              per_element_style=per_element_style, factor_out=factor_out, bold_matrix=bold_matrix)
@@ -568,10 +569,8 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
 
     # 🟢 Handle Numbers, Symbols, and SymPy Expressions
     if obj isa Number || obj isa SymPy.Sym
-        #println("🔎 Detected Number/Symbol: ", obj)  
         return L_show_number(obj; color=color, number_formatter=number_formatter)
     elseif obj isa Symbol
-        #println("🔎 Detected Symbol: ", obj)  
         return style_wrapper(to_latex(obj)*" ", color)
     end
 
@@ -583,8 +582,6 @@ end
 function L_show_group(obj_group; groupstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
                       number_formatter=nothing, per_element_style=nothing)
 
-    #println("🔎 Processing group: ", obj_group)  # Debugging print
-    #println("🔎 Type of obj_group: ", typeof(obj_group))  # 🔴 Track the type
 
     # ✅ Ensure `separator` is a LaTeXString but remove any unnecessary `$` wrappers
     clean_separator = separator isa LaTeXString ? separator : LaTeXString(separator)
@@ -601,7 +598,6 @@ function L_show_group(obj_group; groupstyle=:Barray, arraystyle=:parray, color=n
     # ✅ Process each group entry
     obj_latex = map(obj -> begin
         if obj isa Tuple
-            #println("⚠️ Detected tuple inside a group: ", obj)  # Debugging print
             return L_show_core(obj...)  # Spread tuple contents to apply Format A overrides
         else
             return L_show_core(obj; arraystyle=arraystyle, 
