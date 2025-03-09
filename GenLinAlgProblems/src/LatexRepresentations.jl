@@ -1,34 +1,13 @@
 #using LinearAlgebra, Latexify
 
 # ------------------------------------------------------------------------------
-# ------------------------------------------------------ form linear combination
-# ------------------------------------------------------------------------------
-"""
-[ entries for L_show ] = form_linear_combination(s, Xh)
-"""
-function form_linear_combination(s, Xh)
-    k = length(s)
-    expr = Vector{Any}()
-
-    for i in 1:k
-        push!(expr, s[i])
-        push!(expr, Xh[:, i])
-        if i < k  # Add "+" only if it's not the last term
-            push!(expr, "+")
-        end
-    end
-
-    return expr
-end
-
-# ------------------------------------------------------------------------------
 # ------------------------------------------------------- L string interpolation
 # ------------------------------------------------------------------------------
-raw"""
+@doc raw"""
 interpolated_Lstring = L_interp(template::LaTeXString, substitutions::Dict{String, Any})
 
 Example:
-    expr = L_interp(L"\mathbb{R}^{$(n)}", Dict("n" => 6))
+    expr = L\_interp(L"\mathbb{R}^{$(n)}", Dict("n" => 6))
 """
 function L_interp(template::LaTeXString, substitutions::Dict)
     str = String(template)  # Convert LaTeXString to regular string
@@ -642,7 +621,7 @@ end
 
 # ------------------------------------------------------------------------------
 # 🟢 Display arguments in python notebook
-"""
+@doc raw"""
     l_show(objs...; arraystyle=:parray, color=nothing, number_formatter=nothing,
            inline=true, factor_out=true, bold_matrix=false, per_element_style=nothing)
 
