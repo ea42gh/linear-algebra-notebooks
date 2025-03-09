@@ -19,11 +19,26 @@ using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeX
 using Random, Hadamard
 
 # general utility
-function Base.adjoint(s::LaTeXString) s end
-function Base.adjoint(s::String) s end
+# 🟢 Extend transpose and adjoint for Char, String, and LaTeXString
 function Base.adjoint(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
+function Base.transpose(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
+Base.transpose(x::Char) = x
+Base.adjoint(x::Char) = x
 
-export group
+Base.transpose(x::String) = x
+Base.adjoint(x::String) = x
+
+Base.transpose(x::LaTeXString) = x
+Base.adjoint(x::LaTeXString) = x
+
+Base.transpose(x::SymPy.Sym) = x
+Base.adjoint(x::SymPy.Sym) = x
+
+Base.transpose(x::Symbol) = x
+Base.adjoint(x::Symbol) = x
+
+
+export set
 export apply_function, factor_out_denominator
 export l_show, L_show, latex, to_latex, print_np_array_def
 export round_value, round_matrices

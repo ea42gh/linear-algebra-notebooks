@@ -19,12 +19,29 @@ end
 # ------------------------------------------------------------------------------
 # ------------------------------------------ apply function to stack of matrices
 # ------------------------------------------------------------------------------
-function apply_function( f, matrices)
-    function fm(mat)
-        if mat == :none return :none end
-        f.(mat)
-    end
-    [ [ fm(mat) for mat in level ] for level in matrices ]
+function apply_function(f, matrices)
+    return [ [ mat == :none ? :none : f.(mat) for mat in row ] for row in matrices ]
+end
+
+# -------------------------------------------------------------------------------
+# -------------------------------------------------- rounding a stack of matrices
+# -------------------------------------------------------------------------------
+function round_value(x, digits::Int=0)
+    v = round(x, digits=digits)
+
+    # ✅ Convert to `Int` when `digits=0`
+    return (digits == 0) ? Int(v) : v
+end
+# -------------------------------------------------------------------------------
+function round_value(x::Complex, digits::Int=0)
+    return Complex(
+        round_value(real(x), digits),
+        round_value(imag(x), digits)
+    )
+end
+# ------------------------------------------------------------------------------
+function round_matrices( matrices, digits=0 )
+    apply_function( x->round_value(x,digits), matrices)
 end
 # ------------------------------------------------------------------------------
 # -------------------------- factor out a denominator from an array of Rationals
@@ -149,107 +166,142 @@ function print_np_array_def(A; nm="A")
     end
 end
 # ------------------------------------------------------------------------------
-to_latex(x; number_formatter=nothing) = latexify(x)
 # ------------------------------------------------------------------------------
-function to_latex(x::Real; number_formatter=nothing)
-    # Apply number formatter if provided
-    x = number_formatter !== nothing ? number_formatter(x) : x
-    return x < 0 ? replace("-" * latexify(-x), "\$" => "") : replace(latexify(x), "\$" => "")
+# 🟢 Handle LaTeXString without extra `$` signs
+function to_latex(x::LaTeXString; number_formatter=nothing)
+    return strip(string(x), ['$', '\n'])
 end
-# ------------------------------------------------------------------------------
-function to_latex(x::Rational{Int}; number_formatter=nothing)
-    if number_formatter !== nothing
-        return replace( latexify(number_formatter(x)), "\$" => "")
-    end
 
+# ------------------------------------------------------------------------------
+# 🟢 Handle Plain Strings and Characters
+function to_latex(x::String; number_formatter=nothing)
+    sanitized_str = replace(x, "_" => "\\_", "\$" => "\\\$")  # Escape underscores and dollar signs
+    return "\\text{" * sanitized_str * "}"  # Wrap in \text{}
+end
+
+function to_latex(x::Char; number_formatter=nothing)
+    return to_latex( string(x) )
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Rational Numbers (e.g., 3//4)
+function to_latex(x::Rational{Int}; number_formatter=nothing)
     n, d = numerator(x), denominator(x)
     if d == 1
-        return string(n)
+        return string(n)  # If denominator is 1, return integer
     else
         sign_str = n < 0 ? "-" : ""
         return sign_str * "\\frac{$(abs(n))}{$d}"
     end
 end
-# ------------------------------------------------------------------------------
-function to_latex(c::Complex; number_formatter=nothing)
-    real_part = to_latex(real(c); number_formatter=number_formatter)
-    imag_val = imag(c)
-    imag_val = number_formatter !== nothing ? number_formatter(imag_val) : imag_val
 
-    if imag_val == 0
-        return real_part  # Pure real number
-    elseif real(c) == 0
-        return imag_val == 1 ? "\\mathit{i}" :
-               imag_val == -1 ? "-\\mathit{i}" :
-               to_latex(imag_val; number_formatter=number_formatter) * "\\mathit{i}"
-    else
-        imag_sign = imag_val < 0 ? " - " : " + "
-        imag_part = abs(imag_val) == 1 ? "\\mathit{i}" : to_latex(abs(imag_val); number_formatter=number_formatter) * "\\mathit{i}"
-        return real_part * imag_sign * imag_part
-    end
-end
 # ------------------------------------------------------------------------------
-function to_latex(x::SymPy.Sym; number_formatter=nothing)
-    latex_expr = replace(latexify(x), "\$" => "")  # Convert to LaTeX
+# 🟢 Handle Complex Numbers: Distinguish between Int, Rational, and Float components
+function to_latex(x::Complex{T}; number_formatter=nothing) where T
+    real_part = to_latex(real(x); number_formatter=number_formatter)
+    imag_part = to_latex(imag(x); number_formatter=number_formatter)
 
-    # Optionally evaluate the symbolic expression to a number, then apply formatter
-    if number_formatter !== nothing
-        try
-            num_value = SymPy.N(x)  # Convert symbolic expression to a numerical value
-            formatted_value = number_formatter(num_value)
-            return to_latex(formatted_value; number_formatter=nothing)  # Convert to LaTeX after formatting
-        catch
-            return latex_expr  # If conversion fails, return symbolic LaTeX
+    if imag(x) == 0
+        return real_part  # Case: a + 0im → "a"
+    elseif real(x) == 0
+        if imag(x) == 1
+            return "\\mathit{i}"  # Case: 0 + im → "i"
+        elseif imag(x) == -1
+            return "-\\mathit{i}"  # Case: 0 - im → "-i"
+        else
+            return imag_part * "\\mathit{i}"  # Case: 0 + bi → "bi"
         end
     else
-        return latex_expr  # Default symbolic LaTeX conversion
+        imag_sign = imag(x) < 0 ? " - " : " + "
+        imag_val = abs(imag(x)) == 1 ? "\\mathit{i}" : imag_part * "\\mathit{i}"
+        return real_part * imag_sign * imag_val  # Case: a + bi
     end
 end
+
 # ------------------------------------------------------------------------------
+# 🟢 Handle Numbers (Integer, Float)
+function to_latex(x::Number; number_formatter=nothing)
+    x = number_formatter !== nothing ? number_formatter(x) : x
+    return string(x)
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Symbols (e.g., :x, :alpha)
 function to_latex(x::Symbol; number_formatter=nothing)
-    return replace(latexify(x), "\$" => "")  # Convert to LaTeX
+    return string(x)  # Convert symbols to LaTeX directly
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle SymPy Symbols (e.g., SymPy expressions)
+function to_latex(x::SymPy.Sym; number_formatter=nothing)
+    return strip(latexify(x), ['$', '\n'])
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Catch-all for unsupported types
+function to_latex(x; number_formatter=nothing)
+    latexify(x)
 end
 # ------------------------------------------------------------------------------
+# 🟢 Apply `to_latex` to any structured array-like object
+function to_latex(A::AbstractArray; number_formatter=nothing)
+    # Apply LaTeX conversion element-wise while preserving shape
+    return map(x -> to_latex(x; number_formatter=number_formatter), A)
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle Transpose and Adjoint
+function to_latex(A::Transpose; number_formatter=nothing)
+    # Process parent matrix and return transposed LaTeX version
+    return to_latex(parent(A); number_formatter=number_formatter)'
+end
+
+function to_latex(A::Adjoint; number_formatter=nothing)
+    # Process parent matrix and return adjoint (Hermitian transpose) LaTeX version
+    return to_latex(parent(A); number_formatter=number_formatter)'
+end
+
+# ------------------------------------------------------------------------------
+# 🟢 Handle BlockArrays
+function to_latex(A::BlockArray; number_formatter=nothing)
+    # Convert BlockArray into a structured LaTeX matrix format
+    return to_latex(Matrix(A); number_formatter=number_formatter)
+end
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# 🟢 Apply `to_latex` to lists-of-lists (e.g., `[ [:none, A], [B, C], ...]` )
 function to_latex(matrices::Vector; number_formatter=nothing)
-    apply_function(x -> to_latex(x; number_formatter=number_formatter), matrices)
+    return [ [ mat == :none ? :none : to_latex(mat; number_formatter=number_formatter) for mat in row ] for row in matrices ]
 end
-# -------------------------------------------------------------------------------
-# -------------------------------------------------- rounding a stack of matrices
-# -------------------------------------------------------------------------------
-function round_value(x, digits)
-    v = round( x, digits=digits )
-    vd,vi=modf(v)
-    if iszero(vd) v = Int(vi) end
-    v
-end
-# -------------------------------------------------------------------------------
-function round_value(x::Complex, digits)
-    Complex( round_value(real(x), digits), round_value(imag(x), digits) )
-end
-# ------------------------------------------------------------------------------
-function round_matrices( matrices, digits )
-    apply_function( x->round_value(x,digits), matrices)
-end
+
 # ==============================================================================
 function latex(s::String) LaTeXStrings.LaTeXString(s) end
 
 # ==============================================================================
 # 🟢 Apply optional LaTeX styling (color handling)
 function style_wrapper(content::Any, color_opt=nothing)
-    str_content = string(content)  #  Ensure everything is converted to a String
-    str_content = replace(str_content, r"^\$|\$$" => "")  #  Remove LaTeX `$...$` wrappers if they exist
+    str_content = string(content)  # Ensure it's a string
+    str_content = replace(str_content, r"^\$|\$$" => "")  # Strip external `$` only
 
-    color_str = color_opt !== nothing ? "\\textcolor{$color_opt}{" : ""
-    prefix    = color_str
-    suffix    = (color_opt !== nothing ? "}" : "")
-
-    return "$prefix$str_content$suffix"
+    if color_opt !== nothing
+        return "\\textcolor{$color_opt}{$str_content}"
+    else
+        return str_content
+    end
 end
 
 # ------------------------------------------------------------------------------
 # 🟢 parse arraystyle argument
 function parse_arraystyle(arraystyle, is_block_array=false)
     # Convert matrix environments to array environments if handling BlockArray
+    valid_styles = [:bmatrix, :Bmatrix, :pmatrix, :vmatrix, :Vmatrix, :array, :barray, :Barray, :parray, :varray, :Varray]
+
+    # 🚨 **Validate `arraystyle` input**
+    if !(arraystyle in valid_styles)
+        arraystyle=:array
+    end
+
     if is_block_array
         arraystyle_map = Dict(
             :bmatrix  => :barray,
@@ -294,21 +346,15 @@ end
 
 # ------------------------------------------------------------------------------
 # 🟢 Construct column format strings for array environments
-function construct_col_format(num_cols, col_dividers)
-    # Ensure the last column does NOT get a vertical divider
-    if !isempty(col_dividers) && col_dividers[end] == num_cols
-        pop!(col_dividers)  # Remove last column divider
-    end
-    col_format_parts = String[]
-    for j in 1:num_cols
-        push!(col_format_parts, "r")
-        if j in col_dividers
-            push!(col_format_parts, "|")  # Add vertical divider at block boundaries
-        end
-    end
-    return "{" * join(col_format_parts, "") * "}"
-end
+function construct_col_format(num_cols, col_dividers, alignment="r")
+    # ✅ Ensure vertical dividers are placed correctly without modifying input list
+    clean_dividers = filter(d -> d < num_cols, col_dividers)
 
+    # ✅ Build column format string safely, avoiding `Bool` multiplication issue
+    col_format = join(["$alignment" * (j in clean_dividers ? "|" : "") for j in 1:num_cols], "")
+
+    return "{$col_format}"
+end
 # ------------------------------------------------------------------------------
 # 🟢 Process Arrays: Factorization for Rational and Complex Rational Matrices
 function process_array(A, factor_out=true)
@@ -321,22 +367,37 @@ end
 # ------------------------------------------------------------------------------
 # 🟢 Handle Numbers and Symbols using `to_latex`
 function L_show_number(x; color=nothing, number_formatter=nothing)
-    formatted_x = if number_formatter !== nothing number_formatter(x) else x end
-    formatted   = if formatted_x isa String formatted_x else to_latex(formatted_x) end
-    return style_wrapper(formatted, color)  # No `$...$` wrapping!
+    formatted_x = (number_formatter !== nothing) ? number_formatter(x) : x
+    formatted   = to_latex(formatted_x)
+
+    return style_wrapper(formatted, color)
 end
 
 # ------------------------------------------------------------------------------
 # 🟢 Handle Strings and LaTeXStrings
 function L_show_string(s; color=nothing)
-    if s isa LaTeXString
-        return style_wrapper(strip(string(s), ['$', '\n']), color)
-    else
-        return style_wrapper("\\text{" * replace(s, "_" => "\\_") * "}", color)
-    end
+    formatted = to_latex(s)
+    return style_wrapper(formatted, color)
 end
+
 # ------------------------------------------------------------------------------
 # 🟢 Construct the LaTeX representation of a matrix
+function format_matrix_row(A, i, per_element_style, bold_matrix, row_dividers)
+    row = join(
+        [begin
+            x = A[i, j]
+            formatted_x = to_latex(x)
+
+            # Apply per-element styling
+            formatted_x = per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
+
+            # Apply bold formatting last
+            bold_matrix ? "\\mathbf{$formatted_x}" : formatted_x
+        end for j in 1:size(A,2)], " & ")
+
+    return i in row_dividers && i < size(A, 1) ? row * " \\\\ \\hline" : row * " \\\\"
+end
+
 function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style,
                                      factor_out, bold_matrix, number_formatter,
                                      is_transposed, is_hermitian)
@@ -344,7 +405,7 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
     # 🟢 Step 1: Parse the LaTeX environment based on arraystyle
     arraystyle, matrix_env, left_bracket, right_bracket = parse_arraystyle(arraystyle, is_block_array)
 
-    # 🟢 Step 2: Adjust for transposition (Swap row & column dividers)
+    # 🟢 Step 2: Process block matrix structure
     row_dividers, col_dividers = Int[], Int[]
     if is_block_array
         row_blocks, col_blocks = axes(A)
@@ -352,11 +413,8 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
         col_dividers = cumsum(vcat(0, col_blocks.lasts[1:end-1]))
     end
 
-    # 🟢 Step 3: Ensure the last column does NOT get an extra vertical divider
-
-    col_format_str = arraystyle in [:array, :barray, :Barray, :parray, :varray, :Varray] ?
-                 #construct_col_format(is_transposed || is_hermitian ? size(A,1) : size(A,2), col_dividers) : ""
-                 construct_col_format(size(A,2), col_dividers) : ""
+    # 🟢 Step 3: Construct column format string
+    col_format_str = construct_col_format(size(A, 2), col_dividers)
 
     # 🟢 Step 4: Apply number formatting if provided
     if number_formatter !== nothing
@@ -365,38 +423,18 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
 
     # 🟢 Step 5: Factorization (numerical matrices only)
     contains_symbols = any(x -> x isa Symbol || x isa SymPy.Sym, A)
-    factor, intA     = contains_symbols ? (1, A) : process_array(A, factor_out)
+    factor, intA = contains_symbols ? (1, A) : process_array(A, factor_out)
 
-    # 🟢 Step 6: Generate LaTeX representation of matrix body
-    matrix_rows = []
-    for i in 1:size(A, 1)
-        row = join(
-            [begin
-		x = intA[i,j]
-		formatted_x = to_latex( x )
-
-                # Apply per-element style if provided
-                formatted_x = per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
-
-
-                # Apply bold formatting last
-                bold_matrix ? "\\mathbf{$formatted_x}" : formatted_x
-            end for j in 1:size(A,2)], " & ")
-
-        if i in row_dividers && i < size(A, 1)
-            push!(matrix_rows, row * " \\\\ \\hline")
-        else
-            push!(matrix_rows, row * " \\\\")
-        end
-    end
+    # 🟢 Step 6: Generate LaTeX matrix rows
+    matrix_rows = [format_matrix_row(intA, i, per_element_style, bold_matrix, row_dividers) for i in 1:size(A,1)]
 
     # 🟢 Step 7: Construct full LaTeX matrix
     matrix_body = left_bracket * "\\begin{$matrix_env}$col_format_str\n" *
                   join(matrix_rows, "\n") * "\n\\end{$matrix_env}" * right_bracket
 
-    # 🟢 Step 8: Factor formatting
+    # 🟢 Step 8: Apply factorization if needed
     one_over_factor_str = factor == 1 ? "" : to_latex(1//factor)
-    factor_str          = bold_matrix ? "\\mathbf{$one_over_factor_str}" : one_over_factor_str
+    factor_str = bold_matrix ? "\\mathbf{$one_over_factor_str}" : one_over_factor_str
 
     return isempty(factor_str) ? matrix_body : "$factor_str $matrix_body"
 end
@@ -469,12 +507,12 @@ struct Group
 end
 
 """
-    group(args...; kwargs...) -> StyledSet
+    set(args...; kwargs...) -> StyledSet
 
 Creates a structured grouping of LaTeX components with optional formatting.
 This prevents users from needing to interact directly with `StyledSet`.
 """
-function group(entries...; kwargs...)
+function set(entries...; kwargs...)
     return Group(entries, (; kwargs...))
 end
 
@@ -483,13 +521,13 @@ end
 Handles LaTeX formatting for different object types (Tuples, NamedTuples, Matrices, Vectors, Numbers, Symbols, Strings).
 Automatically applies formatting options (color, arraystyle, etc.).
 """
-function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
+function L_show_core(obj; setstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
                      number_formatter=nothing, per_element_style=nothing, 
                      factor_out=true, bold_matrix=false)
 
     # 🟢 Handle `Group` Struct
     if obj isa Group
-        return L_show_group(obj; groupstyle=groupstyle, obj.options...)  # ✅ Process group with its options
+        return L_show_set(obj; setstyle=setstyle, obj.options...)  # ✅ Process group with its options
     end
 
     # 🟢 Handle Empty Tuple (Format A with No Content)
@@ -502,14 +540,14 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
     if obj isa NamedTuple
 
         # ✅ Extract formatting options and primary content values
-        formatting_keys = [:groupstyle, :arraystyle, :color, :separator, :number_formatter, :per_element_style, :factor_out, :bold_matrix]
+        formatting_keys = [:setstyle, :arraystyle, :color, :separator, :number_formatter, :per_element_style, :factor_out, :bold_matrix]
         formatting_options = Dict(k => v for (k, v) in pairs(obj) if k in formatting_keys)
         content_values = Tuple(v for (k, v) in pairs(obj) if !(k in formatting_keys))
 
 
         # ✅ Apply combined global & local formatting options
         combined_options = merge(Dict(
-	    :groupstyle => groupstyle,
+	    :setstyle => setstyle,
             :arraystyle => arraystyle, :color => color, :separator => separator,
             :number_formatter => number_formatter, :per_element_style => per_element_style,
             :factor_out => factor_out, :bold_matrix => bold_matrix
@@ -522,7 +560,7 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
 
     # 🟢 Handle **Tuples as Format A** (Inline Concatenation)
     if obj isa Tuple
-        formatted_entries = [L_show_core(entry; groupstyle=groupstyle, arraystyle=arraystyle, color=color, separator=separator) for entry in obj]
+        formatted_entries = [L_show_core(entry; setstyle=setstyle, arraystyle=arraystyle, color=color, separator=separator) for entry in obj]
         return join(formatted_entries, "")  # ✅ Tuples are concatenated inline
     end
 
@@ -531,14 +569,26 @@ function L_show_core(obj; groupstyle=:Barray, arraystyle=:parray, color=nothing,
         return L_show_string(obj; color=color)
     end
 
-    # 🟢 Handle Matrices, Vectors, and BlockArrays
-    is_block_array = obj isa BlockArray  || obj isa Transpose{<:BlockArray}  || obj isa Adjoint{<:BlockArray}  ||
-                     obj isa BlockMatrix || obj isa Transpose{<:BlockMatrix} || obj isa Adjoint{<:BlockMatrix}
+    # 🟢 Handle Characters
+    if obj isa Char
+        return L_show_string(string(obj); color=color)
+    end
+    
+    # 🟢 Handle Transpose and Adjoint of Strings, Chars, and LaTeXStrings
+    if obj isa Transpose{<:Any, <:String} || obj isa Adjoint{<:Any, <:String} ||
+       obj isa Transpose{<:Any, <:Char}   || obj isa Adjoint{<:Any, <:Char} ||
+       obj isa Transpose{<:Any, <:LaTeXString} || obj isa Adjoint{<:Any, <:LaTeXString}
+       return L_show_string(parent(obj); color=color)
+    end
 
+    # 🟢 Handle Matrices, Vectors, and BlockArrays
     if obj isa AbstractVector || obj isa Transpose{<:Any, <:AbstractVector} || obj isa Adjoint{<:Any, <:AbstractVector} ||
        obj isa AbstractMatrix || obj isa Transpose{<:Any, <:AbstractMatrix} || obj isa Adjoint{<:Any, <:AbstractMatrix} ||
        obj isa BlockMatrix    || obj isa Transpose{<:Any, <:BlockMatrix}    || obj isa Adjoint{<:Any, <:BlockMatrix}    ||
        obj isa BlockArray     || obj isa Transpose{<:Any, <:BlockArray}     || obj isa Adjoint{<:Any, <:BlockArray}
+
+        is_block_array = obj isa BlockArray  || obj isa Transpose{<:BlockArray}  || obj isa Adjoint{<:BlockArray}  ||
+                         obj isa BlockMatrix || obj isa Transpose{<:BlockMatrix} || obj isa Adjoint{<:BlockMatrix}
 
 
         return L_show_matrix(obj; arraystyle=arraystyle, is_block_array=is_block_array,  
@@ -558,7 +608,7 @@ end
 
 # ------------------------------------------------------------------------------
 # 🟢 Handle Groups
-function L_show_group(obj_group; groupstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
+function L_show_set(obj_group; setstyle=:Barray, arraystyle=:parray, color=nothing, separator=", ", 
                       number_formatter=nothing, per_element_style=nothing)
 
 
@@ -567,11 +617,11 @@ function L_show_group(obj_group; groupstyle=:Barray, arraystyle=:parray, color=n
     clean_separator = replace(string(clean_separator), "\$" => "")  # Remove spurious `$`
 
     # ✅ Get LaTeX delimiters based on arraystyle
-    _, _, left_delim, right_delim = parse_arraystyle(groupstyle)
+    _, _, left_delim, right_delim = parse_arraystyle(setstyle)
 
-    # 🚨 **Check if `obj_group` is actually a `Group`** 🚨
+    # Check if `obj_group` is actually a `Group`
     if !(obj_group isa Group)
-        error("❌ `L_show_group` expected a `Group`, but got: $(typeof(obj_group))")
+        error("❌ `L_show_set` expected a `Group`, but got: $(typeof(obj_group))")
     end
 
     # ✅ Process each group entry
@@ -600,7 +650,7 @@ end
 # ------------------------------------------------------------------------------
 # 🟢 Convert Objects to LaTeX Representation
 "julia function to convert arguments to a LaTeX expression (see l_show)"
-function L_show(objs...; groupstyle=:parray, arraystyle=:parray, separator=", ", color=nothing, 
+function L_show(objs...; setstyle=:parray, arraystyle=:parray, separator=", ", color=nothing, 
                 number_formatter=nothing, per_element_style=nothing, factor_out=true, bold_matrix=false, inline=true)
 
     formatted_objs = [
