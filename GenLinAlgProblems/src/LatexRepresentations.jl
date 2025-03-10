@@ -198,49 +198,69 @@ end
 # ------------------------------------------------------------------------------
 # 🟢 Handle Complex Numbers: Distinguish between Int, Rational, and Float components
 function to_latex(x::Complex{T}; number_formatter=nothing) where T
-    real_part = to_latex(real(x); number_formatter=number_formatter)
-    imag_part = to_latex(imag(x); number_formatter=number_formatter)
+    #if number_formatter === nothing
+    #    number_formatter = x -> x isa Integer || x isa Rational ? x : round(x, digits=8)
+    #end
+    x_real = real(x)
+    x_imag = imag(x)
 
-    if imag(x) == 0
-        return real_part  # Case: a + 0im → "a"
-    elseif real(x) == 0
-        if imag(x) == 1
-            return "\\mathit{i}"  # Case: 0 + im → "i"
-        elseif imag(x) == -1
+    if x_imag == 0
+        return to_latex(x_real, number_formatter=number_formatter)  # Case: a + 0im → "a"
+    elseif x_real == 0
+        if x_imag == 1
+            return "\\mathit{i}"   # Case: 0 + im → "i"
+        elseif x_imag == -1
             return "-\\mathit{i}"  # Case: 0 - im → "-i"
         else
-            return imag_part * "\\mathit{i}"  # Case: 0 + bi → "bi"
+		return to_latex(x_imag, number_formatter=number_formatter) * "\\mathit{i}"  # Case: 0 + bi → "bi"
         end
     else
-        imag_sign = imag(x) < 0 ? " - " : " + "
-        imag_val = abs(imag(x)) == 1 ? "\\mathit{i}" : imag_part * "\\mathit{i}"
-        return real_part * imag_sign * imag_val  # Case: a + bi
+        xr         = to_latex(x_real; number_formatter=number_formatter)
+        sgn        = x_imag < 0 ? "-" : "+"
+	axi        = abs(x_imag)
+	xi         = (axi == 1 ? "" : to_latex(axi; number_formatter=number_formatter)) * "\\mathit{i}"
+
+        return xr * sgn * xi  # Case: a + bi
     end
 end
 
 # ------------------------------------------------------------------------------
 # 🟢 Handle Numbers (Integer, Float)
-function to_latex(x::Number; number_formatter=nothing)
+function to_latex(x::Float64; number_formatter=nothing)
+    # Apply number formatting if provided
     x = number_formatter !== nothing ? number_formatter(x) : x
-    return string(x)
+
+    # Convert to string and check if it contains 'e' (scientific notation)
+    str_x = string(x)
+
+    if occursin('e', str_x)  # Detect scientific notation
+        base, exponent = split(str_x, 'e')  # Split into coefficient and exponent
+        exponent = replace(exponent, "+" => "")  # Remove the "+" sign for positive exponents
+        return base * " e^{" * exponent * "}"  # Correct LaTeX format
+    else
+        return str_x  # Regular number, no exponent
+    end
 end
 
 # ------------------------------------------------------------------------------
 # 🟢 Handle Symbols (e.g., :x, :alpha)
-function to_latex(x::Symbol; number_formatter=nothing)
-    return string(x)  # Convert symbols to LaTeX directly
-end
-
 # ------------------------------------------------------------------------------
-# 🟢 Handle SymPy Symbols (e.g., SymPy expressions)
-function to_latex(x::SymPy.Sym; number_formatter=nothing)
+function to_latex(x::Symbol; number_formatter=nothing)
+    sympy_symbol = SymPy.Symbol(string(x))  # Convert Julia Symbol to SymPy Symbol
+    return strip(latexify(sympy_symbol), ['$', '\n'])  # Convert to LaTeX and remove `$`
+end
+# ------------------------------------------------------------------------------
+function to_latex(x::Sym{PyObject}; number_formatter=nothing)
     return strip(latexify(x), ['$', '\n'])
 end
-
+# ------------------------------------------------------------------------------
+function to_latex(x::SymPy.SymbolicObject; number_formatter=nothing)
+    return strip(latexify(x), ['$', '\n'])  # Ensure no enclosing `$` signs
+end
 # ------------------------------------------------------------------------------
 # 🟢 Catch-all for unsupported types
 function to_latex(x; number_formatter=nothing)
-    latexify(x)
+    string(x)
 end
 # ------------------------------------------------------------------------------
 # 🟢 Apply `to_latex` to any structured array-like object
@@ -553,16 +573,18 @@ function L_show_core(obj; setstyle=:Barray, arraystyle=:parray, color=nothing, s
             :number_formatter => number_formatter, :per_element_style => per_element_style,
             :factor_out => factor_out, :bold_matrix => bold_matrix
         ), formatting_options)
-
         # ✅ Process NamedTuple Content (Each Entry Separately)
         formatted_entries = [L_show_core(entry; combined_options...) for entry in content_values]
-        return join(formatted_entries, "")  # ✅ Inline Concatenation (NO SEPARATORS)
+
+        separator_str = replace(string(combined_options[:separator]), r"^\$|\$$" => "")
+	return join(formatted_entries, separator_str)
     end
 
     # 🟢 Handle **Tuples as Format A** (Inline Concatenation)
     if obj isa Tuple
         formatted_entries = [L_show_core(entry; setstyle=setstyle, arraystyle=arraystyle, color=color, separator=separator) for entry in obj]
-        return join(formatted_entries, "")  # ✅ Tuples are concatenated inline
+        separator_str = replace(string(separator), r"^\$|\$$" => "")
+        return join(formatted_entries, separator_str)
     end
 
     # 🟢 Handle Strings and LaTeXStrings
