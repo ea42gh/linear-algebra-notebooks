@@ -414,7 +414,8 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
     end
 
     # 🟢 Step 3: Construct column format string
-    col_format_str = construct_col_format(size(A, 2), col_dividers)
+    col_format_str = matrix_env == "array" ? construct_col_format(size(A, 2), col_dividers) : ""
+
 
     # 🟢 Step 4: Apply number formatting if provided
     if number_formatter !== nothing
