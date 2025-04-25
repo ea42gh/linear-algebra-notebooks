@@ -429,18 +429,30 @@ function gram_schmidt_w(A)
     Int64.(W)
 end
 # ------------------------------------------------------------------------------
-function gram_schmidt_q(A)
-    W = gram_schmidt_w(A)
+function normalize_columns( int_W )
+    norms_squared = [dot(view(int_W, :, i), view(int_W, :, i)) for i in 1:size(int_W, 2)]
+    norms         = []
+    for norm_squared in norms_squared
+        sz = isqrt(norm_squared)
+        if sz^2 == norm_squared
+            push!(norms, sz)
+        else
+            push!(norms, sympy.sqrt(norm_squared))
+        end
+    end
+    if all(x -> typeof(x) <: Integer, norms)
+        norms = Int.(norms)
+    end
 
-    WtW  = Diagonal(W'W)
-    WtA  = W'A
-    S    =  ((x-> Rational{Int64}(round(sqrt(x)))).(WtW))^(-1)
-
-    Qt = S * W'
-    R  = S * WtA
-    dQ,Qtint = factor_out_denominator( Qt )
-    dR,Rint = factor_out_denominator( R )
-    dQ, Qtint', dR, Rint 
+    if eltype(norms) <: Integer
+        Q = int_W .// norms'
+    else
+        Q = similar(int_W, eltype(norms))
+        for i in 1:size(int_W, 2)
+            Q[:, i] = view(int_W, :, i) ./ norms[i]'
+        end
+    end
+    return Q
 end
 # ------------------------------------------------------------------------------
 function qr_layout(A)

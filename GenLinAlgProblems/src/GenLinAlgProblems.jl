@@ -69,7 +69,7 @@ export normal_eq_reduce_to_ref, reduce_to_ref, decorate_ge, ge_variable_type
 # normal equation and QR problems
 export ca_projection_matrix
 export gen_qr_problem_3, gen_qr_problem_4, gen_qr_problem
-export gram_schmidt_w, gram_schmidt_q, qr_layout, gram_schmidt_stable
+export gram_schmidt_w, normalize_columns, qr_layout, gram_schmidt_stable
 
 # eigenproblems
 export gen_eigenproblem, gen_symmetric_eigenproblem, gen_non_diagonalizable_eigenproblem, gen_svd_problem
