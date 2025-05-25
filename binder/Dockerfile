@@ -68,6 +68,7 @@ RUN \
     python -m pip install streamz && \
     python -m pip install networkx && \
     python -m pip install --upgrade webio_jupyter_extension && \
+    python -m pip install panel_mermaid && \
     python -m pip install streamz && \
     python -m pip install graphviz
 
