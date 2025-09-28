@@ -62,7 +62,7 @@ function show_side_by_side(captured_outputs, titles=nothing)
     display("text/html", html)
 end
 
-# # Example Use of display_side_by_side
+# # Example Use of show_side_by_side
 # function func1(x)
 #     println("Output of func1 with argument $x")
 # end
@@ -86,5 +86,5 @@ end
 # ]
 # 
 # # Display side by side with custom titles
-# display_side_by_side(outputs, ["Function 1", "Function 2", "Function 3"])
+# show_side_by_side(outputs, ["Function 1", "Function 2", "Function 3"])
 

@@ -38,10 +38,14 @@ Base.transpose(x::Symbol) = x
 Base.adjoint(x::Symbol) = x
 
 
-export set
+export set, lc
 export apply_function, factor_out_denominator
 export l_show, L_show, latex, to_latex, print_np_array_def
 export round_value, round_matrices
+
+export bold_formatter, italic_formatter, color_formatter, conditional_color_formatter
+export underline_formatter, overline_formatter, combine_formatters, scientific_formatter
+export percentage_formatter, exponential_formatter
 
 export symbol_vector, symbols_matrix, form_linear_combination, L_interp
 
@@ -91,4 +95,5 @@ include("MatrixGeneration.jl")
 include("SolveProblems.jl")
 include("show_html.jl")
 include("ge.jl")
+include("Formatters.jl")
 end # module GenLinAlgProblems
