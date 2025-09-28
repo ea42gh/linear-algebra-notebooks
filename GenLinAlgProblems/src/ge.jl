@@ -226,6 +226,30 @@ function show_backsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", 
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
+@doc raw"""function show_forwardsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number"""
+function show_forwardsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
+    create_cascade!( pb; b_col=b_col, var_name=var_name )
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=false,
+                     fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file,
+                     forward=true )
+end
+# --------------------------------------------------------------------------------------------------------------
+@doc raw"""function show_forwardsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number"""
+function show_forwardsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
+    create_cascade!( pb; b_col=b_col, var_name=var_name )
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=false,
+                     fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file,
+                     forward=true )
+end
+# --------------------------------------------------------------------------------------------------------------
+@doc raw"""function show_forwardsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer"""
+function show_forwardsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
+    create_cascade!( pb; b_col=b_col, var_name=var_name )
+    pb.cascade.show( show_system=true, show_cascade=true, show_solution=false,
+                     fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file,
+                     forward=true )
+end
+# --------------------------------------------------------------------------------------------------------------
 @doc raw"""function show_solution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
 function show_solution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
@@ -242,6 +266,64 @@ end
 function show_solution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+end
+# ==============================================================================================================
+@doc raw"""
+    show_backsubstitution(A, b; var_name="x", fig_scale=1, tmp_dir="tmp", keep_file=nothing)
+
+Render the back-substitution cascade for the upper-triangular system `A * x = b`
+using the Python `BacksubstitutionCascade`. Works with Integer/Float as well as
+exact `Rational` and `Complex{Rational}` inputs (those are converted to tuples so
+SymPy reconstructs exact rationals on the Python side).
+"""
+function show_backsubstitution(A, b; var_name::String="x", fig_scale=1, tmp_dir="tmp", keep_file=nothing)
+    # local exact-number encoder → tuples (n,d); complex rationals → ((nr,dr),(ni,di))
+    local function cnv(x)
+        if x isa Rational
+            return (numerator(x), denominator(x))
+        elseif x isa Complex{<:Rational}
+            r, i = real(x), imag(x)
+            return ((numerator(r), denominator(r)), (numerator(i), denominator(i)))
+        else
+            return x
+        end
+    end
+    A2 = (A isa AbstractArray{<:Rational} || A isa AbstractArray{Complex{<:Rational}}) ? cnv.(A) : A
+    b2 = (b isa AbstractArray{<:Rational} || b isa AbstractArray{Complex{<:Rational}}) ? cnv.(b) : b
+
+    cascade = nM.BacksubstitutionCascade(A2, b2, var_name=var_name)
+    return cascade.show(A2, b2;
+        show_system=false, show_cascade=true, show_solution=false,
+        fig_scale=fig_scale, tmp_dir=tmp_dir, keep_file=keep_file)
+end
+# --------------------------------------------------------------------------------------------------------------
+@doc raw"""
+    show_forwardsubstitution(A, b; var_name="x", fig_scale=1, tmp_dir="tmp", keep_file=nothing)
+
+Render the forward-substitution cascade for the lower-triangular system `A * x = b`
+by reusing `BacksubstitutionCascade`’s forward path. Supports Integer/Float as well as
+exact `Rational` and `Complex{Rational}` inputs (converted to tuples for exact SymPy).
+"""
+function show_forwardsubstitution(A, b; var_name::String="x", fig_scale=1, tmp_dir="tmp", keep_file=nothing)
+    # local exact-number encoder → tuples (n,d); complex rationals → ((nr,dr),(ni,di))
+    local function cnv(x)
+        if x isa Rational
+            return (numerator(x), denominator(x))
+        elseif x isa Complex{<:Rational}
+            r, i = real(x), imag(x)
+            return ((numerator(r), denominator(r)), (numerator(i), denominator(i)))
+        else
+            return x
+        end
+    end
+    A2 = (A isa AbstractArray{<:Rational} || A isa AbstractArray{Complex{<:Rational}}) ? cnv.(A) : A
+    b2 = (b isa AbstractArray{<:Rational} || b isa AbstractArray{Complex{<:Rational}}) ? cnv.(b) : b
+
+    cascade = nM.BacksubstitutionCascade(A2, b2, var_name=var_name)
+    return cascade.show(A2, b2;
+        show_system=false, show_cascade=true, show_solution=false,
+        fig_scale=fig_scale, tmp_dir=tmp_dir, keep_file=keep_file,
+        forward=true)
 end
 # ==============================================================================================================
 @doc raw"""Xp, Xh = solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number"""
