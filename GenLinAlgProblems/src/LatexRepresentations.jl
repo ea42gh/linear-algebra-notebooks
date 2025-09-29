@@ -47,7 +47,7 @@ end
 # -------------------------- factor out a denominator from an array of Rationals
 # ------------------------------------------------------------------------------
 # 🟢 Generalized function for factorizing denominators
-"""Factor out denominator from vectors and matrices"""
+@doc """Factor out denominator from vectors and matrices"""
 function factor_out_denominator(A)
     1, A  # Default case: No factorization needed
 end
@@ -518,7 +518,7 @@ function L_show_matrix(A; arraystyle=:parray, is_block_array=false, color=nothin
  end
 # ------------------------------------------------------------------------------
 # 🟢 Parsing function: Handles tuple inputs
-"""
+@doc """
 Extracts content values and formatting options from a NamedTuple.
 Ensures symbols, numbers, and non-iterables are correctly handled.
 """
@@ -546,7 +546,7 @@ struct LinearCombination
     options::NamedTuple
 end
 
-raw"""
+@doc raw"""
     lc(s, X; sign_policy=:plus, plus=L" + ", pos=L" + ", neg=L" - ",
              parens_coeff=true, omit_one=true, drop_zero=true)
 
@@ -567,7 +567,7 @@ struct Group
     options::NamedTuple
 end
 
-"""
+@doc """
     set(args...; kwargs...) -> StyledSet
 
 Creates a structured grouping of LaTeX components with optional formatting.
@@ -578,7 +578,7 @@ function set(entries...; kwargs...)
 end
 
 
-"""
+@doc """
 Handles LaTeX formatting for different object types (Tuples, NamedTuples, Matrices, Vectors, Numbers, Symbols, Strings).
 Automatically applies formatting options (color, arraystyle, etc.).
 """
