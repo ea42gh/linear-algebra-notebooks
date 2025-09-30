@@ -49,6 +49,8 @@ mutable struct ShowGe{T<:Number}
     rank
     h
     m
+    xp
+    xh
 
 
   function ShowGe(A::Matrix; tmp_dir="tmp", keep_file="tmp/show_layout")
@@ -395,6 +397,19 @@ function solutions(pb::ShowGe{T} )   where T <: Number
       Xh = zeros(T, N, 1)
     end
     Xp, Xh
+end
+# ------------------------------------------------------------------------------------------
+@doc raw"""Xp, xH = solve!(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number"""
+function solve!(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
+    pb.xp, pb.xh = solutions( pb )
+end
+@doc raw"""solve!(pb::ShowGe{Rational{T}} )   where T <: Number"""
+function solve!(pb::ShowGe{Rational{T}} )   where T <: Number
+    pb.xp, pb.xh = solutions( pb )
+end
+@doc raw"""Xp, Xh = solve!(pb::ShowGe{T} )   where T <: Number"""
+function solve!(pb::ShowGe{T} )   where T <: Number
+    pb.xp, pb.xh = solutions( pb )
 end
 # ==============================================================================================================
 # function column_view( Xp, Xh, pivot_cols, rhs )

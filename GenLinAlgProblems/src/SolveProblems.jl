@@ -55,7 +55,7 @@ Base.@kwdef struct Finished <: AbstractDescription
     pivot_cols
 end
 # ==============================================================================
-"""
+@doc """
 Compute the particular solution from a system in **Reduced Row Echelon Form**
 """
 function particular_solution( R, RHS::Array, pivot_cols)
@@ -72,7 +72,7 @@ function split_R_RHS( R_RHS, num_rhs )
     R_RHS[:,1:N], R_RHS[:, N+1:end]
 end
 # ------------------------------------------------------------------------------
-"""
+@doc """
 Compute the particular solution from a system in **Augmented Reduced Row Echelon Form**
 """
 function particular_solution( R_RHS, num_rhs::Int, pivot_cols)
@@ -80,7 +80,7 @@ function particular_solution( R_RHS, num_rhs::Int, pivot_cols)
     particular_solution( R, RHS, pivot_cols)
 end
 # ------------------------------------------------------------------------------
-"""
+@doc """
 Compute the homogeneous solution from a system in **Reduced Row Echelon Form**
 """
 function homogeneous_solutions( R, pivot_cols)
@@ -413,7 +413,7 @@ end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------------- QR algoorithm
 # ------------------------------------------------------------------------------
-"""Naive Gram-Schmidt"""
+@doc """Naive Gram-Schmidt"""
 function gram_schmidt_w(A)
     W   = Array{Rational{eltype(A)}}(undef, size(A))
     N = size(A,2)
