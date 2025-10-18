@@ -57,3 +57,23 @@ function exponential_formatter(x; digits=2)
 end
 
 
+function tril_formatter(x, i, j, formatted_x;
+                        k::Int = 0,               # offset from diagonal
+                        color::String = "red",
+                        c1::Int = 1,              # first column
+                        c2::Int = typemax(Int))   # last column
+    if (i >= j - k) && (c1 <= j <= c2)
+        return "\\textcolor{$color}{$formatted_x}"
+    else
+        return formatted_x
+    end
+end
+
+function block_formatter(x, i, j, formatted_x; r1=1, r2=1, c1=1, c2=1)
+    # color entries in selected block in red
+    if (r1 <= i <= r2) && (c1 <= j <= c2)
+        return "\\textcolor{red}{$formatted_x}"
+    else
+        return formatted_x
+    end
+end

@@ -46,6 +46,7 @@ export round_value, round_matrices
 export bold_formatter, italic_formatter, color_formatter, conditional_color_formatter
 export underline_formatter, overline_formatter, combine_formatters, scientific_formatter
 export percentage_formatter, exponential_formatter
+export tril_formatter, block_formatter
 
 export symbol_vector, symbols_matrix, form_linear_combination, L_interp
 
