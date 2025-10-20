@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------- L string interpolation
 # ------------------------------------------------------------------------------
-@doc raw"""
+raw"""
 interpolated_Lstring = L_interp(template::LaTeXString, substitutions::Dict{String, Any})
 
 Example:
@@ -47,7 +47,7 @@ end
 # -------------------------- factor out a denominator from an array of Rationals
 # ------------------------------------------------------------------------------
 # 🟢 Generalized function for factorizing denominators
-@doc """Factor out denominator from vectors and matrices"""
+"""Factor out denominator from vectors and matrices"""
 function factor_out_denominator(A)
     1, A  # Default case: No factorization needed
 end
@@ -518,7 +518,7 @@ function L_show_matrix(A; arraystyle=:parray, is_block_array=false, color=nothin
  end
 # ------------------------------------------------------------------------------
 # 🟢 Parsing function: Handles tuple inputs
-@doc """
+"""
 Extracts content values and formatting options from a NamedTuple.
 Ensures symbols, numbers, and non-iterables are correctly handled.
 """
@@ -546,7 +546,7 @@ struct LinearCombination
     options::NamedTuple
 end
 
-@doc raw"""
+raw"""
     lc(s, X; sign_policy=:plus, plus=L" + ", pos=L" + ", neg=L" - ",
              parens_coeff=true, omit_one=true, drop_zero=true)
 
@@ -567,7 +567,7 @@ struct Group
     options::NamedTuple
 end
 
-@doc """
+"""
     set(args...; kwargs...) -> StyledSet
 
 Creates a structured grouping of LaTeX components with optional formatting.
@@ -578,7 +578,7 @@ function set(entries...; kwargs...)
 end
 
 
-@doc """
+"""
 Handles LaTeX formatting for different object types (Tuples, NamedTuples, Matrices, Vectors, Numbers, Symbols, Strings).
 Automatically applies formatting options (color, arraystyle, etc.).
 """
@@ -869,7 +869,7 @@ L_show_core(obj::SubString{String}; kwargs...) = L_show_core(String(obj); kwargs
 
 # ------------------------------------------------------------------------------
 # 🟢 Display arguments in python notebook
-@doc raw"""
+raw"""
     l_show(objs...; arraystyle=:parray, color=nothing, number_formatter=nothing,
            inline=true, factor_out=true, per_element_style=nothing)
 

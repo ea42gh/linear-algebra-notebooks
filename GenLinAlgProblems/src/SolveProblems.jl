@@ -55,7 +55,7 @@ Base.@kwdef struct Finished <: AbstractDescription
     pivot_cols
 end
 # ==============================================================================
-@doc """
+"""
 Compute the particular solution from a system in **Reduced Row Echelon Form**
 """
 function particular_solution( R, RHS::Array, pivot_cols)
@@ -72,7 +72,7 @@ function split_R_RHS( R_RHS, num_rhs )
     R_RHS[:,1:N], R_RHS[:, N+1:end]
 end
 # ------------------------------------------------------------------------------
-@doc """
+"""
 Compute the particular solution from a system in **Augmented Reduced Row Echelon Form**
 """
 function particular_solution( R_RHS, num_rhs::Int, pivot_cols)
@@ -80,7 +80,7 @@ function particular_solution( R_RHS, num_rhs::Int, pivot_cols)
     particular_solution( R, RHS, pivot_cols)
 end
 # ------------------------------------------------------------------------------
-@doc """
+"""
 Compute the homogeneous solution from a system in **Reduced Row Echelon Form**
 """
 function homogeneous_solutions( R, pivot_cols)
@@ -163,7 +163,7 @@ function normal_eq_reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
   _reduce_to_ref( matrices, n; gj=gj, find_pivot=find_pivot)
 end
 # ------------------------------------------------------------------------------
-@doc raw"""
+raw"""
 function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
 reduce A if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
@@ -187,7 +187,7 @@ function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
     _reduce_to_ref( matrices, n; gj=gj, find_pivot=find_pivot)
 end 
 # ------------------------------------------------------------------------------
-@doc raw"""
+raw"""
 function _reduce_to_ref(matrices, n; gj=false, find_pivot=find_pivot)
 reduce matrices[end][end] to REF if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
@@ -413,7 +413,7 @@ end
 # ------------------------------------------------------------------------------
 # ---------------------------------------------------------------- QR algoorithm
 # ------------------------------------------------------------------------------
-@doc """Naive Gram-Schmidt"""
+"""Naive Gram-Schmidt"""
 function gram_schmidt_w(A)
     W   = Array{Rational{eltype(A)}}(undef, size(A))
     N = size(A,2)

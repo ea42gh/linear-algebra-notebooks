@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------ form linear combination
 # ------------------------------------------------------------------------------
-@doc raw"""
+raw"""
 [ entries for L_show ] = form_linear_combination(s, Xh)
 """
 function form_linear_combination(s, Xh)
@@ -21,7 +21,7 @@ end
 
 # ==============================================================================================================
 
-@doc raw"""pb = ShowGe{T}(A::Matrix{T}; tmp_dir="tmp", keep_file="tmp/show\\_layout") where T <: Number
+raw"""pb = ShowGe{T}(A::Matrix{T}; tmp_dir="tmp", keep_file="tmp/show\\_layout") where T <: Number
   <br>pb = ShowGe{T}(A::Matrix{T}, B::Vector{T}; tmp_dir="tmp", keep_file="tmp/show\\_layout") where T <: Number
   <br>pb = ShowGe{T}(A::Matrix{T}, B::Matrix{T}; tmp_dir="tmp", keep_file="tmp/show\\_layout") where T <: Number
   <br>pb = ShowGe{Rational{T}}(A::Matrix{T}, B::Matrix{T}; tmp_dir="tmp", keep_file="tmp/show\\_layout") where T <: Number
@@ -90,7 +90,7 @@ mutable struct ShowGe{T<:Number}
   end
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function ref!( pb::ShowGe{T}; N_rhs=:None, gj::Bool=false, normal\\_eq::Bool=false )  where T <: Number"""
+raw"""function ref!( pb::ShowGe{T}; N_rhs=:None, gj::Bool=false, normal\\_eq::Bool=false )  where T <: Number"""
 function ref!( pb::ShowGe{T}; N_rhs=:None, gj::Bool=false, normal_eq::Bool=false )  where T <: Number
     M,N = size(pb.A)
     if isdefined( pb, :B)
@@ -116,7 +116,7 @@ function ref!( pb::ShowGe{T}; N_rhs=:None, gj::Bool=false, normal_eq::Bool=false
     nothing
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true, fig\\_scale=1 )   where T <: Number"""
+raw"""function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true, fig\\_scale=1 )   where T <: Number"""
 function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true, fig_scale=1 )   where T <: Number
     if isdefined( pb, :B)
        num_rhs = pb.num_rhs
@@ -134,7 +134,7 @@ function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true,
     pb.h
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_system(  pb::ShowGe{T}; b_col=1, var\\_name::String="x")   where T <: Number"""
+raw"""function show_system(  pb::ShowGe{T}; b_col=1, var\\_name::String="x")   where T <: Number"""
 function show_system(  pb::ShowGe{T}; b_col=1, var_name::String="x")   where T <: Number
     if isdefined(pb, :B) && b_col isa Integer && 1 <= b_col <= size(pb.B, 2)
        b = pb.N[:,b_col]
@@ -145,7 +145,7 @@ function show_system(  pb::ShowGe{T}; b_col=1, var_name::String="x")   where T <
     cascade = nM.BacksubstitutionCascade( pb.A, b, var_name=var_name )
     cascade.show( pb.A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
-@doc raw"""function show_system(  pb::ShowGe{Rational{T}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
+raw"""function show_system(  pb::ShowGe{Rational{T}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
 function show_system(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x" )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     A = cnv.(pb.A)
@@ -158,7 +158,7 @@ function show_system(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x" ) 
     cascade = nM.BacksubstitutionCascade( A, b, var_name=var_name )
     cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
-@doc raw"""function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
+raw"""function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
 function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x" )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     A = cnv.(pb.A)
@@ -171,7 +171,7 @@ function show_system(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::Stri
     cascade.show( A, b, show_system=true, show_cascade=false, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw""" cascade = create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
+raw""" cascade = create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
 function create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x" )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
@@ -184,7 +184,7 @@ function create_cascade!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::
     pb.cascade = nM.BacksubstitutionCascade(A,b, var_name=var_name)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw""" cascade = create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
+raw""" cascade = create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1, var\\_name::String="x" )   where T <: Number"""
 function create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x" )   where T <: Number
     cnv(x) = (numerator(x),denominator(x))
     Ab     = cnv.(pb.matrices[end][end])
@@ -197,7 +197,7 @@ function create_cascade!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x
     pb.cascade = nM.BacksubstitutionCascade(A,b,var_name=var_name)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw""" cascade = create_cascade!(  pb::ShowGe{T}; b_col=nothing, var\\_name::String="x" )   where T <: Integer"""
+raw""" cascade = create_cascade!(  pb::ShowGe{T}; b_col=nothing, var\\_name::String="x" )   where T <: Integer"""
 function create_cascade!(  pb::ShowGe{T}; b_col=1, var_name::String="x" )   where T <: Integer
     Ab = pb.matrices[end][end]
     A      = Ab[:, 1:size(pb.A,2)]
@@ -210,25 +210,25 @@ function create_cascade!(  pb::ShowGe{T}; b_col=1, var_name::String="x" )   wher
     pb.cascade = nM.BacksubstitutionCascade(A,b,var_name=var_name)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
+raw"""function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
 function show_backsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
+raw"""function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
 function show_backsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_backsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Integer"""
+raw"""function show_backsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Integer"""
 function show_backsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_forwardsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number"""
+raw"""function show_forwardsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number"""
 function show_forwardsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false,
@@ -236,7 +236,7 @@ function show_forwardsubstitution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, 
                      forward=true )
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_forwardsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number"""
+raw"""function show_forwardsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number"""
 function show_forwardsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false,
@@ -244,7 +244,7 @@ function show_forwardsubstitution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name:
                      forward=true )
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_forwardsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer"""
+raw"""function show_forwardsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer"""
 function show_forwardsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=true, show_cascade=true, show_solution=false,
@@ -252,25 +252,25 @@ function show_forwardsubstitution!(  pb::ShowGe{T}; b_col=1, var_name::String="x
                      forward=true )
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_solution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
+raw"""function show_solution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
 function show_solution!(  pb::ShowGe{Complex{Rational{T}}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_solution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
+raw"""function show_solution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Number"""
 function show_solution!(  pb::ShowGe{Rational{T}}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Number
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""function show_solution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Integer"""
+raw"""function show_solution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig\\_scale=1 )   where T <: Integer"""
 function show_solution!(  pb::ShowGe{T}; b_col=1, var_name::String="x", fig_scale=1 )   where T <: Integer
     create_cascade!( pb; b_col=b_col, var_name=var_name )
     pb.cascade.show( show_system=false, show_cascade=false, show_solution=true, fig_scale=fig_scale, tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
 end
 # ==============================================================================================================
-@doc raw"""
+raw"""
     show_backsubstitution(A, b; var_name="x", fig_scale=1, tmp_dir="tmp", keep_file=nothing)
 
 Render the back-substitution cascade for the upper-triangular system `A * x = b`
@@ -299,7 +299,7 @@ function show_backsubstitution(A, b; var_name::String="x", fig_scale=1, tmp_dir=
         fig_scale=fig_scale, tmp_dir=tmp_dir, keep_file=keep_file)
 end
 # --------------------------------------------------------------------------------------------------------------
-@doc raw"""
+raw"""
     show_forwardsubstitution(A, b; var_name="x", fig_scale=1, tmp_dir="tmp", keep_file=nothing)
 
 Render the forward-substitution cascade for the lower-triangular system `A * x = b`
@@ -328,7 +328,7 @@ function show_forwardsubstitution(A, b; var_name::String="x", fig_scale=1, tmp_d
         forward=true)
 end
 # ==============================================================================================================
-@doc raw"""Xp, Xh = solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number"""
+raw"""Xp, Xh = solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number"""
 function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
@@ -352,7 +352,7 @@ function solutions(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
 
     Xp, Xh
 end
-@doc raw"""Xp, Xh = solutions(pb::ShowGe{Rational{T}} )   where T <: Number"""
+raw"""Xp, Xh = solutions(pb::ShowGe{Rational{T}} )   where T <: Number"""
 function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
@@ -375,7 +375,7 @@ function solutions(pb::ShowGe{Rational{T}} )   where T <: Number
     end
     Xp, Xh
 end
-@doc raw"""Xp, Xh = solutions(pb::ShowGe{T} )   where T <: Number"""
+raw"""Xp, Xh = solutions(pb::ShowGe{T} )   where T <: Number"""
 function solutions(pb::ShowGe{T} )   where T <: Number
     M,N                        = size(pb.A)
     matrices, pivot_cols, desc = reduce_to_ref( pb.matrices[end][end][1:pb.rank,1:end], n = N, gj = true )
@@ -399,15 +399,15 @@ function solutions(pb::ShowGe{T} )   where T <: Number
     Xp, Xh
 end
 # ------------------------------------------------------------------------------------------
-@doc raw"""Xp, xH = solve!(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number"""
+raw"""Xp, xH = solve!(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number"""
 function solve!(pb::ShowGe{Complex{Rational{T}}} )   where T <: Number
     pb.xp, pb.xh = solutions( pb )
 end
-@doc raw"""solve!(pb::ShowGe{Rational{T}} )   where T <: Number"""
+raw"""solve!(pb::ShowGe{Rational{T}} )   where T <: Number"""
 function solve!(pb::ShowGe{Rational{T}} )   where T <: Number
     pb.xp, pb.xh = solutions( pb )
 end
-@doc raw"""Xp, Xh = solve!(pb::ShowGe{T} )   where T <: Number"""
+raw"""Xp, Xh = solve!(pb::ShowGe{T} )   where T <: Number"""
 function solve!(pb::ShowGe{T} )   where T <: Number
     pb.xp, pb.xh = solutions( pb )
 end
@@ -422,7 +422,7 @@ end
 #end
 # ==============================================================================================================
 # Using the itikz python library to produce a nice layout of the computations
-@doc raw"""function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing, <br>
+raw"""function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing, <br>
              variable_colors=["blue","black"], pivot_colors=["blue","yellow!40"],  <br>
              ref_path_list=nothing, comment_list=[], variable_summary=nothing, array_names=nothing, <br>
              start_index=1, func=nothing, fig_scale=nothing, tmp_dir=nothing, keep_file=nothing )
@@ -450,7 +450,7 @@ function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=n
     display(MIME("image/svg+xml"), s);
 end
 # ------------------------------------------------------------------------------------------
-@doc raw"""function show_solution( matrices; var_name::String="x", tmp\\_dir=nothing )"""
+raw"""function show_solution( matrices; var_name::String="x", tmp\\_dir=nothing )"""
 function show_solution( matrices; var_name::String="x", tmp_dir=nothing )
     cascade = nM.BacksubstitutionCascade.from_ref_Ab( Int.(matrices[end][end] ), var_name=var_name)
     cascade.show( show_system=true, show_cascade=true, show_solution=true, tmp_dir=tmp_dir)
