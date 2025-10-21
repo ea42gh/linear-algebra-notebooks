@@ -1,4 +1,4 @@
-"""
+@doc raw"""
 bold\_formatter(x, i, j, formatted\_x)
 
 Formats entries in **bold math font** for LaTeX outputs.
@@ -12,7 +12,7 @@ Returns:
 function bold_formatter(x, i, j, formatted_x)
     return "\\boldsymbol{$formatted_x}"
 end
-"""
+@doc raw"""
 italic\_formatter(x, i, j, formatted\_x)
 
 Formats entries in **italic math font** for LaTeX outputs.
@@ -27,7 +27,7 @@ function italic_formatter(x, i, j, formatted_x)
     return "\\mathit{$formatted_x}"
 end
 
-"""
+@doc raw"""
 color\_formatter(x, i, j, formatted\_x; color="red")
 
 Applies a fixed **text color** to matrix entries in LaTeX.
@@ -43,7 +43,7 @@ function color_formatter(x, i, j, formatted_x; color="red")
     return "\\textcolor{$color}{$formatted_x}"
 end
 
-"""
+@doc raw"""
 conditional\_color\_formatter(x, i, j, formatted\_x)
 
 Applies conditional colors to entries based on **sign** of values.
@@ -66,7 +66,7 @@ function conditional_color_formatter(x, i, j, formatted_x)
     end
 end
 
-"""
+@doc raw"""
 highlight\_large\_values(x, i, j, formatted\_x; threshold=10)
 
 Highlights matrix entries whose absolute value exceeds a threshold.
@@ -86,7 +86,7 @@ function highlight_large_values(x, i, j, formatted_x; threshold=10)
     end
 end
 
-"""
+@doc raw"""
 underline\_formatter(x, i, j, formatted\_x)
 
 Draws an underline beneath the formatted entry in LaTeX.
@@ -101,7 +101,7 @@ function underline_formatter(x, i, j, formatted_x)
     return "\\underline{$formatted_x}"
 end
 
-"""
+@doc raw"""
 overline\_formatter(x, i, j, formatted\_x)
 
 Draws an overline above the formatted entry in LaTeX.
@@ -116,7 +116,7 @@ function overline_formatter(x, i, j, formatted_x)
     return "\\overline{$formatted_x}"
 end
 
-"""
+@doc raw"""
 combine\_formatters(formatters, x, i, j, formatted\_x)
 
 Sequentially applies a list of formatter functions to an entry.
@@ -138,7 +138,7 @@ end
 # Example usage
 #(x,i,j,fx) -> combine_formatters([bold_formatter, color_formatter],x,i,j,fx)
 #
-"""
+@doc raw"""
 scientific\_formatter(x; digits=2)
 
 Formats numeric values in **scientific notation** for display.
@@ -153,7 +153,7 @@ Returns:
 function scientific_formatter(x; digits=2)
     return string(x, "e", round(log10(abs(x)), digits=digits))
 end
-"""
+@doc raw"""
 percentage\_formatter(x; digits=2)
 
 Formats numeric values as **percentages**.
@@ -168,7 +168,7 @@ Returns:
 function percentage_formatter(x; digits=2)
     return round(x * 100, digits=digits)
 end
-"""
+@doc raw"""
 exponential\_formatter(x; digits=2)
 
 Formats large or small numbers in compact exponential notation.
@@ -188,33 +188,50 @@ function exponential_formatter(x; digits=2)
     end
 end
 
-"""
-tril\_formatter(x, i, j, formatted\_x; k=0, color="red", c1=1, c2=typemax(Int))
+@doc """
+tril_formatter(x, i, j, formatted_x;
+                           k::Int = 0,
+                           color::String = "red",
+                           c1::Int = 1,
+                           c2::Int = typemax(Int),
+                           r1::Int = 1,
+                           r2::Int = typemax(Int))
 
-Highlights entries in or below the **k-th subdiagonal**, optionally within column bounds.
+Highlights entries that lie *on or below* a given diagonal (`k`), 
+and optionally restricts the highlight to a specific **row** 
+and/or **column** range.
 
 Args:
-    x, i, j, formatted\_x : standard formatter arguments
-    k::Int               : diagonal offset (default 0)
-    color::String        : highlight color (default "red")
-    c1::Int, c2::Int     : inclusive column bounds
+    x, i, j, formatted_x : standard formatter arguments
+    k::Int               : diagonal offset (0 = main diagonal)
+    color::String        : LaTeX color for highlighting (default "red")
+    c1::Int, c2::Int     : inclusive column range
+    r1::Int, r2::Int     : inclusive row range
 
-Returns:
-    Colored LaTeX text for entries meeting criteria.
+Behavior:
+    - Colors entries where `(i >= j - k)` (below or on diagonal `k`)
+      and within both the specified row and column ranges.
+    - Entries outside the region remain unmodified.
+
+Example:
+    `tril_formatter(x, i, j, fx; k=1, color="blue", r1=2, r2=5, c1=3, c2=7)`
 """
 function tril_formatter(x, i, j, formatted_x;
-                        k::Int = 0,               # offset from diagonal
-                        color::String = "red",
-                        c1::Int = 1,              # first column
-                        c2::Int = typemax(Int))   # last column
-    if (i >= j - k) && (c1 <= j <= c2)
+                                        k::Int = 0,
+                                        color::String = "red",
+                                        c1::Int = 1,
+                                        c2::Int = typemax(Int),
+                                        r1::Int = 1,
+                                        r2::Int = typemax(Int))
+
+    if (i >= j - k) && (c1 <= j <= c2) && (r1 <= i <= r2)
         return "\\textcolor{$color}{$formatted_x}"
     else
         return formatted_x
     end
 end
 
-"""
+@doc raw"""
 block\_formatter(x, i, j, formatted\_x; r1=1, r2=1, c1=1, c2=1)
 
 Highlights entries located within a specified rectangular **block**.
@@ -236,7 +253,7 @@ function block_formatter(x, i, j, formatted_x; r1=1, r2=1, c1=1, c2=1)
     end
 end
 
-"""
+@doc raw"""
 diagonal\_blocks\_formatter(x, i, j, formatted\_x;
                   blocks::Vector{Int},
                   colors::Vector{String} = ["red"])
