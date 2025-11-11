@@ -182,7 +182,7 @@ end
 # ------------------------------------------------------------------------------
 raw""" A = skew_symmetric_matrix(m;maxint=3, with_zeros=false )
 """
-function skew_symmetric_matrix(m;maxint=3, with_zeros=false )
+function skew_symmetric_matrix(m;maxint=5, with_zeros=false )
     rng = _int_range(maxint,with_zeros)
     A = [ i>j ? rand(rng) : 0 for i in 1:m, j in 1:m]
     A - A'
@@ -574,8 +574,8 @@ function gen_cx_eigenproblem( evals_no_conj; maxint=1 )
     S,Λ,S_inv, S*Λ*S_inv
 end
 # ------------------------------------------------------------------------------
-raw""" S, Λ, A = gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false, general=false ) """
-function gen_symmetric_eigenproblem( e_vals; maxint=3, with_zeros=false, general=false )
+raw""" S, Λ, A = gen_symmetric_eigenproblem( e_vals; maxint=5, with_zeros=false, general=false ) """
+function gen_symmetric_eigenproblem( e_vals; maxint=5, with_zeros=false, general=true )
     S = Q_matrix( size(e_vals,1); maxint=maxint, with_zeros=with_zeros, general=general )
     Λ = Diagonal( e_vals )
     S, Λ, S * Λ * S'
