@@ -415,7 +415,10 @@ end
 # ------------------------------------------------------------------------------
 """Naive Gram-Schmidt"""
 function gram_schmidt_w(A)
-    W   = Array{Rational{eltype(A)}}(undef, size(A))
+    T = eltype(A)
+    basetype = T <: Rational ? fieldtypes(T)[1] : T
+
+    W   = Array{basetype}(undef, size(A))
     N = size(A,2)
     for j=1:N
         v_j = Rational.(A[:,j])
