@@ -429,13 +429,22 @@ function format_matrix_row(A, i, per_element_style, row_dividers)
         [begin
             x = A[i, j]
             formatted_x = to_latex(x)
+            per_element_style !== nothing ?
+                per_element_style(x, i, j, formatted_x) :
+                formatted_x
+        end for j in 1:size(A,2)], " & "
+    )
 
-            # Apply per-element styling
-            per_element_style !== nothing ? per_element_style(x, i, j, formatted_x) : formatted_x
-        end for j in 1:size(A,2)], " & ")
-
-    return i in row_dividers && i < size(A, 1) ? row * " \\\\ \\hline" : row * " \\\\"
+    if i in row_dividers && i < size(A, 1)
+        # Option 1: manual rule so TeX doesn’t “optimize” it away
+        #return row * raw" \\ \noalign{\hrule height 0.8pt}"
+        # (If you prefer, the classic version is:)
+        return row * " \\\\ \\hline"
+    else
+        return row * " \\\\"
+    end
 end
+
 
 function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_style,
                                      factor_out, number_formatter,
@@ -448,8 +457,18 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
     row_dividers, col_dividers = Int[], Int[]
     if is_block_array
         row_blocks, col_blocks = axes(A)
-        row_dividers = cumsum(vcat(0, row_blocks.lasts[1:end-1]))
-        col_dividers = cumsum(vcat(0, col_blocks.lasts[1:end-1]))
+
+        # Block boundaries occur at the *last* index of each block,
+        # except the final block (no divider after the last block).
+        row_dividers = isempty(row_blocks.lasts) ? Int[] :
+                       collect(row_blocks.lasts[1:end-1])
+
+        col_dividers = isempty(col_blocks.lasts) ? Int[] :
+                       collect(col_blocks.lasts[1:end-1])
+
+        # Optional safety: keep only interior positions
+        row_dividers = filter(d -> 1 <= d < size(A, 1), row_dividers)
+        col_dividers = filter(d -> 1 <= d < size(A, 2), col_dividers)
     end
 
     # 🟢 Step 3: Construct column format string
