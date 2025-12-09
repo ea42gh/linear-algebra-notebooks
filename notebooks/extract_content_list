@@ -1,0 +1,75 @@
+#!/bin/bash
+
+INDEX_FILE="Index.ipynb"
+OUTPUT_FILE="List_of_Contents.md"
+
+> "$OUTPUT_FILE"
+
+awk -v OUT="$OUTPUT_FILE" '
+BEGIN {
+    chapter = ""
+    notebook_count = 0
+    in_markdown = 0
+    in_source = 0
+}
+
+/"cell_type": "markdown"/ {
+    in_markdown = 1
+}
+
+/"source": \[/ {
+    if (in_markdown) in_source = 1
+}
+
+/^\s*# / || /^\s*"# / {
+    if (in_markdown && in_source) {
+
+        # Extract chapter heading
+        if (match($0, /"# (.*)"/, arr) || match($0, /# (.*)/, arr)) {
+
+            # Print notebooks for previous chapter
+            if (chapter != "" && notebook_count > 0) {
+                for (i = 1; i <= notebook_count; i++) {
+                    print "## " notebooks[i] >> OUT
+                }
+                print "" >> OUT
+            }
+
+            chapter = arr[1]
+            print "# " chapter >> OUT
+            print "" >> OUT
+
+            notebook_count = 0
+            delete notebooks
+        }
+
+        in_markdown = 0
+        in_source = 0
+    }
+}
+
+/"cell_type": "code"/ {
+    in_markdown = 0
+    in_source = 0
+}
+
+/\|\s*\[[^]]*\.ipynb\]/ {
+    if (chapter != "") {
+        if (match($0, /\[([^\]]*\.ipynb)\]/, arr)) {
+            notebooks[++notebook_count] = arr[1]
+        }
+    }
+}
+
+END {
+    if (chapter != "" && notebook_count > 0) {
+        for (i = 1; i <= notebook_count; i++) {
+            print "## " notebooks[i] >> OUT
+        }
+        print "" >> OUT
+    }
+}
+' "$INDEX_FILE"
+
+echo "□~\~E Generated $OUTPUT_FILE"
+
