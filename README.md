@@ -1,6 +1,6 @@
 # Elementary Linear Algebra
 
-Explore **Elementary Linear Algebra** concepts and algorithms through over 100 interactive Jupyter Notebooks. This repository is ideal for learners, educators, and researchers looking to deepen their understanding of linear algebra with Python, Julia, and visual tools.
+Explore **Elementary Linear Algebra** concepts and algorithms through over 110 interactive Jupyter Notebooks. This repository is ideal for learners, educators, and researchers looking to deepen their understanding of linear algebra with Python, Julia, and visual tools.
 
 ### Wiki
 - Explore the [Wiki](https://gitlab.com/ea42gh/elementary-linear-algebra/-/wikis/home).
@@ -29,6 +29,9 @@ Run the notebooks interactively in your browser (slow):
 
 ### Notebook Index
 The **Index.ipynb** notebook provides an overview and links to individual notebooks categorized by topic.
+
+### Table of Contents
+[**View Complete Contents**](List_of_Contents.md)
 
 ### Notes Directory
 The **Notes** directory contains Obsidian-compatible markdown files summarizing the headings in each notebook. This is ideal for creating personalized notes.
