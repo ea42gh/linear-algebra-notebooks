@@ -37,8 +37,8 @@ while IFS= read -r notebook; do
     # Extract headings using your exact egrep/sed pattern
     egrep '"#+ [0-9]' "$notebook" | \
     sed 's/^[^"]*//;s/"//g;s/\\n//;s/,$//;s/\\\\/\\/g' | \
-    sed 's/^### /#### /' | \
-    sed 's/^## /### /' | \
+    sed 's/^### /##### /' | \
+    sed 's/^## /#### /' | \
     sed 's/^# /### /' >> "$OUTPUT_FILE"
     
     echo "" >> "$OUTPUT_FILE"
