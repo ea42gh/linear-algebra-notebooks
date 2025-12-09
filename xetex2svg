@@ -1,6 +1,0 @@
-#!/bin/sh
-latexmk -xelatex $1.tex && \
-latexmk -xelatex -c $1.tex && \
-pdf2svg $1.pdf /tmp/temp_$1.svg && \
-inkscape --export-plain-svg -D --export-margin=1 -o $1.svg /tmp/temp_$1.svg
-# Note inkscape can take pdf files directly, but has trouble with annotations...
