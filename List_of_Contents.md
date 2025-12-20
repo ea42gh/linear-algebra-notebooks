@@ -1619,7 +1619,6 @@ ____
 <details><summary><a href="LightsOut.ipynb" style="display:inline-block; width:9cm;">LightsOut.ipynb</a>
 Lights Out puzzle as a linear system; mod-2 arithmetic
 </summary>
-<details>
 
 ### Contents
 
