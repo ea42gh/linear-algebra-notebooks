@@ -1734,7 +1734,6 @@ Linear transformations: geometric interpretation and algebraic representation. O
 ____
 </details>
 
-
 <details><summary><a href="10a_LinearTx_Examples.ipynb" style="display:inline-block; width:9cm;">10a_LinearTx_Examples.ipynb </a>
 Examples in $\mathbb{R}^2$: dilations, rotations, reflections, projections; composition of linear transformations
 </summary>
