@@ -1525,7 +1525,6 @@ ____
 <details><summary><a href="ThreeBasesExample.ipynb" style="display:inline-block; width:9cm;">ThreeBasesExample.ipynb</a>
 Three orthonormal bases (standard, Fourier, Haar); coordinate representations
 </summary>
-<details>
 
 ### Contents
 
