@@ -1,18 +1,17 @@
 module GenLinAlgProblems
-using PyCall
+using PythonCall
 using IOCapture
 
 export py_show   # for use in julia cell of Python notebook
 
-#itikz = pyimport("itikz")
-#nM    = pyimport("itikz.nicematrix")
+const py_itikz = Ref{Any}()
+const nM       = Ref{Any}()
 
-const py_itikz  = PyNULL()
-const nM     = PyNULL()
 function __init__()
-  copy!(py_itikz, pyimport( "itikz"))
-  copy!(nM,    pyimport( "itikz.nicematrix"))
+    py_itikz[] = pyimport("itikz")
+    nM[]       = pyimport("itikz.nicematrix")
 end
+
 export py_itikz, nM
 
 using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings, SymPy
