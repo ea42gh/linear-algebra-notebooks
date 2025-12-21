@@ -1,0 +1,4 @@
+[deps]
+   python = "3.12.*"
+   sympy = "*"
+   numpy = "*"
