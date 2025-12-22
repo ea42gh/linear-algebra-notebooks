@@ -1,4 +1,48 @@
 [deps]
-   python = "3.12.*"
-   sympy = "*"
-   numpy = "*"
+  python = "3.12.*"
+
+  # Jupyter
+  jupyterlab = ">=4"
+  notebook = "*"
+  ipykernel = "*"
+  ipywidgets = "*"
+
+  # Scientific stack (superset of Dockerfile.orig)
+  numpy = "*"
+  scipy = "*"
+  sympy = "*"
+  matplotlib = "*"
+  pandas = "*"
+  seaborn = "*"
+  scikit-learn = "*"
+  pillow = "*"
+
+  # Visualization / data
+  plotly = "*"
+  statsmodels = "*"
+
+  # itikz (local clone)
+  itikz = { path = "../../itikz" }
+
+
+  # holoviews and panel
+  holoviews = "*"
+  hvplot = "*"
+  panel = "*"
+  bokeh = "*"
+  datashader = "*"
+  colorcet = "*"
+
+
+  # Additional plotting / graph / notebook tooling (from Dockerfile.orig)
+  k3d = "*"
+  streamz = "*"
+  networkx = "*"
+  graphviz = "*"
+  pygraphviz = "*"
+  webio_jupyter_extension = "*"
+  panel_mermaid = "*"
+  julia = "*"
+
+  itikz = { path = "../../itikz" }
+  juliacall = "*"
