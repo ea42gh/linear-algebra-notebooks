@@ -1,48 +1,64 @@
 [deps]
-  python = "3.12.*"
+python = "3.12.*"
 
-  # Jupyter
-  jupyterlab = ">=4"
-  notebook = "*"
-  ipykernel = "*"
-  ipywidgets = "*"
+# -----------------------------
+# Jupyter stack
+# -----------------------------
+jupyterlab = ">=4"
+notebook = ">=7"
+ipykernel = ">=6"
+ipywidgets = ">=8"
 
-  # Scientific stack (superset of Dockerfile.orig)
-  numpy = "*"
-  scipy = "*"
-  sympy = "*"
-  matplotlib = "*"
-  pandas = "*"
-  seaborn = "*"
-  scikit-learn = "*"
-  pillow = "*"
+# -----------------------------
+# Scientific Python stack
+# -----------------------------
+numpy = ">=1.26"
+scipy = ">=1.11"
+sympy = ">=1.12"
+matplotlib = ">=3.8"
+pandas = ">=2.1"
+seaborn = ">=0.13"
+scikit-learn = ">=1.4"
+pillow = ">=10"
 
-  # Visualization / data
-  plotly = "*"
-  statsmodels = "*"
+# -----------------------------
+# Statistics / plotting
+# -----------------------------
+plotly = ">=5"
+statsmodels = ">=0.14"
 
-  # itikz (local clone)
-  itikz = { path = "../../itikz" }
+# -----------------------------
+# HoloViz ecosystem
+# -----------------------------
+holoviews = ">=1.18"
+hvplot = ">=0.9"
+panel = ">=1.4"
+bokeh = ">=3.4"
+datashader = ">=0.16"
+colorcet = ">=3.1"
 
+# -----------------------------
+# Graph / network / viz tooling
+# -----------------------------
+networkx = ">=3.2"
+graphviz = ">=9"
+pygraphviz = ">=1.11"
+k3d = ">=2.16"
+streamz = ">=0.6"
 
-  # holoviews and panel
-  holoviews = "*"
-  hvplot = "*"
-  panel = "*"
-  bokeh = "*"
-  datashader = "*"
-  colorcet = "*"
+# -----------------------------
+# Jupyter extensions
+# -----------------------------
+webio_jupyter_extension = ">=0.1"
+panel_mermaid = ">=0.4"
 
+# -----------------------------
+# Julia ↔ Python bridge
+# -----------------------------
+juliacall = ">=0.9"
 
-  # Additional plotting / graph / notebook tooling (from Dockerfile.orig)
-  k3d = "*"
-  streamz = "*"
-  networkx = "*"
-  graphviz = "*"
-  pygraphviz = "*"
-  webio_jupyter_extension = "*"
-  panel_mermaid = "*"
-  julia = "*"
+# -----------------------------
+# Local editable packages
+# -----------------------------
+itikz = { path = "../../itikz" }
 
-  itikz = { path = "../../itikz" }
-  juliacall = "*"
