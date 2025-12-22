@@ -1,0 +1,83 @@
+FROM julia:1.12.3
+
+LABEL org.opencontainers.image.title="ea42gh/base_image"
+
+ENV JULIA_DEPOT_PATH=/opt/julia
+ENV JULIA_PKG_PRECOMPILE_AUTO=0
+
+# --------------------------------------------------
+# APT: FULL SYSTEM SUPERSET (from original image)
+# --------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # --------------------------------------------------
+    # Core tools
+    # --------------------------------------------------
+    ca-certificates \
+    git \
+    curl \
+    sudo \
+    vim-tiny \
+    cmake \
+    build-essential \
+    pkg-config \
+    \
+    # --------------------------------------------------
+    # X11 / GTK / graphics (DEV + runtime)
+    # --------------------------------------------------
+    x11-apps \
+    xdg-utils \
+    libgtk-3-dev \
+    libglib2.0-dev \
+    libgdk-pixbuf-xlib-2.0-dev \
+    libpango1.0-dev \
+    libx11-dev \
+    libxext-dev \
+    libcairo2-dev \
+    \
+    # --------------------------------------------------
+    # Media / SVG / video
+    # --------------------------------------------------
+    pdf2svg \
+    dvisvgm \
+    dvipng \
+    inkscape \
+    ffmpeg \
+    xclip \
+    \
+    # --------------------------------------------------
+    # Graphviz
+    # --------------------------------------------------
+    graphviz \
+    graphviz-dev \
+    \
+    # --------------------------------------------------
+    # Fonts (FULL SUPERSET)
+    # --------------------------------------------------
+    fonts-dejavu \
+    fonts-liberation \
+    fonts-hack \
+    fonts-lmodern \
+    fonts-freefont-ttf \
+    fonts-noto \
+    fonts-noto-cjk \
+    fonts-noto-color-emoji \
+    \
+    # --------------------------------------------------
+    # LaTeX / TeX Live (FULL CTAN SUPERSET)
+    # --------------------------------------------------
+    latexmk \
+    texlive-plain-generic \
+    texlive-latex-base \
+    texlive-latex-recommended \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-publishers \
+    texlive-science \
+    texlive-pictures \
+    texlive-pstricks \
+    texlive-xetex \
+ && rm -rf /var/lib/apt/lists/*
+
+
+WORKDIR /opt/runtime
+
