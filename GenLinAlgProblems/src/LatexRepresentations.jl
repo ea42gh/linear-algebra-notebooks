@@ -255,36 +255,33 @@ end
 
 # ------------------------------------------------------------------------------
 # 🟢 Handle Symbols (e.g., :x, :alpha)
-# ------------------------------------------------------------------------------
+# Julia Symbol → LaTeX (pure Julia, no SymPy)
+# ------------------------------------------------------------------
+# Julia Symbol → LaTeX
 function to_latex(x::Symbol; number_formatter=nothing)
-    sympy_symbol = SymPy.Symbol(string(x))  # Convert Julia Symbol to SymPy Symbol
-    return strip(latexify(sympy_symbol), ['$', '\n'])  # Convert to LaTeX and remove `$`
+    return string(x)
 end
-# ------------------------------------------------------------------------------
-function to_latex(x::Sym{PyObject}; number_formatter=nothing)
-    s = strip(latexify(x), ['$', '\n'])
-    s = fix_num_symbol_mul(s)                                   # keep this
-    s = replace(s, raw"\mathrm{I}" => raw"\mathit{i}",
-                   r"(?<![A-Za-z\\])I(?![A-Za-z])" => raw"\mathit{i}")
-
-    s = replace(s, r"(?<=^|\s)1\s*(\\mathit\{i\})" => (m -> m.captures[1]))
-    return s
-end
-# ------------------------------------------------------------------------------
-function to_latex(x::SymPy.SymbolicObject; number_formatter=nothing)
+# ------------------------------------------------------------------
+# Python objects (SymPy, etc.) via PythonCall
+function to_latex(x::PythonCall.Py; number_formatter=nothing)
     s = strip(latexify(x), ['$', '\n'])
     s = fix_num_symbol_mul(s)
-    s = replace(s, raw"\mathrm{I}" => raw"\mathit{i}",
-                   r"(?<![A-Za-z\\])I(?![A-Za-z])" => raw"\mathit{i}")
-    s = replace(s, r"(?<=^|\s)1\s*(\\mathit\{i\})" => (m -> m.captures[1]))
+    s = replace(
+        s,
+        raw"\mathrm{I}" => raw"\mathit{i}",
+        r"(?<![A-Za-z\\])I(?![A-Za-z])" => raw"\mathit{i}",
+        r"(?<=^|\s)1\s*(\\mathit\{i\})" => (m -> m.captures[1]),
+    )
     return s
 end
-# ------------------------------------------------------------------------------
-# 🟢 Catch-all for unsupported types
+
+# ------------------------------------------------------------------
+# Generic Julia fallback
 function to_latex(x; number_formatter=nothing)
-    string(x)
+    s = strip(latexify(x), ['$', '\n'])
+    return isempty(s) ? string(x) : s
 end
-# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------
 # 🟢 Apply `to_latex` to any structured array-like object
 function to_latex(A::AbstractArray; number_formatter=nothing)
     # Apply LaTeX conversion element-wise while preserving shape
@@ -481,8 +478,9 @@ function construct_latex_matrix_body(A, arraystyle, is_block_array, per_element_
     end
 
     # 🟢 Step 5: Factorization (numerical matrices only)
-    contains_symbols = any(x -> x isa Symbol || x isa SymPy.Sym, A)
+    contains_symbols = any(x -> x isa Symbol || x isa PythonCall.Py, A)
     factor, intA = contains_symbols ? (1, A) : process_array(A, factor_out)
+
 
     # 🟢 Step 6: Generate LaTeX matrix rows
     matrix_rows = [format_matrix_row(intA, i, per_element_style, row_dividers) for i in 1:size(A,1)]
@@ -701,10 +699,10 @@ function L_show_core(obj; setstyle=:Barray, arraystyle=:parray, color=nothing, s
     end
 
     # 🟢 Handle Numbers, Symbols, and SymPy Expressions
-    if obj isa Number || obj isa SymPy.Sym
+    if obj isa Number || obj isa PythonCall.Py
         return L_show_number(obj; color=color, number_formatter=number_formatter)
     elseif obj isa Symbol
-        return style_wrapper(to_latex(obj)*" ", color)
+        return style_wrapper(to_latex(obj) * " ", color)
     end
 
     error("❌ Unsupported argument type: $(typeof(obj))")

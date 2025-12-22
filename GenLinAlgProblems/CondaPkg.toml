@@ -1,13 +1,8 @@
-[dependencies]
+[deps]
+pip = {}
 sympy = ">=1.12"
-
-[dependencies.python]
-channel = "conda-forge"
-version = "3.12.*"
-
-[project]
-channels = ["conda-forge"]
-channel-priority = "strict"
+ipython = ">=8.0"
+jinja2 = ">=3.1"
 
 # -----------------------------
 # Jupyter stack
@@ -22,10 +17,10 @@ channel-priority = "strict"
 ## -----------------------------
 ## Scientific Python stack
 ## -----------------------------
-#numpy = ">=1.26"
-#scipy = ">=1.11"
+numpy = ">=1.26"
+scipy = ">=1.11"
 #matplotlib = ">=3.8"
-#pandas = ">=2.1"
+pandas = ">=2.1"
 #seaborn = ">=0.13"
 #scikit-learn = ">=1.4"
 #pillow = ">=10"
@@ -83,3 +78,12 @@ channel-priority = "strict"
 ## -----------------------------
 #juliacall = ">=0.9"
 #
+[deps.python]
+version = "3.12.*"
+channel = "conda-forge"
+
+# ------------------------------------------------------------------------------
+[project]
+channels = ["conda-forge"]
+channel-priority = "strict"
+

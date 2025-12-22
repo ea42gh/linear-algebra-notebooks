@@ -8,14 +8,37 @@ const py_itikz = Ref{Any}()
 const nM       = Ref{Any}()
 
 function __init__()
+    _ensure_itikz()
     py_itikz[] = pyimport("itikz")
     nM[]       = pyimport("itikz.nicematrix")
 end
 
+function _ensure_itikz()
+    try
+        pyimport("itikz")
+    catch
+        @info "itikz not found; installing via pip"
+        pyexec(
+            """
+import subprocess, sys
+subprocess.check_call([
+    sys.executable, "-m", "pip", "install",
+    "git+https://github.com/ea42gh/itikz.git"
+])
+""",
+            Main
+        )
+    end
+end
+
+
 export py_itikz, nM
 
-using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings, SymPy
+using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
 using Random, Hadamard
+
+using PythonCall
+sympy = pyimport("sympy")
 
 # general utility
 # 🟢 Extend transpose and adjoint for Char, String, and LaTeXString
@@ -30,12 +53,8 @@ Base.adjoint(x::String) = x
 Base.transpose(x::LaTeXString) = x
 Base.adjoint(x::LaTeXString) = x
 
-Base.transpose(x::SymPy.Sym) = x
-Base.adjoint(x::SymPy.Sym) = x
-
-Base.transpose(x::Symbol) = x
-Base.adjoint(x::Symbol) = x
-
+Base.transpose(x::PythonCall.Py) = x
+Base.adjoint(x::PythonCall.Py) = x
 
 export set, lc
 export apply_function, factor_out_denominator
