@@ -1,118 +1,121 @@
-# https://github.com/jupyter/docker-stacks/blob/main/images/datascience-notebook/README.md
-# Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the Modified BSD License.
-ARG REGISTRY=quay.io
-ARG OWNER=jupyter
-ARG BASE_IMAGE=$REGISTRY/$OWNER/scipy-notebook
-FROM $BASE_IMAGE
+# ============================================================
+# Binder Teaching Image (la_image)
+# Pulls infrastructure from prebuilt multi-arch base image.
+# ============================================================
+FROM ea42gh/base_image:latest
 
-LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
+LABEL org.opencontainers.image.title="ea42gh/la_image"
 
-# Fix: https://github.com/hadolint/hadolint/wiki/DL4006
-# Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# Julia depot in a stable location
+ENV JULIA_DEPOT_PATH=/home/jovyan/.julia
+ENV JULIA_PKG_PRECOMPILE_AUTO=0
+ENV JULIA_NUM_THREADS=auto
 
-USER root
-# enable sudo for jovyan
-RUN usermod -aG sudo jovyan && \
-    echo "jovyan ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# ------------------------------------------------------------
+USER jovyan
+WORKDIR /home/jovyan
 
-# itikz related requirements
-RUN apt-get update -y && \
-    apt-get install --yes --no-install-recommends \
-    x11-apps xdg-utils libgtk-3-dev \
-    libglib2.0-dev libgdk-pixbuf2.0-dev \
-    libpango1.0-dev libx11-dev libxext-dev \
-    git pdf2svg xclip ffmpeg libcairo2-dev \
-    cmake build-essential pkg-config \
-    fonts-liberation fonts-dejavu fonts-hack \
-    graphviz graphviz-dev vim-tiny \
-    latexmk \
-    run-one \
-    inkscape \
-    dvipng dvisvgm 
-
-# make sure all of the following CTAN packages are installed
-RUN apt-get install --upgrade --yes --no-install-recommends \
-    texlive-pstricks \
-    texlive-xetex \
-    texlive-fonts-recommended \
-    texlive-plain-generic \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-latex-recommended \
-    texlive-publishers \
-    texlive-science \
-    texlive-pictures
-
-# Julia dependencies
-# install Julia packages in /opt/julia instead of ${HOME}
-ENV JULIA_DEPOT_PATH=/opt/julia \
-    JULIA_PKGDIR=/opt/julia
-
-# Setup Julia
-RUN /opt/setup-scripts/setup_julia.py
-
-USER ${NB_UID}
-
-# Add additional Python libraries
-
-RUN python -m pip install git+https://github.com/ea42gh/itikz.git && \
-    git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git && \
+# ------------------------------------------------------------
+# Clone teaching repositories (correct URLs)
+# ------------------------------------------------------------
+RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git && \
     git clone https://github.com/ea42gh/itikz.git
 
-RUN \
-    python -m pip install k3d && \
-    python -m pip install holoviews[recommended] && \
-    python -m pip install hvplot && \
-    python -m pip install streamz && \
-    python -m pip install networkx && \
-    python -m pip install --upgrade webio_jupyter_extension && \
-    python -m pip install panel_mermaid && \
-    python -m pip install streamz && \
-    python -m pip install graphviz
+#COPY --chown=jovyan:jovyan pyproject.toml .
+#RUN pixi install
 
-#RUN python -m pip install manim
+# ------------------------------------------------------------
+#WORKDIR /home/jovyan/elementary-linear-algebra/GenLinAlgProblems
+ENV PYTHON=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python
+
+# Instantiate GenLinAlgProblems (per-arch safe)
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
+    Pkg.instantiate(); \
+    haskey(Pkg.project().dependencies, "PythonCall") || \
+        error("PythonCall not declared in GenLinAlgProblems"); \
+    using PythonCall; \
+    sys = pyimport("sys"); \
+    python = pyconvert(String, sys.executable); \
+    isfile(python) || error("Python executable missing: $python"); \
+    root = normpath("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg"); \
+    startswith(normpath(python), root) || error("Python not under .CondaPkg: $python"); \
+    println("Active project: ", Base.active_project()); \
+    println("Python executable: ", python); \
+'
+# Ensure Jupyter is actually installed in the pinned CondaPkg/Pixi Python
+RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python -c "import jupyter" \
+ || /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/pip install --no-cache-dir jupyter jupyterlab
 
 
-RUN python -m pip install pygraphviz && \
-    python -m pip install julia
+ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:$PATH
 
-# Setup IJulia kernel & other packages
-RUN /opt/setup-scripts/setup-julia-packages.bash
+RUN mkdir -p /home/jovyan/.julia/environments/la_core /home/jovyan/.julia/environments/la_gui
+COPY binder/la_image-notebooks/la_core/Project.toml \
+     /home/jovyan/.julia/environments/la_core/Project.toml
 
-# Add additional Julia Packages
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "AbstractAlgebra", "BlockArrays", "GenericLinearAlgebra", "LinearAlgebra", "Hadamard", "Random", "RowEchelon", "Latexify", "LaTeXStrings", "QuadGK", "IOCapture"]; Pkg.add.(p);'
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "FFTW", "DSP", "ToeplitzMatrices", "Polynomials", "Colors", "Plots", "Interact", "SymPy", "Distributions", "Images", "ImageView", "TestImages"]; Pkg.add.(p);'
-RUN julia -e 'import Pkg; Pkg.update(); p = [ "NearestNeighbors", "MosaicViews", "PrettyTables", "PyCall", "Revise", "CSV", "DataFrames", "RDatasets", "StatsBase", "StatsPlots", "PlotlyJS"]; Pkg.add.(p);'
-RUN julia -e 'import Pkg; Pkg.activate("elementary-linear-algebra/GenLinAlgProblems");Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
-RUN julia -e 'import Pkg; Pkg.update()'
+COPY binder/la_image-notebooks/la_gui/Project.toml \
+     /home/jovyan/.julia/environments/la_gui/Project.toml
 
-# final tweaks
-RUN echo -e "\
-export PS1='-> ' \n\
-export PS2='->>  ' \n\
-" > .bashrc
+ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate(ENV["JULIA_PROJECT"]); \
+    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
+    Pkg.instantiate(); \
+    Pkg.precompile(); \
+'
+ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_gui
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate(ENV["JULIA_PROJECT"]); \
+    Pkg.instantiate(); \
+'
+# ✅ Runtime default
+ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
 
-RUN git config --global credential.helper store
+# ------------------------------------------------------------
+# Final step: install Julia kernel (architecture-independent)
+# ------------------------------------------------------------
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate("/home/jovyan/.julia/environments/la_core"); \
+    using IJulia; \
+    \
+    ENV["JUPYTER"] = "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/jupyter"; \
+    \
+    IJulia.installkernel( \
+        "Julia (core)", \
+        env = Dict( \
+            "JULIA_PROJECT" => "/home/jovyan/.julia/environments/la_core", \
+            "PYTHON" => "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python" \
+        ) \
+    ); \
+    \
+    IJulia.installkernel( \
+        "Julia (gui)", \
+        env = Dict( \
+            "JULIA_PROJECT" => "/home/jovyan/.julia/environments/la_gui", \
+            "PYTHON" => "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python" \
+        ) \
+    ); \
+'
 
-#RUN mkdir ${HOME}/work
+# Install itikz via pip into the CondaPkg Python (Python 3.12)
+RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python \
+    -m pip install --no-cache-dir /home/jovyan/itikz
 
-USER root
-WORKDIR $HOME
-#RUN patch /usr/bin/latexmk < itikz/patch.latexmk
+# Enable %%julia magic for all Python notebooks
+RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
+#COPY binder/10-julia-magic.py /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
+COPY binder/10-julia-magic.py /usr/local/etc/jupyter/jupyter_notebook_config.d/10-julia-magic.py
 
-VOLUME ${HOME}/work
+# ------------------------------------------------------------
+# Jupyter: run from the SAME pinned Python 3.12 (CondaPkg/Pixi)
+# This ensures python notebooks and Julia↔python interop are coherent.
+ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
+#------------------------------------------------------------
 
-USER ${NB_UID}
-WORKDIR $HOME/elementary-linear-algebra
-
-# keep itikz and elementary-linear-algebra so we can use git to update them
-RUN ln -s /tmp tmp && \
-    ln -s ../work work && \
-    rm -rf bin binder tasks .gitignore \
-       README.md Makefile tex2svg textosvg.py xetex2svg \
-       notebooks/WorkedExamples
-
-RUN fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+EXPOSE 8888
+CMD ["/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
