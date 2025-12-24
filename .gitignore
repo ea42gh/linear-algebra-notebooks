@@ -14,3 +14,8 @@ GenLinAlgProblems/notebooks/.ipynb-checkpoints
 Notes/.obsidian
 MISC/
 othermaterial
+.julia/
+.CondaPkg/
+.pixi/
+artifacts/
+__pycache__/
