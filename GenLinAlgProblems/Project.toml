@@ -23,6 +23,7 @@ RowEchelon = "af85af4c-bcd5-5d23-b03a-a909639aa875"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 StyledStrings = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
 ToeplitzMatrices = "c751599d-da0a-543b-9d20-d0a503d91d24"
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 
 [compat]
 BlockArrays = "1.4.0"
