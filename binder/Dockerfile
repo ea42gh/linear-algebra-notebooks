@@ -54,8 +54,16 @@ RUN ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/Conda
           /home/jovyan/.julia/environments/la_gui/CondaPkg.toml
 
 RUN rm -rf /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg
+
 # ------------------------------------------------------------
-# Instantiate GenLinAlgProblems (per-arch safe)
+# set up julia and python libraries
+
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate("/home/jovyan/elementary-linear-algebra/binder/la_image-notebooks"); \
+    Pkg.instantiate(); \
+'
+
 RUN julia --startup-file=no -e '\
     using Pkg; \
     Pkg.activate("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
@@ -100,6 +108,9 @@ RUN julia --startup-file=no -e '\
     Pkg.activate("/home/jovyan/elementary-linear-algebra/binder/la_image-notebooks"); \
     Pkg.instantiate(); \
 '
+ENV JULIA_HOME=/usr/local/julia
+ENV JULIA_BINDIR=/usr/local/julia/bin
+ENV LD_LIBRARY_PATH=/usr/local/julia/lib
 
 RUN julia --startup-file=no -e '\
     using CondaPkg; \
@@ -108,6 +119,12 @@ RUN julia --startup-file=no -e '\
         write(io, "import julia\njulia.install()\n"); \
     end; \
     run(`$python /tmp/julia_install.py`); \
+'
+
+RUN julia --startup-file=no -e '\
+    using CondaPkg; \
+    python = CondaPkg.which("python"); \
+    run(`$python -c "from julia import Main; print(Main.sqrt(36))"`); \
 '
 
 # ✅ Runtime default

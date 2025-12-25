@@ -1,5 +1,4 @@
 [deps]
-python = ">=3.12,<3.13"
 pip = ">=23,<25"
 sympy = ">=1.12"
 ipython = ">=8.0"
@@ -82,8 +81,9 @@ streamz = ">=0.6"
 #juliacall = ">=0.9"
 
 [pip.deps]
-itikz = { git = "https://gitlab.com/ea42gh/itikz.git" }
 julia = ">=0.6"
+itikz = { path = "/home/jovyan/itikz", editable = true }
+
 
 [deps.python]
 version = "3.12.*"
