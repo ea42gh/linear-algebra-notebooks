@@ -49,9 +49,18 @@ RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/env
  || /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/pip install --no-cache-dir jupyter jupyterlab
 
 
-ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:$PATH
+ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
 
 RUN mkdir -p /home/jovyan/.julia/environments/la_core /home/jovyan/.julia/environments/la_gui
+
+# Julia + CondaPkg dependency files 
+COPY GenLinAlgProblems/Project.toml \
+     GenLinAlgProblems/CondaPkg.toml \
+     /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/
+
+COPY binder/la_image-notebooks/CondaPkg.toml \
+     /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/
+
 COPY binder/la_image-notebooks/la_core/Project.toml \
      /home/jovyan/.julia/environments/la_core/Project.toml
 
@@ -64,20 +73,35 @@ RUN julia --startup-file=no -e '\
     Pkg.activate(ENV["JULIA_PROJECT"]); \
     Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
     Pkg.instantiate(); \
-    Pkg.precompile(); \
+    Pkg.precompile(strict=false); \
 '
 ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_gui
 RUN julia --startup-file=no -e '\
     using Pkg; \
     Pkg.activate(ENV["JULIA_PROJECT"]); \
+    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
     Pkg.instantiate(); \
 '
+
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate("/home/jovyan/elementary-linear-algebra/binder/la_image-notebooks"); \
+    Pkg.instantiate(); \
+'
+
+RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python - << 'EOF'
+import julia
+julia.install()
+EOF
+
 # ✅ Runtime default
 ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
 
 # ------------------------------------------------------------
 # Final step: install Julia kernel (architecture-independent)
+ENV IJULIA_NODEFAULTKERNEL=1
 # ------------------------------------------------------------
+
 RUN julia --startup-file=no -e '\
     using Pkg; \
     Pkg.activate("/home/jovyan/.julia/environments/la_core"); \
@@ -101,6 +125,10 @@ RUN julia --startup-file=no -e '\
         ) \
     ); \
 '
+RUN mkdir -p /home/jovyan/.jupyter && \
+    printf '{\n  "default_kernel_name": "Julia (core)"\n}\n' \
+    > /home/jovyan/.jupyter/jupyter_lab_config.json
+
 
 # Install itikz via pip into the CondaPkg Python (Python 3.12)
 RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python \
@@ -111,11 +139,22 @@ RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
 #COPY binder/10-julia-magic.py /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
 COPY binder/10-julia-magic.py /usr/local/etc/jupyter/jupyter_notebook_config.d/10-julia-magic.py
 
+# enable Pluto
+RUN printf '#!/bin/sh\nexec julia -e "using Pluto; Pluto.run()"\n' \
+    > /usr/local/bin/start-pluto && \
+    chmod +x /usr/local/bin/start-pluto
+RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/launcher && \
+    printf '{\n  "customLauncherItems": [\n    {\n      "title": "Pluto (Julia)",\n      "icon": "ui-components:rocket",\n      "command": "terminal:create-new",\n      "args": { "command": "/usr/local/bin/start-pluto" }\n    }\n  ]\n}\n' \
+    > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/launcher/plugin.jupyterlab-settings
+
 # ------------------------------------------------------------
 # Jupyter: run from the SAME pinned Python 3.12 (CondaPkg/Pixi)
 # This ensures python notebooks and Julia↔python interop are coherent.
 ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
 #------------------------------------------------------------
+WORKDIR /home/jovyan/elementary-linear-algebra
 
 EXPOSE 8888
-CMD ["/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+#CMD ["/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+CMD [ "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--ServerApp.default_url=/lab/tree/notebooks/Index.ipynb" ]
+

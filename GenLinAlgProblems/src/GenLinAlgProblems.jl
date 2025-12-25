@@ -4,41 +4,77 @@ using IOCapture
 
 export py_show   # for use in julia cell of Python notebook
 
-const py_itikz = Ref{Any}()
-const nM       = Ref{Any}()
+const _itikz   = Ref{Any}(nothing)
+const _nM      = Ref{Any}(nothing)
+const _sympy   = Ref{Any}(nothing)
 
-function __init__()
-    _ensure_itikz()
-    py_itikz[] = pyimport("itikz")
-    nM[]       = pyimport("itikz.nicematrix")
-end
-
-function _ensure_itikz()
-    try
-        pyimport("itikz")
-    catch
-        @info "itikz not found; installing via pip"
-        pyexec(
-            """
-import subprocess, sys
-subprocess.check_call([
-    sys.executable, "-m", "pip", "install",
-    "git+https://github.com/ea42gh/itikz.git"
-])
-""",
-            Main
-        )
+function _load_sympy()
+    if _sympy[] === nothing
+        try
+            _sympy[] = pyimport("sympy")
+        catch err
+            error(
+                "Python module `sympy` is required by GenLinAlgProblems.\n" *
+                "It should be provided via CondaPkg.toml.\n\n" *
+                "Original error:\n$err"
+            )
+        end
     end
+    return _sympy[]
+end
+
+function _load_itikz()
+    if _itikz[] === nothing
+        try
+            _itikz[] = pyimport("itikz")
+            _nM[]    = pyimport("itikz.nicematrix")
+        catch err
+            error(
+                "Python module `itikz` (and `itikz.nicematrix`) is required by GenLinAlgProblems.\n" *
+                "It should be provided via CondaPkg.toml.\n\n" *
+                "Original error:\n$err"
+            )
+        end
+    end
+    return _itikz[], _nM[]
 end
 
 
-export py_itikz, nM
+
+#function _ensure_itikz()
+#    try
+#        pyimport("itikz")
+#    catch
+#        @info "itikz not found; installing via pip"
+#        pyexec(
+#            """
+#import subprocess, sys
+#subprocess.check_call([
+#    sys.executable, "-m", "pip", "install",
+#    "git+https://github.com/ea42gh/itikz.git"
+#])
+#""",
+#            Main
+#        )
+#    end
+#end
+
 
 using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
 using Random, Hadamard
 
 using PythonCall
-sympy = pyimport("sympy")
+sympy = nothing
+itikz = nothing
+nM    = nothing
+
+function __init__()
+    global sympy = _load_sympy()
+    global itikz, nM = _load_itikz()
+    return nothing
+end
+
+export sympy, itikz, nM
 
 # general utility
 # 🟢 Extend transpose and adjoint for Char, String, and LaTeXString
