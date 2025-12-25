@@ -64,8 +64,15 @@ COPY binder/la_image-notebooks/CondaPkg.toml \
 COPY binder/la_image-notebooks/la_core/Project.toml \
      /home/jovyan/.julia/environments/la_core/Project.toml
 
-COPY binder/la_image-notebooks/la_gui/Project.toml \
-     /home/jovyan/.julia/environments/la_gui/Project.toml
+# 1. Copy the canonical CondaPkg.toml
+COPY binder/la_image-notebooks/CondaPkg.toml \
+     /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml
+
+# 2. Symlink it into both Julia projects
+RUN ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml \
+          /home/jovyan/.julia/environments/la_core/CondaPkg.toml && \
+    ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml \
+          /home/jovyan/.julia/environments/la_gui/CondaPkg.toml
 
 ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
 RUN julia --startup-file=no -e '\
