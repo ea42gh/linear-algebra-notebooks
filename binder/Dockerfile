@@ -26,31 +26,10 @@ RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git && \
 
 # ------------------------------------------------------------
 #WORKDIR /home/jovyan/elementary-linear-algebra/GenLinAlgProblems
+# ------------------------------------------------------------
 ENV PYTHON=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python
 
-# Instantiate GenLinAlgProblems (per-arch safe)
-RUN julia --startup-file=no -e '\
-    using Pkg; \
-    Pkg.activate("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
-    Pkg.instantiate(); \
-    haskey(Pkg.project().dependencies, "PythonCall") || \
-        error("PythonCall not declared in GenLinAlgProblems"); \
-    using PythonCall; \
-    sys = pyimport("sys"); \
-    python = pyconvert(String, sys.executable); \
-    isfile(python) || error("Python executable missing: $python"); \
-    root = normpath("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg"); \
-    startswith(normpath(python), root) || error("Python not under .CondaPkg: $python"); \
-    println("Active project: ", Base.active_project()); \
-    println("Python executable: ", python); \
-'
-# Ensure Jupyter is actually installed in the pinned CondaPkg/Pixi Python
-RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python -c "import jupyter" \
- || /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/pip install --no-cache-dir jupyter jupyterlab
-
-
-ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
-
+# ------------------------------------------------------------
 RUN mkdir -p /home/jovyan/.julia/environments/la_core /home/jovyan/.julia/environments/la_gui
 
 # Julia + CondaPkg dependency files 
@@ -74,6 +53,32 @@ RUN ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/Conda
     ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml \
           /home/jovyan/.julia/environments/la_gui/CondaPkg.toml
 
+RUN rm -rf /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg
+# ------------------------------------------------------------
+# Instantiate GenLinAlgProblems (per-arch safe)
+RUN julia --startup-file=no -e '\
+    using Pkg; \
+    Pkg.activate("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
+    Pkg.instantiate(); \
+    haskey(Pkg.project().dependencies, "PythonCall") || \
+        error("PythonCall not declared in GenLinAlgProblems"); \
+    using PythonCall; \
+    sys = pyimport("sys"); \
+    python = pyconvert(String, sys.executable); \
+    isfile(python) || error("Python executable missing: $python"); \
+    root = normpath("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg"); \
+    startswith(normpath(python), root) || error("Python not under .CondaPkg: $python"); \
+    println("Active project: ", Base.active_project()); \
+    println("Python executable: ", python); \
+'
+# Ensure Jupyter is actually installed in the pinned CondaPkg/Pixi Python
+RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python -c "import jupyter" \
+ || /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/pip install --no-cache-dir jupyter jupyterlab
+
+
+ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
+
+
 ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
 RUN julia --startup-file=no -e '\
     using Pkg; \
@@ -96,10 +101,14 @@ RUN julia --startup-file=no -e '\
     Pkg.instantiate(); \
 '
 
-RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python - << 'EOF'
-import julia
-julia.install()
-EOF
+RUN julia --startup-file=no -e '\
+    using CondaPkg; \
+    python = CondaPkg.which("python"); \
+    open("/tmp/julia_install.py", "w") do io; \
+        write(io, "import julia\njulia.install()\n"); \
+    end; \
+    run(`$python /tmp/julia_install.py`); \
+'
 
 # ✅ Runtime default
 ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core

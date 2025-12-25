@@ -1,5 +1,6 @@
 [deps]
-pip = {}
+python = ">=3.12,<3.13"
+pip = ">=23,<25"
 sympy = ">=1.12"
 ipython = ">=8.0"
 jinja2 = ">=3.1"
