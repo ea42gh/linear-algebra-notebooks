@@ -1,6 +1,7 @@
 using Pkg
+Pkg.activate("/opt/julia_env")
+Pkg.instantiate()
 
-Pkg.update()
 
 pkgs = Dict(
     # Algebra / numerics
@@ -52,11 +53,15 @@ pkgs = Dict(
     "IOCapture"            => :safe,
 )
 
-Pkg.add(collect(keys(pkgs)))
+safe_pkgs = [name for (name, kind) in pkgs if kind === :safe]
 
-for (pkg, kind) in pkgs
-    kind === :safe || continue
-    @info "Precompiling $pkg"
-    Pkg.precompile(pkg)
-end
+@info "Adding safe packages"
+Pkg.add(safe_pkgs)
 
+@info "Precompiling safe packages"
+Pkg.precompile()
+
+gui_pkgs = [name for (name, kind) in pkgs if kind === :gui]
+
+@info "Adding GUI / non-safe packages (no precompile)"
+Pkg.add(gui_pkgs)

@@ -9,49 +9,21 @@ FROM ea42gh/base_image
 # System dependencies (Python + Julia ecosystem)
 # =================================================
 USER root
-# ---- Julia isolation ----
-ENV JULIA_DEPOT_PATH=/opt/julia_depot
-RUN mkdir -p /opt/julia_depot \
- && chown -R jovyan:jovyan /opt/julia_depot
 
 # ---- build deps for Python ----
 RUN apt-get update && apt-get install -y \
-    libssl-dev \
-    zlib1g-dev \
-    libbz2-dev \
-    libreadline-dev \
-    libsqlite3-dev \
-    libffi-dev \
-    libncursesw5-dev \
-    xz-utils \
     tk-dev \
-    wget \
-    graphviz \
-    graphviz-dev \
-    pkg-config \
  && rm -rf /var/lib/apt/lists/*
 
 # =================================================
-# Compile the correct Python version
-# =================================================
-
-ARG PYTHON_VERSION=3.12.1
-
-RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
- && tar -xzf Python-${PYTHON_VERSION}.tgz \
- && cd Python-${PYTHON_VERSION} \
- && ./configure --enable-optimizations \
- && make -j$(nproc) \
- && make altinstall
-
-RUN ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
-
-RUN python3 -m ensurepip --upgrade
-RUN python3 --version && python3 -m pip --version
+USER jovyan
 
 # =================================================
 # Environment: force PythonCall to system Python
 # =================================================
+ENV HOME=/home/jovyan
+ENV JULIA_DEPOT_PATH=/home/jovyan/.julia
+
 ENV JULIA_BINDIR=/usr/local/julia/bin
 ENV LD_LIBRARY_PATH=/usr/local/julia/lib
 ENV PATH=/usr/local/julia/bin:$PATH
@@ -100,19 +72,16 @@ RUN rm -rf /home/jovyan/.julia
 # =================================================
 # julia Packages not used by GenLinAlgProblems
 # =================================================
+ENV PATH=/usr/jovyan/.local/bin:$PATH
+
 COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
+ENV JULIA_PKG_PRECOMPILE_AUTO=0
 RUN julia --startup-file=no /tmp/install_julia_packages.jl
 
 # =================================================
 # Python → Julia bridge (python-julia)
 # =================================================
 ENV JULIA=/usr/local/bin/julia
-
-RUN python3 - <<'EOF'
-from juliacall import Main as jl
-print("Julia:", jl.seval("string(VERSION)"))
-print("Python seen by Julia:", jl.seval('import PythonCall; PythonCall.pyimport("sys").executable'))
-EOF
 
 # =================================================
 # Julia: Pluto + IJulia (global)

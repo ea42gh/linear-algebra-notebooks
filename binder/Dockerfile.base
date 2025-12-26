@@ -2,10 +2,24 @@ FROM julia:1.12.3
 
 LABEL org.opencontainers.image.title="ea42gh/base_image"
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
 # --------------------------------------------------
 # APT: FULL SYSTEM SUPERSET (from original image)
 # --------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libffi-dev \
+    libncursesw5-dev \
+    xz-utils \
+    pkg-config \
+    wget \
+    locales \
     # --------------------------------------------------
     # Core tools
     # --------------------------------------------------
@@ -74,8 +88,35 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texlive-pictures \
     texlive-pstricks \
     texlive-xetex \
+ && sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
+ && locale-gen \
  && rm -rf /var/lib/apt/lists/*
 
+# Locale env *after* generating it
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+# =================================================
+# Compile the correct Python version
+# =================================================
+
+ARG PYTHON_VERSION=3.12.1
+
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
+ && tar -xzf Python-${PYTHON_VERSION}.tgz \
+ && cd Python-${PYTHON_VERSION} \
+ && ./configure --enable-optimizations \
+ && make -j$(nproc) \
+ && make altinstall
+
+RUN ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
+
+RUN python3 -m ensurepip --upgrade
+RUN python3 --version && python3 -m pip --version
+
+# ------------------------------------------------------
+# USER add
+# -----------------------------------------------------
 RUN useradd -m -s /bin/bash jovyan && \
     echo "jovyan ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -94,7 +135,9 @@ export PS1='-> ' \n\
 export PS2='->>  ' \n\
 " >> /home/jovyan/.bashrc
 
-RUN julia --startup-file=no -e 'using Pkg; Pkg.precompile()'
+RUN julia --startup-file=no -e 'using Pkg; Pkg.activate(); Pkg.precompile()'
 
-USER root
-WORKDIR /opt/runtime
+# ---------------------------------------------------------------
+# Final user and working dir
+USER jovyan
+WORKDIR /home/jovyan
