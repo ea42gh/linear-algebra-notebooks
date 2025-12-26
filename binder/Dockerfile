@@ -1,193 +1,154 @@
-# ============================================================
-# Binder Teaching Image (la_image)
-# Pulls infrastructure from prebuilt multi-arch base image.
-# ============================================================
-FROM ea42gh/base_image:latest
+FROM ea42gh/base_image
 
-LABEL org.opencontainers.image.title="ea42gh/la_image"
+# =================================================
+# 1) Multi-arch build
+# 2) One python 3.12 and on Julia 1.12  that are known to work together
+# 3) headless precompile strategy for julia packages
 
-# Julia depot in a stable location
-ENV JULIA_DEPOT_PATH=/home/jovyan/.julia
-ENV JULIA_PKG_PRECOMPILE_AUTO=0
-ENV JULIA_NUM_THREADS=auto
+# =================================================
+# System dependencies (Python + Julia ecosystem)
+# =================================================
+USER root
+# ---- Julia isolation ----
+ENV JULIA_DEPOT_PATH=/opt/julia_depot
+RUN mkdir -p /opt/julia_depot \
+ && chown -R jovyan:jovyan /opt/julia_depot
 
-# ------------------------------------------------------------
+# ---- build deps for Python ----
+RUN apt-get update && apt-get install -y \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libffi-dev \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    wget \
+    graphviz \
+    graphviz-dev \
+    pkg-config \
+ && rm -rf /var/lib/apt/lists/*
+
+# =================================================
+# Compile the correct Python version
+# =================================================
+
+ARG PYTHON_VERSION=3.12.1
+
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
+ && tar -xzf Python-${PYTHON_VERSION}.tgz \
+ && cd Python-${PYTHON_VERSION} \
+ && ./configure --enable-optimizations \
+ && make -j$(nproc) \
+ && make altinstall
+
+RUN ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
+
+RUN python3 -m ensurepip --upgrade
+RUN python3 --version && python3 -m pip --version
+
+# =================================================
+# Environment: force PythonCall to system Python
+# =================================================
+ENV JULIA_BINDIR=/usr/local/julia/bin
+ENV LD_LIBRARY_PATH=/usr/local/julia/lib
+ENV PATH=/usr/local/julia/bin:$PATH
+
+ENV JULIA_PROJECT=/home/jovyan/elementary-linear-algebra
+ENV JULIA=/usr/local/julia/bin/julia
+ENV PYTHON=/usr/local/bin/python3
+ENV PYTHONCALL_USE_PYTHON=1
+RUN rm -rf /opt/julia_depot/environments/pyjuliapkg
+
+# ===================================================================
 USER jovyan
 WORKDIR /home/jovyan
 
-# ------------------------------------------------------------
-# Clone teaching repositories (correct URLs)
-# ------------------------------------------------------------
+# =================================================
+# Clone repositories
+# =================================================
 RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git && \
     git clone https://github.com/ea42gh/itikz.git
 
-#COPY --chown=jovyan:jovyan pyproject.toml .
-#RUN pixi install
+WORKDIR /home/jovyan/elementary-linear-algebra
 
-# ------------------------------------------------------------
-#WORKDIR /home/jovyan/elementary-linear-algebra/GenLinAlgProblems
-# ------------------------------------------------------------
-ENV PYTHON=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python
+# =================================================
+# Python: upgrade tooling
+# =================================================
+RUN python3 -m pip install --no-cache-dir --upgrade \
+    pip setuptools wheel
 
-# ------------------------------------------------------------
-RUN mkdir -p /home/jovyan/.julia/environments/la_core /home/jovyan/.julia/environments/la_gui
+# =================================================
+# Python: install ALL previously-available libraries
+# =================================================
 
-# Julia + CondaPkg dependency files 
-COPY GenLinAlgProblems/Project.toml \
-     GenLinAlgProblems/CondaPkg.toml \
-     /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/
+COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
+RUN python3 /tmp/install_python_libraries.py
 
-COPY binder/la_image-notebooks/CondaPkg.toml \
-     /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/
+# =================================================
+# Python: install local itikz (editable)
+# =================================================
+RUN python3 -m pip install --no-cache-dir -e /home/jovyan/itikz
 
-COPY binder/la_image-notebooks/la_core/Project.toml \
-     /home/jovyan/.julia/environments/la_core/Project.toml
+# =================================================
+# Julia: GLOBAL teaching toolbox (restored in full)
+# =================================================
+RUN rm -rf /home/jovyan/.julia
 
-# 1. Copy the canonical CondaPkg.toml
-COPY binder/la_image-notebooks/CondaPkg.toml \
-     /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml
+# =================================================
+# julia Packages not used by GenLinAlgProblems
+# =================================================
+COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
+RUN julia --startup-file=no /tmp/install_julia_packages.jl
 
-# 2. Symlink it into both Julia projects
-RUN ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml \
-          /home/jovyan/.julia/environments/la_core/CondaPkg.toml && \
-    ln -s /home/jovyan/elementary-linear-algebra/binder/la_image-notebooks/CondaPkg.toml \
-          /home/jovyan/.julia/environments/la_gui/CondaPkg.toml
+# =================================================
+# Python → Julia bridge (python-julia)
+# =================================================
+ENV JULIA=/usr/local/bin/julia
 
-RUN rm -rf /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg
+RUN python3 - <<'EOF'
+from juliacall import Main as jl
+print("Julia:", jl.seval("string(VERSION)"))
+print("Python seen by Julia:", jl.seval('import PythonCall; PythonCall.pyimport("sys").executable'))
+EOF
 
-# ------------------------------------------------------------
-# set up julia and python libraries
-
+# =================================================
+# Julia: Pluto + IJulia (global)
+# =================================================
 RUN julia --startup-file=no -e '\
     using Pkg; \
-    Pkg.activate("/home/jovyan/elementary-linear-algebra/binder/la_image-notebooks"); \
-    Pkg.instantiate(); \
+    Pkg.add(["Pluto", "IJulia"]); \
+    Pkg.precompile(); \
 '
 
+# =================================================
+# Julia: GenLinAlgProblems project
+# =================================================
 RUN julia --startup-file=no -e '\
     using Pkg; \
     Pkg.activate("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
     Pkg.instantiate(); \
-    haskey(Pkg.project().dependencies, "PythonCall") || \
-        error("PythonCall not declared in GenLinAlgProblems"); \
-    using PythonCall; \
-    sys = pyimport("sys"); \
-    python = pyconvert(String, sys.executable); \
-    isfile(python) || error("Python executable missing: $python"); \
-    root = normpath("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg"); \
-    startswith(normpath(python), root) || error("Python not under .CondaPkg: $python"); \
-    println("Active project: ", Base.active_project()); \
-    println("Python executable: ", python); \
-'
-# Ensure Jupyter is actually installed in the pinned CondaPkg/Pixi Python
-RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python -c "import jupyter" \
- || /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/pip install --no-cache-dir jupyter jupyterlab
-
-
-ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
-
-
-ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
-RUN julia --startup-file=no -e '\
-    using Pkg; \
-    Pkg.activate(ENV["JULIA_PROJECT"]); \
-    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
-    Pkg.instantiate(); \
-    Pkg.precompile(strict=false); \
-'
-ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_gui
-RUN julia --startup-file=no -e '\
-    using Pkg; \
-    Pkg.activate(ENV["JULIA_PROJECT"]); \
-    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
-    Pkg.instantiate(); \
+    Pkg.precompile(); \
 '
 
-RUN julia --startup-file=no -e '\
-    using Pkg; \
-    Pkg.activate("/home/jovyan/elementary-linear-algebra/binder/la_image-notebooks"); \
-    Pkg.instantiate(); \
-'
-ENV JULIA_HOME=/usr/local/julia
-ENV JULIA_BINDIR=/usr/local/julia/bin
-ENV LD_LIBRARY_PATH=/usr/local/julia/lib
-
-RUN julia --startup-file=no -e '\
-    using CondaPkg; \
-    python = CondaPkg.which("python"); \
-    open("/tmp/julia_install.py", "w") do io; \
-        write(io, "import julia\njulia.install()\n"); \
-    end; \
-    run(`$python /tmp/julia_install.py`); \
-'
-
-RUN julia --startup-file=no -e '\
-    using CondaPkg; \
-    python = CondaPkg.which("python"); \
-    run(`$python -c "from julia import Main; print(Main.sqrt(36))"`); \
-'
-
-# ✅ Runtime default
-ENV JULIA_PROJECT=/home/jovyan/.julia/environments/la_core
-
-# ------------------------------------------------------------
-# Final step: install Julia kernel (architecture-independent)
-ENV IJULIA_NODEFAULTKERNEL=1
-# ------------------------------------------------------------
-
-RUN julia --startup-file=no -e '\
-    using Pkg; \
-    Pkg.activate("/home/jovyan/.julia/environments/la_core"); \
-    using IJulia; \
-    \
-    ENV["JUPYTER"] = "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/jupyter"; \
-    \
-    IJulia.installkernel( \
-        "Julia (core)", \
-        env = Dict( \
-            "JULIA_PROJECT" => "/home/jovyan/.julia/environments/la_core", \
-            "PYTHON" => "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python" \
-        ) \
-    ); \
-    \
-    IJulia.installkernel( \
-        "Julia (gui)", \
-        env = Dict( \
-            "JULIA_PROJECT" => "/home/jovyan/.julia/environments/la_gui", \
-            "PYTHON" => "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python" \
-        ) \
-    ); \
-'
-RUN mkdir -p /home/jovyan/.jupyter && \
-    printf '{\n  "default_kernel_name": "Julia (core)"\n}\n' \
-    > /home/jovyan/.jupyter/jupyter_lab_config.json
-
-
-# Install itikz via pip into the CondaPkg Python (Python 3.12)
-RUN /home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python \
-    -m pip install --no-cache-dir /home/jovyan/itikz
-
-# Enable %%julia magic for all Python notebooks
+# =================================================
+# Install JuliaMagic startup hook
+# =================================================
 RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
-#COPY binder/10-julia-magic.py /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
-COPY binder/10-julia-magic.py /usr/local/etc/jupyter/jupyter_notebook_config.d/10-julia-magic.py
 
-# enable Pluto
-RUN printf '#!/bin/sh\nexec julia -e "using Pluto; Pluto.run()"\n' \
-    > /usr/local/bin/start-pluto && \
-    chmod +x /usr/local/bin/start-pluto
-RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/launcher && \
-    printf '{\n  "customLauncherItems": [\n    {\n      "title": "Pluto (Julia)",\n      "icon": "ui-components:rocket",\n      "command": "terminal:create-new",\n      "args": { "command": "/usr/local/bin/start-pluto" }\n    }\n  ]\n}\n' \
-    > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/launcher/plugin.jupyterlab-settings
+COPY binder/10-julia-magic.py \
+    /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
 
-# ------------------------------------------------------------
-# Jupyter: run from the SAME pinned Python 3.12 (CondaPkg/Pixi)
-# This ensures python notebooks and Julia↔python interop are coherent.
-ENV PATH=/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin:/usr/local/julia/bin:$PATH
-#------------------------------------------------------------
+RUN chown -R jovyan:jovyan /home/jovyan/.ipython
+
+# =================================================
+# JupyterLab startup
+# =================================================
 WORKDIR /home/jovyan/elementary-linear-algebra
 
 EXPOSE 8888
-#CMD ["/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
-CMD [ "/home/jovyan/elementary-linear-algebra/GenLinAlgProblems/.CondaPkg/.pixi/envs/default/bin/python", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--ServerApp.default_url=/lab/tree/notebooks/Index.ipynb" ]
+
+CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/Index.ipynb"]
 
