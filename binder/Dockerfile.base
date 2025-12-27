@@ -135,7 +135,7 @@ export PS1='-> ' \n\
 export PS2='->>  ' \n\
 " >> /home/jovyan/.bashrc
 
-RUN julia --startup-file=no -e 'using Pkg; Pkg.activate(); Pkg.precompile()'
+#RUN julia --startup-file=no -e 'using Pkg; Pkg.activate(); Pkg.precompile()'
 
 # ---------------------------------------------------------------
 # Final user and working dir
