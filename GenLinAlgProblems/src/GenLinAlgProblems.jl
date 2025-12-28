@@ -75,7 +75,23 @@ function __init__()
 end
 
 export sympy, itikz, nM
+syms(names; kwargs...) = symbols(names; kwargs...)
+macro syms(vars...; kwargs...)
+    assigns = [
+        :( $(esc(v)) = SymPyHelpers.syms($(string(v)); $(pairs(kwargs)...)) )
+        for v in vars
+    ]
+    return Expr(:block, assigns...)
+end
+macro import_sympy(names...)
+    assigns = [
+        :( const $(esc(n)) = _load_sympy().$(n) )
+        for n in names
+    ]
+    return Expr(:block, assigns...)
+end
 
+export syms, import_sympy
 # general utility
 # 🟢 Extend transpose and adjoint for Char, String, and LaTeXString
 function Base.adjoint(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
