@@ -1,4 +1,4 @@
-FROM ea42gh/base_image
+FROM ea42gh/base_image:1.0.2
 
 # =================================================
 # 1) Multi-arch build
@@ -25,14 +25,23 @@ ENV HOME=/home/jovyan
 ENV JULIA_DEPOT_PATH=/home/jovyan/.julia
 
 ENV JULIA_BINDIR=/usr/local/julia/bin
-ENV LD_LIBRARY_PATH=/usr/local/julia/lib
+ENV JULIA_CONDAPKG_BACKEND=Null
+ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
+
+#ENV LD_LIBRARY_PATH=/usr/local/julia/lib
 ENV PATH=/usr/local/julia/bin:$PATH
 
-ENV JULIA_PROJECT=/home/jovyan/elementary-linear-algebra
-ENV JULIA=/usr/local/julia/bin/julia
+ENV JULIA_PROJECT=/home/jovyan/.julia_env
+#ENV JULIA=/usr/local/julia/bin/julia
 ENV PYTHON=/usr/local/bin/python3
-ENV PYTHONCALL_USE_PYTHON=1
 RUN rm -rf /opt/julia_depot/environments/pyjuliapkg
+
+ENV GDK_BACKEND=dummy
+
+# ===================================================================
+USER root
+RUN echo 'export PATH=$JULIA_BINDIR:$PATH' > /etc/profile.d/julia.sh
+RUN ln -s /usr/local/julia/bin/julia /usr/local/bin/julia
 
 # ===================================================================
 USER jovyan
@@ -49,7 +58,7 @@ WORKDIR /home/jovyan/elementary-linear-algebra
 # =================================================
 # Python: upgrade tooling
 # =================================================
-RUN python3 -m pip install --no-cache-dir --upgrade \
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade \
     pip setuptools wheel
 
 # =================================================
@@ -57,12 +66,12 @@ RUN python3 -m pip install --no-cache-dir --upgrade \
 # =================================================
 
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
-RUN python3 /tmp/install_python_libraries.py
+RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 
 # =================================================
 # Python: install local itikz (editable)
 # =================================================
-RUN python3 -m pip install --no-cache-dir -e /home/jovyan/itikz
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /home/jovyan/itikz
 
 # =================================================
 # Julia: GLOBAL teaching toolbox (restored in full)
@@ -72,34 +81,35 @@ RUN rm -rf /home/jovyan/.julia
 # =================================================
 # julia Packages not used by GenLinAlgProblems
 # =================================================
-ENV PATH=/usr/jovyan/.local/bin:$PATH
+ENV PATH=/home/jovyan/.local/bin:$JULIA_BINDIR:$PATH
 
 COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
 ENV JULIA_PKG_PRECOMPILE_AUTO=0
 RUN julia --startup-file=no /tmp/install_julia_packages.jl
 
+RUN julia -e 'using PythonCall; pyimport("sympy"); println("PythonCall OK")'
+
 # =================================================
 # Python → Julia bridge (python-julia)
 # =================================================
-ENV JULIA=/usr/local/bin/julia
-
-# =================================================
-# Julia: Pluto + IJulia (global)
-# =================================================
-RUN julia --startup-file=no -e '\
-    using Pkg; \
-    Pkg.add(["Pluto", "IJulia"]); \
-    Pkg.precompile(); \
-'
+RUN julia --startup-file=no -e \
+  'using IJulia; IJulia.installkernel("Julia", "--project=/home/jovyan/.julia_env")'
 
 # =================================================
 # Julia: GenLinAlgProblems project
 # =================================================
-RUN julia --startup-file=no -e '\
+
+#RUN julia --startup-file=no -e '\
+#    using Pkg; \
+#    Pkg.activate("/home/jovyan/.julia_env"); \
+#    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
+#    Pkg.instantiate(); \
+#    Pkg.precompile(strict=false); \
+#'
+RUN julia --startup-file=no --project=/home/jovyan/.julia_env -e '\
     using Pkg; \
-    Pkg.activate("/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
-    Pkg.instantiate(); \
-    Pkg.precompile(); \
+    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
+    using GenLinAlgProblems; \
 '
 
 # =================================================
@@ -110,7 +120,9 @@ RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
 COPY binder/10-julia-magic.py \
     /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
 
-RUN chown -R jovyan:jovyan /home/jovyan/.ipython
+#USER root
+#RUN chown -R jovyan:jovyan /home/jovyan/.ipython
+#USER jovyan
 
 # =================================================
 # JupyterLab startup

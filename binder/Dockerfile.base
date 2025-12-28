@@ -17,7 +17,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libffi-dev \
     libncursesw5-dev \
     xz-utils \
-    pkg-config \
     wget \
     locales \
     # --------------------------------------------------
@@ -36,14 +35,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # --------------------------------------------------
     # X11 / GTK / graphics (DEV + runtime)
     # --------------------------------------------------
-    x11-apps \
+    #x11-apps
     xdg-utils \
     libgtk-3-dev \
     libglib2.0-dev \
     libgdk-pixbuf-xlib-2.0-dev \
     libpango1.0-dev \
+    libx11-6 \
     libx11-dev \
     libxext-dev \
+    libxrender1 \
+    libxt6 \
+    libgl1 \
     libcairo2-dev \
     \
     # --------------------------------------------------
@@ -66,13 +69,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Fonts (FULL SUPERSET)
     # --------------------------------------------------
     fonts-dejavu \
-    fonts-liberation \
     fonts-hack \
     fonts-lmodern \
-    fonts-freefont-ttf \
-    fonts-noto \
-    fonts-noto-cjk \
-    fonts-noto-color-emoji \
+    #fonts-liberation
+    #fonts-freefont-ttf
+    #fonts-noto
+    #fonts-noto-cjk
+    #fonts-noto-color-emoji
+    fontconfig \
     \
     # --------------------------------------------------
     # LaTeX / TeX Live (FULL CTAN SUPERSET)
@@ -97,6 +101,14 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
 # =================================================
+# remove X11 initialization path, cotrol threading
+# =================================================
+ENV GKSwstype=100
+ENV JULIA_NUM_THREADS=4
+ENV OPENBLAS_NUM_THREADS=1
+ENV OMP_NUM_THREADS=1
+
+# =================================================
 # Compile the correct Python version
 # =================================================
 
@@ -105,14 +117,22 @@ ARG PYTHON_VERSION=3.12.1
 RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
  && tar -xzf Python-${PYTHON_VERSION}.tgz \
  && cd Python-${PYTHON_VERSION} \
- && ./configure --enable-optimizations \
+ && ./configure --enable-optimizations --enable-shared --prefix=/usr/local --with-ensurepip=install \
  && make -j$(nproc) \
  && make altinstall
 
 RUN ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
+RUN ldconfig
 
 RUN python3 -m ensurepip --upgrade
 RUN python3 --version && python3 -m pip --version
+
+RUN python3 - <<'EOF'
+import sysconfig
+lib = sysconfig.get_config_var("LDLIBRARY")
+assert lib and lib.endswith(".so"), lib
+print("OK: Python shared library =", lib)
+EOF
 
 # ------------------------------------------------------
 # USER add
@@ -122,9 +142,21 @@ RUN useradd -m -s /bin/bash jovyan && \
 
 ENV JULIA_DEPOT_PATH=/home/jovyan/.julia
 ENV JULIA_PKG_PRECOMPILE_AUTO=0
+ENV JULIA_BINDIR=/usr/local/julia/bin
+ENV JULIA_PROJECT=/home/jovyan/.julia_env
+
+# PythonCall (critical)
+ENV JULIA_CONDAPKG_BACKEND=Null
+ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
 
 RUN mkdir -p /home/jovyan/.julia && \
     chown -R jovyan:jovyan /home/jovyan/.julia
+
+RUN mkdir -p /etc/julia
+RUN printf '%s\n' \
+    'ENV["LANG"]="en_US.UTF-8"' \
+    'ENV["LC_ALL"]="en_US.UTF-8"' \
+    > /etc/julia/startup.jl
 
 ENV HOME=/home/jovyan
 WORKDIR /home/jovyan

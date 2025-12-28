@@ -21,10 +21,15 @@ pkgs = [
     # Interactive / dashboards
     "panel",
     "panel_mermaid",
-    "holoviews[all]",
+    "holoviews[recommended]",
     "hvplot",
     "k3d",
     "streamz",
+
+    # Jupyter frontend
+    "jupyter",
+    "jupyterlab",
+    "notebook",
 
     # Jupyter extensions
     "webio_jupyter_extension==0.1.0",

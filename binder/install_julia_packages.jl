@@ -1,5 +1,5 @@
 using Pkg
-Pkg.activate("/opt/julia_env")
+Pkg.activate("/home/jovyan/.julia_env")
 Pkg.instantiate()
 
 
@@ -7,16 +7,21 @@ pkgs = Dict(
     # Algebra / numerics
     "AbstractAlgebra"      => :safe,
     "BlockArrays"          => :safe,
+    "SparseArrays"         => :safe,
     "GenericLinearAlgebra" => :safe,
     "LinearAlgebra"        => :safe,
+    "ToeplitzMatrices"     => :safe,
     "Hadamard"             => :safe,
     "QuadGK"               => :safe,
+    "Random"               => :safe,
+    "RowEchelon"           => :safe,
 
     # Transforms / analysis
     "FFTW"                 => :safe,
     "DSP"                  => :safe,
     "ToeplitzMatrices"     => :safe,
     "Polynomials"          => :safe,
+    "Hadamard"             => :safe,
 
     # Probability / statistics / data
     "Distributions"        => :safe,
@@ -28,9 +33,10 @@ pkgs = Dict(
 
     # Plotting / tables / colors
     "Plots"                => :gui,
-    "PlotlyJS"             => :gui,
+    #"PlotlyJS"             => :gui,
     "Colors"               => :safe,
     "PrettyTables"         => :safe,
+    "HtmlDecoration"       => :safe,
     "GR"                   => :gui,
     "Makie"                => :gui,
     "CairoMakie"           => :gui,
@@ -45,12 +51,25 @@ pkgs = Dict(
 
     # Geometry / neighbors
     "NearestNeighbors"     => :safe,
+    "AngleBetweenVectors"  => :safe,
 
     # Interactivity / dev
     "Interact"             => :gui,
     "PythonCall"           => :safe,
     "Revise"               => :safe,
     "IOCapture"            => :safe,
+
+    # tet processing
+    "Latexify"             => :safe,
+    "LaTeXStrings"         => :safe,
+    "StyledStrings"        => :safe,
+    "HypertextLiteral"     => :safe,
+    "IOCapture"            => :safe,
+
+    # python, julia kernel and pluto
+    "PythonCall"           => :safe,
+    "IJulia"               => :gui,
+    "Pluto"                => :gui,
 )
 
 safe_pkgs = [name for (name, kind) in pkgs if kind === :safe]
