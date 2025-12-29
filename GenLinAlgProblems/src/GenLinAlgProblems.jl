@@ -8,6 +8,9 @@ const _itikz   = Ref{Any}(nothing)
 const _nM      = Ref{Any}(nothing)
 const _sympy   = Ref{Any}(nothing)
 
+const NO_VALUE = (:none, nothing)
+isnoneval(x) = x === :none || x === nothing
+
 function _load_sympy()
     if _sympy[] === nothing
         try
@@ -38,27 +41,6 @@ function _load_itikz()
     end
     return _itikz[], _nM[]
 end
-
-
-
-#function _ensure_itikz()
-#    try
-#        pyimport("itikz")
-#    catch
-#        @info "itikz not found; installing via pip"
-#        pyexec(
-#            """
-#import subprocess, sys
-#subprocess.check_call([
-#    sys.executable, "-m", "pip", "install",
-#    "git+https://github.com/ea42gh/itikz.git"
-#])
-#""",
-#            Main
-#        )
-#    end
-#end
-
 
 using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
 using Random, Hadamard

@@ -330,12 +330,12 @@ function gen_inv_pb(n; maxint=3)
     A, A_inv
 end
 # ------------------------------------------------------------------------------
-raw""" L,D,A = gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
+raw""" L,D,A = gen_ldlt_pb(m;maxint=3,rank=nothing, squares = false)
 """
-function gen_ldlt_pb(m;maxint=3,rank=:none, squares = false)
+function gen_ldlt_pb(m;maxint=3,rank=nothing, squares = false)
     L   = unit_lower(m,maxint=maxint) 
     p   =  squares ? (1:maxint).^2 : 1:maxint
-    if rank != :none
+    if rank !== nothing
         pivots = [rand( p, rank); zeros(Int, m-rank)]
         D   = Diagonal( pivots )
     else

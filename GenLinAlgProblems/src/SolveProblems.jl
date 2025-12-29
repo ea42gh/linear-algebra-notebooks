@@ -137,8 +137,8 @@ function eliminate( A, pivot_row, row, alpha)
     end
 end
 # ------------------------------------------------------------------------------
-function normal_eq_reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
-    if n == :none
+function normal_eq_reduce_to_ref(A; n=nothing, gj=false, find_pivot=find_pivot)
+    if isnoneval(n)
       n = size(A,2)
     else
       n = Int(n)
@@ -151,25 +151,25 @@ function normal_eq_reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
       A = copy(A)
     end
 
-    if n == :none
-      matrices    = [[ :none, A  ],
-                     [ A',    A'A]]
+    if isnoneval(n)
+      matrices    = [[ nothing, A  ],
+                     [ A',      A'A]]
     else
       At          = A[:, 1:n]'
-      matrices    = [[ :none, A  ],
-                     [ At,    At*A]]
+      matrices    = [[ nothing, A  ],
+                     [ At,      At*A]]
     end
     
   _reduce_to_ref( matrices, n; gj=gj, find_pivot=find_pivot)
 end
 # ------------------------------------------------------------------------------
 raw"""
-function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
+function reduce_to_ref(A; n=nothing, gj=false, find_pivot=find_pivot)
 reduce A if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
 """
-function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
-    if n == :none
+function reduce_to_ref(A; n=nothing, gj=false, find_pivot=find_pivot)
+    if isnoneval(n)
       n = size(A,2)
     else
       n = Int(n)
@@ -182,7 +182,7 @@ function reduce_to_ref(A; n=:none, gj=false, find_pivot=find_pivot)
         A = copy(A)  # caller took care of the type
     end
 
-    matrices    = [[ :none, A ]]
+    matrices    = [[ nothing, A ]]
 
     _reduce_to_ref( matrices, n; gj=gj, find_pivot=find_pivot)
 end 
@@ -468,9 +468,9 @@ function qr_layout(A)
     Qt = S * W'
     R  = S * WtA
 
-    matrices =  [ [ :none,  :none,     A,        W ],
-                  [ :none,     W',   WtA,      WtW ],
-                  [     S,     Qt,     R,    :none ] ]
+    matrices =  [ [ nothing,  nothing,     A,          W ],
+                  [ nothing,       W',   WtA,        WtW ],
+                  [       S,       Qt,     R,    nothing ] ]
 
     to_latex( matrices )
 end
