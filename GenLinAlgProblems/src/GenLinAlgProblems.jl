@@ -75,14 +75,57 @@ function __init__()
 end
 
 export sympy, itikz, nM
-syms(names; kwargs...) = symbols(names; kwargs...)
-macro syms(vars...; kwargs...)
-    assigns = [
-        :( $(esc(v)) = SymPyHelpers.syms($(string(v)); $(pairs(kwargs)...)) )
-        for v in vars
-    ]
-    return Expr(:block, assigns...)
+# ---------------------------------------------------------------------------------
+"""
+    syms(names...; kwargs...)
+
+Create one or more SymPy symbols.
+
+Arguments are forwarded to `sympy.symbols`. Multiple names return a tuple.
+Keyword arguments are passed directly to SymPy.
+
+Examples
+```julia
+x = syms(:x)
+x, y = syms(:x, :y; real=true)
+"""
+syms(names...; kwargs...) = sympy.symbols(names...; kwargs...)
+
+# ---------------------------------------------------------------------------------
+"""
+    @syms x y z [(:key => value)...]
+
+Create and bind SymPy symbols to Julia variables.
+
+Options must be given as `key => value` pairs and apply to all symbols.
+
+Examples
+```julia
+@syms x y
+@syms x y (:real => true)
+Use syms(:x, :y; ...) for normal keyword syntax.
+"""
+macro syms(args...)
+    vars = filter(x -> x isa Symbol, args)
+    opts = filter(x -> x isa Expr && x.head == :(=>), args)
+
+    assigns = Vector{Expr}()
+
+    for v in vars
+        if isempty(opts)
+            push!(assigns,
+                :( $(esc(v)) = SymPyHelpers.syms($(string(v))) )
+            )
+        else
+            push!(assigns,
+                :( $(esc(v)) = SymPyHelpers.syms($(string(v)); $(opts...)) )
+            )
+        end
+    end
+
+    Expr(:block, assigns...)
 end
+
 macro import_sympy(names...)
     assigns = [
         :( const $(esc(n)) = _load_sympy().$(n) )
