@@ -1,0 +1,28 @@
+# Use vi keybindings for all readline apps (bash, python REPL, etc.)
+set editing-mode vi
+set keymap vi-command
+
+# Don’t beep on errors
+set bell-style none
+
+# In command mode: up/down search history by prefix
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# gg / G emulate vim-style history navigation
+"gg": beginning-of-history
+"G":  end-of-history
+
+# In insert mode: up/down search history by prefix
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+set completion-ignore-case on
+set completion-map-case on
+set show-all-if-ambiguous on
+set match-hidden-files off
+
+# Make history-search ignore case
+set completion-ignore-case on
+set completion-map-case on
+
