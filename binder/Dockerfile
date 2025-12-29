@@ -120,6 +120,12 @@ RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
 COPY binder/10-julia-magic.py \
     /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
 
+# =================================================
+# Silence inkscape
+# =================================================
+COPY binder/inkscape /home/jovyan/.local/bin/inkscape
+RUN chown ugo+x /home/jovyan/.local/bin/inkscape
+
 #USER root
 #RUN chown -R jovyan:jovyan /home/jovyan/.ipython
 #USER jovyan
