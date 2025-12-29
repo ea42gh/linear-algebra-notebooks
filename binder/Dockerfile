@@ -10,13 +10,25 @@ FROM ea42gh/base_image:1.0.2
 # =================================================
 USER root
 
-# ---- build deps for Python ----
+# ---- build deps for Python, xterm ----
 RUN apt-get update && apt-get install -y \
     tk-dev \
+    readline-common \
+    ncurses-term \
  && rm -rf /var/lib/apt/lists/*
 
 # =================================================
 USER jovyan
+
+SHELL ["/bin/bash", "-lc"]
+ENV TERM=xterm-256color
+ENV HISTFILE=/home/jovyan/work/.bash_history
+RUN echo '\
+export EDITOR=vi \n\
+export VISUAL=vi \n\
+set -o vi  \n\
+' >> /home/jovyan/.bashrc
+RUN COPY binder/inputrc /home/jovyan/.inputrc
 
 # =================================================
 # Environment: force PythonCall to system Python
@@ -126,9 +138,11 @@ COPY binder/10-julia-magic.py \
 COPY binder/inkscape /home/jovyan/.local/bin/inkscape
 RUN chown ugo+x /home/jovyan/.local/bin/inkscape
 
-#USER root
-#RUN chown -R jovyan:jovyan /home/jovyan/.ipython
-#USER jovyan
+# =================================================
+# Final tweaks
+# =================================================
+RUN ln -s /tmp /home/jovyan/tmp && \
+    mkdir /home/jovyan/work
 
 # =================================================
 # JupyterLab startup
@@ -137,5 +151,5 @@ WORKDIR /home/jovyan/elementary-linear-algebra
 
 EXPOSE 8888
 
-CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/Index.ipynb"]
+CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/notebooks/Index.ipynb"]
 
