@@ -28,7 +28,7 @@ export EDITOR=vi \n\
 export VISUAL=vi \n\
 set -o vi  \n\
 ' >> /home/jovyan/.bashrc
-RUN COPY binder/inputrc /home/jovyan/.inputrc
+COPY binder/inputrc /home/jovyan/.inputrc
 
 # =================================================
 # Environment: force PythonCall to system Python
