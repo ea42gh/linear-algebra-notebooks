@@ -136,7 +136,7 @@ COPY binder/10-julia-magic.py \
 # Silence inkscape
 # =================================================
 COPY binder/inkscape /home/jovyan/.local/bin/inkscape
-RUN chown ugo+x /home/jovyan/.local/bin/inkscape
+RUN chmod ugo+x /home/jovyan/.local/bin/inkscape
 
 # =================================================
 # Final tweaks
