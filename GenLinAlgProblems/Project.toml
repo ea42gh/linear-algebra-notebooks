@@ -1,12 +1,13 @@
 name = "GenLinAlgProblems"
 uuid = "3c0f76d2-298f-40a4-82ea-fb4356fbbd2d"
-version = "0.4.0"
 authors = ["ea42gh <ea42_github@mail.com>"]
+version = "0.4.0"
 
 [deps]
 AbstractAlgebra = "c3fe647b-3220-5bb0-a1ea-a7954cac585d"
 AngleBetweenVectors = "ec570357-d46e-52ed-9726-18773498274d"
 BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
 FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 GenericLinearAlgebra = "14197337-ba66-59df-a3e3-ca00e7dcff7a"
@@ -22,8 +23,8 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 RowEchelon = "af85af4c-bcd5-5d23-b03a-a909639aa875"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 StyledStrings = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 ToeplitzMatrices = "c751599d-da0a-543b-9d20-d0a503d91d24"
-CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 
 [compat]
 BlockArrays = "1.4.0"
@@ -34,6 +35,7 @@ HypertextLiteral = "0.9.5"
 IOCapture = "0.2.5"
 PythonCall = "0.9.31"
 SparseArrays = "1.11.0"
+Symbolics = "6.58.0"
 ToeplitzMatrices = "0.8.4"
 julia = "1"
 
