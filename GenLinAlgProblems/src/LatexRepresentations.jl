@@ -267,22 +267,21 @@ function to_latex(x::Symbolics.Num; number_formatter=nothing)
     return String(take!(buf))
 end
 # ------------------------------------------------------------------
-# Python objects (SymPy, etc.) via PythonCall
-function to_latex(x::PythonCall.Py; number_formatter=nothing)
-    s = strip(latexify(x), ['$', '\n'])
-    s = fix_num_symbol_mul(s)
-    s = replace(
-        s,
-        raw"\mathrm{I}" => raw"\mathit{i}",
-        r"(?<![A-Za-z\\])I(?![A-Za-z])" => raw"\mathit{i}",
-        r"(?<=^|\s)1\s*(\\mathit\{i\})" => (m -> m.captures[1]),
-    )
-    return s
-end
-
-# ------------------------------------------------------------------
-# Generic Julia fallback
+# Generic Julia fallback: avoids premature PythonCall instantiation in notebooks
 function to_latex(x; number_formatter=nothing)
+    if x isa PythonCall.Py
+
+        s = strip(latexify(x), ['$', '\n'])
+        s = fix_num_symbol_mul(s)
+        s = replace(
+            s,
+            raw"\mathrm{I}" => raw"\mathit{i}",
+            r"(?<![A-Za-z\\])I(?![A-Za-z])" => raw"\mathit{i}",
+            r"(?<=^|\s)1\s*(\\mathit\{i\})" => (m -> m.captures[1]),
+        )
+        return s
+    end
+
     s = strip(latexify(x), ['$', '\n'])
     return isempty(s) ? string(x) : s
 end
