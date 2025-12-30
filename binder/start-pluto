@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+
+PORT=${PLUTO_PORT:-1234}
+HOST=0.0.0.0
+
+echo
+echo "Starting Pluto..."
+echo "  Host: $HOST"
+echo "  Port: $PORT"
+echo
+
+exec julia --startup-file=no -e "
+using Pluto
+Pluto.run(
+    host=\"$HOST\",
+    port=$PORT,
+    launch_browser=false
+)
+"
