@@ -263,7 +263,7 @@ function to_latex(x::Symbol; number_formatter=nothing)
 end
 function to_latex(x::Symbolics.Num; number_formatter=nothing)
     buf = IOBuffer()
-    show(buf, MIME"text/latex"(), x)
+    show(buf, MIME"text/latex"(), Symbolics.simplify(x))
     return String(take!(buf))
 end
 # ------------------------------------------------------------------
