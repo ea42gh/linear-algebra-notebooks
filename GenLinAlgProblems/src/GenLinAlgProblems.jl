@@ -9,7 +9,7 @@ const _nM      = Ref{Any}(nothing)
 const _sympy   = Ref{Any}(nothing)
 
 const NO_VALUE = (:none, nothing)
-isnoneval(x) = x === :none || x === nothing
+is_none_val(x) = x === :none || x === nothing
 
 function _load_sympy()
     if _sympy[] === nothing

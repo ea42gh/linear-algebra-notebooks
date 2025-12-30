@@ -138,7 +138,7 @@ function eliminate( A, pivot_row, row, alpha)
 end
 # ------------------------------------------------------------------------------
 function normal_eq_reduce_to_ref(A; n=nothing, gj=false, find_pivot=find_pivot)
-    if isnoneval(n)
+    if is_none_val(n)
       n = size(A,2)
     else
       n = Int(n)
@@ -151,7 +151,7 @@ function normal_eq_reduce_to_ref(A; n=nothing, gj=false, find_pivot=find_pivot)
       A = copy(A)
     end
 
-    if isnoneval(n)
+    if is_none_val(n)
       matrices    = [[ nothing, A  ],
                      [ A',      A'A]]
     else
@@ -169,7 +169,7 @@ reduce A if gj = false, to RREF if gj=true
 if n is given, only the first n columns of A are reduced.
 """
 function reduce_to_ref(A; n=nothing, gj=false, find_pivot=find_pivot)
-    if isnoneval(n)
+    if is_none_val(n)
       n = size(A,2)
     else
       n = Int(n)

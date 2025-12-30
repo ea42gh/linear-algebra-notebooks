@@ -20,7 +20,7 @@ end
 # ------------------------------------------ apply function to stack of matrices
 # ------------------------------------------------------------------------------
 function apply_function(f, matrices)
-    return [ [ isnonevale(mat) ? nothing : f.(mat) for mat in row ] for row in matrices ]
+    return [ [ is_none_val(mat) ? nothing : f.(mat) for mat in row ] for row in matrices ]
 end
 
 # -------------------------------------------------------------------------------
@@ -311,7 +311,7 @@ end
 # ------------------------------------------------------------------------------
 # 🟢 Apply `to_latex` to lists-of-lists (e.g., `[ [nothing A], [B, C], ...]` )
 function to_latex(matrices::Vector; number_formatter=nothing)
-    return [ [ isnoneval(mat) ? nothing : to_latex(mat; number_formatter=number_formatter) for mat in row ] for row in matrices ]
+    return [ [ is_none_val(mat) ? nothing : to_latex(mat; number_formatter=number_formatter) for mat in row ] for row in matrices ]
 end
 
 # ==============================================================================
