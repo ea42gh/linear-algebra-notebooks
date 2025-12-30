@@ -261,6 +261,11 @@ end
 function to_latex(x::Symbol; number_formatter=nothing)
     return string(x)
 end
+function to_latex(x::Symbolics.Num; number_formatter=nothing)
+    buf = IOBuffer()
+    show(buf, MIME"text/latex"(), x)
+    return String(take!(buf))
+end
 # ------------------------------------------------------------------
 # Python objects (SymPy, etc.) via PythonCall
 function to_latex(x::PythonCall.Py; number_formatter=nothing)

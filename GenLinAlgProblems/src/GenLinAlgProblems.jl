@@ -1,6 +1,7 @@
 module GenLinAlgProblems
 using PythonCall
 using IOCapture
+using Symbolics
 
 export py_show   # for use in julia cell of Python notebook
 
