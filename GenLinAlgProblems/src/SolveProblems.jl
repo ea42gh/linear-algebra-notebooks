@@ -95,7 +95,6 @@ function homogeneous_solutions( R, pivot_cols)
             H[c[j],j] = 1                                                  # set the current free variable entry to 1
             H[pivot_cols,j] = -R[1:r, c[j]]                                # set the pivot variable values
         end
-        println("homog solution: ", H)
     end
     H
 end
