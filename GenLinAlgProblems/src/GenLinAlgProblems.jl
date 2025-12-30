@@ -131,8 +131,8 @@ Base.adjoint(x::String) = x
 Base.transpose(x::LaTeXString) = x
 Base.adjoint(x::LaTeXString) = x
 
-Base.transpose(x::PythonCall.Py) = x
-Base.adjoint(x::PythonCall.Py) = x
+#Base.transpose(x::PythonCall.Py) = x
+#Base.adjoint(x::PythonCall.Py) = x
 
 export set, lc
 export apply_function, factor_out_denominator
