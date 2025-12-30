@@ -15,6 +15,7 @@ pkgs = Dict(
     "QuadGK"               => :safe,
     "Random"               => :safe,
     "RowEchelon"           => :safe,
+    "Symbolics"            => :safe,
 
     # Transforms / analysis
     "FFTW"                 => :safe,
@@ -58,7 +59,7 @@ pkgs = Dict(
     "Revise"               => :safe,
     "IOCapture"            => :safe,
 
-    # tet processing
+    # text processing
     "Latexify"             => :safe,
     "LaTeXStrings"         => :safe,
     "StyledStrings"        => :safe,
