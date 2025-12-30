@@ -12,7 +12,7 @@ const _sympy   = Ref{Any}(nothing)
 const NO_VALUE = (:none, nothing)
 is_none_val(x) = x === :none || x === nothing
 
-function _load_sympy()
+function load_sympy()
     if _sympy[] === nothing
         try
             _sympy[] = pyimport("sympy")
@@ -27,7 +27,7 @@ function _load_sympy()
     return _sympy[]
 end
 
-function _load_itikz()
+function load_itikz()
     if _itikz[] === nothing
         try
             _itikz[] = pyimport("itikz")
@@ -47,17 +47,17 @@ using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeX
 using Random, Hadamard
 
 using PythonCall
-sympy = nothing
-itikz = nothing
-nM    = nothing
+#sympy = nothing
+#itikz = nothing
+#nM    = nothing
+#
+#function __init__()
+#    global sympy = _load_sympy()
+#    global itikz, nM = _load_itikz()
+#    return nothing
+#end
 
-function __init__()
-    global sympy = _load_sympy()
-    global itikz, nM = _load_itikz()
-    return nothing
-end
-
-export sympy, itikz, nM
+export load_sympy, load_itikz
 # ---------------------------------------------------------------------------------
 """
     syms(names...; kwargs...)
