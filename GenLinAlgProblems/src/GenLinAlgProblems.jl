@@ -6,14 +6,16 @@ using Symbolics
 using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
 using Random, Hadamard
 
+# =================================================================================
 #export py_show   # for use in julia cell of Python notebook
-
-const _itikz   = Ref{Any}(nothing)
-const _nM      = Ref{Any}(nothing)
-const _sympy   = Ref{Any}(nothing)
 
 const NO_VALUE = (:none, nothing)
 is_none_val(x) = x === :none || x === nothing
+
+# =================================================================================
+const _itikz   = Ref{Any}(nothing)
+const _nM      = Ref{Any}(nothing)
+const _sympy   = Ref{Any}(nothing)
 
 function load_sympy()
     if _sympy[] === nothing
@@ -48,7 +50,7 @@ end
 
 export load_sympy, load_itikz
 
-# ---------------------------------------------------------------------------------
+# =================================================================================
 """
     syms(names...; kwargs...)
 
@@ -179,10 +181,10 @@ export capture_output, show_side_by_side
 export factor_out_denominator
 
 # ------------------------------------------------------------------------------------------
-include("LatexRepresentations.jl")
-include("MatrixGeneration.jl")
-include("SolveProblems.jl")
-include("show_html.jl")
-include("ge.jl")
-include("Formatters.jl")
+#include("LatexRepresentations.jl")
+#include("MatrixGeneration.jl")
+#include("SolveProblems.jl")
+#include("show_html.jl")
+#include("ge.jl")
+#include("Formatters.jl")
 end # module GenLinAlgProblems
