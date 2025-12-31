@@ -6,7 +6,7 @@ using Symbolics
 using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
 using Random, Hadamard
 
-export py_show   # for use in julia cell of Python notebook
+#export py_show   # for use in julia cell of Python notebook
 
 const _itikz   = Ref{Any}(nothing)
 const _nM      = Ref{Any}(nothing)
@@ -108,8 +108,10 @@ macro import_sympy(names...)
 end
 
 export syms, import_sympy
+
+# ############################################################################################
 # general utility
-# 🟢 Extend transpose and adjoint for Char, String, and LaTeXString
+# Extend transpose and adjoint for Char, String, and LaTeXString
 function Base.adjoint(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
 function Base.transpose(p::AbstractAlgebra.Generic.Poly{Rational{BigInt}}) p end
 Base.transpose(x::Char) = x
@@ -121,6 +123,7 @@ Base.adjoint(x::String) = x
 Base.transpose(x::LaTeXString) = x
 Base.adjoint(x::LaTeXString) = x
 
+# ------------------------------------------------------------------------------------------
 export set, lc
 export apply_function, factor_out_denominator
 export l_show, L_show, latex, to_latex, print_np_array_def
@@ -133,6 +136,7 @@ export tril_formatter, block_formatter, diagonal_blocks_formatter
 
 export symbol_vector, symbols_matrix, form_linear_combination, L_interp
 
+# ------------------------------------------------------------------------------------------
 # matrices for GE and GJ
 export invert_unit_lower, unit_lower, lower, gen_full_col_rank_matrix
 export ref_matrix, rref_matrix, symmetric_matrix, skew_symmetric_matrix
@@ -174,6 +178,7 @@ export capture_output, show_side_by_side
 
 export factor_out_denominator
 
+# ------------------------------------------------------------------------------------------
 include("LatexRepresentations.jl")
 include("MatrixGeneration.jl")
 include("SolveProblems.jl")
