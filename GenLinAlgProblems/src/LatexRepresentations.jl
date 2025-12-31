@@ -930,10 +930,10 @@ function l_show(args...; kwargs...)
 end
 # ------------------------------------------------------------------------------
 # 🟢  Wrapper for Python's LaTeX rendering: use from julia in Python notebook
-"julia function to convert arguments to a LaTeX expression directly displayed in a pythone notebook (see l_show)"
-function py_show(args...; kwargs...)
-    py_display   = pyimport("IPython.display").display
-    py_latex     = pyimport("IPython.display").Latex
-    latex_string = L_show(args...; kwargs...)
-    py_display(py_latex(latex_string))
-end
+#"julia function to convert arguments to a LaTeX expression directly displayed in a pythone notebook (see l_show)"
+#function py_show(args...; kwargs...)
+#    py_display   = pyimport("IPython.display").display
+#    py_latex     = pyimport("IPython.display").Latex
+#    latex_string = L_show(args...; kwargs...)
+#    py_display(py_latex(latex_string))
+#end

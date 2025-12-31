@@ -3,6 +3,9 @@ using PythonCall
 using IOCapture
 using Symbolics
 
+using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
+using Random, Hadamard
+
 export py_show   # for use in julia cell of Python notebook
 
 const _itikz   = Ref{Any}(nothing)
@@ -43,21 +46,8 @@ function load_itikz()
     return _itikz[], _nM[]
 end
 
-using AbstractAlgebra, BlockArrays, SparseArrays, LinearAlgebra, Latexify, LaTeXStrings
-using Random, Hadamard
-
-using PythonCall
-#sympy = nothing
-#itikz = nothing
-#nM    = nothing
-#
-#function __init__()
-#    global sympy = _load_sympy()
-#    global itikz, nM = _load_itikz()
-#    return nothing
-#end
-
 export load_sympy, load_itikz
+
 # ---------------------------------------------------------------------------------
 """
     syms(names...; kwargs...)
@@ -130,9 +120,6 @@ Base.adjoint(x::String) = x
 
 Base.transpose(x::LaTeXString) = x
 Base.adjoint(x::LaTeXString) = x
-
-#Base.transpose(x::PythonCall.Py) = x
-#Base.adjoint(x::PythonCall.Py) = x
 
 export set, lc
 export apply_function, factor_out_denominator
