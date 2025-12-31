@@ -1,29 +1,32 @@
+import Base: show
 
-function to_html(txt;sz=20,color="darkred",justify="left",height=15,width=100, env="strong")
-  "<div style=\"float:center;width:$(width)%;text-align:$(justify);\">
-  <$(env) style=\"height:$(height)px;color:$(color);font-size:$(sz)pt;\">$(txt)</$(env)>
-</div>"
+struct HTMLOut
+    html::String
 end
 
-function to_html(txt1, txt2;sz1=20,sz2=20,color="darkred",justify="left",height=15,width=100,env="strong")
-  "<div style=\"float:center;width:$(width)%;text-align:$(justify);\">
-   <$(env) style=\"height:$(height)px;color:$(color);font-size:$(sz1)pt;\">$(txt1)</$(env)><br>
-   <$(env) style=\"height:$(height)px;color:$(color);font-size:$(sz2)pt;\">$(txt2)</$(env)><br>
-   </div>"
+function show(io::IO, ::MIME"text/html", x::HTMLOut)
+    print(io, x.html)
+end
+#############################################################################################
+function show_html(txt; sz=20, color="darkred", justify="left",
+                   height=15, width=100, env="strong")
+    HTMLOut(to_html(txt; sz=sz, color=color, justify=justify,
+                    height=height, width=width, env=env))
 end
 
-function show_html(txt;sz=20,color="darkred",justify="left",height=15,width=100,env="strong")
-  display( HTML( to_html( txt; sz=sz, color=color, justify=justify, height=height, width=width, env=env ) ))
-end
-function show_html(txt1, txt2;sz1=20,sz2=20,color="darkred",justify="left",width=100,height=15, env="strong")
-  txt = to_html(txt1, txt2;sz1=sz1,sz2=sz2,color=color,justify=justify,height=height,width=width,env=env)
-  display( HTML(txt))
+function show_html(txt1, txt2; sz1=20, sz2=20, color="darkred",
+                   justify="left", width=100, height=15, env="strong")
+    HTMLOut(to_html(txt1, txt2; sz1=sz1, sz2=sz2, color=color,
+                    justify=justify, height=height, width=width, env=env))
 end
 
-function pr(txt;sz=15,color="black",justify="left",height=15,width=100,env="p")
-  show_html( txt;sz=sz,color=color,justify=justify,height=height,width=width,env=env)
+function pr(txt; sz=15, color="black", justify="left",
+            height=15, width=100, env="p")
+    show_html(txt; sz=sz, color=color, justify=justify,
+              height=height, width=width, env=env)
 end
 
+#############################################################################################
 
 function capture_output(f, args...)
     captured = IOCapture.capture() do
@@ -32,13 +35,13 @@ function capture_output(f, args...)
     return captured.output
 end
 
-function show_side_by_side(captured_outputs, titles=nothing)
+function show_side_by_side_html(captured_outputs, titles=nothing)
     html = """
     <div style="display: flex; justify-content: space-between;">
     """
 
     if isnothing(titles)
-        for (i, output) in enumerate(captured_outputs)
+        for output in captured_outputs
             html *= """
             <div style="flex: 1; align-content:flex-start; margin-right: 10px;">
             <pre>$output</pre>
@@ -58,9 +61,19 @@ function show_side_by_side(captured_outputs, titles=nothing)
     end
 
     html *= "</div>"
-
-    display("text/html", html)
+    return html
 end
+struct SideBySideHTML
+    html::String
+end
+
+
+function show(io::IO, ::MIME"text/html", x::SideBySideHTML)
+    print(io, x.html)
+end
+show_side_by_side(args...; kwargs...) =
+    SideBySideHTML(show_side_by_side_html(args...; kwargs...))
+
 
 # # Example Use of show_side_by_side
 # function func1(x)
