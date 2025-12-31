@@ -27,6 +27,7 @@ RUN echo '\
 export EDITOR=vi \n\
 export VISUAL=vi \n\
 set -o vi  \n\
+case $- in *i*) ;; *) return;; esac \n\
 ' >> /home/jovyan/.bashrc
 COPY binder/inputrc /home/jovyan/.inputrc
 
@@ -140,11 +141,14 @@ RUN mkdir -p /home/jovyan/.local/bin && \
     chown jovyan:jovyan /home/jovyan/.local/bin/inkscape && \
     chmod ugo+x /home/jovyan/.local/bin/inkscape
 
+# =================================================
+USER root
+COPY binder/start-pluto /usr/local/bin/start-pluto
+RUN chmod +x /usr/local/bin/start-pluto
+
+# =================================================
 USER jovyan
 WORKDIR /home/jovyan
-
-COPY binder/inkscape /home/jovyan/.local/bin/inkscape
-RUN chmod ugo+x /home/jovyan/.local/bin/inkscape
 
 # =================================================
 # Final tweaks
@@ -155,9 +159,11 @@ RUN ln -s /tmp /home/jovyan/tmp && \
 # =================================================
 # JupyterLab startup
 # =================================================
-WORKDIR /home/jovyan/elementary-linear-algebra
+# WORKDIR /home/jovyan/elementary-linear-algebra
 
-EXPOSE 8888
+EXPOSE 8888 1234
 
-CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/notebooks/Index.ipynb"]
+#CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/notebooks/Index.ipynb"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan/elementary-linear-algebra", "/home/jovyan/elementary-linear-algebra/notebooks/Index.ipynb"]
+
 
