@@ -427,7 +427,7 @@ raw"""function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_
              ref_path_list=nothing, comment_list=[], variable_summary=nothing, array_names=nothing, <br>
              start_index=1, func=nothing, fig_scale=nothing, tmp_dir=nothing, keep_file=nothing )
 """
-function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing,
+function julia_ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing,
              variable_colors=["blue","black"], pivot_colors=["blue","yellow!40"],
              ref_path_list=nothing, comment_list=[], variable_summary=nothing, array_names=nothing,
              start_index=1, func=nothing, fig_scale=nothing, tmp_dir=nothing, keep_file=nothing )
@@ -447,8 +447,19 @@ function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=n
                func             = func,
                fig_scale        = fig_scale,
                tmp_dir          = tmp_dir, keep_file=keep_file    )
-    display(MIME("image/svg+xml"), s);
+    return s
 end
+struct SVGOut
+    svg::String
+end
+
+import Base: show
+
+function show(io::IO, ::MIME"image/svg+xml", x::SVGOut)
+    print(io, x.svg)
+end
+ge(args...; kwargs...) = SVGOut(julia_ge(args...; kwargs...))
+
 # ------------------------------------------------------------------------------------------
 raw"""function show_solution( matrices; var_name::String="x", tmp\\_dir=nothing )"""
 function show_solution( matrices; var_name::String="x", tmp_dir=nothing )
