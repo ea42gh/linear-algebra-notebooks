@@ -159,11 +159,9 @@ RUN ln -s /tmp /home/jovyan/tmp && \
 # =================================================
 # JupyterLab startup
 # =================================================
-# WORKDIR /home/jovyan/elementary-linear-algebra
+WORKDIR /home/jovyan/elementary-linear-algebra
 
 EXPOSE 8888 1234
 
 #CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/notebooks/Index.ipynb"]
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan/elementary-linear-algebra", "/home/jovyan/elementary-linear-algebra/notebooks/Index.ipynb"]
-
-
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan/elementary-linear-algebra", "notebooks/Index.ipynb"]
