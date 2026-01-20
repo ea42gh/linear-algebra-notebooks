@@ -114,5 +114,5 @@ def julia(line, cell):
     Execute Julia code in the Python kernel.
     """
     cell = re.sub(r'^\s*using\s+LAlatex\s*$', 'import LAlatex', cell, flags=re.MULTILINE)
-    cell = re.sub(r'(?<![\\w\\.])l_show\\(', 'LAlatex.l_show(', cell)
+    cell = re.sub(r'(?<![\w\.])l_show\(', 'LAlatex.l_show(', cell)
     return jl.seval(cell)
