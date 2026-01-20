@@ -45,13 +45,10 @@ def l_show(*args, **kwargs):
     calls Julia's L_show and displays the result.
     """
     latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
-    return display(Latex(latex_string))
+    return Latex(latex_string)
 
 
-try:
-    jl.__dict__["l_show"] = l_show
-except Exception:
-    pass
+jl.l_show = l_show
 
 
 def _convert_args(args):
