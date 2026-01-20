@@ -4,8 +4,13 @@
 .ipynb-checkpoints/*
 */.ipynb-checkpoints/
 */.ipynb-checkpoints/*
-GenLinAlgProblems/notebooks/.ipynb-checkpoints
+.buildx-cache/
+GenLinAlgProblems/notebooks/.ipynb_checkpoints/
+GenLinAlgProblems/src/.ipynb_checkpoints/
+binder/test_image.sh
+notebooks/.ipynb_checkpoints/
 tmp
+work
 notebooks/tmp
 GenLinAlgProblems/tmp
 GenLinAlgProblems/Manifest.toml

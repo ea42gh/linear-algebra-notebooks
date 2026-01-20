@@ -4,6 +4,8 @@ FROM ${BASE_IMAGE}
 ENV JULIA_CONDAPKG_BACKEND=Null
 ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
 ENV JULIA_PROJECT=/home/jovyan/.julia_env
+ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
+ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV TERM=xterm-256color
 ENV INPUTRC=/home/jovyan/.inputrc
 ENV XDG_DATA_HOME=/home/jovyan/.local/share

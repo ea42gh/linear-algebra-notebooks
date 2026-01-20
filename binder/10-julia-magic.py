@@ -48,8 +48,10 @@ def l_show(*args, **kwargs):
     return display(Latex(latex_string))
 
 
-# Make jl.l_show render via Python when called from a Python kernel.
-setattr(jl, "l_show", l_show)
+try:
+    jl.__dict__["l_show"] = l_show
+except Exception:
+    pass
 
 
 def _convert_args(args):
@@ -115,4 +117,5 @@ def julia(line, cell):
     """
     cell = re.sub(r'^\s*using\s+LAlatex\s*$', 'import LAlatex', cell, flags=re.MULTILINE)
     cell = re.sub(r'(?<![\w\.])l_show\(', 'LAlatex.l_show(', cell)
-    return jl.seval(cell)
+    wrapped = "begin\n" + cell + "\n; nothing\nend"
+    return jl.seval(wrapped)
