@@ -61,7 +61,7 @@ def _convert_args(args):
 
 def _maybe_to_julia_array(value):
     if _is_2d_list(value):
-        return jl.Array(value)
+        return _list_to_julia_matrix(value)
     return value
 
 
@@ -81,6 +81,29 @@ def _is_2d_list(value):
     return True
 
 
+def _list_to_julia_matrix(value):
+    rows = []
+    for row in value:
+        rows.append(" ".join(_format_julia_number(item) for item in row))
+    expr = "[" + "; ".join(rows) + "]"
+    return jl.seval(expr)
+
+
+def _format_julia_number(value):
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, float):
+        return repr(value)
+    if isinstance(value, complex):
+        re_part = _format_julia_number(value.real)
+        im_part = _format_julia_number(abs(value.imag))
+        sign = "+" if value.imag >= 0 else "-"
+        return f"{re_part} {sign} {im_part}*im"
+    return str(value)
+
+
 # ------------------------------------------------------------------
 # %%julia cell magic
 # ------------------------------------------------------------------
@@ -91,4 +114,5 @@ def julia(line, cell):
     Execute Julia code in the Python kernel.
     """
     cell = re.sub(r'^\s*using\s+LAlatex\s*$', 'import LAlatex', cell, flags=re.MULTILINE)
+    cell = re.sub(r'(?<![\\w\\.])l_show\\(', 'LAlatex.l_show(', cell)
     return jl.seval(cell)
