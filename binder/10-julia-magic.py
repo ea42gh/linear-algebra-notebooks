@@ -48,7 +48,10 @@ def l_show(*args, **kwargs):
     return Latex(latex_string)
 
 
-jl.l_show = l_show
+py_show = l_show
+
+
+ # Avoid binding jl.l_show into Julia Main to prevent conflicts with LAlatex.
 
 
 def _convert_args(args):
