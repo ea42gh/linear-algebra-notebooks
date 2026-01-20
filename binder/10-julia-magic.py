@@ -11,7 +11,7 @@ import re
 from numbers import Number
 
 from IPython.core.magic import register_cell_magic
-from IPython.display import Latex, display
+from IPython.display import Latex, Math, display
 
 os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIACALL_PROJECT", "/home/jovyan/.julia_env")
@@ -45,7 +45,16 @@ def l_show(*args, **kwargs):
     calls Julia's L_show and displays the result.
     """
     latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
-    return Latex(latex_string)
+    if isinstance(latex_string, str):
+        stripped = latex_string.strip()
+        if stripped.startswith("$") and stripped.endswith("$"):
+            rendered = Math(stripped[1:-1].strip())
+        else:
+            rendered = Latex(latex_string)
+    else:
+        rendered = Latex(str(latex_string))
+    display(rendered)
+    return None
 
 
 py_show = l_show
