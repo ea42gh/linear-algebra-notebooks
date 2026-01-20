@@ -1,0 +1,61 @@
+ARG BASE_IMAGE=julia-tex:0.1
+FROM ${BASE_IMAGE}
+
+ARG PYTHON_VERSION=3.11.9
+
+USER root
+WORKDIR /tmp
+
+# ==========================================================================================
+ENV PATH=/home/jovyan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/local/julia/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+# Build dependencies (minimal, but sufficient for a healthy CPython build)
+#    This does NOT remove system python; it only enables building CPython with standard modules.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget ca-certificates \
+    build-essential \
+    libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
+    libsqlite3-dev libffi-dev liblzma-dev tk-dev uuid-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+# ==========================================================================================
+RUN set -eux; \
+    wget -O Python.tgz "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz"; \
+    tar -xzf Python.tgz; \
+    cd "Python-${PYTHON_VERSION}"; \
+    ./configure \
+      --prefix=/usr/local \
+      --enable-optimizations \
+      --enable-shared; \
+    make -j"$(nproc)"; \
+    make altinstall; \
+    \
+    # Structural enforcement: create explicit authoritative names
+    ln -sf "/usr/local/bin/python3.11" /usr/local/bin/python3; \
+    ln -sf "/usr/local/bin/python3.11" /usr/local/bin/python; \
+    \
+    # Structural enforcement for shared libpython (with --enable-shared)
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-python.conf; \
+    ldconfig; \
+    \
+    # Build-time invariant checks (fail the build if violated)
+    python --version | grep -F "Python ${PYTHON_VERSION}"; \
+    python3 --version | grep -F "Python ${PYTHON_VERSION}"; \
+    test "$(command -v python)" = "/usr/local/bin/python"; \
+    test "$(command -v python3)" = "/usr/local/bin/python3"
+
+# Julia interop: pin PythonCall to this interpreter; prevent CondaPkg from adding another
+ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
+ENV JULIA_CONDAPKG_BACKEND=Null
+
+# #########################################################################################
+# enable sudo (note: could do docker exec -u root -it <container-name> bash )
+
+RUN apt-get update && apt-get install -y sudo \
+ && echo "jovyan ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan \
+ && chmod 0440 /etc/sudoers.d/jovyan
+
+# #########################################################################################
+USER jovyan
+WORKDIR /home/jovyan

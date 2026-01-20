@@ -1,0 +1,84 @@
+ARG BASE_IMAGE=ea42gh/julia-python-jupyter:0.1
+FROM ${BASE_IMAGE}
+
+ENV JULIA_CONDAPKG_BACKEND=Null
+ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
+ENV JULIA_PROJECT=/home/jovyan/.julia_env
+
+USER root
+WORKDIR /tmp
+
+RUN mkdir -p /opt/ea42gh \
+ && chown jovyan:jovyan /opt/ea42gh
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    graphviz-dev \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir mkdocs-jupyter
+
+COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
+RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
+
+COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
+RUN julia --startup-file=no /tmp/install_julia_packages.jl
+
+USER jovyan
+WORKDIR /opt/ea42gh
+
+RUN git clone --branch cleanup/templates-data-only https://github.com/ea42gh/matrixlayout.git
+RUN git clone https://github.com/ea42gh/la_figures.git
+RUN git clone https://github.com/ea42gh/GenLAProblems.git
+
+USER root
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/matrixlayout
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/la_figures
+USER jovyan
+
+RUN /usr/local/bin/python3 -m mkdocs build \
+    -f /opt/ea42gh/matrixlayout/mkdocs.yml \
+    -d /opt/ea42gh/docs/matrixlayout
+RUN /usr/local/bin/python3 -m mkdocs build \
+    -f /opt/ea42gh/la_figures/mkdocs.yml \
+    -d /opt/ea42gh/docs/la_figures
+
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.develop(path="/opt/ea42gh/GenLAProblems"); Pkg.precompile()'
+RUN julia --project=/opt/ea42gh/GenLAProblems/docs -e '\
+using Pkg; \
+Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
+Pkg.instantiate(); \
+include("/opt/ea42gh/GenLAProblems/docs/make.jl")'
+RUN cp -r /opt/ea42gh/GenLAProblems/docs/build /opt/ea42gh/docs/GenLAProblems
+
+RUN mkdir -p /home/jovyan/docs/notebooks/LAlatex \
+ && mkdir -p /home/jovyan/docs/notebooks/GenLAProblems \
+ && mkdir -p /home/jovyan/docs/notebooks/matrixlayout \
+ && mkdir -p /home/jovyan/docs/notebooks/la_figures
+RUN cp -r /opt/ea42gh/LAlatex/docs/src/notebooks/. /home/jovyan/docs/notebooks/LAlatex/ \
+ && if [ -d /opt/ea42gh/GenLAProblems/docs/notebooks ]; then \
+      cp -r /opt/ea42gh/GenLAProblems/docs/notebooks/. /home/jovyan/docs/notebooks/GenLAProblems/; \
+    elif [ -d /opt/ea42gh/GenLAProblems/docs/src/notebooks ]; then \
+      cp -r /opt/ea42gh/GenLAProblems/docs/src/notebooks/. /home/jovyan/docs/notebooks/GenLAProblems/; \
+    fi \
+ && cp -r /opt/ea42gh/matrixlayout/docs/notebooks/. /home/jovyan/docs/notebooks/matrixlayout/ \
+ && cp -r /opt/ea42gh/la_figures/docs/notebooks/. /home/jovyan/docs/notebooks/la_figures/
+
+USER root
+RUN mkdir -p /home/jovyan/.local/bin
+COPY binder/inkscape /home/jovyan/.local/bin/inkscape
+RUN chown jovyan:jovyan /home/jovyan/.local/bin/inkscape \
+ && chmod 0755 /home/jovyan/.local/bin/inkscape
+
+RUN rm -rf /tmp/* /var/tmp/*
+
+USER jovyan
+WORKDIR /home/jovyan
+
+RUN git clone https://github.com/ea42gh/linear-algebra-notebooks.git
+RUN ln -s /tmp /home/jovyan/tmp \
+ && mkdir /home/jovyan/work
+
+EXPOSE 8888
+
+#CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan", "linear-algebra-notebooks/notebooks/Index.ipynb"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan"]

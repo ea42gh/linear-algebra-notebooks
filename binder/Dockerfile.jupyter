@@ -1,0 +1,92 @@
+ARG BASE_IMAGE=julia-python:0.1
+FROM ${BASE_IMAGE}
+
+ENV JULIA_CONDAPKG_BACKEND=Null
+ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
+ENV JULIA_PROJECT=/home/jovyan/.julia_env
+ENV TERM=xterm-256color
+ENV INPUTRC=/home/jovyan/.inputrc
+ENV XDG_DATA_HOME=/home/jovyan/.local/share
+ENV JUPYTER_DATA_DIR=/home/jovyan/.local/share/jupyter
+
+USER root
+WORKDIR /tmp
+
+RUN mkdir -p /opt/ea42gh \
+ && chown jovyan:jovyan /opt/ea42gh
+
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade \
+    pip setuptools wheel
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
+    jupyter jupyterlab notebook mkdocs "mkdocs-material[imaging]" pymdown-extensions sympy
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
+    mkdocs-macros-plugin "mkdocstrings[python]" juliacall
+
+USER jovyan
+WORKDIR /opt/ea42gh
+
+RUN git clone --branch itikz_port https://github.com/ea42gh/jupyter-tikz.git
+
+USER root
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/jupyter-tikz
+
+USER jovyan
+RUN mkdir -p /opt/ea42gh/docs
+
+USER root
+RUN mkdir -p /home/jovyan/.local/bin \
+ && ln -s /usr/local/julia/bin/julia /home/jovyan/.local/bin/julia \
+ && chown -R jovyan:jovyan /home/jovyan/.local/bin
+
+USER jovyan
+RUN /usr/local/bin/python3 -m mkdocs build \
+    -f /opt/ea42gh/jupyter-tikz/mkdocs.yml \
+    -d /opt/ea42gh/docs/jupyter-tikz
+
+RUN git clone https://github.com/ea42gh/LAlatex.git
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex"); Pkg.precompile()'
+
+USER jovyan
+WORKDIR /home/jovyan
+
+ENV HOME=/home/jovyan
+USER root
+RUN mkdir -p /home/jovyan/.local/share/jupyter \
+ && chown -R jovyan:jovyan /home/jovyan/.local
+USER jovyan
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("IJulia"); using IJulia; IJulia.installkernel("Julia")'
+RUN julia -e '\
+using LAlatex, Documenter; \
+DocMeta.setdocmeta!(LAlatex, :DocTestSetup, :(using LAlatex); recursive=true); \
+cd("/opt/ea42gh/LAlatex/docs") do; \
+    makedocs(; \
+        modules=[LAlatex], \
+        authors="ea42_github@mail.com", \
+        sitename="LAlatex.jl", \
+        format=Documenter.HTML(; \
+            canonical="https://ea42gh.github.io/LAlatex.jl", \
+            edit_link="main", \
+            assets=String[], \
+        ), \
+        pages=[ \
+            "Home" => "index.md", \
+            "Examples" => "examples.md", \
+            "API" => "api.md", \
+        ], \
+        checkdocs=:none, \
+    ); \
+end'
+RUN cp -r /opt/ea42gh/LAlatex/docs/build /opt/ea42gh/docs/LAlatex
+RUN ln -s /opt/ea42gh/docs /home/jovyan/docs
+RUN julia -e 'using Pkg; Pkg.precompile()'
+RUN echo "stty erase ^?" >> /home/jovyan/.bashrc
+
+RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
+COPY binder/10-julia-magic.py \
+    /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
+COPY binder/inputrc /home/jovyan/.inputrc
+
+WORKDIR /home/jovyan
+
+EXPOSE 8888
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan"]

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
+                "file": "Templates/ff Add Note.md",
                 "mode": "source",
                 "source": false
               }
@@ -64,6 +64,14 @@
               "type": "starred",
               "state": {}
             }
+          },
+          {
+            "id": "a3e8cad38a3aa522",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
           }
         ]
       }
@@ -85,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
+                "file": "Templates/ff Add Note.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
+                "file": "Templates/ff Add Note.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linear_Algebra/7._Singular_Values/29_SVDapplications.md"
+                "file": "Templates/ff Add Note.md"
               }
             }
           }
@@ -147,12 +155,14 @@
   },
   "active": "a7ddeddc573a9494",
   "lastOpenFiles": [
+    "Templates/ff Add Link from Clipboard.md",
+    "Course Content.canvas",
+    "INDEX.md",
+    "Linear_Algebra/7._Singular_Values/29_SVDapplications.md",
     "Linear_Algebra/7._Singular_Values/PCA_and_SVD.md",
     "Linear_Algebra/7._Singular_Values/Eigenfaces.md",
-    "Course Content.canvas",
     "LAcompanion.pdf",
     "Linear_Algebra/LAcompanion.pdf",
-    "INDEX.md",
     "Linear_Algebra/10._Example_Generation,_Displays,_Symbolic_Variables/SymbolicVariables.md",
     "Linear_Algebra/9._Additional_Material/A2_Matrix_Layout_Displays.md",
     "Linear_Algebra/9._Additional_Material/A1_AnalyticGeometry.md",
@@ -174,8 +184,6 @@
     "Linear_Algebra/6._EigenProblems/19_Diagonalization.md",
     "Linear_Algebra/6._EigenProblems/18_EigenComputations.md",
     "Linear_Algebra/6._EigenProblems/17_EigenAnalysis.md",
-    "Linear_Algebra/5._Linear_Transformations/NonLinearTransformations.md",
-    "Linear_Algebra/5._Linear_Transformations/10d_LinearTx_Examples.md",
     "LinAlgNew/9._Additional_Material/sed73E8Zq",
     "LinAlgNew/9._Additional_Material/sedVC8Y90",
     "LinAlgNew/8._Computations_and_Iterative_Methods/sedVwHkPJ",

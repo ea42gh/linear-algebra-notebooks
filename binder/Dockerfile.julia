@@ -1,0 +1,117 @@
+ARG JULIA_VERSION=1.10.5
+FROM julia:${JULIA_VERSION}
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+ENV JULIA_DEPOT_PATH=/home/jovyan/.julia
+ENV JULIA_PROJECT=/home/jovyan/.julia_env
+ENV JULIA_BINDIR=/usr/local/julia/bin
+ENV JULIA_PKG_PRECOMPILE_AUTO=0
+ENV JULIA_CONDAPKG_BACKEND=Null
+
+ENV OPENBLAS_NUM_THREADS=1
+ENV OMP_NUM_THREADS=1
+
+ENV XDG_RUNTIME_DIR=/tmp
+ENV XDG_DATA_HOME=/tmp
+
+# ============================================================
+RUN apt-get update && apt-get install -y \
+    libx11-6 \
+    libxrender1 \
+    libxt6 \
+    libgl1 \
+    \
+    wget \
+    \
+    libreadline8 \
+    libncursesw6 \
+    ncurses-term \
+    sudo \
+    vim-tiny \
+    # --- terminal / UX ---
+    bash \
+    bash-completion \
+    readline-common \
+    less \
+    nano \
+    ncurses-term \
+    locales \
+    tzdata \
+    \
+    # --- network / pkg fetch ---
+    ca-certificates \
+    curl \
+    git \
+    openssh-client \
+    \
+    # --- TeX / LaTeX toolchain ---
+    texlive \
+    texlive-latex-base \
+    texlive-latex-recommended \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-fonts-extra \
+    texlive-xetex \
+    texlive-pictures \
+    texlive-plain-generic \
+    latexmk \
+    biber \
+    \
+    # --- DVI/PDF/SVG/graphics tooling ---
+    dvisvgm \
+    dvipng \
+    ghostscript \
+    poppler-utils \
+    pdf2svg \
+    inkscape \
+    graphviz \
+    ffmpeg \
+    xclip \
+    imagemagick \
+    librsvg2-bin \
+    \
+    # --- fonts / rendering ---
+    fontconfig \
+    fonts-dejavu \
+    fonts-lmodern \
+    fonts-noto-core \
+    fonts-noto-extra \
+    fonts-hack \
+    \
+    # --- native build support for Julia packages (no Python) ---
+    build-essential \
+    pkg-config \
+    cmake \
+ && rm -rf /var/lib/apt/lists/*
+
+# ============================================================
+# Locale generation (keeps LANG/LC_ALL consistent, avoids odd REPL/TeX behavior)
+RUN sed -i 's/^# *\(en_US\.UTF-8\)/\1/' /etc/locale.gen \
+ && locale-gen
+
+# ============================================================
+USER root
+RUN useradd -m -s /bin/bash jovyan
+
+RUN mkdir -p /home/jovyan/.local/bin
+
+COPY binder/inkscape /home/jovyan/.local/bin/inkscape
+
+RUN chown jovyan:jovyan /home/jovyan/.local/bin/inkscape && \
+    chmod 0755 /home/jovyan/.local/bin/inkscape
+
+# ============================================================
+USER jovyan
+WORKDIR /home/jovyan
+
+ENV PATH=/home/jovyan/.local/bin:/usr/local/julia/bin:/usr/local/bin:$PATH
+
+RUN echo "\
+export PS1='-> ' \n\
+export PS2='->>  ' \n\
+" >> /home/jovyan/.bashrc
+
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.instantiate()'

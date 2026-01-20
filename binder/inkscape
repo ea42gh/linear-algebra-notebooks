@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
-# Save as: /usr/local/bin/inkscape-quiet
-# Then: chmod +x /usr/local/bin/inkscape-quiet
+# /usr/local/bin/inkscape-quiet
 
-# Run inkscape, merge stdout+stderr, then filter out the known glibmm warnings
-inkscape "$@" 2>&1 | grep -v -E \
-  'Failed to wrap object of type .*PangoFT2FontMap|Failed to wrap object of type .*GtkRecentManager'
+set -o pipefail
+
+/usr/bin/inkscape "$@" \
+  2> >(grep -v -E \
+        'Failed to wrap object of type .*PangoFT2FontMap|Failed to wrap object of type .*GtkRecentManager' \
+        >&2)
+

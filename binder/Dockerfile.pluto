@@ -1,0 +1,10 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+USER jovyan
+WORKDIR /home/jovyan
+
+RUN julia -e 'using Pkg; Pkg.add("Pluto")'
+
+EXPOSE 1234
+

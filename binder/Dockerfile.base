@@ -1,6 +1,5 @@
-FROM julia:1.12.3
-
-LABEL org.opencontainers.image.title="ea42gh/base_image"
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
@@ -112,7 +111,7 @@ ENV OMP_NUM_THREADS=1
 # Compile the correct Python version
 # =================================================
 
-ARG PYTHON_VERSION=3.12.1
+ARG PYTHON_VERSION=3.11.9
 
 RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
  && tar -xzf Python-${PYTHON_VERSION}.tgz \
@@ -121,7 +120,7 @@ RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VER
  && make -j$(nproc) \
  && make altinstall
 
-RUN ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
+RUN ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 RUN ldconfig
 
 RUN python3 -m ensurepip --upgrade
@@ -168,6 +167,7 @@ export PS2='->>  ' \n\
 " >> /home/jovyan/.bashrc
 
 #RUN julia --startup-file=no -e 'using Pkg; Pkg.activate(); Pkg.precompile()'
+#RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.instantiate()'
 
 # ---------------------------------------------------------------
 # Final user and working dir

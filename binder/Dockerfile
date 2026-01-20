@@ -1,4 +1,5 @@
-FROM ea42gh/base_image:1.0.2
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
 
 # =================================================
 # 1) Multi-arch build
@@ -112,18 +113,11 @@ RUN julia --startup-file=no -e \
 # Julia: GenLinAlgProblems project
 # =================================================
 
-#RUN julia --startup-file=no -e '\
-#    using Pkg; \
-#    Pkg.activate("/home/jovyan/.julia_env"); \
-#    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
-#    Pkg.instantiate(); \
-#    Pkg.precompile(strict=false); \
-#'
-RUN julia --startup-file=no --project=/home/jovyan/.julia_env -e '\
-    using Pkg; \
-    Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
-    using GenLinAlgProblems; \
-'
+#_ RUN julia --startup-file=no --project=/home/jovyan/.julia_env -e '\
+#_     using Pkg; \
+#_     Pkg.develop(path="/home/jovyan/elementary-linear-algebra/GenLinAlgProblems"); \
+#_     using GenLinAlgProblems; \
+#_ '
 
 # =================================================
 # Install JuliaMagic startup hook
@@ -159,9 +153,9 @@ RUN ln -s /tmp /home/jovyan/tmp && \
 # =================================================
 # JupyterLab startup
 # =================================================
-WORKDIR /home/jovyan/elementary-linear-algebra
+WORKDIR /home/jovyan
 
 EXPOSE 8888 1234
 
 #CMD ["python3", "-m", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.default_url=/lab/tree/notebooks/notebooks/Index.ipynb"]
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan/elementary-linear-algebra", "notebooks/Index.ipynb"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan", "elementary-linear-algebra/notebooks/Index.ipynb"]
