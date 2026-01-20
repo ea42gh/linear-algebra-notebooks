@@ -13,6 +13,7 @@ from IPython.display import Latex, display
 
 os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIACALL_PROJECT", "/home/jovyan/.julia_env")
+os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 
 
 from juliacall import Main as jl
@@ -24,6 +25,11 @@ from juliacall import Main as jl
 
 jl.seval("""
 using PythonCall
+""")
+
+jl.seval("""
+import Pkg
+Pkg.activate("/home/jovyan/.julia_env")
 """)
 
 
