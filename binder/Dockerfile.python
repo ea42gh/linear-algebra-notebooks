@@ -51,6 +51,7 @@ ENV JULIA_CONDAPKG_BACKEND=Null
 ENV JULIA_PROJECT=/home/jovyan/.julia_env
 ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
 ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
+ENV JULIAPKG_PROJECT=/home/jovyan/.julia_env
 
 # #########################################################################################
 # enable sudo (note: could do docker exec -u root -it <container-name> bash )

@@ -16,6 +16,7 @@ from IPython.display import Latex, Math, display
 os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIACALL_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
+os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 
 
 from juliacall import Main as jl
@@ -48,9 +49,11 @@ def l_show(*args, **kwargs):
     if isinstance(latex_string, str):
         stripped = latex_string.strip()
         if stripped.startswith("$") and stripped.endswith("$"):
-            rendered = Math(stripped[1:-1].strip())
+            inner = stripped[1:-1].strip()
+            inner = _mathjax_text_fallback(inner)
+            rendered = Math(inner)
         else:
-            rendered = Latex(latex_string)
+            rendered = Latex(_mathjax_text_fallback(latex_string))
     else:
         rendered = Latex(str(latex_string))
     display(rendered)
@@ -113,6 +116,15 @@ def _format_julia_number(value):
         sign = "+" if value.imag >= 0 else "-"
         return f"{re_part} {sign} {im_part}*im"
     return str(value)
+
+
+def _mathjax_text_fallback(latex_string):
+    def replace_text(match):
+        content = match.group(1)
+        content = content.replace("\\", "\\\\")
+        content = content.replace(" ", "\\,")
+        return "\\mathrm{" + content + "}"
+    return re.sub(r"\\text\\{([^{}]*)\\}", replace_text, latex_string)
 
 
 # ------------------------------------------------------------------
