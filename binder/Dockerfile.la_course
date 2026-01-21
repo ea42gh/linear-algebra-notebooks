@@ -54,9 +54,10 @@ Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.instantiate(); \
 stdlib_uuids = Set(values(Pkg.Types.stdlibs())); \
+skip_names = Set(["GenLAProblems", "GLMakie"]); \
 pkgs = Dict{Base.UUID,String}(); \
 for (uuid, info) in Pkg.dependencies(); \
-    if uuid in stdlib_uuids || info.name == "GenLAProblems"; \
+    if uuid in stdlib_uuids || info.name in skip_names; \
         continue; \
     end; \
     pkgs[uuid] = info.name; \
