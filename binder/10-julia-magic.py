@@ -60,15 +60,13 @@ def l_show(*args, **kwargs):
     calls Julia's L_show and displays the result.
     """
     latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
-    raw = str(latex_string)
+    raw = _mathjax_text_fallback(str(latex_string))
     stripped = raw.strip()
     if stripped.startswith("$") and stripped.endswith("$"):
         inner = stripped[1:-1].strip()
-        inner = _mathjax_text_fallback(inner)
-        rendered = Math(inner)
     else:
-        rendered = Latex(_mathjax_text_fallback(raw))
-    display(rendered)
+        inner = stripped
+    display({"text/latex": inner}, raw=True)
     return None
 
 
