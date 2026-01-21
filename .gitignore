@@ -4,6 +4,10 @@
 .ipynb-checkpoints/*
 */.ipynb-checkpoints/
 */.ipynb-checkpoints/*
+.ipynb_checkpoints/
+.ipynb_checkpoints/*
+*/.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 .buildx-cache/
 GenLinAlgProblems/notebooks/.ipynb_checkpoints/
 GenLinAlgProblems/src/.ipynb_checkpoints/
