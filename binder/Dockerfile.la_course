@@ -33,9 +33,13 @@ RUN julia --startup-file=no /tmp/install_julia_packages.jl
 USER jovyan
 WORKDIR /opt/ea42gh
 
+ARG GENLAPROBLEMS_REF=main
+
 RUN git clone --branch cleanup/templates-data-only https://github.com/ea42gh/matrixlayout.git
 RUN git clone https://github.com/ea42gh/la_figures.git
-RUN git clone https://github.com/ea42gh/GenLAProblems.git
+RUN git clone https://github.com/ea42gh/GenLAProblems.git \
+ && cd /opt/ea42gh/GenLAProblems \
+ && git checkout ${GENLAPROBLEMS_REF}
 
 USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/matrixlayout
