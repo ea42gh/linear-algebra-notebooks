@@ -35,6 +35,20 @@ import Pkg
 Pkg.activate("/home/jovyan/.julia_env")
 """)
 
+jl.seval("""
+import PythonCall
+const _py_display = PythonCall.pyimport("IPython.display")
+function _py_display_latex(x)
+    s = String(x)
+    if startswith(strip(s), "\$")
+        inner = strip(s)[2:end-1]
+        _py_display.display(_py_display.Math(inner))
+    else
+        _py_display.display(_py_display.Latex(s))
+    end
+    return x
+end
+""")
 
 # ------------------------------------------------------------------
 # Python-side l_show for normal Python cells
@@ -135,6 +149,7 @@ def julia(line, cell):
     Execute Julia code in the Python kernel.
     """
     cell = re.sub(r'^\s*using\s+LAlatex\s*$', 'import LAlatex', cell, flags=re.MULTILINE)
-    cell = re.sub(r'(?<![\w\.])l_show\(', 'LAlatex.l_show(', cell)
+    cell = re.sub(r'(?<![\w\.])l_show\(', 'LAlatex.L_show(', cell)
+    cell = re.sub(r'(?<![\w\.])display\(', '_py_display_latex(', cell)
     wrapped = "begin\n" + cell + "\n; nothing\nend"
     return jl.seval(wrapped)
