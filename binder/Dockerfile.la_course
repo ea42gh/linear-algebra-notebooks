@@ -64,7 +64,7 @@ for (uuid, info) in Pkg.dependencies(); \
 end; \
 specs = [Pkg.PackageSpec(uuid=k, name=v) for (k, v) in pkgs]; \
 Pkg.precompile(specs; strict=false)'
-RUN julia -e 'using Pkg; \
+RUN JULIA_PKG_PRECOMPILE_AUTO=0 julia --compiled-modules=no -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
