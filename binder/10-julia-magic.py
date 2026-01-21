@@ -61,12 +61,7 @@ def l_show(*args, **kwargs):
     """
     latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
     raw = _mathjax_text_fallback(str(latex_string))
-    stripped = raw.strip()
-    if stripped.startswith("$") and stripped.endswith("$"):
-        inner = stripped[1:-1].strip()
-    else:
-        inner = stripped
-    display({"text/latex": inner}, raw=True)
+    display(Latex(raw))
     return None
 
 
