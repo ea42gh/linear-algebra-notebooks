@@ -88,6 +88,7 @@ RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
 COPY binder/10-julia-magic.py \
     /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
 COPY binder/inputrc /home/jovyan/.inputrc
+COPY binder/sitecustomize.py /usr/local/lib/python3.11/site-packages/sitecustomize.py
 
 WORKDIR /home/jovyan
 
