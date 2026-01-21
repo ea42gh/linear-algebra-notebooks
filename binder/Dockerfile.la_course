@@ -52,6 +52,7 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
+Pkg.resolve(); \
 Pkg.instantiate(); \
 stdlib_uuids = Set(values(Pkg.Types.stdlibs())); \
 skip_names = Set(["GenLAProblems", "GLMakie"]); \
@@ -94,9 +95,6 @@ RUN rm -rf /tmp/* /var/tmp/*
 
 USER jovyan
 WORKDIR /home/jovyan
-
-RUN mkdir -p /home/jovyan/.julia/config \
- && printf "%s\n" "using Pkg" > /home/jovyan/.julia/config/startup.jl
 
 RUN git clone https://github.com/ea42gh/linear-algebra-notebooks.git
 RUN ln -s /tmp /home/jovyan/tmp \
