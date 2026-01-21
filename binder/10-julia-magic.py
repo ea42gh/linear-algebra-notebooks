@@ -60,7 +60,9 @@ def l_show(*args, **kwargs):
     calls Julia's L_show and displays the result.
     """
     latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
-    raw = _mathjax_text_fallback(str(latex_string))
+    raw = str(latex_string)
+    raw = raw.replace("\\text{", "\\mathrm{")
+    raw = _mathjax_text_fallback(raw)
     display(Latex(raw))
     return None
 
