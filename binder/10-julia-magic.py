@@ -136,7 +136,7 @@ def _mathjax_text_fallback(latex_string):
         content = content.replace("\\", "\\\\")
         content = content.replace(" ", "\\,")
         return "\\mathrm{" + content + "}"
-    return re.sub(r"\\text\\{([^{}]*)\\}", replace_text, latex_string)
+    return re.sub(r"\\\\?text\\{([^{}]*)\\}", replace_text, latex_string)
 
 
 # ------------------------------------------------------------------
@@ -151,5 +151,7 @@ def julia(line, cell):
     cell = re.sub(r'^\s*using\s+LAlatex\s*$', 'import LAlatex', cell, flags=re.MULTILINE)
     cell = re.sub(r'(?<![\w\.])l_show\(', 'LAlatex.L_show(', cell)
     cell = re.sub(r'(?<![\w\.])display\(', '_py_display_latex(', cell)
+    if 'L"' in cell or '@L_str' in cell:
+        jl.seval("using LaTeXStrings")
     wrapped = "begin\n" + cell + "\n; nothing\nend"
     return jl.seval(wrapped)
