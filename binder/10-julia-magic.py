@@ -46,16 +46,14 @@ def l_show(*args, **kwargs):
     calls Julia's L_show and displays the result.
     """
     latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
-    if isinstance(latex_string, str):
-        stripped = latex_string.strip()
-        if stripped.startswith("$") and stripped.endswith("$"):
-            inner = stripped[1:-1].strip()
-            inner = _mathjax_text_fallback(inner)
-            rendered = Math(inner)
-        else:
-            rendered = Latex(_mathjax_text_fallback(latex_string))
+    raw = str(latex_string)
+    stripped = raw.strip()
+    if stripped.startswith("$") and stripped.endswith("$"):
+        inner = stripped[1:-1].strip()
+        inner = _mathjax_text_fallback(inner)
+        rendered = Math(inner)
     else:
-        rendered = Latex(str(latex_string))
+        rendered = Latex(_mathjax_text_fallback(raw))
     display(rendered)
     return None
 
