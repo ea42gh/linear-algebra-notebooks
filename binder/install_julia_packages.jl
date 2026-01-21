@@ -55,7 +55,6 @@ pkgs = Dict(
 
     # Interactivity / dev
     "Interact"             => :gui,
-    "PythonCall"           => :safe,
     "Revise"               => :safe,
     "IOCapture"            => :safe,
 
@@ -67,9 +66,9 @@ pkgs = Dict(
     "IOCapture"            => :safe,
 
     # python, julia kernel and pluto
-    "PythonCall"           => :safe,
     "IJulia"               => :gui,
     "Pluto"                => :gui,
+    "PythonCall"           => :gui,
 )
 
 safe_pkgs = [name for (name, kind) in pkgs if kind === :safe]
