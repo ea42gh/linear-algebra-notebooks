@@ -52,10 +52,12 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
+Pkg.instantiate(); \
+stdlib_uuids = Set(values(Pkg.Types.stdlibs())); \
 deps = values(Pkg.dependencies()); \
 pkgs = Dict{Base.UUID,String}(); \
 for d in deps; \
-    if d.is_stdlib || d.name == "GenLAProblems"; \
+    if d.uuid in stdlib_uuids || d.name == "GenLAProblems"; \
         continue; \
     end; \
     pkgs[d.uuid] = d.name; \
