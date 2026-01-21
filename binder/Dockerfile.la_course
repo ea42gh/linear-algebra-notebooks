@@ -49,7 +49,7 @@ RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/la_figures/mkdocs.yml \
     -d /opt/ea42gh/docs/la_figures
 
-RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.develop(path="/opt/ea42gh/GenLAProblems"); Pkg.precompile()'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.develop(path="/opt/ea42gh/GenLAProblems"); Pkg.precompile(["GenLAProblems"]; strict=false)'
 RUN julia --project=/opt/ea42gh/GenLAProblems/docs -e '\
 using Pkg; \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
