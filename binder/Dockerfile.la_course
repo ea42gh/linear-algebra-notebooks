@@ -95,6 +95,9 @@ RUN rm -rf /tmp/* /var/tmp/*
 USER jovyan
 WORKDIR /home/jovyan
 
+RUN mkdir -p /home/jovyan/.julia/config \
+ && printf "%s\n" "using Pkg" > /home/jovyan/.julia/config/startup.jl
+
 RUN git clone https://github.com/ea42gh/linear-algebra-notebooks.git
 RUN ln -s /tmp /home/jovyan/tmp \
  && mkdir /home/jovyan/work
