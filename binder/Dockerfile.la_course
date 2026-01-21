@@ -24,6 +24,10 @@ COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 
 COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
+RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
+ && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env
+
+USER jovyan
 RUN julia --startup-file=no /tmp/install_julia_packages.jl
 
 USER jovyan
@@ -48,6 +52,7 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.develop(path="/opt/ea42gh/GenLAProblems"); Pkg.precompile()'
 RUN julia --project=/opt/ea42gh/GenLAProblems/docs -e '\
 using Pkg; \
+Pkg.develop(path="/opt/ea42gh/LAlatex"); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.instantiate(); \
 include("/opt/ea42gh/GenLAProblems/docs/make.jl")'
