@@ -64,11 +64,11 @@ for (uuid, info) in Pkg.dependencies(); \
 end; \
 specs = [Pkg.PackageSpec(uuid=k, name=v) for (k, v) in pkgs]; \
 Pkg.precompile(specs; strict=false)'
-RUN julia --project=/opt/ea42gh/GenLAProblems/docs -e '\
-using Pkg; \
-Pkg.develop(Pkg.PackageSpec(path="/opt/ea42gh/LAlatex", name="LAlatex", uuid="2feda2f4-7604-459e-bd73-51e960cd9dcb")); \
-Pkg.develop(Pkg.PackageSpec(path="/opt/ea42gh/GenLAProblems", name="GenLAProblems", uuid="f8228cda-011f-463c-ac28-4f36d81e7604")); \
-Pkg.instantiate(); \
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+Pkg.develop(path="/opt/ea42gh/LAlatex"); \
+Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
+Pkg.add("Documenter"); \
 include("/opt/ea42gh/GenLAProblems/docs/make.jl")'
 RUN cp -r /opt/ea42gh/GenLAProblems/docs/build /opt/ea42gh/docs/GenLAProblems
 
