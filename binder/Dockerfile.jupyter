@@ -42,7 +42,7 @@ RUN mkdir -p /home/jovyan/.local/bin \
  && chown -R jovyan:jovyan /home/jovyan/.local/bin
 
 USER jovyan
-RUN /usr/local/bin/python3 - <<'PY'\nfrom pathlib import Path\npath = Path('/opt/ea42gh/jupyter-tikz/mkdocs.yml')\ntext = path.read_text()\ntext = text.replace('\\n  - social\\n', '\\n')\npath.write_text(text)\nPY
+RUN /usr/local/bin/python3 -c "from pathlib import Path; path = Path('/opt/ea42gh/jupyter-tikz/mkdocs.yml'); text = path.read_text(); text = text.replace('\\n  - social\\n', '\\n'); path.write_text(text)"
 RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/jupyter-tikz/mkdocs.yml \
     -d /opt/ea42gh/docs/jupyter-tikz
