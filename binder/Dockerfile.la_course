@@ -13,6 +13,7 @@ WORKDIR /tmp
 
 RUN mkdir -p /opt/ea42gh \
  && chown jovyan:jovyan /opt/ea42gh
+COPY binder/docs/README.md /opt/ea42gh/docs/README.md
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     graphviz-dev \
@@ -49,9 +50,13 @@ USER jovyan
 RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/matrixlayout/mkdocs.yml \
     -d /opt/ea42gh/docs/matrixlayout
+RUN mkdir -p /opt/ea42gh/docs/matrixlayout/notebooks \
+ && cp -r /opt/ea42gh/matrixlayout/docs/notebooks/. /opt/ea42gh/docs/matrixlayout/notebooks/
 RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/la_figures/mkdocs.yml \
     -d /opt/ea42gh/docs/la_figures
+RUN mkdir -p /opt/ea42gh/docs/la_figures/notebooks \
+ && cp -r /opt/ea42gh/la_figures/docs/notebooks/. /opt/ea42gh/docs/la_figures/notebooks/
 
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
@@ -75,19 +80,16 @@ RUN mkdir -p /opt/ea42gh/docs/GenLAProblems \
     else \
       cp -r /opt/ea42gh/GenLAProblems/docs/. /opt/ea42gh/docs/GenLAProblems/; \
     fi
-
-RUN mkdir -p /home/jovyan/docs/notebooks/LAlatex \
- && mkdir -p /home/jovyan/docs/notebooks/GenLAProblems \
- && mkdir -p /home/jovyan/docs/notebooks/matrixlayout \
- && mkdir -p /home/jovyan/docs/notebooks/la_figures
-RUN cp -r /opt/ea42gh/LAlatex/docs/src/notebooks/. /home/jovyan/docs/notebooks/LAlatex/ \
+RUN mkdir -p /opt/ea42gh/docs/GenLAProblems/notebooks \
  && if [ -d /opt/ea42gh/GenLAProblems/docs/notebooks ]; then \
-      cp -r /opt/ea42gh/GenLAProblems/docs/notebooks/. /home/jovyan/docs/notebooks/GenLAProblems/; \
+      cp -r /opt/ea42gh/GenLAProblems/docs/notebooks/. /opt/ea42gh/docs/GenLAProblems/notebooks/; \
     elif [ -d /opt/ea42gh/GenLAProblems/docs/src/notebooks ]; then \
-      cp -r /opt/ea42gh/GenLAProblems/docs/src/notebooks/. /home/jovyan/docs/notebooks/GenLAProblems/; \
-    fi \
- && cp -r /opt/ea42gh/matrixlayout/docs/notebooks/. /home/jovyan/docs/notebooks/matrixlayout/ \
- && cp -r /opt/ea42gh/la_figures/docs/notebooks/. /home/jovyan/docs/notebooks/la_figures/
+      cp -r /opt/ea42gh/GenLAProblems/docs/src/notebooks/. /opt/ea42gh/docs/GenLAProblems/notebooks/; \
+    fi
+
+RUN mkdir -p /opt/ea42gh/docs/LAlatex/notebooks \
+ && cp -r /opt/ea42gh/LAlatex/docs/src/notebooks/. /opt/ea42gh/docs/LAlatex/notebooks/
+
 
 USER root
 RUN mkdir -p /home/jovyan/.local/bin
