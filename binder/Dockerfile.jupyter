@@ -45,6 +45,8 @@ USER jovyan
 RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/jupyter-tikz/mkdocs.yml \
     -d /opt/ea42gh/docs/jupyter-tikz
+RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
+ && cp -r /opt/ea42gh/jupyter-tikz/notebooks/. /opt/ea42gh/docs/jupyter-tikz/notebooks/
 
 RUN git clone https://github.com/ea42gh/LAlatex.git
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex"); Pkg.precompile()'
