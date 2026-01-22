@@ -54,6 +54,7 @@ RUN apt-get update && apt-get install -y \
     texlive-latex-extra \
     texlive-fonts-recommended \
     texlive-fonts-extra \
+    texlive-science \
     texlive-xetex \
     texlive-pictures \
     texlive-plain-generic \
