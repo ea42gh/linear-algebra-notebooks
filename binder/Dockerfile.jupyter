@@ -53,6 +53,7 @@ RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
 RUN git clone https://github.com/ea42gh/LAlatex.git \
  && cd /opt/ea42gh/LAlatex \
  && git checkout 54ffa1bf48cfd81d8613a9af805788a18ad82b1a
+RUN /usr/local/bin/python3 -c "from pathlib import Path; path = Path('/opt/ea42gh/LAlatex/src/import_sympy.jl'); text = path.read_text(); text = text.replace('pyimport(:sys)', 'PythonCall.pyimport(\"sys\")'); text = text.replace('pyimport(:sympy)', 'PythonCall.pyimport(\"sympy\")'); path.write_text(text)"
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex")'
 RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml /home/jovyan/.julia/prefs/CondaPkg.toml \
  && rm -rf /home/jovyan/.julia/conda* /home/jovyan/.julia/.CondaPkg \
