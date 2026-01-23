@@ -50,7 +50,9 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
  && cp -r /opt/ea42gh/jupyter-tikz/notebooks/. /opt/ea42gh/docs/jupyter-tikz/notebooks/
 
-RUN git clone https://github.com/ea42gh/LAlatex.git
+RUN git clone https://github.com/ea42gh/LAlatex.git \
+ && cd /opt/ea42gh/LAlatex \
+ && git checkout 54ffa1bf48cfd81d8613a9af805788a18ad82b1a
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex")'
 RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml /home/jovyan/.julia/prefs/CondaPkg.toml \
  && rm -rf /home/jovyan/.julia/conda* /home/jovyan/.julia/.CondaPkg \
