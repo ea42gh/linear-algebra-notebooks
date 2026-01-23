@@ -50,7 +50,7 @@ RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
  && cp -r /opt/ea42gh/jupyter-tikz/notebooks/. /opt/ea42gh/docs/jupyter-tikz/notebooks/
 
 RUN git clone https://github.com/ea42gh/LAlatex.git
-RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex"); Pkg.precompile()'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex")'
 
 USER jovyan
 WORKDIR /home/jovyan
@@ -60,7 +60,7 @@ USER root
 RUN mkdir -p /home/jovyan/.local/share/jupyter \
  && chown -R jovyan:jovyan /home/jovyan/.local
 USER jovyan
-RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("IJulia"); using IJulia; IJulia.installkernel("Julia")'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("IJulia"); using IJulia; IJulia.installkernel("Julia", env=Dict("JULIA_PROJECT"=>ENV["JULIA_PROJECT"], "JULIA_PYTHONCALL_EXE"=>ENV["JULIA_PYTHONCALL_EXE"], "PYTHONNOUSERSITE"=>"1", "PYTHONDONTWRITEBYTECODE"=>"1", "ENABLE_JULIACALL_AUTACTIVATE"=>"0"))'
 RUN julia -e '\
 using LAlatex, Documenter; \
 DocMeta.setdocmeta!(LAlatex, :DocTestSetup, :(using LAlatex); recursive=true); \
@@ -84,7 +84,6 @@ cd("/opt/ea42gh/LAlatex/docs") do; \
 end'
 RUN cp -r /opt/ea42gh/LAlatex/docs/build /opt/ea42gh/docs/LAlatex
 RUN ln -s /opt/ea42gh/docs /home/jovyan/docs
-RUN julia -e 'using Pkg; Pkg.precompile()'
 RUN echo "stty erase ^?" >> /home/jovyan/.bashrc
 
 RUN mkdir -p /home/jovyan/.ipython/profile_default/startup

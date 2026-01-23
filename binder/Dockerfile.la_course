@@ -64,7 +64,7 @@ Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
 stdlib_uuids = Set(values(Pkg.Types.stdlibs())); \
-skip_names = Set(["GenLAProblems", "GLMakie"]); \
+skip_names = Set(["GenLAProblems", "GLMakie", "PythonCall", "PythonCallJLL"]); \
 pkgs = Dict{Base.UUID,String}(); \
 for (uuid, info) in Pkg.dependencies(); \
     if uuid in stdlib_uuids || info.name in skip_names; \
