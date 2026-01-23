@@ -31,6 +31,10 @@ RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
 USER jovyan
 RUN julia --startup-file=no /tmp/install_julia_packages.jl
 
+RUN mkdir -p /opt/ea42gh/sysimages
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("PackageCompiler")'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); using PackageCompiler; create_sysimage(["LAlatex","PythonCall","IJulia","Symbolics","LaTeXStrings","Latexify"]; sysimage_path="/opt/ea42gh/sysimages/la_course.so")'
+
 USER jovyan
 WORKDIR /opt/ea42gh
 
@@ -94,8 +98,12 @@ RUN mkdir -p /opt/ea42gh/docs/LAlatex/notebooks \
 USER root
 RUN mkdir -p /home/jovyan/.local/bin
 COPY binder/inkscape /home/jovyan/.local/bin/inkscape
+RUN printf '%s\n' \
+    '#!/usr/bin/env bash' \
+    'exec /usr/local/julia/bin/julia --sysimage /opt/ea42gh/sysimages/la_course.so "$@"' \
+    > /home/jovyan/.local/bin/julia
 RUN chown jovyan:jovyan /home/jovyan/.local/bin/inkscape \
- && chmod 0755 /home/jovyan/.local/bin/inkscape
+ && chmod 0755 /home/jovyan/.local/bin/inkscape /home/jovyan/.local/bin/julia
 
 RUN rm -rf /tmp/* /var/tmp/*
 

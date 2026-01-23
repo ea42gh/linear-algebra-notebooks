@@ -1,4 +1,4 @@
-.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git
+.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
 IMAGE_BASE    ?= $(IMAGE_PYTHON)
@@ -6,7 +6,7 @@ IMAGE_JUPYTER ?= julia-python-jupyter
 IMAGE_PLUTO   ?= julia-pluto
 IMAGE_LA_COURSE ?= la-course
 
-VERSION ?= 0.1
+VERSION ?= 0.2
 JULIA_VERSION  ?= 1.10.5
 PYTHON_VERSION ?= 3.11.9
 IMG_VERSION ?= 0.1.0
@@ -110,7 +110,14 @@ chain: julia python jupyter la_course pluto
 
 C ?= container
 git:
-	docker cp ~/Downloads/GIT.tgz $C:/home/jovyan
+	docker cp ~/Downloads/configs/GIT.tgz $C:/home/jovyan
+checkgit:
+	cd /home/lab/NOTEBOOKS/0_ITIKZ/jupyter_tikz && echo "# ================================================================= jupyter_tikz " && git status
+	cd /home/lab/NOTEBOOKS/0_ITIKZ/matrixlayout && echo "# ================================================================= matrixlayout " && git status
+	cd /home/lab/NOTEBOOKS/0_ITIKZ/la_figures && echo "# ================================================================= la_figures " && git status
+	cd /home/lab/NOTEBOOKS/0_LSHOW/LAlatex && echo "# ================================================================= LAlatex" && git status
+	cd /home/lab/NOTEBOOKS/0_LSHOW/GenLAProblems && echo "# ================================================================= GenLAProblems" && git status
+	cd /home/lab/NOTEBOOKS/elementary-linear-algebra && echo "# ================================================================= elementary-linear-algebra" && git status
 # =======================================================================================================
 help:
 	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_chain"
