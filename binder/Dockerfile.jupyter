@@ -51,6 +51,10 @@ RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
 
 RUN git clone https://github.com/ea42gh/LAlatex.git
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex")'
+RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml
+RUN julia -e 'using PythonCall; println(PythonCall.python_executable()); pyimport("sympy"); println("PythonCall OK")'
+RUN rm -rf /home/jovyan/.julia/conda* /home/jovyan/.julia/.CondaPkg \
+ && rm -f /home/jovyan/.julia/prefs/CondaPkg.toml
 
 USER jovyan
 WORKDIR /home/jovyan
