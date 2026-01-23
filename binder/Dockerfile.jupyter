@@ -2,6 +2,7 @@ ARG BASE_IMAGE=julia-python:0.1
 FROM ${BASE_IMAGE}
 
 ENV JULIA_CONDAPKG_BACKEND=Null
+ENV CONDAPKG_BACKEND=Null
 ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
 ENV JULIA_PROJECT=/home/jovyan/.julia_env
 ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
@@ -51,10 +52,9 @@ RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
 
 RUN git clone https://github.com/ea42gh/LAlatex.git
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex")'
-RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml
-RUN julia -e 'using PythonCall; println(PythonCall.python_executable()); pyimport("sympy"); println("PythonCall OK")'
-RUN rm -rf /home/jovyan/.julia/conda* /home/jovyan/.julia/.CondaPkg \
- && rm -f /home/jovyan/.julia/prefs/CondaPkg.toml
+RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml /home/jovyan/.julia/prefs/CondaPkg.toml \
+ && rm -rf /home/jovyan/.julia/conda* /home/jovyan/.julia/.CondaPkg
+RUN julia -e 'using PythonCall; println(pyimport("sys").executable); pyimport("sympy"); println("PythonCall OK")'
 
 USER jovyan
 WORKDIR /home/jovyan
