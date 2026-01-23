@@ -59,6 +59,7 @@ RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml /home/jovyan/.julia/prefs/Co
     'python_executable = "/usr/local/bin/python3"' \
     'conda_backend = "Null"' \
     > /home/jovyan/.julia/prefs/PythonCall.toml
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); using LAlatex, PythonCall; LAlatex.import_sympy()'
 RUN julia -e 'using PythonCall; println(pyimport("sys").executable); pyimport("sympy"); println("PythonCall OK")'
 
 USER jovyan
@@ -69,28 +70,8 @@ USER root
 RUN mkdir -p /home/jovyan/.local/share/jupyter \
  && chown -R jovyan:jovyan /home/jovyan/.local
 USER jovyan
-RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("IJulia"); using IJulia; IJulia.installkernel("Julia", env=Dict("JULIA_PROJECT"=>ENV["JULIA_PROJECT"], "JULIA_PYTHONCALL_EXE"=>ENV["JULIA_PYTHONCALL_EXE"], "PYTHONNOUSERSITE"=>"1", "PYTHONDONTWRITEBYTECODE"=>"1", "ENABLE_JULIACALL_AUTACTIVATE"=>"0"))'
-RUN julia -e '\
-using LAlatex, Documenter; \
-DocMeta.setdocmeta!(LAlatex, :DocTestSetup, :(using LAlatex); recursive=true); \
-cd("/opt/ea42gh/LAlatex/docs") do; \
-    makedocs(; \
-        modules=[LAlatex], \
-        authors="ea42_github@mail.com", \
-        sitename="LAlatex.jl", \
-        format=Documenter.HTML(; \
-            canonical="https://ea42gh.github.io/LAlatex.jl", \
-            edit_link="main", \
-            assets=String[], \
-        ), \
-        pages=[ \
-            "Home" => "index.md", \
-            "Examples" => "examples.md", \
-            "API" => "api.md", \
-        ], \
-        checkdocs=:none, \
-    ); \
-end'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("IJulia"); using IJulia; IJulia.installkernel("Julia", env=Dict("JULIA_PROJECT"=>ENV["JULIA_PROJECT"], "JULIA_PYTHONCALL_EXE"=>ENV["JULIA_PYTHONCALL_EXE"], "JULIA_CONDAPKG_BACKEND"=>ENV["JULIA_CONDAPKG_BACKEND"], "CONDAPKG_BACKEND"=>ENV["CONDAPKG_BACKEND"], "PYTHONNOUSERSITE"=>"1", "PYTHONDONTWRITEBYTECODE"=>"1", "ENABLE_JULIACALL_AUTACTIVATE"=>"0"))'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); include("/opt/ea42gh/LAlatex/docs/make.jl")'
 RUN cp -r /opt/ea42gh/LAlatex/docs/build /opt/ea42gh/docs/LAlatex
 RUN ln -s /opt/ea42gh/docs /home/jovyan/docs
 RUN echo "stty erase ^?" >> /home/jovyan/.bashrc
