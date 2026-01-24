@@ -20,6 +20,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir mkdocs-jupyter
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
+
+COPY binder/start-pluto /usr/local/bin/start-pluto
+RUN chmod 0755 /usr/local/bin/start-pluto
+
+COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
@@ -41,11 +47,25 @@ RUN git clone https://github.com/ea42gh/la_figures.git
 RUN git clone https://github.com/ea42gh/GenLAProblems.git \
  && cd /opt/ea42gh/GenLAProblems \
  && git checkout ${GENLAPROBLEMS_REF}
+RUN julia -e 'using Pkg; \
+Pkg.activate("/opt/ea42gh/GenLAProblems"); \
+Pkg.develop(path="/opt/ea42gh/LAlatex"); \
+Pkg.add("PythonCall"); \
+Pkg.resolve(); \
+Pkg.instantiate()'
 
 USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/matrixlayout
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/la_figures
 USER jovyan
+
+RUN mkdir -p /home/jovyan/.julia/prefs \
+ && printf '%s\n' \
+    'python_executable = "/usr/local/bin/python3"' \
+    'conda_backend = "Null"' \
+    > /home/jovyan/.julia/prefs/PythonCall.toml
+
+RUN julia -e 'using PythonCall; pyimport("la_figures"); pyimport("matrixlayout"); println("PythonCall la_figures/matrixlayout OK")'
 
 RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/matrixlayout/mkdocs.yml \
@@ -123,7 +143,7 @@ RUN git clone https://github.com/ea42gh/linear-algebra-notebooks.git
 RUN ln -s /tmp /home/jovyan/tmp \
  && mkdir /home/jovyan/work
 
-EXPOSE 8888
+EXPOSE 8888 1234
 
 #CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan", "linear-algebra-notebooks/notebooks/Index.ipynb"]
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--ServerApp.token=", "--ServerApp.password=", "--notebook-dir=/home/jovyan"]

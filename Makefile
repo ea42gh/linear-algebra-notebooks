@@ -59,10 +59,10 @@ l_la_course:
 	  docker build -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(IMAGE_JUPYTER):$(VERSION) \
 	  -t $(IMAGE_LA_COURSE):$(VERSION) -t  $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
+	  --no-cache \
 	  --progress=plain --load .
 	@echo "<DONE> l_la_course"
 
-	  #--no-cache \
 
 l_la_course_run:
 	docker run --rm -it $(IMAGE_LA_COURSE):$(VERSION) bash
