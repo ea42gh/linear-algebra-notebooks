@@ -115,12 +115,12 @@ C ?= container
 git:
 	docker cp ~/Downloads/configs/GIT.tgz $C:/home/jovyan
 checkgit:
-	cd /home/lab/NOTEBOOKS/0_ITIKZ/jupyter_tikz && echo "# ================================================================= jupyter_tikz " && git status
-	cd /home/lab/NOTEBOOKS/0_ITIKZ/matrixlayout && echo "# ================================================================= matrixlayout " && git status
-	cd /home/lab/NOTEBOOKS/0_ITIKZ/la_figures && echo "# ================================================================= la_figures " && git status
-	cd /home/lab/NOTEBOOKS/0_LSHOW/LAlatex && echo "# ================================================================= LAlatex" && git status
-	cd /home/lab/NOTEBOOKS/0_LSHOW/GenLAProblems && echo "# ================================================================= GenLAProblems" && git status
-	cd /home/lab/NOTEBOOKS/elementary-linear-algebra && echo "# ================================================================= elementary-linear-algebra" && git status
+	@cd /home/lab/NOTEBOOKS/0_ITIKZ/jupyter_tikz && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= jupyter_tikz "; git status; fi
+	@cd /home/lab/NOTEBOOKS/0_ITIKZ/matrixlayout && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= matrixlayout "; git status; fi
+	@cd /home/lab/NOTEBOOKS/0_ITIKZ/la_figures && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= la_figures "; git status; fi
+	@cd /home/lab/NOTEBOOKS/0_LSHOW/LAlatex && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= LAlatex"; git status; fi
+	@cd /home/lab/NOTEBOOKS/0_LSHOW/GenLAProblems && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= GenLAProblems"; git status; fi
+	@cd /home/lab/NOTEBOOKS/elementary-linear-algebra && if [ -n "$$(git status --porcelain)" ]; then echo "# ================================================================= elementary-linear-algebra"; git status; fi
 # =======================================================================================================
 help:
 	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_chain"
