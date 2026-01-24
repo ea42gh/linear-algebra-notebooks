@@ -82,9 +82,15 @@ end; \
 specs = [Pkg.PackageSpec(uuid=k, name=v) for (k, v) in pkgs]; \
 Pkg.precompile(specs; strict=false)'
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); using GenLAProblems; \
+A, X, B = gen_gj_pb(3, 3, 3); \
+A = Rational{Int}.(A); \
+B = Rational{Int}.(B); \
+pb = ShowGe{Rational{Int}}(A, B); \
+ref!(pb; gj=true); \
 GenLAProblems.rref_matrix(4, 6, 3); \
-GenLAProblems.reduce_to_ref([1 2 3; 2 4 6; 1 1 1]; gj=true); \
-GenLAProblems.split_R_RHS([1 0 2 5; 0 1 -1 3], 1)'
+A_qr = gen_qr_problem_3(); \
+W = gram_schmidt_w(A_qr); \
+normalize_columns(W)'
 RUN mkdir -p /opt/ea42gh/docs/GenLAProblems \
  && if [ -d /opt/ea42gh/GenLAProblems/docs/src ]; then \
       cp -r /opt/ea42gh/GenLAProblems/docs/src/. /opt/ea42gh/docs/GenLAProblems/; \
