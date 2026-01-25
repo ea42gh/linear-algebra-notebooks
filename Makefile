@@ -1,4 +1,4 @@
-.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit
+.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
 IMAGE_BASE    ?= $(IMAGE_PYTHON)
@@ -103,7 +103,7 @@ pluto:
 
 la_course:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
-	  --build-arg BASE_IMAGE=$(IMAGE_JUPYTER):$(VERSION) \
+	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> la_course"
@@ -122,9 +122,41 @@ checkgit:
 	@cd /home/lab/NOTEBOOKS/0_LSHOW/GenLAProblems && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= GenLAProblems"; git status; fi
 	@cd /home/lab/NOTEBOOKS/elementary-linear-algebra && if [ -n "$$(git status --porcelain)" ]; then echo "# ================================================================= elementary-linear-algebra"; git status; fi
 # =======================================================================================================
+
+API_URL := https://hub.docker.com/v2/repositories/ea42gh/?page_size=100
+# Base URL for the user “ea42gh”
+API_ROOT := https://hub.docker.com/v2/repositories/ea42gh
+
+# -----------------------------------------------------------------
+# Main target
+# -----------------------------------------------------------------
+.PHONY: list
+list:
+	@echo "Fetching image names and tags from Docker Hub …"
+	@# 1️⃣ Get the list of repository names
+	@curl -s "$(API_ROOT)/?page_size=100" \
+	| jq -r '.results[].name' \
+	| while read repo; do \
+	    curl -s "$(API_ROOT)/$$repo/tags?page_size=100" \
+	    | jq -r --arg r "$$repo" '.results[].name | "\($$r):\(.)"'; \
+	  done | sort   # optional – alphabetical order
+
+# -----------------------------------------------------------------
+list_remote:
+	@echo "Repositories for ea42gh:"
+	@echo "$(REPO_NAMES)" | tr ' ' '\n' | sort
+
+.PHONY: list_images
+list_images:
+	@echo "Fetching image names from Docker Hub …"
+	@curl -s "$(API_URL)" \
+	| jq -r '.results[].name' \
+	| sort   # optional – alphabetical order
+# =======================================================================================================
 help:
 	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_chain"
 	@echo " julia python pluto jupyter la_course chain"
+	@echo " list list_images git check_git"
 	@echo " info"
 
 info:
@@ -133,50 +165,3 @@ info:
 	@echo "PYTHON_VERSION = $(PYTHON_VERSION)"
 	@echo "RUNTIME_TAG    = $(RUNTIME_TAG)"
 # =======================================================================================================
-## intro:   https://stackify.com/docker-build-a-beginners-guide-to-building-docker-images/ .
-## # ------------------------------------------------------
-## # in the binder dir
-## docker build . -t la_course  --progress=plain --no-cache
-## docker images
-## docker run -p 8888:8888 -p 1234:1234 la_course
-## docker run --rm -it --entrypoint bash la_course
-## 
-## docker tag la_course ea42gh/la_course
-## docker push ea42gh/la_course
-## 
-## # =============================================================================================================
-## # local builds
-## docker build -t ea42gh/base_image -f binder/Dockerfile.base --load .
-## docker run --rm -it ea42gh/base_image bash
-## docker build -t ea42gh/la_course -f binder/Dockerfile --load .
-## docker run --rm -it ea42gh/la_course bash
-## 
-## # =============================================================================================================
-## # build and push to repository
-## # build the base
-## docker buildx build \
-##   --platform linux/arm64,linux/amd64 \
-##   --cache-to=type=local,dest=.buildx-cache \
-##   --cache-from=type=local,src=.buildx-cache \
-##   --progress=plain \
-##   -t ea42gh/base_image:1.0.2 \
-##   -t ea42gh/base_image:latest \
-##   -t ea42gh/base_image:julia-1.12-python-3.12-texlive \
-##   -f binder/Dockerfile.base \
-##   --push \
-##   .
-## 
-## 
-## docker buildx build --platform linux/arm64,linux/amd64 --cache-to=type=local,dest=.buildx-cache --cache-from=type=local,src=.buildx-cache -t ea42gh/base_image:1.0.2 -t ea42gh/base_image:latest -t ea42gh/base_image:julia-1.12-python-3.12i-texlive 
-##              -f binder/Dockerfile.base --push .
-## # build la_course
-## docker buildx build --platform linux/arm64,linux/amd64 -t ea42gh/la_course:1.0.2 -t ea42gh/la_course:latest -f binder/Dockerfile --push .
-## 
-## 
-## docker buildx build \
-##   --platform linux/amd64 \
-##   --cache-from=type=local,src=.buildx-cache \
-##   -t ea42gh/la_course:local \
-##   -f binder/Dockerfile \
-##   --load \
-##   .

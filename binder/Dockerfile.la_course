@@ -139,7 +139,7 @@ RUN rm -rf /tmp/* /var/tmp/*
 USER jovyan
 WORKDIR /home/jovyan
 
-RUN git clone https://github.com/ea42gh/linear-algebra-notebooks.git
+RUN git clone https://gitlab.com/ea42gh/elementary_linear_algebra.git
 RUN ln -s /tmp /home/jovyan/tmp \
  && mkdir /home/jovyan/work
 
