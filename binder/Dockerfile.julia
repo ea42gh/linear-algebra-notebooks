@@ -16,6 +16,9 @@ ENV OMP_NUM_THREADS=1
 
 ENV XDG_RUNTIME_DIR=/tmp
 ENV XDG_DATA_HOME=/tmp
+ENV SHELL=/bin/bash
+ENV TERM=xterm-256color
+ENV INPUTRC=/home/jovyan/.inputrc
 
 # ============================================================
 RUN apt-get update && apt-get install -y \
@@ -100,8 +103,9 @@ RUN useradd -m -s /bin/bash jovyan
 RUN mkdir -p /home/jovyan/.local/bin
 
 COPY binder/inkscape /home/jovyan/.local/bin/inkscape
+COPY binder/inputrc /home/jovyan/.inputrc
 
-RUN chown jovyan:jovyan /home/jovyan/.local/bin/inkscape && \
+RUN chown jovyan:jovyan /home/jovyan/.local/bin/inkscape /home/jovyan/.inputrc && \
     chmod 0755 /home/jovyan/.local/bin/inkscape
 
 # ============================================================

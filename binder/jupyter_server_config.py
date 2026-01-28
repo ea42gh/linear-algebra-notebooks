@@ -16,3 +16,8 @@ c.ServerProxy.servers = {
         },
     }
 }
+
+# Use bash login shell for Jupyter terminals (honors .bashrc and .inputrc)
+c.ServerApp.terminado_settings = {
+    "shell_command": ["/bin/bash", "-l"]
+}
