@@ -45,6 +45,7 @@ pkgs = Dict(
 
     # Images / GTK stack
     "Images"               => :gui,
+    "ImageShow"            => :gui,
     "ImageView"            => :gui,
     "TestImages"           => :gui,
     "MosaicViews"          => :gui,

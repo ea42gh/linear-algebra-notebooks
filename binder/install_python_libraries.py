@@ -17,6 +17,8 @@ pkgs = [
     "matplotlib",
     "pillow",
     "scikit-image",
+    "scikit-learn",
+    "xarray",
 
     # Interactive / dashboards
     "panel",
