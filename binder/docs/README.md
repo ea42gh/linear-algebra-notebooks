@@ -3,31 +3,232 @@
 This directory collects the published documentation for the linear-algebra stack.
 
 - jupyter-tikz: Engine to render LaTeX documents in Jupyter
-- matrixlayout: Python layout engine for matrix/table TeX and SVG (uses jupyter-tikz)
-  - grid_tex / grid_svg: render GE-style matrix grids from specs
-  - qr_grid_tex / qr_grid_svg: render QR layout grids
-  - eigproblem_tex / eigproblem_svg: render eigen/SVD tables from specs
-  - backsubst_tex / backsubst_svg: render substitution cascades and systems
-  - make_decorator / decorate_tex_entries: per-entry TeX decoration helpers
+- matrixlayout (Python): layout engine for matrix/table TeX and SVG (uses jupyter-tikz)
+  - get_environment: Jinja environment loader
+  - backsubst_tex: render back-substitution TeX
+  - backsubst_svg: render back-substitution SVG
+  - eigproblem_tex: render eigen/SVD table TeX
+  - eigproblem_svg: render eigen/SVD table SVG
+  - tex: low-level GE TeX renderer
+  - svg: low-level GE SVG renderer
+  - **grid_tex**: GE grid TeX renderer
+  - **grid_svg**: GE grid SVG renderer
+  - grid_line_specs: convert line specs to decorators
+  - grid_highlight_specs: convert highlight specs to decorators
+  - grid_tex_specs: convert legacy specs to grid spec
+  - grid_label_layouts: label/layout helpers
+  - decorations_help: decorator spec help text
+  - resolve_ge_grid_name: resolve grid name → (row,col)
+  - qr_grid_tex: QR grid TeX renderer
+  - qr_grid_svg: QR grid SVG renderer
+  - resolve_qr_grid_name: resolve QR grid name → (row,col)
+  - GEGridSpec: GE spec dataclass
+  - QRGridSpec: QR spec dataclass
+  - latexify: format value → TeX
+  - make_decorator: build entry decorator
+  - decorate_tex_entries: apply decorator to entries
+  - decorator_box: box decorator
+  - decorator_color: color decorator
+  - decorator_bg: background decorator
+  - decorator_bf: bold decorator
+  - sel_entry: select a single entry
+  - sel_box: select a rectangular block
+  - sel_row: select a row
+  - sel_col: select a column
+  - sel_rows: select multiple rows
+  - sel_cols: select multiple cols
+  - sel_all: select all entries
+  - sel_vec: select eigenvector entry
+  - sel_vec_range: select eigenvector entry range
+  - DelimCallout: delimiter callout object
+  - DelimCalloutDict: delimiter callout dict type
+  - infer_ge_matrix_labels: infer GE labels
+  - infer_ge_layer_callouts: infer GE callouts
+  - render_delim_callout: render one callout
+  - render_delim_callouts: render all callouts
 
-- la_figures: Python algorithms that emit layout specs consumed by matrixlayout.
-  - ge / ge_tbl_spec / ge_tbl_bundle: GE layout + spec helpers
-  - qr_svg / qr_tbl_spec / gram_schmidt_qr: QR layout + Gram–Schmidt helpers
-  - eig_tbl_spec / eig_tbl_svg / eigproblem_svg: eigen table specs + render
-  - svd_tbl_spec / svd_tbl_svg: SVD table specs + render
-  - linear_system_tex / backsubstitution_tex / standard_solution_tex: system and cascade TeX
-  - show_svg: display an SVG string in notebooks
+- la_figures (Python): algorithms that emit layout specs consumed by matrixlayout
+  - EigenDecomposition: eigen decomposition container
+  - eigendecomposition: compute eigen decomposition
+  - eig_spec_from_eigenvects: eigen spec from eigenvectors
+  - **eig_tbl_spec**: eigen table spec
+  - svd_tbl_spec: SVD table spec
+  - svd_tbl_spec_from_right_singular_vectors: SVD spec from right singular vectors
+  - eig_tbl_tex: eigen table TeX
+  - **eig_tbl_svg**: eigen table SVG
+  - eig_tbl_bundle: eigen table spec bundle
+  - svd_tbl_tex: SVD table TeX
+  - **svd_tbl_svg**: SVD table SVG
+  - svd_tbl_bundle: SVD table spec bundle
+  - compute_qr_matrices: QR matrices helper
+  - gram_schmidt_qr_matrices: Gram–Schmidt QR matrices helper
+  - **qr_tbl_spec**: QR table spec
+  - qr_tbl_layout_spec: QR layout spec
+  - qr_tbl_tex: QR table TeX
+  - **qr_tbl_svg**: QR table SVG
+  - qr_tbl_bundle: QR table spec bundle
+  - **gram_schmidt_qr**: Gram–Schmidt QR render
+  - backsubstitution_tex: backsubstitution cascade TeX
+  - linear_system_tex: linear system TeX
+  - standard_solution_tex: standard solution TeX
+  - ge_trace: GE trace generator
+  - trace_to_layer_matrices: GE trace → layer matrices
+  - **ge_tbl_spec**: GE table spec
+  - ge_tbl_layout_spec: GE layout spec
+  - ge_tbl_tex: GE table TeX
+  - **ge_tbl_svg**: GE table SVG
+  - show_ge: display GE SVG in notebook
+  - ge_tbl_bundle: GE table spec bundle
+  - **ge**: GE SVG renderer (legacy shim)
+  - svg: alias for ge
+  - grid_svg: re-exported matrixlayout grid SVG
+  - grid_tex: re-exported matrixlayout grid TeX
+  - qr_grid_svg: re-exported matrixlayout QR grid SVG
+  - qr_grid_tex: re-exported matrixlayout QR grid TeX
+  - eigproblem_svg: re-exported eigen/SVD SVG
+  - eigproblem_tex: re-exported eigen/SVD TeX
+  - qr_svg: QR SVG renderer
+  - latexify: format value → TeX
+  - make_decorator: build entry decorator
+  - decorate_tex_entries: apply decorator to entries
+  - decorator_box: box decorator
+  - decorator_color: color decorator
+  - decorator_bg: background decorator
+  - decorator_bf: bold decorator
+  - sel_entry: select a single entry
+  - sel_box: select a rectangular block
+  - sel_row: select a row
+  - sel_col: select a column
+  - sel_rows: select multiple rows
+  - sel_cols: select multiple cols
+  - sel_all: select all entries
+  - sel_vec: select eigenvector entry
+  - sel_vec_range: select eigenvector entry range
+  - **show_svg**: display an SVG string in notebooks
 
-- LAlatex: Convert Julia objects to TeX and render them in a Jupyter notebook
-  - l_show / L_show: main display entry points
-  - to_latex: convert objects to TeX
-  - pr: styled text display helper
-  - set_backend! / import_sympy / syms_sympy: symbolic backend + SymPy access
-  - rowechelon_formatter / make_decorator: per-entry formatting helpers
+- LAlatex (Julia): convert Julia objects to TeX and render them in a Jupyter notebook
+  - @syms: Symbolics symbol macro
+  - syms: create symbols (Symbolics or SymPy)
+  - syms_sympy: create SymPy symbols
+  - @syms_sympy: SymPy symbol macro
+  - import_sympy: import SymPy module
+  - get_backend: get active symbolic backend
+  - set_backend!: set active symbolic backend
+  - assume!: attach assumptions (Symbolics)
+  - assumptions: read assumptions (Symbolics)
+  - to_html: render HTML
+  - show_html: display HTML
+  - **pr**: styled text display helper
+  - capture_output: capture print output
+  - show_side_by_side_html: display HTML side-by-side
+  - show_side_by_side: display objects side-by-side
+  - bold_formatter: bold text formatter
+  - italic_formatter: italic formatter
+  - color_formatter: color formatter
+  - conditional_color_formatter: conditional color formatter
+  - highlight_large_values: highlight large values
+  - underline_formatter: underline formatter
+  - overline_formatter: overline formatter
+  - combine_formatters: formatter combiner
+  - scientific_formatter: scientific notation formatter
+  - percentage_formatter: percentage formatter
+  - exponential_formatter: exponential formatter
+  - tril_formatter: lower-triangular formatter
+  - block_formatter: block formatter
+  - diagonal_blocks_formatter: diagonal block formatter
+  - rowechelon_formatter: row echelon formatter
+  - to_latex: convert object → TeX
+  - mixed_matrix: build mixed-type matrix
+  - @mixed_matrix: mixed matrix macro
+  - **L_show**: main display entry point
+  - **l_show**: main display entry point
+  - set: grouped display builder
+  - lc: linear combination builder
+  - L_interp: interpolate into LaTeX string
+  - apply_function: apply function elementwise
+  - round_value: round a value
+  - round_matrices: round matrix entries
+  - print_np_array_def: print NumPy array definition
+  - factor_out_denominator: factor denominators
+  - symbolic_transform: apply symbolic transforms
+  - symbolic_term_coefficients: extract term coefficients
 
-- GenLAProblems: Julia generators for linear-algebra problems and solution steps.
-  - gen_gj_pb / gen_lu_pb / gen_ldlt_pb / gen_svd_problem: problem generators
-  - reduce_to_ref / decorate_ge: GE steps + layout metadata
-  - ShowGe / ref! / show_layout!: GE notebook workflow
-  - show_system / show_backsubstitution! / show_solution!: system/cascade/solution views
-  - nM.ge / nM.show_ge_tbl / nM.show_qr_tbl: Python-backed renderers
+- GenLAProblems (Julia): generators for linear-algebra problems and solution steps
+  - load_la_figures: load Python la_figures
+  - load_matrixlayout: load Python matrixlayout
+  - nM: Python proxy namespace
+  - sympy: SymPy proxy
+  - sympy_matrix: Julia → SymPy matrix
+  - symbol_vector: create symbol vector
+  - symbols_matrix: create symbols matrix
+  - form_linear_combination: build linear combination
+  - invert_unit_lower: invert unit lower matrix
+  - unit_lower: unit lower matrix
+  - lower: lower triangular matrix
+  - gen_full_col_rank_matrix: full column rank generator
+  - ref_matrix: random REF matrix
+  - rref_matrix: random RREF matrix
+  - symmetric_matrix: symmetric matrix
+  - skew_symmetric_matrix: skew-symmetric matrix
+  - e_i: standard basis vector
+  - i_with_onecol: identity with a column
+  - gen_permutation_matrix: permutation matrix
+  - W_2_matrix: W2 matrix
+  - Q_2_matrix: Q2 matrix
+  - W_3_matrix: W3 matrix
+  - Q_3_matrix: Q3 matrix
+  - Q_4_blocks: Q4 blocks
+  - W_4_matrix: W4 matrix
+  - Q_4_matrix: Q4 matrix
+  - W_matrix: W matrix
+  - Q_matrix: Q matrix
+  - sparse_W_matrix: sparse W matrix
+  - sparse_Q_matrix: sparse Q matrix
+  - split_R_RHS: split R and RHS
+  - particular_solution: particular solution
+  - homogeneous_solutions: homogeneous solutions
+  - gen_particular_solution: generate particular solution
+  - gen_gj_matrix: generate GJ matrix
+  - gen_rhs: generate RHS
+  - gen_gj_pb: generate GJ problem
+  - gen_inv_pb: generate inverse problem
+  - gen_lu_pb: generate LU problem
+  - gen_plu_pb: generate PLU problem
+  - gen_ldlt_pb: generate LDLᵀ problem
+  - normal_eq_reduce_to_ref: normal equations REF
+  - reduce_to_ref: reduce to REF/RREF
+  - decorate_ge: GE decoration metadata
+  - ge_variable_type: GE variable type
+  - ca_projection_matrix: column space projection
+  - gen_qr_problem_3: QR problem 3
+  - gen_qr_problem_4: QR problem 4
+  - gen_qr_problem: QR problem
+  - gram_schmidt_w: Gram–Schmidt W
+  - normalize_columns: normalize columns
+  - qr_layout: QR layout
+  - gram_schmidt_stable: Gram–Schmidt (stable)
+  - gen_eigenproblem: eigenproblem generator
+  - gen_symmetric_eigenproblem: symmetric eigenproblem
+  - gen_non_diagonalizable_eigenproblem: non-diagonalizable eigenproblem
+  - gen_svd_problem: SVD problem
+  - gen_cx_eigenproblem: complex eigenproblem
+  - jordan_block: Jordan block
+  - jordan_form: Jordan form
+  - gen_from_jordan_form: generate from Jordan form
+  - gen_degenerate_matrix: degenerate matrix
+  - charpoly: characteristic polynomial
+  - **ge**: render final GE table
+  - **show_solution**: render solution
+  - py_show_svg: display SVG in notebooks
+  - **ShowGe**: GE workflow struct
+  - **ref!**: compute REF/RREF and decorate
+  - **show_layout!**: display GE layout
+  - **show_system**: display system TeX/SVG
+  - create_cascade!: prepare cascade state
+  - **show_backsubstitution!**: display backsubstitution cascade
+  - **show_solution!**: display solution vector
+  - show_backsubstitution: backsubstitution cascade (no state)
+  - show_forwardsubstitution: forward substitution cascade
+  - solutions: compute solutions
+  - round_value: round a value
+  - round_matrices: round matrix entries
