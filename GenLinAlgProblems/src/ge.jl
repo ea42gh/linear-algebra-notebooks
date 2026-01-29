@@ -123,7 +123,7 @@ function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true,
     else
        num_rhs = 0
     end
-    pb.h,pb.m=nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=num_rhs,
+    pb.h = nM.ge( to_latex(pb.matrices), formater=x->x, Nrhs=num_rhs,
                    fig_scale=fig_scale,
                    pivot_list       = pb.pivot_list, pivot_text_color="red", variable_colors=["red", "black"],
                    bg_for_entries   = pb.bg_for_entries,
@@ -131,6 +131,7 @@ function show_layout!(  pb::ShowGe{T}; array_names=nothing, show_variables=true,
                    variable_summary = show_variables ? pb.basic_var : nothing,
                    array_names      = array_names,
                    tmp_dir=pb.tmp_dir, keep_file=pb.keep_file)
+    pb.m = nothing
     pb.h
 end
 # --------------------------------------------------------------------------------------------------------------
