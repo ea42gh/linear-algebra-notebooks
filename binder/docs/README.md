@@ -2,6 +2,26 @@
 
 This directory collects the published documentation for the linear-algebra stack.
 
+Note on return values: several high-level rendering helpers now return a tuple
+`(svg, results)` instead of only the SVG string. The second item is the
+computed spec or matrices used to build the figure (when applicable).
+This applies to:
+- `eig_tbl_svg`
+- `svd_tbl_svg`
+- `qr_tbl_svg`
+- `gram_schmidt_qr`
+- `show_eig_tbl`
+- `show_svd_tbl`
+- `show_svd_table`
+- `show_qr_tbl`
+- `show_qr`
+
+Common entry points (typical notebook usage):
+- Julia (`nM`): `nM.show_eig_tbl`, `nM.show_svd_table`, `nM.show_qr_tbl`, `nM.gram_schmidt_qr`
+- Python (`la_figures`): `eig_tbl_svg`, `svd_tbl_svg`, `qr_tbl_svg`, `gram_schmidt_qr`
+- Low‑level renderers: `matrixlayout.ge.grid_svg`, `matrixlayout.qr.qr_grid_svg`
+- SVG display helpers: `la_figures.show_svg`, `GenLAProblems.show_svg` / `py_show_svg`
+
 - jupyter-tikz: Engine to render LaTeX documents in Jupyter
 - matrixlayout (Python): layout engine for matrix/table TeX and SVG (uses jupyter-tikz)
   - get_environment: Jinja environment loader
@@ -15,7 +35,7 @@ This directory collects the published documentation for the linear-algebra stack
   - **grid_svg**: GE grid SVG renderer
   - grid_line_specs: convert line specs to decorators
   - grid_highlight_specs: convert highlight specs to decorators
-  - grid_tex_specs: convert legacy specs to grid spec
+  - grid_tex_specs: convert specs to grid spec
   - grid_label_layouts: label/layout helpers
   - decorations_help: decorator spec help text
   - resolve_ge_grid_name: resolve grid name → (row,col)
@@ -55,19 +75,19 @@ This directory collects the published documentation for the linear-algebra stack
   - svd_tbl_spec: SVD table spec
   - svd_tbl_spec_from_right_singular_vectors: SVD spec from right singular vectors
   - eig_tbl_tex: eigen table TeX
-  - **eig_tbl_svg**: eigen table SVG
+  - **eig_tbl_svg**: eigen table SVG (returns `(svg, spec)`)
   - eig_tbl_bundle: eigen table spec bundle
   - svd_tbl_tex: SVD table TeX
-  - **svd_tbl_svg**: SVD table SVG
+  - **svd_tbl_svg**: SVD table SVG (returns `(svg, spec)`)
   - svd_tbl_bundle: SVD table spec bundle
   - compute_qr_matrices: QR matrices helper
   - gram_schmidt_qr_matrices: Gram–Schmidt QR matrices helper
   - **qr_tbl_spec**: QR table spec
   - qr_tbl_layout_spec: QR layout spec
   - qr_tbl_tex: QR table TeX
-  - **qr_tbl_svg**: QR table SVG
+  - **qr_tbl_svg**: QR table SVG (returns `(svg, spec)`)
   - qr_tbl_bundle: QR table spec bundle
-  - **gram_schmidt_qr**: Gram–Schmidt QR render
+  - **gram_schmidt_qr**: Gram–Schmidt QR render (returns `(svg, matrices)`)
   - backsubstitution_tex: backsubstitution cascade TeX
   - linear_system_tex: linear system TeX
   - standard_solution_tex: standard solution TeX
@@ -79,7 +99,7 @@ This directory collects the published documentation for the linear-algebra stack
   - **ge_tbl_svg**: GE table SVG
   - show_ge: display GE SVG in notebook
   - ge_tbl_bundle: GE table spec bundle
-  - **ge**: GE SVG renderer (legacy shim)
+  - **ge**: GE SVG renderer
   - svg: alias for ge
   - grid_svg: re-exported matrixlayout grid SVG
   - grid_tex: re-exported matrixlayout grid TeX
@@ -217,7 +237,7 @@ This directory collects the published documentation for the linear-algebra stack
   - gen_from_jordan_form: generate from Jordan form
   - gen_degenerate_matrix: degenerate matrix
   - charpoly: characteristic polynomial
-  - **ge**: render final GE table
+  - **show_ge_final**: render final GE table
   - **show_solution**: render solution
   - py_show_svg: display SVG in notebooks
   - **ShowGe**: GE workflow struct

@@ -423,7 +423,7 @@ end
 #end
 # ==============================================================================================================
 # Using the itikz python library to produce a nice layout of the computations
-raw"""function ge( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing, <br>
+raw"""function show_ge_final( matrices, desc, pivot_cols; Nrhs=0, formater=to_latex, pivot_list=nothing, bg_for_entries=nothing, <br>
              variable_colors=["blue","black"], pivot_colors=["blue","yellow!40"],  <br>
              ref_path_list=nothing, comment_list=[], variable_summary=nothing, array_names=nothing, <br>
              start_index=1, func=nothing, fig_scale=nothing, tmp_dir=nothing, keep_file=nothing )
@@ -459,7 +459,7 @@ import Base: show
 function show(io::IO, ::MIME"image/svg+xml", x::SVGOut)
     print(io, x.svg)
 end
-ge(args...; kwargs...) = SVGOut(julia_ge(args...; kwargs...))
+show_ge_final(args...; kwargs...) = SVGOut(julia_ge(args...; kwargs...))
 
 # ------------------------------------------------------------------------------------------
 raw"""function show_solution( matrices; var_name::String="x", tmp\\_dir=nothing )"""

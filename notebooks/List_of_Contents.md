@@ -1364,7 +1364,7 @@
 ### 1.2 GE with a Complex Matrix
 ### 1.3 Inverse Problem with Layout
 ### 1.4 PLU Problem
-### 1.5 Julia Wrapper Class for ge()
+### 1.5 Julia Wrapper Class for show_ge_final()
 ### 2 Normal Equation Problems
 ### 2.1 Solve the Normal Equation
 ### 3. QR Problems

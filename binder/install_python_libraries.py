@@ -34,7 +34,7 @@ pkgs = [
     # Jupyter extensions
     "webio_jupyter_extension==0.1.0",
 
-    # Julia bridge (legacy, see note below)
+    # Julia bridge (see note below)
     "julia",
     "juliacall",
 ]
@@ -49,4 +49,3 @@ cmd = [
 
 print("Running:", " ".join(cmd))
 subprocess.check_call(cmd)
-

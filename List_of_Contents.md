@@ -5839,7 +5839,7 @@ Visualization of matrices, block structure, and linear transformations
 ### Contents
 
 #### 0. Problems with Docker Images
-- Notes rendering issues for itikz displays when running under docker.
+- Notes rendering issues for SVG toolchains when running under Docker.
 - Gives a workaround using a writable `keep_file` directory.
 
 ---
@@ -6045,7 +6045,7 @@ Automatic generation of linear algebra practice problems
 ##### 1.4 PLU Problem
 - Generates a matrix factorization problem of PLU type and displays associated steps.
 
-##### 1.5 Julia Wrapper Class for `ge()`
+##### 1.5 Julia Wrapper Class for `show_ge_final()`
 - Defines a wrapper/interface intended to streamline calling the elimination workflow and producing displays.
 
 ---

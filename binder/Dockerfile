@@ -76,7 +76,7 @@ RUN /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade \
     pip setuptools wheel
 
 # =================================================
-# Python: install ALL previously-available libraries
+# Python: install required libraries
 # =================================================
 
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py

@@ -75,10 +75,12 @@ Note: This command will reset all changes in the repository except those in the 
 
 This repository leverages both Julia and Python programming languages to provide robust and interactive learning tools. Below are the key software packages and tools utilized:
 
-- **itikz**: A Python library that generates LaTeX-styled matrix operation diagrams, perfect for creating clean and professional mathematical visuals.  
-  - GitHub: [itikz](https://github.com/ea42gh/itikz)  
-  - **Note**: When installing locally, ensure the `itikz` directory is added to your Python path.
-- **Holoviews** and **Panel**: High-level libraries for interactive plotting and data visualization, enabling real-time exploration of mathematical concepts.  
+- **matrixlayout** (Python): Layout engine for matrix/table TeX and SVG rendering.
+- **la_figures** (Python): Algorithms that build matrixlayout specs for GE/QR/eigen/SVD figures.
+- **jupyter-tikz** (Python): LaTeX toolchain for rendering SVG in notebooks.
+- **LAlatex** (Julia): LaTeX display helpers for Julia objects and symbolic expressions.
+- **GenLAProblems** (Julia): Problem generators and display helpers used in notebooks.
+- **Holoviews** and **Panel**: High-level libraries for interactive plotting and data visualization.  
   - Website: [Holoviz](http://holoviz.org/)
 
 The complete list of dependencies and their installation commands is provided in the `binder/Dockerfile`.
@@ -122,10 +124,6 @@ This project would not have been possible without the support of the open-source
 ### Special Thanks
 - **Holoviz**: For providing high-quality libraries like Holoviews and Panel, enabling seamless interactive visualizations in Jupyter Notebooks.  
   - Website: [Holoviz](http://holoviz.org/)
-- **itikz**: The original authors of this Python library that integrates LaTeX to produce professional-quality diagrams and illustrations of matrix operations.  
-  - GitHub: [itikz](https://github.com/ea42gh/itikz)
-- **CTAN nicematrix package**: For its LaTeX tools that enhance the formatting of matrix-related content, providing clean and visually appealing matrix displays in generated diagrams.  
-  - CTAN: [nicematrix package](https://ctan.org/pkg/nicematrix)
 
 
 We also extend our gratitude to educators, researchers, and learners who have shared their insights and feedback, helping us refine and expand this resource.
@@ -133,4 +131,3 @@ We also extend our gratitude to educators, researchers, and learners who have sh
 ---
 
 Enjoy exploring the fascinating world of linear algebra, and thank you for being part of our community!
-
