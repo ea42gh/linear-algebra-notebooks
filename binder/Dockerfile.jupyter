@@ -83,6 +83,15 @@ COPY binder/inputrc /home/jovyan/.inputrc
 COPY binder/sitecustomize.py /usr/local/lib/python3.11/site-packages/sitecustomize.py
 COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 
+# JupyterLab user settings (disable announcements, enable editor options)
+RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension \
+ && printf '{\n  "enabled": false\n}\n' \
+ > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/announcements.jupyterlab-settings \
+ && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension \
+ && printf '{\n  "codeFolding": true,\n  "lineNumbers": true,\n  "showTrailingWhitespace": true\n}\n' \
+ > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings \
+ && chown -R jovyan:jovyan /home/jovyan/.jupyter
+
 WORKDIR /home/jovyan
 
 EXPOSE 8888
