@@ -34,7 +34,7 @@ pkgs = Dict(
 
     # Plotting / tables / colors
     "Plots"                => :gui,
-    #"PlotlyJS"             => :gui,
+    "PlotlyJS"             => :gui,
     "Colors"               => :safe,
     "PrettyTables"         => :safe,
     "GR"                   => :gui,
