@@ -56,6 +56,7 @@ pkgs = Dict(
 
     # Interactivity / dev
     "Interact"             => :gui,
+    "WebIO"                => :gui,
     "Revise"               => :safe,
     "IOCapture"            => :safe,
 
