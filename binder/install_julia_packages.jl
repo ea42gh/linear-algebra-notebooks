@@ -16,6 +16,7 @@ pkgs = Dict(
     "Random"               => :safe,
     "RowEchelon"           => :safe,
     "Symbolics"            => :safe,
+    "SymbolicUtils"        => :safe,
 
     # Transforms / analysis
     "FFTW"                 => :safe,
@@ -56,6 +57,7 @@ pkgs = Dict(
 
     # Interactivity / dev
     "Interact"             => :gui,
+    "WebIO"                => :gui,
     "Revise"               => :safe,
     "IOCapture"            => :safe,
 

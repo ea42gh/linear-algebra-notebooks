@@ -24,7 +24,7 @@ RUN /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade \
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
     jupyter jupyterlab notebook mkdocs "mkdocs-material[imaging]" pymdown-extensions sympy
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
-    mkdocs-macros-plugin "mkdocstrings[python]" juliacall
+    mkdocs-macros-plugin "mkdocstrings[python]" juliacall webio_jupyter_extension
 
 USER jovyan
 WORKDIR /opt/ea42gh
@@ -71,6 +71,7 @@ RUN mkdir -p /home/jovyan/.local/share/jupyter \
  && chown -R jovyan:jovyan /home/jovyan/.local
 USER jovyan
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("IJulia"); using IJulia; IJulia.installkernel("Julia", env=Dict("JULIA_PROJECT"=>ENV["JULIA_PROJECT"], "JULIA_PYTHONCALL_EXE"=>ENV["JULIA_PYTHONCALL_EXE"], "JULIA_CONDAPKG_BACKEND"=>ENV["JULIA_CONDAPKG_BACKEND"], "CONDAPKG_BACKEND"=>ENV["CONDAPKG_BACKEND"], "PYTHONNOUSERSITE"=>"1", "PYTHONDONTWRITEBYTECODE"=>"1", "ENABLE_JULIACALL_AUTACTIVATE"=>"0"))'
+RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add("WebIO")'
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); include("/opt/ea42gh/LAlatex/docs/make.jl")'
 RUN cp -r /opt/ea42gh/LAlatex/docs/build /opt/ea42gh/docs/LAlatex
 RUN ln -s /opt/ea42gh/docs /home/jovyan/docs
@@ -90,7 +91,20 @@ RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extens
  && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension \
  && printf '{\n  "codeFolding": true,\n  "lineNumbers": true,\n  "showTrailingWhitespace": true\n}\n' \
  > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings \
+ && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/notebook-extension \
+ && printf '{\n  "codeFolding": true,\n  "lineNumbers": true,\n  "showTrailingWhitespace": true\n}\n' \
+ > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings \
+ && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/codemirror-extension \
+ && printf '{\n  "lineNumbers": true,\n  "codeFolding": true,\n  "showTrailingWhitespace": true\n}\n' \
+ > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/codemirror-extension/preferences.jupyterlab-settings \
  && chown -R jovyan:jovyan /home/jovyan/.jupyter
+
+# JupyterLab system overrides (belt-and-suspenders)
+USER root
+RUN mkdir -p /usr/local/share/jupyter/lab/settings \
+ && printf '{\n  \"@jupyterlab/apputils-extension:announcements\": {\"enabled\": false},\n  \"@jupyterlab/fileeditor-extension:plugin\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/notebook-extension:tracker\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/codemirror-extension:preferences\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true}\n}\n' \
+ > /usr/local/share/jupyter/lab/settings/overrides.json
+USER jovyan
 
 WORKDIR /home/jovyan
 
