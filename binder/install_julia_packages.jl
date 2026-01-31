@@ -16,6 +16,7 @@ pkgs = Dict(
     "Random"               => :safe,
     "RowEchelon"           => :safe,
     "Symbolics"            => :safe,
+    "SymbolicUtils"        => :safe,
 
     # Transforms / analysis
     "FFTW"                 => :safe,
