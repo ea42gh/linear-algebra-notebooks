@@ -19,7 +19,7 @@ This applies to:
 Common entry points (typical notebook usage):
 - Julia (`nM`): `nM.show_eig_tbl`, `nM.show_svd_table`, `nM.show_qr_tbl`, `nM.gram_schmidt_qr`
 - Python (`la_figures`): `eig_tbl_svg`, `svd_tbl_svg`, `qr_tbl_svg`, `gram_schmidt_qr`
-- Low‑level renderers: `matrixlayout.ge.grid_svg`, `matrixlayout.qr.qr_grid_svg`
+- Low‑level renderers: `matrixlayout.ge.render_ge_svg`, `matrixlayout.qr.render_qr_svg`
 - SVG display helpers: `la_figures.show_svg`, `GenLAProblems.show_svg` / `py_show_svg`
 
 - jupyter-tikz: Engine to render LaTeX documents in Jupyter
@@ -27,20 +27,20 @@ Common entry points (typical notebook usage):
   - get_environment: Jinja environment loader
   - backsubst_tex: render back-substitution TeX
   - backsubst_svg: render back-substitution SVG
-  - eigproblem_tex: render eigen/SVD table TeX
-  - eigproblem_svg: render eigen/SVD table SVG
+  - render_eig_tex: render eigen/SVD table TeX
+  - render_eig_svg: render eigen/SVD table SVG
   - tex: low-level GE TeX renderer
   - svg: low-level GE SVG renderer
-  - **grid_tex**: GE grid TeX renderer
-  - **grid_svg**: GE grid SVG renderer
+  - **render_ge_tex**: GE grid TeX renderer
+  - **render_ge_svg**: GE grid SVG renderer
   - grid_line_specs: convert line specs to decorators
   - grid_highlight_specs: convert highlight specs to decorators
-  - grid_tex_specs: convert specs to grid spec
+  - render_ge_tex_specs: convert specs to grid spec
   - grid_label_layouts: label/layout helpers
   - decorations_help: decorator spec help text
   - resolve_ge_grid_name: resolve grid name → (row,col)
-  - qr_grid_tex: QR grid TeX renderer
-  - qr_grid_svg: QR grid SVG renderer
+  - render_qr_tex: QR grid TeX renderer
+  - render_qr_svg: QR grid SVG renderer
   - resolve_qr_grid_name: resolve QR grid name → (row,col)
   - GEGridSpec: GE spec dataclass
   - QRGridSpec: QR spec dataclass
@@ -101,12 +101,12 @@ Common entry points (typical notebook usage):
   - ge_tbl_bundle: GE table spec bundle
   - **ge**: GE SVG renderer
   - svg: alias for ge
-  - grid_svg: re-exported matrixlayout grid SVG
-  - grid_tex: re-exported matrixlayout grid TeX
-  - qr_grid_svg: re-exported matrixlayout QR grid SVG
-  - qr_grid_tex: re-exported matrixlayout QR grid TeX
-  - eigproblem_svg: re-exported eigen/SVD SVG
-  - eigproblem_tex: re-exported eigen/SVD TeX
+  - render_ge_svg: re-exported matrixlayout grid SVG
+  - render_ge_tex: re-exported matrixlayout grid TeX
+  - render_qr_svg: re-exported matrixlayout QR grid SVG
+  - render_qr_tex: re-exported matrixlayout QR grid TeX
+  - render_eig_svg: re-exported eigen/SVD SVG
+  - render_eig_tex: re-exported eigen/SVD TeX
   - qr_svg: QR SVG renderer
   - latexify: format value → TeX
   - make_decorator: build entry decorator
