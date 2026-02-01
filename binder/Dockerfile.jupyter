@@ -84,25 +84,27 @@ COPY binder/inputrc /home/jovyan/.inputrc
 COPY binder/sitecustomize.py /usr/local/lib/python3.11/site-packages/sitecustomize.py
 COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 
-# JupyterLab user settings (disable announcements, enable editor options)
+# JupyterLab user settings (match reference settings)
 RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension \
  && printf '{\n  "enabled": false\n}\n' \
  > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/announcements.jupyterlab-settings \
+ && printf '{\n    "fetchNews": "false"\n}\n' \
+ > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/notification.jupyterlab-settings \
+ && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/codemirror-extension \
+ && printf '{\n  "lineNumbers": true,\n  "codeFolding": true,\n  "showTrailingWhitespace": true\n}\n' \
+ > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/codemirror-extension/preferences.jupyterlab-settings \
  && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension \
  && printf '{\n  "codeFolding": true,\n  "lineNumbers": true,\n  "showTrailingWhitespace": true\n}\n' \
  > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings \
  && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/notebook-extension \
- && printf '{\n  "codeFolding": true,\n  "lineNumbers": true,\n  "showTrailingWhitespace": true\n}\n' \
+ && printf '{\n    "enableKernelInitNotification": false,\n    "codeCellConfig": {\n        "codeFolding": true,\n        "highlightTrailingWhitespace": true,\n        "lineNumbers": true\n    },\n    "defaultCell": "code",\n    "autoStartDefaultKernel": false,\n    "showInputPlaceholder": true,\n    "inputHistoryScope": "global",\n    "kernelShutdown": false,\n    "markdownCellConfig": {\n        "lineNumbers": false,\n        "matchBrackets": false\n    },\n    "autoRenderMarkdownCells": false,\n    "rawCellConfig": {\n        "lineNumbers": false,\n        "matchBrackets": false\n    },\n    "scrollPastEnd": true,\n    "recordTiming": false,\n    "overscanCount": 1,\n    "maxNumberOutputs": 50,\n    "scrollHeadingToTop": true,\n    "showEditorForReadOnlyMarkdown": true,\n    "kernelStatus": {\n        "showOnStatusBar": false,\n        "showProgress": true,\n        "showJumpToRecentExecutionButton": false\n    },\n    "documentWideUndoRedo": false,\n    "showHiddenCellsButton": true,\n    "renderingLayout": "default",\n    "sideBySideLeftMarginOverride": "10px",\n    "sideBySideRightMarginOverride": "10px",\n    "sideBySideOutputRatio": 1,\n    "windowingMode": "contentVisibility",\n    "accessKernelHistory": false,\n    "addExtraLineOnCellMerge": true,\n    "showMinimap": false,\n    "useSystemClipboardForCells": false\n}\n' \
  > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings \
- && mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/codemirror-extension \
- && printf '{\n  "lineNumbers": true,\n  "codeFolding": true,\n  "showTrailingWhitespace": true\n}\n' \
- > /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/codemirror-extension/preferences.jupyterlab-settings \
  && chown -R jovyan:jovyan /home/jovyan/.jupyter
 
 # JupyterLab system overrides (belt-and-suspenders)
 USER root
 RUN mkdir -p /usr/local/share/jupyter/lab/settings \
- && printf '{\n  \"@jupyterlab/apputils-extension:announcements\": {\"enabled\": false},\n  \"@jupyterlab/fileeditor-extension:plugin\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/notebook-extension:tracker\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/codemirror-extension:preferences\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true}\n}\n' \
+ && printf '{\n  \"@jupyterlab/apputils-extension:announcements\": {\"enabled\": false},\n  \"@jupyterlab/apputils-extension:notification\": {\"fetchNews\": \"false\"},\n  \"@jupyterlab/codemirror-extension:preferences\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/fileeditor-extension:plugin\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/notebook-extension:tracker\": {\"enableKernelInitNotification\": false, \"codeCellConfig\": {\"codeFolding\": true, \"highlightTrailingWhitespace\": true, \"lineNumbers\": true}}\n}\n' \
  > /usr/local/share/jupyter/lab/settings/overrides.json
 USER jovyan
 
