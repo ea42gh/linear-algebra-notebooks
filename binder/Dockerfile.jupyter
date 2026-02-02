@@ -29,7 +29,8 @@ RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
 USER jovyan
 WORKDIR /opt/ea42gh
 
-RUN git clone --branch itikz_port https://github.com/ea42gh/jupyter-tikz.git
+ARG JUPYTER_TIKZ_REF=itikz_port
+RUN git clone --branch ${JUPYTER_TIKZ_REF} --single-branch https://github.com/ea42gh/jupyter-tikz.git
 
 USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/jupyter-tikz
