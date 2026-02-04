@@ -32,7 +32,7 @@ for nb in "${NOTEBOOKS[@]}"; do
         --ExecutePreprocessor.timeout="$TIMEOUT" \
         --output "$out" \
         --log-level WARN >/dev/null 2>&1; then
-    echo "  FAIL"
+    printf "  \033[31mFAIL\033[0m\n"
     FAILED+=("$nb")
   else
     echo
