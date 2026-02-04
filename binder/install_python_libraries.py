@@ -39,6 +39,9 @@ pkgs = [
     # Julia bridge (see note below)
     "julia",
     "juliacall",
+
+    # Animation
+    "manim",
 ]
 
 cmd = [

@@ -22,7 +22,7 @@ l_julia:
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t $(IMAGE_JULIA):$(VERSION) -t $(IMAGE_JULIA):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_julia"
+	@echo "<DONE> l_julia $$(date +%-m/%-d/%y\ %H:%M)"
 l_julia_run:
 	docker run --rm -it $(IMAGE_JULIA):$(VERSION) bash
 
@@ -33,7 +33,7 @@ l_python:
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t $(IMAGE_PYTHON):$(VERSION) -t $(IMAGE_PYTHON):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_python"
+	@echo "<DONE> l_python $$(date +%-m/%-d/%y\ %H:%M)"
 l_python_run:
 	docker run --rm -it $(IMAGE_PYTHON):$(VERSION) bash
 
@@ -42,7 +42,7 @@ l_jupyter:
 	  --build-arg BASE_IMAGE=$(IMAGE_PYTHON):$(VERSION) \
 	  -t $(IMAGE_JUPYTER):$(VERSION) -t  $(IMAGE_JUPYTER):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_jupyter"
+	@echo "<DONE> l_jupyter $$(date +%-m/%-d/%y\ %H:%M)"
 l_jupyter_run:
 	docker run --rm -it $(IMAGE_JUPYTER):$(VERSION) bash
 
@@ -51,7 +51,7 @@ l_pluto:
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t $(IMAGE_PLUTO):$(VERSION) -t $(IMAGE_PLUTO):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_pluto"
+	@echo "<DONE> l_pluto $$(date +%-m/%-d/%y\ %H:%M)"
 l_pluto_run:
 	docker run --rm -it $(IMAGE_PLUTO):$(VERSION) bash
 
@@ -61,15 +61,15 @@ l_la_course:
 	  -t $(IMAGE_LA_COURSE):$(VERSION) -t  $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --no-cache \
 	  --progress=plain --load .
-	@echo "<DONE> l_la_course"
+	@echo "<DONE> l_la_course $$(date +%-m/%-d/%y\ %H:%M)"
 
 
 l_la_course_run:
 	docker run --rm -it $(IMAGE_LA_COURSE):$(VERSION) bash
-	@echo "<DONE> l_la_course"
+	@echo "<DONE> l_la_course $$(date +%-m/%-d/%y\ %H:%M)"
 
 l_chain: l_julia l_python l_jupyter l_pluto l_la_course
-	@echo "<DONE> l_chain"
+	@echo "<DONE> l_chain $$(date +%-m/%-d/%y\ %H:%M)"
 
 # =======================================================================================================
 julia:
@@ -77,7 +77,7 @@ julia:
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t ea42gh/$(IMAGE_JULIA):$(VERSION) -t ea42gh/$(IMAGE_JULIA):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> julia"
+	@echo "<DONE> julia $$(date +%-m/%-d/%y\ %H:%M)"
 
 python:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.python \
@@ -85,31 +85,31 @@ python:
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t ea42gh/$(IMAGE_PYTHON):$(VERSION) -t ea42gh/$(IMAGE_PYTHON):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> python"
+	@echo "<DONE> python $$(date +%-m/%-d/%y\ %H:%M)"
 
 jupyter:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_PYTHON):$(VERSION) \
 	  -t ea42gh/$(IMAGE_JUPYTER):$(VERSION) -t ea42gh/$(IMAGE_JUPYTER):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> jupyter"
+	@echo "<DONE> jupyter $$(date +%-m/%-d/%y\ %H:%M)"
 
 pluto:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.pluto \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t ea42gh/$(IMAGE_PLUTO):$(VERSION) -t ea42gh/$(IMAGE_PLUTO):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> pluto"
+	@echo "<DONE> pluto $$(date +%-m/%-d/%y\ %H:%M)"
 
 la_course:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> la_course"
+	@echo "<DONE> la_course $$(date +%-m/%-d/%y\ %H:%M)"
 
 chain: julia python jupyter la_course pluto
-	@echo "<DONE> chain"
+	@echo "<DONE> chain $$(date +%-m/%-d/%y\ %H:%M)"
 
 C ?= container
 git:
