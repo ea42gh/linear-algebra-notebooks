@@ -146,6 +146,7 @@ USER jovyan
 WORKDIR /home/jovyan
 
 RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
+RUN chmod 0755 /home/jovyan/elementary-linear-algebra/bin/*
 RUN ln -s /tmp /home/jovyan/tmp \
  && mkdir /home/jovyan/work
 

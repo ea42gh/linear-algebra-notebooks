@@ -27,12 +27,15 @@ mapfile -t NOTEBOOKS < <(find "$NB_DIR" -type f -name "*.ipynb" | sort)
 
 for nb in "${NOTEBOOKS[@]}"; do
   out="$TMP_DIR/$(basename "$nb")"
-  echo "Running: $nb"
+  echo -n "Running: $nb"
   if ! jupyter nbconvert --to notebook --execute "$nb" \
         --ExecutePreprocessor.timeout="$TIMEOUT" \
         --output "$out" \
         --log-level WARN >/dev/null 2>&1; then
+    echo "  FAIL"
     FAILED+=("$nb")
+  else
+    echo
   fi
 done
 
