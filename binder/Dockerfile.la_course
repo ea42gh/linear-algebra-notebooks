@@ -111,7 +111,7 @@ RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); using GenLAProblems
 A, X, B = gen_gj_pb(3, 3, 3); \
 A = Rational{Int}.(A); \
 B = Rational{Int}.(B); \
-pb = ShowGe{Rational{Int}}(A, B); \
+pb = ShowGE{Rational{Int}}(A, B); \
 ref!(pb; gj=true); \
 GenLAProblems.rref_matrix(4, 6, 3); \
 A_qr = gen_qr_problem_3(); \

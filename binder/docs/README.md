@@ -240,7 +240,7 @@ Common entry points (typical notebook usage):
   - **show_ge_final**: render final GE table
   - **show_solution**: render solution
   - py_show_svg: display SVG in notebooks
-  - **ShowGe**: GE workflow struct
+  - **ShowGE**: GE workflow struct
   - **ref!**: compute REF/RREF and decorate
   - **show_layout!**: display GE layout
   - **show_system**: display system TeX/SVG
