@@ -1,13 +1,9 @@
 using Pkg
 Pkg.activate("/home/jovyan/.julia_env")
-const GENERAL_REV = "182e674f3caa60a3c4f1fedb5ea093d131e304b5"
-try
-    # Ensure General exists, then pin to a known-good commit.
-    Pkg.Registry.add("General")
-    run(`git -C /home/jovyan/.julia/registries/General checkout $(GENERAL_REV)`)
-catch
-    # If add/checkout fails, proceed; build will surface the error.
-end
+
+# Always refresh the General registry for a clean, up-to-date install.
+rm("/home/jovyan/.julia/registries/General"; force=true, recursive=true)
+Pkg.Registry.add("General")
 Pkg.instantiate()
 
 
