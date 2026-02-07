@@ -7,7 +7,8 @@ ENV JULIA_PROJECT=/home/jovyan/.julia_env
 ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
 ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIAPKG_PROJECT=/home/jovyan/.julia_env
-ENV PIP_ROOT_USER_ACTION=ignore
+ENV JULIA_PKG_SERVER=""
+ENV JULIA_PKG_OFFLINE=true
 
 USER root
 WORKDIR /tmp
@@ -40,10 +41,8 @@ RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
  && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env
 
 USER jovyan
-RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
 RUN julia --startup-file=no /tmp/install_julia_packages.jl
-ENV JULIA_PKG_SERVER=""
-ENV JULIA_PKG_OFFLINE=true
+RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
 
 USER jovyan
 WORKDIR /opt/ea42gh

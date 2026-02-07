@@ -17,9 +17,6 @@ os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIACALL_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
-os.environ.setdefault("JULIAPKG_EXE", "/home/jovyan/.local/bin/julia")
-os.environ.setdefault("JULIAPKG_OFFLINE", "1")
-os.environ.setdefault("JULIAPKG_NO_UPDATE", "1")
 
 
 from juliacall import Main as jl
