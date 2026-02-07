@@ -10,13 +10,20 @@ catch
 end
 Pkg.instantiate()
 
+@info "Adding GenericLinearAlgebra from URL (pinned)"
+try
+    Pkg.add(url="https://github.com/JuliaLinearAlgebra/GenericLinearAlgebra.jl", rev="v0.3.19")
+catch
+    # If this fails, continue; build will surface the error later.
+end
+
 
 pkgs = Dict(
     # Algebra / numerics
     "AbstractAlgebra"      => :safe,
     "BlockArrays"          => :safe,
     "SparseArrays"         => :safe,
-    "GenericLinearAlgebra" => :safe,
+    # Installed separately from a pinned URL to avoid registry issues.
     "LinearAlgebra"        => :safe,
     "ToeplitzMatrices"     => :safe,
     "Hadamard"             => :safe,
