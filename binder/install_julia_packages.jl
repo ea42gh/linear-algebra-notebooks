@@ -1,5 +1,14 @@
 using Pkg
 Pkg.activate("/home/jovyan/.julia_env")
+
+const GENERAL_REV = "182e674f3caa60a3c4f1fedb5ea093d131e304b5"
+const GENERAL_PATH = "/tmp/General"
+if !isdir(GENERAL_PATH)
+    run(`git clone https://github.com/JuliaRegistries/General.git $(GENERAL_PATH)`)
+end
+run(`git -C $(GENERAL_PATH) checkout $(GENERAL_REV)`)
+Pkg.Registry.add(Pkg.RegistrySpec(path=GENERAL_PATH))
+
 Pkg.instantiate()
 
 
@@ -37,7 +46,6 @@ pkgs = Dict(
     "Plots"                => :gui,
     "PlotlyJS"             => :gui,
     "Colors"               => :safe,
-    "PrettyTables"         => :safe,
     "GR"                   => :gui,
     "Makie"                => :gui,
     "CairoMakie"           => :gui,

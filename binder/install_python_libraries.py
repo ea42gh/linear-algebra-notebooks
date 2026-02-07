@@ -49,6 +49,7 @@ cmd = [
     "-m", "pip", "install",
     "--no-cache-dir",
     "--upgrade",
+    "--root-user-action=ignore",
     *pkgs
 ]
 
