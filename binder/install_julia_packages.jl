@@ -6,6 +6,12 @@ rm("/home/jovyan/.julia/registries/General"; force=true, recursive=true)
 Pkg.Registry.add("General")
 Pkg.instantiate()
 
+@info "Adding QuadGK from URL (pinned)"
+try
+    Pkg.add(url="https://github.com/JuliaMath/QuadGK.jl", rev="v2.4.2")
+catch
+    # If this fails, continue; build will surface the error later.
+end
 
 pkgs = Dict(
     # Algebra / numerics
@@ -15,7 +21,7 @@ pkgs = Dict(
     "LinearAlgebra"        => :safe,
     "ToeplitzMatrices"     => :safe,
     "Hadamard"             => :safe,
-    "QuadGK"               => :safe,
+    # Installed separately from a pinned URL to avoid registry issues.
     "Random"               => :safe,
     "RowEchelon"           => :safe,
     "Symbolics"            => :safe,
