@@ -139,6 +139,12 @@ RUN mkdir -p /opt/ea42gh/docs/GenLAProblems/notebooks \
 
 RUN mkdir -p /opt/ea42gh/docs/LAlatex/notebooks \
  && cp -r /opt/ea42gh/LAlatex/docs/src/notebooks/. /opt/ea42gh/docs/LAlatex/notebooks/
+RUN find /opt/ea42gh/docs -name "*.ipynb" -print0 | xargs -0 jupyter trust
+
+USER root
+RUN chown -R jovyan:jovyan /home/jovyan/.julia
+RUN rm -rf /tmp/*
+USER jovyan
 
 
 USER root
