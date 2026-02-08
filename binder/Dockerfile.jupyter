@@ -22,7 +22,7 @@ RUN mkdir -p /opt/ea42gh \
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade \
     pip setuptools wheel
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
-    jupyter jupyterlab notebook mkdocs "mkdocs-material[imaging]" pymdown-extensions sympy
+    jupyter jupyterlab "notebook<7" nbclassic mkdocs "mkdocs-material[imaging]" pymdown-extensions sympy
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
     mkdocs-macros-plugin "mkdocstrings[python]" juliacall webio_jupyter_extension
 
@@ -105,8 +105,15 @@ RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extens
 # JupyterLab system overrides (belt-and-suspenders)
 USER root
 RUN mkdir -p /usr/local/share/jupyter/lab/settings \
- && printf '{\n  \"@jupyterlab/apputils-extension:announcements\": {\"enabled\": false},\n  \"@jupyterlab/apputils-extension:notification\": {\"fetchNews\": \"false\"},\n  \"@jupyterlab/codemirror-extension:preferences\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/fileeditor-extension:plugin\": {\"codeFolding\": true, \"lineNumbers\": true, \"showTrailingWhitespace\": true},\n  \"@jupyterlab/notebook-extension:tracker\": {\"enableKernelInitNotification\": false, \"codeCellConfig\": {\"codeFolding\": true, \"highlightTrailingWhitespace\": true, \"lineNumbers\": true}}\n}\n' \
- > /usr/local/share/jupyter/lab/settings/overrides.json
+ && cat <<'EOF' > /usr/local/share/jupyter/lab/settings/overrides.json
+{
+  "@jupyterlab/apputils-extension:announcements": {"enabled": false},
+  "@jupyterlab/apputils-extension:notification": {"fetchNews": "false"},
+  "@jupyterlab/codemirror-extension:preferences": {"codeFolding": true, "lineNumbers": true, "showTrailingWhitespace": true},
+  "@jupyterlab/fileeditor-extension:plugin": {"codeFolding": true, "lineNumbers": true, "showTrailingWhitespace": true},
+  "@jupyterlab/notebook-extension:tracker": {"enableKernelInitNotification": false, "codeCellConfig": {"codeFolding": true, "highlightTrailingWhitespace": true, "lineNumbers": true}}
+}
+EOF
 USER jovyan
 
 WORKDIR /home/jovyan

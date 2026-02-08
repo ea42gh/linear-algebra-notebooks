@@ -1,10 +1,6 @@
 c = get_config()
 
-c.ServerApp.mathjax_config = {
-    "tex": {
-        "packages": {"[+]": ["ams", "textmacros"]}
-    }
-}
+# mathjax_config is deprecated on ServerApp; remove to avoid warnings.
 
 c.ServerProxy.servers = {
     "pluto": {

@@ -38,6 +38,8 @@ RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
 USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir mkdocs-jupyter
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir "notebook<7" nbclassic
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir vsapy
 
 COPY binder/start-pluto /usr/local/bin/start-pluto
 RUN chmod 0755 /usr/local/bin/start-pluto

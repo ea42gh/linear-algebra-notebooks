@@ -68,7 +68,7 @@ l_la_course_run:
 	docker run --rm -it $(IMAGE_LA_COURSE):$(VERSION) bash
 	@echo "<DONE> l_la_course $$(date +%-m/%-d/%y\ %H:%M)"
 
-l_chain: l_julia l_python l_jupyter l_pluto l_la_course
+l_chain: l_julia l_python l_jupyter l_la_course #l_pluto 
 	@echo "<DONE> l_chain $$(date +%-m/%-d/%y\ %H:%M)"
 
 # =======================================================================================================
@@ -108,7 +108,7 @@ la_course:
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> la_course $$(date +%-m/%-d/%y\ %H:%M)"
 
-chain: julia python jupyter la_course pluto
+chain: julia python jupyter la_course # pluto
 	@echo "<DONE> chain $$(date +%-m/%-d/%y\ %H:%M)"
 
 C ?= container
