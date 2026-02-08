@@ -7,8 +7,6 @@ ENV JULIA_PROJECT=/home/jovyan/.julia_env
 ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
 ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIAPKG_PROJECT=/home/jovyan/.julia_env
-ENV JULIA_PKG_SERVER=""
-ENV JULIA_PKG_OFFLINE=true
 
 USER root
 WORKDIR /tmp
@@ -17,7 +15,7 @@ RUN mkdir -p /opt/ea42gh \
  && chown jovyan:jovyan /opt/ea42gh
 COPY binder/docs/README.md /opt/ea42gh/docs/README.md
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
     graphviz-dev \
     ffmpeg \
     libcairo2-dev \
@@ -25,6 +23,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pkg-config \
  && rm -rf /var/lib/apt/lists/*
 
+# Install Julia packages early for better layer caching.
+COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
+RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
+ && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env
+
+USER jovyan
+
+# Run package install with network registry (override offline settings for this step).
+RUN JULIA_PKG_OFFLINE=false JULIA_PKG_SERVER=https://pkg.julialang.org \
+    julia --startup-file=no /tmp/install_julia_packages.jl
+RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
+
+USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir mkdocs-jupyter
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
 
@@ -35,16 +46,6 @@ COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
-
-COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
-RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
- && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env
-
-USER jovyan
-RUN julia --startup-file=no /tmp/install_julia_packages.jl
-RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
-
-USER jovyan
 WORKDIR /opt/ea42gh
 
 ARG GENLAPROBLEMS_REF=main
@@ -59,6 +60,7 @@ RUN git clone https://github.com/ea42gh/GenLAProblems.git \
 RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
+Pkg.add(Pkg.PackageSpec(url="https://github.com/Nemocas/AbstractAlgebra.jl.git", rev="v0.48.2")); \
 Pkg.add("PythonCall"); \
 Pkg.resolve(); \
 Pkg.instantiate()'
@@ -89,7 +91,7 @@ RUN mkdir -p /opt/ea42gh/docs/la_figures/notebooks \
 
 # Precompile safe Julia packages and warm Python bytecode caches.
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.precompile(["LAlatex"])'
-RUN /usr/local/bin/python3 -m compileall -q \
+RUN PYTHONPYCACHEPREFIX=/tmp/pycache /usr/local/bin/python3 -m compileall -q \
     /opt/ea42gh/jupyter-tikz \
     /opt/ea42gh/la_figures \
     /opt/ea42gh/matrixlayout
@@ -100,7 +102,7 @@ Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
 stdlib_uuids = Set(values(Pkg.Types.stdlibs())); \
-skip_names = Set(["GenLAProblems", "GLMakie", "PythonCall", "PythonCallJLL"]); \
+skip_names = Set(["GenLAProblems", "GLMakie", "PythonCall", "PythonCallJLL", "ImageView", "GtkObservables"]); \
 pkgs = Dict{Base.UUID,String}(); \
 for (uuid, info) in Pkg.dependencies(); \
     if uuid in stdlib_uuids || info.name in skip_names; \
