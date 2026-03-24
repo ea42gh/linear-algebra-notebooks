@@ -36,7 +36,9 @@ RUN JULIA_PKG_OFFLINE=false JULIA_PKG_SERVER=https://pkg.julialang.org \
 RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
 
 USER root
-RUN /usr/local/bin/python3 -m pip install --no-cache-dir mkdocs-jupyter
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
+    "mkdocs-jupyter==0.24.8" \
+    "nbconvert==7.16.6"
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir "notebook<7" nbclassic
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir vsapy
@@ -91,8 +93,13 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN mkdir -p /opt/ea42gh/docs/la_figures/notebooks \
  && cp -r /opt/ea42gh/la_figures/docs/notebooks/. /opt/ea42gh/docs/la_figures/notebooks/
 
-# Precompile safe Julia packages and warm Python bytecode caches.
-RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.precompile(["LAlatex"])'
+# Precompile LAlatex in an isolated temp env so GUI deps in JULIA_PROJECT
+# (e.g. Makie) do not get pulled into this warmup step.
+RUN julia -e 'using Pkg; \
+Pkg.activate(; temp=true); \
+Pkg.develop(path="/opt/ea42gh/LAlatex"); \
+Pkg.instantiate(); \
+Pkg.precompile(["LAlatex"])'
 RUN PYTHONPYCACHEPREFIX=/tmp/pycache /usr/local/bin/python3 -m compileall -q \
     /opt/ea42gh/jupyter-tikz \
     /opt/ea42gh/la_figures \
@@ -103,17 +110,11 @@ Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
-stdlib_uuids = Set(values(Pkg.Types.stdlibs())); \
-skip_names = Set(["GenLAProblems", "GLMakie", "PythonCall", "PythonCallJLL", "ImageView", "GtkObservables"]); \
-pkgs = Dict{Base.UUID,String}(); \
-for (uuid, info) in Pkg.dependencies(); \
-    if uuid in stdlib_uuids || info.name in skip_names; \
-        continue; \
-    end; \
-    pkgs[uuid] = info.name; \
-end; \
-specs = [Pkg.PackageSpec(uuid=k, name=v) for (k, v) in pkgs]; \
-Pkg.precompile(specs; strict=false)'
+Pkg.activate(; temp=true); \
+Pkg.develop(path="/opt/ea42gh/LAlatex"); \
+Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
+Pkg.instantiate(); \
+Pkg.precompile(["LAlatex", "GenLAProblems"]; strict=false)'
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); using GenLAProblems; \
 A, X, B = gen_gj_pb(3, 3, 3); \
 A = Rational{Int}.(A); \
