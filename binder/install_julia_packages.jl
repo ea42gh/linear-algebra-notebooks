@@ -1,6 +1,8 @@
 using Pkg
 
 Pkg.activate("/home/jovyan/.julia_env")
+# Enforce policy: only explicitly precompile the :safe set.
+ENV["JULIA_PKG_PRECOMPILE_AUTO"] = "0"
 
 # Ensure the General registry is available.
 Pkg.Registry.add("General")
@@ -68,6 +70,6 @@ safe_pkgs = [name for (name, kind) in pkgs if kind === :safe]
 gui_pkgs = [name for (name, kind) in pkgs if kind === :gui]
 
 Pkg.add(safe_pkgs)
-Pkg.precompile()
+Pkg.precompile(safe_pkgs; strict=false)
 
 Pkg.add(gui_pkgs)
