@@ -186,10 +186,10 @@ push_amd64:
 	docker push ea42gh/la-course:0.2-amd64
 	docker push ea42gh/la-course:julia1.10.5-py3.11.9-amd64
 	docker buildx imagetools create -t ea42gh/la-course:0.2 \
-	    ea42gh/la-course:0.2-arm64 \
+	    ea42gh/la-course:0.2-amd64 \
 	    ea42gh/la-course:0.2-amd64
 	docker buildx imagetools create -t ea42gh/la-course:julia1.10.5-py3.11.9 \
-	    ea42gh/la-course:julia1.10.5-py3.11.9-arm64 \
+	    ea42gh/la-course:julia1.10.5-py3.11.9-amd64 \
 	    ea42gh/la-course:julia1.10.5-py3.11.9-amd64
 	docker buildx imagetools inspect ea42gh/la-course:0.2
 	docker buildx imagetools inspect ea42gh/la-course:julia1.10.5-py3.11.9
