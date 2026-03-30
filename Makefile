@@ -1,4 +1,6 @@
 .PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote
+.PHONEY: push_amd64 push arm64
+
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
 IMAGE_BASE    ?= $(IMAGE_PYTHON)
@@ -165,3 +167,16 @@ info:
 	@echo "PYTHON_VERSION = $(PYTHON_VERSION)"
 	@echo "RUNTIME_TAG    = $(RUNTIME_TAG)"
 # =======================================================================================================
+push_amd64:
+	docker tag la-course:0.2 ea42gh/la-course:0.2-amd64
+	docker tag la-course:julia1.10.5-py3.11.9 ea42gh/la-course:julia1.10.5-py3.11.9-amd64
+	docker push ea42gh/la-course:0.2-amd64
+	docker push ea42gh/la-course:julia1.10.5-py3.11.9-amd64
+	docker buildx imagetools create -t ea42gh/la-course:0.2 \
+	    ea42gh/la-course:0.2-arm64 \
+	    ea42gh/la-course:0.2-amd64
+	docker buildx imagetools create -t ea42gh/la-course:julia1.10.5-py3.11.9 \
+	    ea42gh/la-course:julia1.10.5-py3.11.9-arm64 \
+	    ea42gh/la-course:julia1.10.5-py3.11.9-amd64
+	docker buildx imagetools inspect ea42gh/la-course:0.2
+	docker buildx imagetools inspect ea42gh/la-course:julia1.10.5-py3.11.9
