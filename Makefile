@@ -11,8 +11,13 @@ VERSION ?= 0.2
 JULIA_VERSION  ?= 1.10.5
 PYTHON_VERSION ?= 3.11.9
 IMG_VERSION ?= 0.1.0
-TIMESTAMP = $(shell date '+%Y-%m-%d %H:%M' 2>/dev/null || powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'")
-ARCH_RAW = $(shell uname -m 2>/dev/null || powershell -NoProfile -Command "[System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()")
+ifeq ($(OS),Windows_NT)
+TIMESTAMP = $(shell powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'")
+ARCH_RAW = $(shell powershell -NoProfile -Command "[System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()")
+else
+TIMESTAMP = $(shell date '+%Y-%m-%d %H:%M')
+ARCH_RAW = $(shell uname -m)
+endif
 ifeq ($(findstring arm64,$(ARCH_RAW)),arm64)
 ARCH_SUFFIX = arm64
 else ifeq ($(findstring aarch64,$(ARCH_RAW)),aarch64)

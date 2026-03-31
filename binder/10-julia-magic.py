@@ -27,12 +27,12 @@ from juliacall import Main as jl
 # ------------------------------------------------------------------
 
 jl.seval("""
-using PythonCall
+import Pkg
+Pkg.activate("/home/jovyan/.julia_env")
 """)
 
 jl.seval("""
-import Pkg
-Pkg.activate("/home/jovyan/.julia_env")
+using PythonCall
 """)
 
 jl.seval("""
