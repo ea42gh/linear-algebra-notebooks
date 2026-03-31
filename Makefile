@@ -1,5 +1,4 @@
-.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote
-.PHONEY: push_amd64 push arm64
+.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push
 
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
@@ -12,6 +11,19 @@ VERSION ?= 0.2
 JULIA_VERSION  ?= 1.10.5
 PYTHON_VERSION ?= 3.11.9
 IMG_VERSION ?= 0.1.0
+TIMESTAMP = $(shell date '+%Y-%m-%d %H:%M' 2>/dev/null || powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'")
+ARCH_RAW = $(shell uname -m 2>/dev/null || powershell -NoProfile -Command "[System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()")
+ifeq ($(findstring arm64,$(ARCH_RAW)),arm64)
+ARCH_SUFFIX = arm64
+else ifeq ($(findstring aarch64,$(ARCH_RAW)),aarch64)
+ARCH_SUFFIX = arm64
+else ifeq ($(findstring x86_64,$(ARCH_RAW)),x86_64)
+ARCH_SUFFIX = amd64
+else ifeq ($(findstring amd64,$(ARCH_RAW)),amd64)
+ARCH_SUFFIX = amd64
+else
+$(error Unsupported architecture "$(ARCH_RAW)"; expected amd64/x86_64 or arm64/aarch64)
+endif
 
 # Compatibility tag (informational but useful)
 RUNTIME_TAG := julia$(JULIA_VERSION)-py$(PYTHON_VERSION)
@@ -24,7 +36,7 @@ l_julia:
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t $(IMAGE_JULIA):$(VERSION) -t $(IMAGE_JULIA):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_julia $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_julia $(TIMESTAMP)"
 l_julia_run:
 	docker run --rm -it $(IMAGE_JULIA):$(VERSION) bash
 
@@ -35,7 +47,7 @@ l_python:
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t $(IMAGE_PYTHON):$(VERSION) -t $(IMAGE_PYTHON):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_python $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_python $(TIMESTAMP)"
 l_python_run:
 	docker run --rm -it $(IMAGE_PYTHON):$(VERSION) bash
 
@@ -44,7 +56,7 @@ l_jupyter:
 	  --build-arg BASE_IMAGE=$(IMAGE_PYTHON):$(VERSION) \
 	  -t $(IMAGE_JUPYTER):$(VERSION) -t  $(IMAGE_JUPYTER):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_jupyter $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_jupyter $(TIMESTAMP)"
 l_jupyter_run:
 	docker run --rm -it $(IMAGE_JUPYTER):$(VERSION) bash
 
@@ -53,7 +65,7 @@ l_pluto:
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t $(IMAGE_PLUTO):$(VERSION) -t $(IMAGE_PLUTO):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
-	@echo "<DONE> l_pluto $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_pluto $(TIMESTAMP)"
 l_pluto_run:
 	docker run --rm -it $(IMAGE_PLUTO):$(VERSION) bash
 
@@ -63,15 +75,15 @@ l_la_course:
 	  -t $(IMAGE_LA_COURSE):$(VERSION) -t  $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --no-cache \
 	  --progress=plain --load .
-	@echo "<DONE> l_la_course $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_la_course $(TIMESTAMP)"
 
 
 l_la_course_run:
 	docker run --rm -it $(IMAGE_LA_COURSE):$(VERSION) bash
-	@echo "<DONE> l_la_course $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_la_course $(TIMESTAMP)"
 
 l_chain: l_julia l_python l_jupyter l_la_course #l_pluto 
-	@echo "<DONE> l_chain $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> l_chain $(TIMESTAMP)"
 
 # =======================================================================================================
 julia:
@@ -79,7 +91,7 @@ julia:
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t ea42gh/$(IMAGE_JULIA):$(VERSION) -t ea42gh/$(IMAGE_JULIA):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> julia $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> julia $(TIMESTAMP)"
 
 python:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.python \
@@ -87,31 +99,31 @@ python:
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t ea42gh/$(IMAGE_PYTHON):$(VERSION) -t ea42gh/$(IMAGE_PYTHON):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> python $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> python $(TIMESTAMP)"
 
 jupyter:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_PYTHON):$(VERSION) \
 	  -t ea42gh/$(IMAGE_JUPYTER):$(VERSION) -t ea42gh/$(IMAGE_JUPYTER):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> jupyter $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> jupyter $(TIMESTAMP)"
 
 pluto:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.pluto \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t ea42gh/$(IMAGE_PLUTO):$(VERSION) -t ea42gh/$(IMAGE_PLUTO):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> pluto $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> pluto $(TIMESTAMP)"
 
 la_course:
 	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
-	@echo "<DONE> la_course $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> la_course $(TIMESTAMP)"
 
 chain: julia python jupyter la_course # pluto
-	@echo "<DONE> chain $$(date +%-m/%-d/%y\ %H:%M)"
+	@echo "<DONE> chain $(TIMESTAMP)"
 
 C ?= container
 git:
@@ -167,29 +179,18 @@ info:
 	@echo "PYTHON_VERSION = $(PYTHON_VERSION)"
 	@echo "RUNTIME_TAG    = $(RUNTIME_TAG)"
 # =======================================================================================================
-push_arm64:
-	docker tag la-course:0.2 ea42gh/la-course:0.2-arm64
-	docker tag la-course:julia1.10.5-py3.11.9 ea42gh/la-course:julia1.10.5-py3.11.9-arm64
-	docker push ea42gh/la-course:0.2-arm64
-	docker push ea42gh/la-course:julia1.10.5-py3.11.9-arm64
-	docker buildx imagetools create -t ea42gh/la-course:0.2 \
-	    ea42gh/la-course:0.2-arm64 \
-	    ea42gh/la-course:0.2-arm64
-	docker buildx imagetools create -t ea42gh/la-course:julia1.10.5-py3.11.9 \
-	    ea42gh/la-course:julia1.10.5-py3.11.9-arm64 \
-	    ea42gh/la-course:julia1.10.5-py3.11.9-arm64
-	docker buildx imagetools inspect ea42gh/la-course:0.2
-	docker buildx imagetools inspect ea42gh/la-course:julia1.10.5-py3.11.9
-push_amd64:
-	docker tag la-course:0.2 ea42gh/la-course:0.2-amd64
-	docker tag la-course:julia1.10.5-py3.11.9 ea42gh/la-course:julia1.10.5-py3.11.9-amd64
-	docker push ea42gh/la-course:0.2-amd64
-	docker push ea42gh/la-course:julia1.10.5-py3.11.9-amd64
-	docker buildx imagetools create -t ea42gh/la-course:0.2 \
-	    ea42gh/la-course:0.2-amd64 \
-	    ea42gh/la-course:0.2-amd64
-	docker buildx imagetools create -t ea42gh/la-course:julia1.10.5-py3.11.9 \
-	    ea42gh/la-course:julia1.10.5-py3.11.9-amd64 \
-	    ea42gh/la-course:julia1.10.5-py3.11.9-amd64
-	docker buildx imagetools inspect ea42gh/la-course:0.2
-	docker buildx imagetools inspect ea42gh/la-course:julia1.10.5-py3.11.9
+push:
+	docker tag $(IMAGE_LA_COURSE):$(VERSION) ea42gh/$(IMAGE_LA_COURSE):$(VERSION)-$(ARCH_SUFFIX)
+	docker tag $(IMAGE_LA_COURSE):$(RUNTIME_TAG) ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG)-$(ARCH_SUFFIX)
+	docker push ea42gh/$(IMAGE_LA_COURSE):$(VERSION)-$(ARCH_SUFFIX)
+	docker push ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG)-$(ARCH_SUFFIX)
+	docker buildx imagetools create -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) \
+	    ea42gh/$(IMAGE_LA_COURSE):$(VERSION)-amd64 \
+	    ea42gh/$(IMAGE_LA_COURSE):$(VERSION)-arm64
+	docker buildx imagetools create -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
+	    ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG)-amd64 \
+	    ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG)-arm64
+	docker buildx imagetools inspect ea42gh/$(IMAGE_LA_COURSE):$(VERSION)
+	docker buildx imagetools inspect ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG)
+	docker buildx imagetools inspect ea42gh/$(IMAGE_LA_COURSE):$(VERSION)-$(ARCH_SUFFIX)
+	docker buildx imagetools inspect ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG)-$(ARCH_SUFFIX)

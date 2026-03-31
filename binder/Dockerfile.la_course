@@ -111,7 +111,9 @@ Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
-Pkg.precompile(strict=false)'
+blocked_pkgs = isfile("/home/jovyan/.julia_env_blocked_pkgs.txt") ? Set(filter(!isempty, readlines("/home/jovyan/.julia_env_blocked_pkgs.txt"))) : Set{String}(); \
+pkgs = [Pkg.PackageSpec(name=name) for (name, _) in Pkg.project().dependencies if !(name in blocked_pkgs)]; \
+Pkg.precompile(pkgs; strict=false)'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
