@@ -63,7 +63,7 @@ pkgs = Dict(
     "WebIO" => :gui,
     "IJulia" => :gui,
     "Pluto" => :gui,
-    "PythonCall" => :gui,
+    "PythonCall" => :safe,
 )
 
 safe_pkgs = [name for (name, kind) in pkgs if kind === :safe]
