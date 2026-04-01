@@ -50,6 +50,8 @@ ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
 ENV JULIA_CONDAPKG_BACKEND=Null
 ENV JULIA_PROJECT=/home/jovyan/.julia_env
 ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
+ENV PYTHON_JULIACALL_EXE=/usr/local/julia/bin/julia
+ENV PYTHON_JULIACALL_PROJECT=/home/jovyan/.julia_env
 ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIAPKG_PROJECT=/home/jovyan/.julia_env
 

@@ -5,6 +5,8 @@ ENV JULIA_CONDAPKG_BACKEND=Null
 ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
 ENV JULIA_PROJECT=/home/jovyan/.julia_env
 ENV JULIACALL_PROJECT=/home/jovyan/.julia_env
+ENV PYTHON_JULIACALL_EXE=/usr/local/julia/bin/julia
+ENV PYTHON_JULIACALL_PROJECT=/home/jovyan/.julia_env
 ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIA_PKG_PRECOMPILE_AUTO=0
@@ -62,6 +64,9 @@ RUN git clone --branch ${LAFIGURES_REF} --single-branch https://github.com/ea42g
 RUN git clone https://github.com/ea42gh/GenLAProblems.git \
  && cd /opt/ea42gh/GenLAProblems \
  && git checkout ${GENLAPROBLEMS_REF}
+RUN if grep -q '__precompile__(false)' /opt/ea42gh/GenLAProblems/src/GenLAProblems.jl; then \
+      sed -i 's/__precompile__(false)/# __precompile__(false) disabled in image build experiment/' /opt/ea42gh/GenLAProblems/src/GenLAProblems.jl; \
+    fi
 RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \

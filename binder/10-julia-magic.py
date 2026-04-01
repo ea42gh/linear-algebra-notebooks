@@ -15,6 +15,8 @@ from IPython.display import Latex, Math, display
 
 os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIACALL_PROJECT", "/home/jovyan/.julia_env")
+os.environ.setdefault("PYTHON_JULIACALL_EXE", "/usr/local/julia/bin/julia")
+os.environ.setdefault("PYTHON_JULIACALL_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 
@@ -48,6 +50,10 @@ function _py_display_latex(x)
     end
     return x
 end
+""")
+
+jl.seval("""
+using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random
 """)
 
 # ------------------------------------------------------------------

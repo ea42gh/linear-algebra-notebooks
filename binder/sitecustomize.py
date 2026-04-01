@@ -3,6 +3,8 @@ import os
 
 os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIACALL_PROJECT", "/home/jovyan/.julia_env")
+os.environ.setdefault("PYTHON_JULIACALL_EXE", "/usr/local/julia/bin/julia")
+os.environ.setdefault("PYTHON_JULIACALL_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 
