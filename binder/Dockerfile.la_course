@@ -106,6 +106,7 @@ RUN PYTHONPYCACHEPREFIX=/tmp/pycache /usr/local/bin/python3 -m compileall -q \
     /opt/ea42gh/la_figures \
     /opt/ea42gh/matrixlayout
 
+RUN rm -rf /home/jovyan/.julia/compiled
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
