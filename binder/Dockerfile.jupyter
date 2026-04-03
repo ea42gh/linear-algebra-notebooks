@@ -86,6 +86,7 @@ COPY binder/10-julia-magic.py \
 COPY binder/inputrc /home/jovyan/.inputrc
 COPY binder/sitecustomize.py /usr/local/lib/python3.11/site-packages/sitecustomize.py
 COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
+COPY binder/julia_startup.jl /etc/julia/startup.jl
 
 # JupyterLab user settings (match reference settings)
 RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension \
