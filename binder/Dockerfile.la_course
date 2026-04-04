@@ -64,9 +64,6 @@ RUN git clone --branch ${LAFIGURES_REF} --single-branch https://github.com/ea42g
 RUN git clone https://github.com/ea42gh/GenLAProblems.git \
  && cd /opt/ea42gh/GenLAProblems \
  && git checkout ${GENLAPROBLEMS_REF}
-RUN if grep -q '__precompile__(false)' /opt/ea42gh/GenLAProblems/src/GenLAProblems.jl; then \
-      sed -i 's/__precompile__(false)/# __precompile__(false) disabled in image build experiment/' /opt/ea42gh/GenLAProblems/src/GenLAProblems.jl; \
-    fi
 RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
@@ -160,8 +157,8 @@ using LinearAlgebra, RowEchelon, LaTeXStrings, BlockArrays, Latexify, PythonCall
 A = [1 -2 -1 1; -1 2 3 -1; 1 0 1 -3; -1 0 1 -1]; \
 h, mats = nM.gram_schmidt_qr(A; fig_scale=1.2); \
 qr = qr_matrices_from_grid(mats); \
-Q = qr["Q"]; \
-R = qr["R"]; \
+Q = qr.Q; \
+R = qr.R; \
 s = string(l_show(L"A = Q R = ", Q, R)); \
 isempty(s) && error("l_show returned empty output for Python-backed QR matrices"); \
 println("QR/l_show regression check OK")'
