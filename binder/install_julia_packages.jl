@@ -38,32 +38,36 @@ pkgs = Dict(
     "NearestNeighbors" => :safe,
     "AngleBetweenVectors" => :safe,
     "Revise" => :safe,
+    "PrecompileTools" => :safe,
     "IOCapture" => :safe,
     "Latexify" => :safe,
     "LaTeXStrings" => :safe,
     "StyledStrings" => :safe,
     "HypertextLiteral" => :safe,
+    "PythonCall" => :safe,
 
+    # Safe: notebook, web, image, and plotting packages that precompile
+    # without opening a native display window in the Binder build.
     "Images" => :safe,
     "ImageShow" => :safe,
     "TestImages" => :safe,
     "MosaicViews" => :safe,
     "WebIO" => :safe,
     "IJulia" => :safe,
+    "Interact" => :safe,
+    "Pluto" => :safe,
+    "Plots" => :safe,
+    "StatsPlots" => :safe,
+    "PlotlyJS" => :safe,
+    "GR" => :safe,
+    "Makie" => :safe,
+    "CairoMakie" => :safe,
+    "WGLMakie" => :safe,
 
-    # Blocked: packages that should not be precompiled on headless builds.
-    "StatsPlots" => :blocked,
-    "Plots" => :blocked,
-    "PlotlyJS" => :blocked,
-    "GR" => :blocked,
-    "Makie" => :blocked,
-    "CairoMakie" => :blocked,
+    # Blocked: native display-window stacks. Install them for runtime use, but
+    # avoid explicit precompile in the headless image build.
     "GLMakie" => :blocked,
-    "WGLMakie" => :blocked,
     "ImageView" => :blocked,
-    "Interact" => :blocked,
-    "Pluto" => :blocked,
-    "PythonCall" => :safe,
 )
 
 safe_pkgs = [name for (name, kind) in pkgs if kind === :safe]
