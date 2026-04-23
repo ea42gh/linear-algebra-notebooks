@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import time
 
 pkgs = [
     # Core numerics / algebra
@@ -54,4 +55,16 @@ cmd = [
 ]
 
 print("Running:", " ".join(cmd))
-subprocess.check_call(cmd)
+for attempt in range(1, 4):
+    try:
+        subprocess.check_call(cmd)
+        break
+    except subprocess.CalledProcessError:
+        if attempt == 3:
+            raise
+        wait_seconds = 30
+        print(
+            f"pip install failed on attempt {attempt}; "
+            f"waiting {wait_seconds}s before retrying..."
+        )
+        time.sleep(wait_seconds)
