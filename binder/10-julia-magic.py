@@ -60,6 +60,15 @@ using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latex
 # Python-side l_show for normal Python cells
 # ------------------------------------------------------------------
 
+class RawLatex(str):
+    """Marker for strings that should be passed to Julia as LaTeXString."""
+
+
+def L(value):
+    """Wrap a Python string as raw LaTeX for the l_show helper."""
+    return RawLatex(value)
+
+
 def l_show(*args, **kwargs):
     """
     Python-side l_show:
@@ -82,11 +91,13 @@ py_show = l_show
 def _convert_args(args):
     converted = []
     for arg in args:
-        converted.append(_maybe_to_julia_array(arg))
+        converted.append(_convert_arg(arg))
     return tuple(converted)
 
 
-def _maybe_to_julia_array(value):
+def _convert_arg(value):
+    if isinstance(value, RawLatex):
+        return jl.LaTeXString(str(value))
     if _is_2d_list(value):
         return _list_to_julia_matrix(value)
     return value
