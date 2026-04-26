@@ -96,31 +96,47 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN mkdir -p /opt/ea42gh/docs/la_figures/notebooks \
  && cp -r /opt/ea42gh/la_figures/docs/notebooks/. /opt/ea42gh/docs/la_figures/notebooks/
 
-# Precompile LAlatex in an isolated temp env so GUI deps in JULIA_PROJECT
-# (e.g. Makie) do not get pulled into this warmup step.
-RUN julia -e 'using Pkg; \
-Pkg.activate(; temp=true); \
-Pkg.develop(path="/opt/ea42gh/LAlatex"); \
-Pkg.instantiate(); \
-Pkg.precompile(["LAlatex"])'
 RUN PYTHONPYCACHEPREFIX=/tmp/pycache /usr/local/bin/python3 -m compileall -q \
     /opt/ea42gh/jupyter-tikz \
     /opt/ea42gh/la_figures \
     /opt/ea42gh/matrixlayout
 
-RUN rm -rf /home/jovyan/.julia/compiled
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
-blocked_pkgs = isfile("/home/jovyan/.julia_env_blocked_pkgs.txt") ? Set(filter(!isempty, readlines("/home/jovyan/.julia_env_blocked_pkgs.txt"))) : Set{String}(); \
-pkgs = [Pkg.PackageSpec(name=name) for (name, _) in Pkg.project().dependencies if !(name in blocked_pkgs)]; \
+println("Runtime env instantiated")'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+names = ["GenLAProblems", "LAlatex"]; \
+pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dependencies, name)]; \
+Pkg.precompile(pkgs; strict=false)'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+names = filter(!isempty, readlines("/home/jovyan/.julia_env_precompile_blocks/core.txt")); \
+pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dependencies, name)]; \
+Pkg.precompile(pkgs; strict=false)'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+names = filter(!isempty, readlines("/home/jovyan/.julia_env_precompile_blocks/notebook.txt")); \
+pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dependencies, name)]; \
+Pkg.precompile(pkgs; strict=false)'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+names = filter(!isempty, readlines("/home/jovyan/.julia_env_precompile_blocks/plots.txt")); \
+pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dependencies, name)]; \
+Pkg.precompile(pkgs; strict=false)'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+names = filter(!isempty, readlines("/home/jovyan/.julia_env_precompile_blocks/makie.txt")); \
+pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dependencies, name)]; \
 Pkg.precompile(pkgs; strict=false)'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
 using PythonCall, IJulia, WebIO, DataFrames, Symbolics, AbstractAlgebra; \
+ using LAlatex; \
 pyimport("la_figures"); \
 pyimport("matrixlayout"); \
 A, X, B = gen_gj_pb(3, 3, 3); \
@@ -139,16 +155,6 @@ latexify(df); \
 @variables x; \
 expand((x + 1)^2); \
 println("Julia warmup complete")'
-RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); using GenLAProblems; \
-A, X, B = gen_gj_pb(3, 3, 3); \
-A = Rational{Int}.(A); \
-B = Rational{Int}.(B); \
-pb = ShowGE{Rational{Int}}(A, B); \
-ref!(pb; gj=true); \
-GenLAProblems.rref_matrix(4, 6, 3); \
-A_qr = gen_qr_problem_3(); \
-W = gram_schmidt_w(A_qr); \
-normalize_columns(W)'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 using GenLAProblems, Symbolics; \
