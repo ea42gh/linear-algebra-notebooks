@@ -81,10 +81,6 @@ def l_show(*args, **kwargs):
     display(Latex(raw))
     return None
 
-
-py_show = l_show
-
-
  # Avoid binding jl.l_show into Julia Main to prevent conflicts with LAlatex.
 
 
