@@ -70,9 +70,14 @@ end
 for name in ("GenLAProblems", "BlockArrays", "RowEchelon", "Latexify")
     _using_optional_package(name)
 end
-""")
 
-_JL_LATEXSTRING = jl.seval("LaTeXString")
+function _lalatex_python_l_show(args, raw_latex_flags; kwargs...)
+    converted = map(args, raw_latex_flags) do arg, is_raw_latex
+        is_raw_latex ? LaTeXString(String(arg)) : arg
+    end
+    return LAlatex.L_show(converted...; kwargs...)
+end
+""")
 
 # ------------------------------------------------------------------
 # Python-side l_show for normal Python cells
@@ -94,7 +99,8 @@ def L_show(*args, **kwargs):
     Python-side L_show:
     calls Julia's L_show and returns the raw LaTeX string.
     """
-    return str(jl.LAlatex.L_show(*_convert_args(args), **kwargs))
+    converted_args, raw_latex_flags = _convert_args(args)
+    return str(jl._lalatex_python_l_show(converted_args, raw_latex_flags, **kwargs))
 
 
 def l_show(*args, **kwargs):
@@ -113,17 +119,20 @@ def l_show(*args, **kwargs):
 
 def _convert_args(args):
     converted = []
+    raw_latex_flags = []
     for arg in args:
-        converted.append(_convert_arg(arg))
-    return tuple(converted)
+        converted_arg, is_raw_latex = _convert_arg(arg)
+        converted.append(converted_arg)
+        raw_latex_flags.append(is_raw_latex)
+    return tuple(converted), tuple(raw_latex_flags)
 
 
 def _convert_arg(value):
     if _is_raw_latex(value):
-        return _JL_LATEXSTRING(str(value))
+        return str(value), True
     if _is_2d_list(value):
-        return _list_to_julia_matrix(value)
-    return value
+        return _list_to_julia_matrix(value), False
+    return value, False
 
 
 def _is_raw_latex(value):
