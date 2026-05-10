@@ -89,6 +89,8 @@ COPY binder/sitecustomize.py /usr/local/lib/python3.11/site-packages/sitecustomi
 COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 COPY binder/julia_startup.jl /etc/julia/startup.jl
 
+RUN ipython -c "raw = L_show('x = ', 3, L(r';\\quad '), 'x^2 = ', 9); assert r';\\quad ' in raw, raw; l_show('x = ', 3, L(r';\\quad '), 'x^2 = ', 9); get_ipython().run_cell_magic('julia', '', 'using LAlatex\nA = [1 2 3; 4 5 6]\ndisplay(l_show(L\"A = \", A, L\",\\\\quad A^T A = \", transpose(A) * A))')"
+
 # JupyterLab user settings (match reference settings)
 RUN mkdir -p /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/apputils-extension \
  && printf '{\n  "enabled": false\n}\n' \

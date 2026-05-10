@@ -10,7 +10,7 @@ import os
 import re
 from numbers import Number
 
-from IPython.core.magic import register_cell_magic
+from IPython import get_ipython
 from IPython.display import Latex, Math, display
 
 os.environ.setdefault("JULIA_PROJECT", "/home/jovyan/.julia_env")
@@ -166,7 +166,6 @@ def _mathjax_text_fallback(latex_string):
 # %%julia cell magic
 # ------------------------------------------------------------------
 
-@register_cell_magic
 def julia(line, cell):
     """
     Execute Julia code in the Python kernel.
@@ -178,3 +177,8 @@ def julia(line, cell):
         jl.seval("using LaTeXStrings")
     wrapped = "begin\n" + cell + "\n; nothing\nend"
     return jl.seval(wrapped)
+
+
+ip = get_ipython()
+if ip is not None:
+    ip.register_magic_function(julia, "cell", "julia")
