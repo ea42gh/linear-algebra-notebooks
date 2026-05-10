@@ -6,6 +6,8 @@ IMAGE_BASE    ?= $(IMAGE_PYTHON)
 IMAGE_JUPYTER ?= julia-python-jupyter
 IMAGE_PLUTO   ?= julia-pluto
 IMAGE_LA_COURSE ?= la-course
+DOCKER_BUILD ?= BUILDX_GIT_INFO=false docker build
+DOCKER_BUILDX_BUILD ?= BUILDX_GIT_INFO=false docker buildx build
 
 VERSION ?= 0.2
 JULIA_VERSION  ?= 1.10.5
@@ -37,7 +39,7 @@ RUNTIME_TAG := julia$(JULIA_VERSION)-py$(PYTHON_VERSION)
 # l_ targets build local versions only, and use local images for building
 # ==========================================================================================
 l_julia:
-	docker build  -f binder/Dockerfile.julia \
+	$(DOCKER_BUILD)  -f binder/Dockerfile.julia \
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t $(IMAGE_JULIA):$(VERSION) -t $(IMAGE_JULIA):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
@@ -47,7 +49,7 @@ l_julia_run:
 
 
 l_python:
-	docker build  -f binder/Dockerfile.python \
+	$(DOCKER_BUILD)  -f binder/Dockerfile.python \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t $(IMAGE_PYTHON):$(VERSION) -t $(IMAGE_PYTHON):$(RUNTIME_TAG) \
@@ -57,7 +59,7 @@ l_python_run:
 	docker run --rm -it $(IMAGE_PYTHON):$(VERSION) bash
 
 l_jupyter:
-	  docker build -f binder/Dockerfile.jupyter \
+	  $(DOCKER_BUILD) -f binder/Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=$(IMAGE_PYTHON):$(VERSION) \
 	  -t $(IMAGE_JUPYTER):$(VERSION) -t  $(IMAGE_JUPYTER):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --load .
@@ -66,7 +68,7 @@ l_jupyter_run:
 	docker run --rm -it $(IMAGE_JUPYTER):$(VERSION) bash
 
 l_pluto:
-	  docker build -f Dockerfile.jupyter \
+	  $(DOCKER_BUILD) -f Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t $(IMAGE_PLUTO):$(VERSION) -t $(IMAGE_PLUTO):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
@@ -75,12 +77,12 @@ l_pluto_run:
 	docker run --rm -it $(IMAGE_PLUTO):$(VERSION) bash
 
 l_la_course:
-	  docker build -f binder/Dockerfile.la_course \
+	  $(DOCKER_BUILD) -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(IMAGE_JUPYTER):$(VERSION) \
 	  -t $(IMAGE_LA_COURSE):$(VERSION) -t  $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
+	  --no-cache \
 	  --progress=plain --load .
 	@echo "<DONE> l_la_course $(TIMESTAMP)"
-#	  --no-cache \
 
 
 l_la_course_run:
@@ -92,14 +94,14 @@ l_chain: l_julia l_python l_jupyter l_la_course #l_pluto
 
 # =======================================================================================================
 julia:
-	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.julia \
+	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.julia \
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t ea42gh/$(IMAGE_JULIA):$(VERSION) -t ea42gh/$(IMAGE_JULIA):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> julia $(TIMESTAMP)"
 
 python:
-	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.python \
+	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.python \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JULIA):$(VERSION) \
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t ea42gh/$(IMAGE_PYTHON):$(VERSION) -t ea42gh/$(IMAGE_PYTHON):$(RUNTIME_TAG) \
@@ -107,21 +109,21 @@ python:
 	@echo "<DONE> python $(TIMESTAMP)"
 
 jupyter:
-	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.jupyter \
+	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_PYTHON):$(VERSION) \
 	  -t ea42gh/$(IMAGE_JUPYTER):$(VERSION) -t ea42gh/$(IMAGE_JUPYTER):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> jupyter $(TIMESTAMP)"
 
 pluto:
-	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.pluto \
+	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.pluto \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t ea42gh/$(IMAGE_PLUTO):$(VERSION) -t ea42gh/$(IMAGE_PLUTO):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> pluto $(TIMESTAMP)"
 
 la_course:
-	docker buildx build --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
+	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
