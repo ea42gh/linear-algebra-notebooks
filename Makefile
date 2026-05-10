@@ -6,8 +6,9 @@ IMAGE_BASE    ?= $(IMAGE_PYTHON)
 IMAGE_JUPYTER ?= julia-python-jupyter
 IMAGE_PLUTO   ?= julia-pluto
 IMAGE_LA_COURSE ?= la-course
-DOCKER_BUILD ?= BUILDX_GIT_INFO=false docker build
-DOCKER_BUILDX_BUILD ?= BUILDX_GIT_INFO=false docker buildx build
+export BUILDX_GIT_INFO := false
+DOCKER_BUILD ?= docker build
+DOCKER_BUILDX_BUILD ?= docker buildx build
 
 VERSION ?= 0.2
 JULIA_VERSION  ?= 1.10.5
