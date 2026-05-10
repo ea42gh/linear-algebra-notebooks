@@ -42,7 +42,7 @@ import PythonCall
 const _py_display = PythonCall.pyimport("IPython.display")
 function _py_display_latex(x)
     s = String(x)
-    if startswith(strip(s), "\$")
+    if startswith(strip(s), "$")
         inner = strip(s)[2:end-1]
         _py_display.display(_py_display.Math(inner))
     else
@@ -53,8 +53,10 @@ end
 """)
 
 jl.seval("""
-using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random
+using LAlatex, GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random
 """)
+
+_JL_LATEXSTRING = jl.seval("LaTeXString")
 
 # ------------------------------------------------------------------
 # Python-side l_show for normal Python cells
@@ -63,10 +65,20 @@ using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latex
 class RawLatex(str):
     """Marker for strings that should be passed to Julia as LaTeXString."""
 
+    _lalatex_raw_latex = True
+
 
 def L(value):
     """Wrap a Python string as raw LaTeX for the l_show helper."""
     return RawLatex(value)
+
+
+def L_show(*args, **kwargs):
+    """
+    Python-side L_show:
+    calls Julia's L_show and returns the raw LaTeX string.
+    """
+    return str(jl.LAlatex.L_show(*_convert_args(args), **kwargs))
 
 
 def l_show(*args, **kwargs):
@@ -74,8 +86,7 @@ def l_show(*args, **kwargs):
     Python-side l_show:
     calls Julia's L_show and displays the result.
     """
-    latex_string = jl.LAlatex.L_show(*_convert_args(args), **kwargs)
-    raw = str(latex_string)
+    raw = L_show(*args, **kwargs)
     raw = raw.replace("\\text{", "\\mathrm{")
     raw = _mathjax_text_fallback(raw)
     display(Latex(raw))
@@ -92,11 +103,15 @@ def _convert_args(args):
 
 
 def _convert_arg(value):
-    if isinstance(value, RawLatex):
-        return jl.LaTeXString(str(value))
+    if _is_raw_latex(value):
+        return _JL_LATEXSTRING(str(value))
     if _is_2d_list(value):
         return _list_to_julia_matrix(value)
     return value
+
+
+def _is_raw_latex(value):
+    return isinstance(value, RawLatex) or bool(getattr(value, "_lalatex_raw_latex", False))
 
 
 def _is_2d_list(value):
