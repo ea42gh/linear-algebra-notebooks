@@ -53,7 +53,23 @@ end
 """)
 
 jl.seval("""
-using LAlatex, GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random
+using LAlatex, LinearAlgebra, LaTeXStrings, Random
+
+function _using_optional_package(name::String)
+    try
+        Base.eval(Main, Meta.parse("using " * name))
+    catch err
+        msg = sprint(showerror, err)
+        if !(err isa ArgumentError && occursin("Package " * name * " not found", msg))
+            rethrow()
+        end
+    end
+    return nothing
+end
+
+for name in ("GenLAProblems", "BlockArrays", "RowEchelon", "Latexify")
+    _using_optional_package(name)
+end
 """)
 
 _JL_LATEXSTRING = jl.seval("LaTeXString")
