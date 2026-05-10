@@ -42,7 +42,7 @@ import PythonCall
 const _py_display = PythonCall.pyimport("IPython.display")
 function _py_display_latex(x)
     s = String(x)
-    if startswith(strip(s), "$")
+    if startswith(strip(s), "\\$")
         inner = strip(s)[2:end-1]
         _py_display.display(_py_display.Math(inner))
     else
