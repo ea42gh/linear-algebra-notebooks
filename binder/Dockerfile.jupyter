@@ -55,6 +55,10 @@ RUN mkdir -p /opt/ea42gh/docs/jupyter-tikz/notebooks \
  && cp -r /opt/ea42gh/jupyter-tikz/notebooks/. /opt/ea42gh/docs/jupyter-tikz/notebooks/
 
 RUN git clone https://github.com/ea42gh/LAlatex.git
+USER root
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir --no-build-isolation --no-deps -e /opt/ea42gh/LAlatex \
+ && /usr/local/bin/python3 -c "import lalatex; print('lalatex Python bridge:', lalatex.__file__)"
+USER jovyan
 RUN julia -e 'using Pkg; Pkg.activate(ENV["JULIA_PROJECT"]); Pkg.add(["LaTeXStrings", "Latexify", "Documenter", "PythonCall", "Symbolics", "BlockArrays"]); Pkg.develop(path="/opt/ea42gh/LAlatex")'
 RUN rm -f /home/jovyan/.julia/prefs/PythonCall.toml /home/jovyan/.julia/prefs/CondaPkg.toml \
  && rm -rf /home/jovyan/.julia/conda* /home/jovyan/.julia/.CondaPkg \

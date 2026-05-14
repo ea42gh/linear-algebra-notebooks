@@ -73,6 +73,8 @@ Pkg.resolve(); \
 Pkg.instantiate()'
 
 USER root
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir --no-build-isolation --no-deps -e /opt/ea42gh/LAlatex \
+ && /usr/local/bin/python3 -c "import lalatex; print('lalatex Python bridge:', lalatex.__file__)"
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/matrixlayout
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/la_figures
 USER jovyan
