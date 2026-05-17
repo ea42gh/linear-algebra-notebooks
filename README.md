@@ -76,7 +76,7 @@ Note: This command will reset all changes in the repository except those in the 
 This repository leverages both Julia and Python programming languages to provide robust and interactive learning tools. Below are the key software packages and tools utilized:
 
 - **matrixlayout** (Python): Layout engine for matrix/table TeX and SVG rendering.
-- **la_figures** (Python): Algorithms that build matrixlayout specs for GE/QR/eigen/SVD figures.
+- **LAFigureSpecs** (Python): Algorithms that build matrixlayout specs for GE/QR/eigen/SVD figures.
 - **jupyter-tikz** (Python): LaTeX toolchain for rendering SVG in notebooks.
 - **LAlatex** (Julia): LaTeX display helpers for Julia objects and symbolic expressions.
 - **GenLAProblems** (Julia): Problem generators and display helpers used in notebooks.

@@ -50,8 +50,8 @@ if py_imports:
     for i in sorted(py_imports):
         print(" ", i)
     hints = []
-    if any("la_figures" in i for i in py_imports):
-        hints.append("export PYTHONPATH=/opt/ea42gh/la_figures:$PYTHONPATH")
+    if any("LAFigureSpecs" in i for i in py_imports):
+        hints.append("export PYTHONPATH=/opt/ea42gh/LAFigureSpecs:$PYTHONPATH")
     if any("matrixlayout" in i for i in py_imports):
         hints.append("export PYTHONPATH=/opt/ea42gh/matrixlayout:$PYTHONPATH")
     if hints:

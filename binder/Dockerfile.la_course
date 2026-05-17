@@ -57,10 +57,10 @@ WORKDIR /opt/ea42gh
 
 ARG GENLAPROBLEMS_REF=main
 ARG MATRIXLAYOUT_REF=main
-ARG LAFIGURES_REF=master
+ARG LAFIGURESPECS_REF=master
 
 RUN git clone --branch ${MATRIXLAYOUT_REF} --single-branch https://github.com/ea42gh/matrixlayout.git
-RUN git clone --branch ${LAFIGURES_REF} --single-branch https://github.com/ea42gh/la_figures.git
+RUN git clone --branch ${LAFIGURESPECS_REF} --single-branch https://github.com/ea42gh/LAFigureSpecs.git
 RUN git clone https://github.com/ea42gh/GenLAProblems.git \
  && cd /opt/ea42gh/GenLAProblems \
  && git checkout ${GENLAPROBLEMS_REF}
@@ -76,7 +76,7 @@ USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir --no-build-isolation --no-deps -e /opt/ea42gh/LAlatex \
  && /usr/local/bin/python3 -c "import lalatex; print('lalatex Python bridge:', lalatex.__file__)"
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/matrixlayout
-RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/la_figures
+RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/LAFigureSpecs
 USER jovyan
 
 RUN mkdir -p /home/jovyan/.julia/prefs \
@@ -85,7 +85,7 @@ RUN mkdir -p /home/jovyan/.julia/prefs \
     'conda_backend = "Null"' \
     > /home/jovyan/.julia/prefs/PythonCall.toml
 
-RUN julia -e 'using PythonCall; pyimport("la_figures"); pyimport("matrixlayout"); println("PythonCall la_figures/matrixlayout OK")'
+RUN julia -e 'using PythonCall; pyimport("LAFigureSpecs"); pyimport("matrixlayout"); println("PythonCall LAFigureSpecs/matrixlayout OK")'
 
 RUN /usr/local/bin/python3 -m mkdocs build \
     -f /opt/ea42gh/matrixlayout/mkdocs.yml \
@@ -93,14 +93,14 @@ RUN /usr/local/bin/python3 -m mkdocs build \
 RUN mkdir -p /opt/ea42gh/docs/matrixlayout/notebooks \
  && cp -r /opt/ea42gh/matrixlayout/docs/notebooks/. /opt/ea42gh/docs/matrixlayout/notebooks/
 RUN /usr/local/bin/python3 -m mkdocs build \
-    -f /opt/ea42gh/la_figures/mkdocs.yml \
-    -d /opt/ea42gh/docs/la_figures
-RUN mkdir -p /opt/ea42gh/docs/la_figures/notebooks \
- && cp -r /opt/ea42gh/la_figures/docs/notebooks/. /opt/ea42gh/docs/la_figures/notebooks/
+    -f /opt/ea42gh/LAFigureSpecs/mkdocs.yml \
+    -d /opt/ea42gh/docs/LAFigureSpecs
+RUN mkdir -p /opt/ea42gh/docs/LAFigureSpecs/notebooks \
+ && cp -r /opt/ea42gh/LAFigureSpecs/docs/notebooks/. /opt/ea42gh/docs/LAFigureSpecs/notebooks/
 
 RUN PYTHONPYCACHEPREFIX=/tmp/pycache /usr/local/bin/python3 -m compileall -q \
     /opt/ea42gh/jupyter-tikz \
-    /opt/ea42gh/la_figures \
+    /opt/ea42gh/LAFigureSpecs \
     /opt/ea42gh/matrixlayout
 
 RUN julia -e 'using Pkg; \
@@ -139,7 +139,7 @@ Pkg.activate(ENV["JULIA_PROJECT"]); \
 using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
 using PythonCall, IJulia, WebIO, DataFrames, Symbolics, AbstractAlgebra; \
  using LAlatex; \
-pyimport("la_figures"); \
+pyimport("LAFigureSpecs"); \
 pyimport("matrixlayout"); \
 A, X, B = gen_gj_pb(3, 3, 3); \
 A = Rational{Int}.(A); \
@@ -163,7 +163,7 @@ using GenLAProblems, Symbolics; \
 using LinearAlgebra, RowEchelon, LaTeXStrings, BlockArrays, Latexify, PythonCall; \
 @variables α[1:6], x[1:6]; \
 A = [1 -2 -1 1; -1 2 3 -1; 1 0 1 -3; -1 0 1 -1]; \
-mats = nM.la_figures.gram_schmidt_qr_matrices(A); \
+mats = nM.LAFigureSpecs.gram_schmidt_qr_matrices(A); \
 qr = qr_matrices_from_grid(mats); \
 Q = qr.Q; \
 R = qr.R; \

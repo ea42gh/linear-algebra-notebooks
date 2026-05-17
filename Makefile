@@ -139,7 +139,7 @@ git:
 checkgit:
 	@cd /home/lab/NOTEBOOKS/0_ITIKZ/jupyter_tikz && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= jupyter_tikz "; git status; fi
 	@cd /home/lab/NOTEBOOKS/0_ITIKZ/matrixlayout && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= matrixlayout "; git status; fi
-	@cd /home/lab/NOTEBOOKS/0_ITIKZ/la_figures && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= la_figures "; git status; fi
+	@cd /home/lab/NOTEBOOKS/0_ITIKZ/LAFigureSpecs && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= LAFigureSpecs "; git status; fi
 	@cd /home/lab/NOTEBOOKS/0_LSHOW/LAlatex && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= LAlatex"; git status; fi
 	@cd /home/lab/NOTEBOOKS/0_LSHOW/GenLAProblems && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= GenLAProblems"; git status; fi
 	@cd /home/lab/NOTEBOOKS/elementary-linear-algebra && if [ -n "$$(git status --porcelain)" ]; then echo "# ================================================================= elementary-linear-algebra"; git status; fi

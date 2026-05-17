@@ -18,9 +18,9 @@ This applies to:
 
 Common entry points (typical notebook usage):
 - Julia (`nM`): `nM.show_eig_tbl`, `nM.show_svd_table`, `nM.show_qr_tbl`, `nM.gram_schmidt_qr`
-- Python (`la_figures`): `eig_tbl_svg`, `svd_tbl_svg`, `qr_tbl_svg`, `gram_schmidt_qr`
+- Python (`LAFigureSpecs`): `eig_tbl_svg`, `svd_tbl_svg`, `qr_tbl_svg`, `gram_schmidt_qr`
 - Low‑level renderers: `matrixlayout.ge.render_ge_svg`, `matrixlayout.qr.render_qr_svg`
-- SVG display helpers: `la_figures.show_svg`, `GenLAProblems.show_svg` / `py_show_svg`
+- SVG display helpers: `LAFigureSpecs.show_svg`, `GenLAProblems.show_svg` / `py_show_svg`
 
 - jupyter-tikz: Engine to render LaTeX documents in Jupyter
 - matrixlayout (Python): layout engine for matrix/table TeX and SVG (uses jupyter-tikz)
@@ -67,7 +67,7 @@ Common entry points (typical notebook usage):
   - render_delim_callout: render one callout
   - render_delim_callouts: render all callouts
 
-- la_figures (Python): algorithms that emit layout specs consumed by matrixlayout
+- LAFigureSpecs (Python): algorithms that emit layout specs consumed by matrixlayout
   - EigenDecomposition: eigen decomposition container
   - eigendecomposition: compute eigen decomposition
   - eig_spec_from_eigenvects: eigen spec from eigenvectors
@@ -174,7 +174,7 @@ Common entry points (typical notebook usage):
   - symbolic_term_coefficients: extract term coefficients
 
 - GenLAProblems (Julia): generators for linear-algebra problems and solution steps
-  - load_la_figures: load Python la_figures
+  - load_LAFigureSpecs: load Python LAFigureSpecs
   - load_matrixlayout: load Python matrixlayout
   - nM: Python proxy namespace
   - sympy: SymPy proxy
