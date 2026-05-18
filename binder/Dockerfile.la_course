@@ -159,11 +159,12 @@ expand((x + 1)^2); \
 println("Julia warmup complete")'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
-using GenLAProblems, Symbolics; \
+using LATeachingSuite, GenLAProblems, Symbolics; \
 using LinearAlgebra, RowEchelon, LaTeXStrings, BlockArrays, Latexify, PythonCall; \
 @variables α[1:6], x[1:6]; \
 A = [1 -2 -1 1; -1 2 3 -1; 1 0 1 -3; -1 0 1 -1]; \
-mats = nM.LAFigureSpecs.gram_schmidt_qr_matrices(A); \
+la = load_LAFigureSpecs(); \
+mats = la.gram_schmidt_qr_matrices(A); \
 qr = qr_matrices_from_grid(mats); \
 Q = qr.Q; \
 R = qr.R; \
