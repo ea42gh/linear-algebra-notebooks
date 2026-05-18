@@ -6,19 +6,19 @@ Note on return values: several high-level rendering helpers now return a tuple
 `(svg, results)` instead of only the SVG string. The second item is the
 computed spec or matrices used to build the figure (when applicable).
 This applies to:
-- `eig_tbl_svg`
-- `svd_tbl_svg`
-- `qr_tbl_svg`
-- `gram_schmidt_qr`
-- `show_eig_tbl`
-- `show_svd_tbl`
-- `show_svd_table`
-- `show_qr_tbl`
-- `show_qr`
+- `eig_bundle`
+- `svd_bundle`
+- `qr_bundle`
+- `qr_figure`
+- `ge_bundle`
+- `LATeachingSuite.eig_bundle`
+- `LATeachingSuite.svd_bundle`
+- `LATeachingSuite.qr_bundle`
+- `LATeachingSuite.qr_figure`
 
 Common entry points (typical notebook usage):
-- Julia (`nM`): `nM.show_eig_tbl`, `nM.show_svd_table`, `nM.show_qr_tbl`, `nM.gram_schmidt_qr`
-- Python (`LAFigureSpecs`): `eig_tbl_svg`, `svd_tbl_svg`, `qr_tbl_svg`, `gram_schmidt_qr`
+- Julia (`LATeachingSuite`): `eig_bundle`, `svd_bundle`, `qr_bundle`, `qr_figure`, `ge_bundle`, `ge_svg`, `qr_svg`
+- Python (`LAFigureSpecs`): `eig_bundle`, `svd_bundle`, `qr_bundle`, `qr_figure`, `ge_bundle`, `ge_svg`, `qr_svg`
 - Low‑level renderers: `matrixlayout.ge.render_ge_svg`, `matrixlayout.qr.render_qr_svg`
 - SVG display helpers: `LAFigureSpecs.show_svg`, `GenLAProblems.show_svg` / `py_show_svg`
 
@@ -76,18 +76,22 @@ Common entry points (typical notebook usage):
   - svd_tbl_spec_from_right_singular_vectors: SVD spec from right singular vectors
   - eig_tbl_tex: eigen table TeX
   - **eig_tbl_svg**: eigen table SVG (returns `(svg, spec)`)
-  - eig_tbl_bundle: eigen table spec bundle
+  - eig_bundle: canonical eigen table spec bundle
+  - eig_tbl_bundle: compatibility alias for `eig_bundle`
   - svd_tbl_tex: SVD table TeX
   - **svd_tbl_svg**: SVD table SVG (returns `(svg, spec)`)
-  - svd_tbl_bundle: SVD table spec bundle
+  - svd_bundle: canonical SVD table spec bundle
+  - svd_tbl_bundle: compatibility alias for `svd_bundle`
   - compute_qr_matrices: QR matrices helper
   - gram_schmidt_qr_matrices: Gram–Schmidt QR matrices helper
   - **qr_tbl_spec**: QR table spec
   - qr_tbl_layout_spec: QR layout spec
   - qr_tbl_tex: QR table TeX
   - **qr_tbl_svg**: QR table SVG (returns `(svg, spec)`)
-  - qr_tbl_bundle: QR table spec bundle
-  - **gram_schmidt_qr**: Gram–Schmidt QR render (returns `(svg, matrices)`)
+  - qr_bundle: canonical QR table spec bundle
+  - qr_tbl_bundle: compatibility alias for `qr_bundle`
+  - **qr_figure**: canonical Gram-Schmidt QR render (returns `(svg, matrices)`)
+  - gram_schmidt_qr: compatibility alias for `qr_figure`
   - backsubstitution_tex: backsubstitution cascade TeX
   - linear_system_tex: linear system TeX
   - standard_solution_tex: standard solution TeX
@@ -98,9 +102,10 @@ Common entry points (typical notebook usage):
   - ge_tbl_tex: GE table TeX
   - **ge_tbl_svg**: GE table SVG
   - show_ge: display GE SVG in notebook
-  - ge_tbl_bundle: GE table spec bundle
-  - **ge**: GE SVG renderer
-  - svg: alias for ge
+  - ge_bundle: canonical GE table spec bundle
+  - ge_tbl_bundle: compatibility alias for `ge_bundle`
+  - **ge_svg**: canonical GE SVG renderer
+  - ge: compatibility alias for `ge_svg`
   - render_ge_svg: re-exported matrixlayout grid SVG
   - render_ge_tex: re-exported matrixlayout grid TeX
   - render_qr_svg: re-exported matrixlayout QR grid SVG
