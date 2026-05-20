@@ -167,9 +167,11 @@ using LATeachingSuite, GenLAProblems, Symbolics; \
 using LinearAlgebra, RowEchelon, LaTeXStrings, BlockArrays, Latexify, PythonCall; \
 @variables α[1:6], x[1:6]; \
 A = [1 -2 -1 1; -1 2 3 -1; 1 0 1 -3; -1 0 1 -1]; \
-_svg_qr, qr = qr_figure(A); \
-Q = qr.Q; \
-R = qr.R; \
+la = load_LAFigureSpecs(); \
+mats = la.gram_schmidt_qr_matrices(A); \
+qr = la.qr_matrices_dict_from_grid(mats); \
+Q = qr["Q"]; \
+R = qr["R"]; \
 s = L_show(L"A = Q R = ", Q, R); \
 isempty(s) && error("L_show returned empty output for Python-backed QR matrices"); \
 println("QR/L_show regression check OK")'
