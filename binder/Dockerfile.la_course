@@ -136,9 +136,9 @@ pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dep
 Pkg.precompile(pkgs; strict=false)'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
-using GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
+using LATeachingSuite, GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
 using PythonCall, IJulia, WebIO, DataFrames, Symbolics, AbstractAlgebra; \
- using LAlatex; \
+using LAlatex; \
 pyimport("LAFigureSpecs"); \
 pyimport("matrixlayout"); \
 A, X, B = gen_gj_pb(3, 3, 3); \
@@ -146,10 +146,9 @@ A = Rational{Int}.(A); \
 B = Rational{Int}.(B); \
 pb = ShowGE{Rational{Int}}(A, B); \
 ref!(pb; gj=true); \
-GenLAProblems.rref_matrix(4, 6, 3); \
-A_qr = gen_qr_problem_3(); \
-W = gram_schmidt_w(A_qr); \
-normalize_columns(W); \
+rref_matrix(4, 6, 3); \
+gen_qr_problem(3; family=:pythagorean, maxint=2); \
+gen_qr_problem(5; family=:cayley, maxint=2); \
 latexify(A); \
 rand(3, 3); \
 df = DataFrame(a=1:3, b=4:6); \
