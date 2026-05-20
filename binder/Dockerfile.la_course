@@ -172,7 +172,7 @@ mats = la.gram_schmidt_qr_matrices(A); \
 qr = la.qr_matrices_dict_from_grid(mats); \
 Q = qr["Q"]; \
 R = qr["R"]; \
-s = L_show(L"A = Q R = ", Q, R); \
+s = LAlatex.L_show(L"A = Q R = ", Q, R); \
 isempty(s) && error("L_show returned empty output for Python-backed QR matrices"); \
 println("QR/L_show regression check OK")'
 RUN mkdir -p /opt/ea42gh/docs/GenLAProblems \
