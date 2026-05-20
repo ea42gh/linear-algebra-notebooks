@@ -109,8 +109,8 @@ RUN PYTHONPYCACHEPREFIX=/tmp/pycache /usr/local/bin/python3 -m compileall -q \
 
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
-Pkg.develop(path="/opt/ea42gh/LATeachingSuite.jl"); \
 Pkg.develop(path="/opt/ea42gh/GenLAProblems"); \
+Pkg.develop(path="/opt/ea42gh/LATeachingSuite.jl"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
 println("Runtime env instantiated")'
