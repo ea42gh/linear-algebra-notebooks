@@ -141,7 +141,7 @@ pkgs = [Pkg.PackageSpec(name=name) for name in names if haskey(Pkg.project().dep
 Pkg.precompile(pkgs; strict=false)'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
-using LATeachingSuite, GenLAProblems, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
+using LATeachingSuite, LinearAlgebra, BlockArrays, RowEchelon, LaTeXStrings, Latexify, Random; \
 using PythonCall, IJulia, WebIO, DataFrames, Symbolics, AbstractAlgebra; \
 using LAlatex; \
 pyimport("LAFigureSpecs"); \
@@ -163,18 +163,14 @@ expand((x + 1)^2); \
 println("Julia warmup complete")'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
-using LATeachingSuite, GenLAProblems, Symbolics; \
+using LATeachingSuite, Symbolics; \
 using LinearAlgebra, RowEchelon, LaTeXStrings, BlockArrays, Latexify, PythonCall; \
 @variables α[1:6], x[1:6]; \
 A = [1 -2 -1 1; -1 2 3 -1; 1 0 1 -3; -1 0 1 -1]; \
-la = load_LAFigureSpecs(); \
-mats = la.gram_schmidt_qr_matrices(A); \
-qr = la.qr_matrices_dict_from_grid(mats); \
-Q = qr["Q"]; \
-R = qr["R"]; \
-s = LAlatex.L_show(L"A = Q R = ", Q, R); \
-isempty(s) && error("L_show returned empty output for Python-backed QR matrices"); \
-println("QR/L_show regression check OK")'
+svg_qr, qr_spec = qr_bundle(A); \
+isempty(svg_qr.svg) && error("qr_bundle returned empty SVG"); \
+qr_spec === nothing && error("qr_bundle returned no spec"); \
+println("QR bundle regression check OK")'
 RUN mkdir -p /opt/ea42gh/docs/GenLAProblems \
  && if [ -d /opt/ea42gh/GenLAProblems/docs/src ]; then \
       cp -r /opt/ea42gh/GenLAProblems/docs/src/. /opt/ea42gh/docs/GenLAProblems/; \
