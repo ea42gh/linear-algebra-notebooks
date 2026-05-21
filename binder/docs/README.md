@@ -240,7 +240,7 @@ Common entry points (typical notebook usage):
   - jordan_form: Jordan form
   - gen_from_jordan_form: generate from Jordan form
   - gen_degenerate_matrix: degenerate matrix
-  - charpoly: characteristic polynomial
+  - LATeachingSuite.charpoly: characteristic polynomial
   - **show_ge_final**: render final GE table
   - **show_solution**: render solution
   - py_show_svg: display SVG in notebooks
