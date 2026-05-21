@@ -208,9 +208,9 @@ Common entry points (typical notebook usage):
   - Q_matrix: Q matrix
   - sparse_W_matrix: sparse W matrix
   - sparse_Q_matrix: sparse Q matrix
-  - split_R_RHS: split R and RHS
-  - particular_solution: particular solution
-  - homogeneous_solutions: homogeneous solutions
+  - LATeachingSuite.split_R_RHS: split R and RHS
+  - LATeachingSuite.particular_solution: particular solution
+  - LATeachingSuite.homogeneous_solutions: homogeneous solutions
   - gen_particular_solution: generate particular solution
   - gen_gj_matrix: generate GJ matrix
   - gen_rhs: generate RHS
@@ -219,10 +219,10 @@ Common entry points (typical notebook usage):
   - gen_lu_pb: generate LU problem
   - gen_plu_pb: generate PLU problem
   - gen_ldlt_pb: generate LDLᵀ problem
-  - normal_eq_reduce_to_ref: normal equations REF
-  - reduce_to_ref: reduce to REF/RREF
-  - decorate_ge: GE decoration metadata
-  - ge_variable_type: GE variable type
+  - LATeachingSuite.normal_eq_reduce_to_ref: normal equations REF
+  - LATeachingSuite.reduce_to_ref: reduce to REF/RREF
+  - LATeachingSuite.decorate_ge: GE decoration metadata
+  - LATeachingSuite.ge_variable_type: GE variable type
   - ca_projection_matrix: column space projection
   - gen_qr_problem_3: QR problem 3
   - gen_qr_problem_4: QR problem 4
