@@ -178,11 +178,13 @@ Common entry points (typical notebook usage):
   - symbolic_transform: apply symbolic transforms
   - symbolic_term_coefficients: extract term coefficients
 
-- GenLAProblems (Julia): generators for linear-algebra problems
+- LATeachingSuite (Julia): workflow and Python/SymPy bridge helpers
   - load_LAFigureSpecs: load Python LAFigureSpecs
   - load_matrixlayout: load Python matrixlayout
   - sympy: SymPy proxy
   - sympy_matrix: Julia → SymPy matrix
+
+- GenLAProblems (Julia): generators for linear-algebra problems
   - symbol_vector: create symbol vector
   - symbols_matrix: create symbols matrix
   - form_linear_combination: build linear combination
