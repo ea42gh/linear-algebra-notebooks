@@ -20,7 +20,7 @@ Common entry points (typical notebook usage):
 - Julia (`LATeachingSuite`): `eig_bundle`, `svd_bundle`, `qr_bundle`, `qr_figure`, `ge_bundle`, `ge_svg`, `qr_svg`
 - Python (`LAFigureSpecs`): `eig_bundle`, `svd_bundle`, `qr_bundle`, `qr_figure`, `ge_bundle`, `ge_svg`, `qr_svg`
 - Low‑level renderers: `matrixlayout.ge.render_ge_svg`, `matrixlayout.qr.render_qr_svg`
-- SVG display helpers: `LAFigureSpecs.show_svg`, `GenLAProblems.show_svg` / `py_show_svg`
+- SVG display helpers: `LAFigureSpecs.show_svg`, `LATeachingSuite.show_svg` / `py_show_svg`
 
 - jupyter-tikz: Engine to render LaTeX documents in Jupyter
 - matrixlayout (Python): layout engine for matrix/table TeX and SVG (uses jupyter-tikz)
@@ -178,10 +178,9 @@ Common entry points (typical notebook usage):
   - symbolic_transform: apply symbolic transforms
   - symbolic_term_coefficients: extract term coefficients
 
-- GenLAProblems (Julia): generators for linear-algebra problems and solution steps
+- GenLAProblems (Julia): generators for linear-algebra problems
   - load_LAFigureSpecs: load Python LAFigureSpecs
   - load_matrixlayout: load Python matrixlayout
-  - nM: Python proxy namespace
   - sympy: SymPy proxy
   - sympy_matrix: Julia → SymPy matrix
   - symbol_vector: create symbol vector
