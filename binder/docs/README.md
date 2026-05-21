@@ -227,10 +227,10 @@ Common entry points (typical notebook usage):
   - gen_qr_problem_3: QR problem 3
   - gen_qr_problem_4: QR problem 4
   - gen_qr_problem: QR problem
-  - gram_schmidt_w: Gram–Schmidt W
-  - normalize_columns: normalize columns
-  - qr_layout: QR layout
-  - gram_schmidt_stable: Gram–Schmidt (stable)
+  - LATeachingSuite.gram_schmidt_w: Gram–Schmidt W
+  - LATeachingSuite.normalize_columns: normalize columns
+  - LATeachingSuite.qr_layout: QR layout
+  - LATeachingSuite.gram_schmidt_stable: Gram–Schmidt (stable)
   - gen_eigenproblem: eigenproblem generator
   - gen_symmetric_eigenproblem: symmetric eigenproblem
   - gen_non_diagonalizable_eigenproblem: non-diagonalizable eigenproblem
