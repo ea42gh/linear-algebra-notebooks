@@ -35,7 +35,7 @@ jobs:
         run: |
           docker build \
             -f binder/Dockerfile.la_course \
-            --build-arg BASE_IMAGE=ea42gh/julia-python-jupyter:0.1 \
+            --build-arg BASE_IMAGE=ea42gh/julia-python-jupyter:julia1.10.10-py3.11.14 \
             -t la-course-ci:${{ github.sha }} \
             --progress=plain \
             .

@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=julia-python:0.1
+ARG BASE_IMAGE=julia-python:julia1.10.10-py3.11.14
 FROM ${BASE_IMAGE}
 
 ENV JULIA_CONDAPKG_BACKEND=Null
