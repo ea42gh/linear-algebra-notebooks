@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/ci.yml"
+      - "Makefile"
+      - "binder/**"
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/ci.yml"
+      - "Makefile"
+      - "binder/**"
+  schedule:
+    # Weekly Binder image build to catch upstream Julia/Python/package drift.
+    - cron: "19 10 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  binder-la-course:
+    name: Binder la-course image
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build Binder course image
+        run: |
+          docker build \
+            -f binder/Dockerfile.la_course \
+            --build-arg BASE_IMAGE=ea42gh/julia-python-jupyter:0.1 \
+            -t la-course-ci:${{ github.sha }} \
+            --progress=plain \
+            .

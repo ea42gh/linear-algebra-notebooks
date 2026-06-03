@@ -11,8 +11,8 @@ DOCKER_BUILD ?= docker build
 DOCKER_BUILDX_BUILD ?= docker buildx build
 
 VERSION ?= 0.2
-JULIA_VERSION  ?= 1.10.5
-PYTHON_VERSION ?= 3.11.9
+JULIA_VERSION  ?= 1.10.10
+PYTHON_VERSION ?= 3.11.14
 IMG_VERSION ?= 0.1.0
 ifeq ($(OS),Windows_NT)
 TIMESTAMP = $(shell powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'")
@@ -135,7 +135,8 @@ chain: julia python jupyter la_course # pluto
 
 C ?= container
 git:
-	docker cp ~/Downloads/configs/GIT.tgz $C:/home/jovyan
+	docker cp ~/.gitconfig $C:/home/jovyan
+	docker cp ~/.git-credentials $C:/home/jovyan
 checkgit:
 	@cd /home/lab/NOTEBOOKS/LA/jupyter_tikz && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= jupyter_tikz "; git status; fi
 	@cd /home/lab/NOTEBOOKS/LA/matrixlayout && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= matrixlayout "; git status; fi

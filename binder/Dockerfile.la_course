@@ -40,8 +40,8 @@ RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
 
 USER root
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
-    "mkdocs-jupyter==0.24.8" \
-    "nbconvert==7.16.6"
+    "mkdocs-jupyter==0.25.1" \
+    "nbconvert==7.17.1"
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir "notebook<7" nbclassic
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir vsapy
@@ -162,6 +162,17 @@ svg_qr, qr_spec = qr_bundle(A); \
 isempty(svg_qr.svg) && error("qr_bundle returned empty SVG"); \
 qr_spec === nothing && error("qr_bundle returned no spec"); \
 println("QR bundle regression check OK")'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+using LinearAlgebra; \
+using Plots, Images, ImageShow, TestImages; \
+gr(); \
+img = rand(Gray{Float64}, 8, 8); \
+p = plot(rand(5)); \
+display(p); \
+println(size(img)); \
+println(typeof(p)); \
+println("Plots/Images warmup complete")'
 RUN mkdir -p /opt/ea42gh/docs/GenLAProblems \
  && if [ -d /opt/ea42gh/GenLAProblems/docs/src ]; then \
       cp -r /opt/ea42gh/GenLAProblems/docs/src/. /opt/ea42gh/docs/GenLAProblems/; \
