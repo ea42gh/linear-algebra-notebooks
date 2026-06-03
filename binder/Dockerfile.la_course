@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ea42gh/julia-python-jupyter:julia1.10.10-py3.11.14
+ARG BASE_IMAGE=julia-python-jupyter:1.0
 FROM ${BASE_IMAGE}
 
 ENV JULIA_CONDAPKG_BACKEND=Null

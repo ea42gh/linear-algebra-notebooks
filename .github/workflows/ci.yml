@@ -31,11 +31,5 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
-      - name: Build Binder course image
-        run: |
-          docker build \
-            -f binder/Dockerfile.la_course \
-            --build-arg BASE_IMAGE=ea42gh/julia-python-jupyter:julia1.10.10-py3.11.14 \
-            -t la-course-ci:${{ github.sha }} \
-            --progress=plain \
-            .
+      - name: Build Binder course image chain
+        run: make l_chain IMAGE_LA_COURSE=la-course-ci
