@@ -10,10 +10,10 @@ export BUILDX_GIT_INFO := false
 DOCKER_BUILD ?= docker build
 DOCKER_BUILDX_BUILD ?= docker buildx build
 
-VERSION ?= 0.2
+VERSION ?= 1.0
 JULIA_VERSION  ?= 1.10.10
 PYTHON_VERSION ?= 3.11.14
-IMG_VERSION ?= 0.1.0
+IMG_VERSION ?= 1.0.0
 ifeq ($(OS),Windows_NT)
 TIMESTAMP = $(shell powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'")
 ARCH_RAW = $(shell powershell -NoProfile -Command "[System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()")

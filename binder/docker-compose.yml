@@ -7,17 +7,17 @@ services:
       - "8888:8888"
       - "1234:1234"
   la_course:
-    image: ea42gh/la_course:0.1
+    image: ea42gh/la-course:1.0
     ports:
       - "8888:8888"
       - "1234:1234"
   la_local:
-    image: la_image:0.1
+    image: la_image:1.0
     ports:
       - "8888:8888"
       - "1234:1234"
   la_course_local:
-    image: la_course:0.1
+    image: la-course:1.0
     ports:
       - "8888:8888"
       - "1234:1234"

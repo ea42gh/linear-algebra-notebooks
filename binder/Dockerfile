@@ -1,4 +1,4 @@
-FROM ea42gh/la-course:0.2
+FROM ea42gh/la-course:1.0
 
 USER jovyan
 WORKDIR /home/jovyan
