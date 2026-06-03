@@ -4,10 +4,10 @@ import time
 
 pkgs = [
     # Core numerics / algebra
-    "numpy",
+    "numpy>=2,<3",
     "scipy",
     "pandas",
-    "sympy",
+    "sympy>=1.12",
 
     # Graphs / geometry
     "networkx",
