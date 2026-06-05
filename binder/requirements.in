@@ -1,0 +1,40 @@
+# Core numerics / algebra
+numpy>=2,<3
+scipy
+pandas
+sympy>=1.12
+
+# Graphs / geometry
+networkx
+graphviz
+pygraphviz
+
+# Imaging / plotting
+matplotlib
+pillow
+scikit-image
+scikit-learn
+xarray
+
+# Interactive / dashboards
+panel
+panel_mermaid
+holoviews[recommended]
+hvplot
+k3d
+streamz
+
+# Jupyter frontend
+jupyter
+jupyterlab
+notebook
+
+# Jupyter extensions
+webio_jupyter_extension==0.1.0
+
+# Julia bridge
+julia
+juliacall
+
+# Animation
+manim
