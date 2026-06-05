@@ -2,12 +2,13 @@
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <notebook_dir> [timeout_seconds]"
+  echo "Usage: $0 <notebook_dir> [timeout_seconds] [report_dir]"
   exit 1
 fi
 
 NB_DIR="$1"
 TIMEOUT="${2:-600}"
+REPORT_DIR="${3:-artifacts/notebook-check}"
 
 if ! command -v jupyter >/dev/null 2>&1; then
   echo "ERROR: jupyter not found in PATH"
@@ -19,19 +20,25 @@ if [[ ! -d "$NB_DIR" ]]; then
   exit 1
 fi
 
-TMP_DIR="$(mktemp -d)"
+mkdir -p "$REPORT_DIR/executed" "$REPORT_DIR/logs"
 FAILED=()
 
-# Find notebooks (non-recursive). Add -maxdepth 1 if you want only top-level.
 mapfile -t NOTEBOOKS < <(find "$NB_DIR" -type f -name "*.ipynb" | sort)
+if [[ ${#NOTEBOOKS[@]} -eq 0 ]]; then
+  echo "ERROR: no notebooks found in $NB_DIR"
+  exit 1
+fi
 
 for nb in "${NOTEBOOKS[@]}"; do
-  out="$TMP_DIR/$(basename "$nb")"
+  rel="${nb#"$NB_DIR"/}"
+  out="$REPORT_DIR/executed/$rel"
+  log="$REPORT_DIR/logs/${rel//\//__}.log"
+  mkdir -p "$(dirname "$out")"
   echo -n "Running: $nb"
   if ! jupyter nbconvert --to notebook --execute "$nb" \
         --ExecutePreprocessor.timeout="$TIMEOUT" \
         --output "$out" \
-        --log-level WARN >/dev/null 2>&1; then
+        --log-level WARN >"$log" 2>&1; then
     printf "  \033[31mFAIL\033[0m\n"
     FAILED+=("$nb")
   else
@@ -45,4 +52,7 @@ if [[ ${#FAILED[@]} -eq 0 ]]; then
 else
   echo "Notebooks with failing cells:"
   printf '%s\n' "${FAILED[@]}"
+  echo
+  echo "Execution logs are in: $REPORT_DIR/logs"
+  exit 1
 fi

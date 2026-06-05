@@ -1,4 +1,4 @@
-.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock check_python_deps_lock
+.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock check_python_deps_lock check_notebooks check_notebooks_docker
 
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
@@ -13,6 +13,10 @@ DOCKER_BUILDX_BUILD ?= docker buildx build
 PYTHON ?= python
 DEPENDENCY_LOCK_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 BINDER_PYTHON_BUILD_DEPS ?= graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
+NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
+NOTEBOOK_DIR ?= notebooks
+NOTEBOOK_TIMEOUT ?= 600
+NOTEBOOK_REPORT_DIR ?= artifacts/notebook-check
 
 VERSION ?= 1.0
 JULIA_VERSION  ?= 1.10.10
@@ -199,6 +203,13 @@ check_python_deps_lock:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
 	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements.txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements.txt > /tmp/requirements.expected && sed "/^#    pip-compile --output-file=/d" /tmp/requirements.txt > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements.txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
 
+check_notebooks:
+	bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR)
+
+check_notebooks_docker:
+	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
+	  bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR)
+
 refresh_python_deps_local:
 	$(PYTHON) -m pip install --upgrade pip-tools
 	$(PYTHON) -m piptools compile --upgrade --strip-extras --resolver=backtracking \
@@ -210,6 +221,7 @@ help:
 	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain"
 	@echo " julia python pluto jupyter la_course chain"
 	@echo " refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock"
+	@echo " check_notebooks check_notebooks_docker"
 	@echo " list list_images git check_git"
 	@echo " info"
 
