@@ -10,7 +10,6 @@ CI_BASE_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 export BUILDX_GIT_INFO := false
 DOCKER_BUILD ?= docker build
 DOCKER_BUILDX_BUILD ?= docker buildx build
-PYTHON ?= python
 DEPENDENCY_LOCK_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 BINDER_PYTHON_BUILD_DEPS ?= graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
 NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
@@ -23,9 +22,11 @@ JULIA_VERSION  ?= 1.10.10
 PYTHON_VERSION ?= 3.11.14
 IMG_VERSION ?= 1.0.0
 ifeq ($(OS),Windows_NT)
+PYTHON ?= python
 TIMESTAMP = $(shell powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'")
 ARCH_RAW = $(shell powershell -NoProfile -Command "[System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()")
 else
+PYTHON ?= python3
 TIMESTAMP = $(shell date '+%Y-%m-%d %H:%M')
 ARCH_RAW = $(shell uname -m)
 endif
@@ -148,16 +149,12 @@ chain: julia python jupyter la_course # pluto
 	@echo "<DONE> chain $(TIMESTAMP)"
 
 C ?= container
+CHECKGIT_REPOS ?= ../jupyter-tikz ../matrixlayout ../la_figures ../LAlatex ../GenLAProblems .
 git:
 	docker cp ~/.gitconfig $C:/home/jovyan
 	docker cp ~/.git-credentials $C:/home/jovyan
 checkgit:
-	@cd /home/lab/NOTEBOOKS/LA/jupyter_tikz && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= jupyter_tikz "; git status; fi
-	@cd /home/lab/NOTEBOOKS/LA/matrixlayout && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= matrixlayout "; git status; fi
-	@cd /home/lab/NOTEBOOKS/LA/LAFigureSpecs && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= LAFigureSpecs "; git status; fi
-	@cd /home/lab/NOTEBOOKS/LA/LAlatex && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= LAlatex"; git status; fi
-	@cd /home/lab/NOTEBOOKS/LA/GenLAProblems && if [ -n "$$(git status --porcelain)" ]; then echo "# ============================================= GenLAProblems"; git status; fi
-	@cd /home/lab/NOTEBOOKS/elementary-linear-algebra && if [ -n "$$(git status --porcelain)" ]; then echo "# ================================================================= elementary-linear-algebra"; git status; fi
+	@$(PYTHON) bin/checkgit.py $(CHECKGIT_REPOS)
 # =======================================================================================================
 
 API_URL := https://hub.docker.com/v2/repositories/ea42gh/?page_size=100
