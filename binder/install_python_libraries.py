@@ -1,57 +1,28 @@
+from pathlib import Path
 import subprocess
 import sys
 import time
 
-pkgs = [
-    # Core numerics / algebra
-    "numpy>=2,<3",
-    "scipy",
-    "pandas",
-    "sympy>=1.12",
 
-    # Graphs / geometry
-    "networkx",
-    "graphviz",
-    "pygraphviz",
+REQUIREMENTS = Path("/tmp/requirements.txt")
 
-    # Imaging / plotting
-    "matplotlib",
-    "pillow",
-    "scikit-image",
-    "scikit-learn",
-    "xarray",
 
-    # Interactive / dashboards
-    "panel",
-    "panel_mermaid",
-    "holoviews[recommended]",
-    "hvplot",
-    "k3d",
-    "streamz",
-
-    # Jupyter frontend
-    "jupyter",
-    "jupyterlab",
-    "notebook",
-
-    # Jupyter extensions
-    "webio_jupyter_extension==0.1.0",
-
-    # Julia bridge (see note below)
-    "julia",
-    "juliacall",
-
-    # Animation
-    "manim",
-]
+if not REQUIREMENTS.is_file():
+    raise FileNotFoundError(
+        f"Missing locked Python requirements file: {REQUIREMENTS}. "
+        "Copy binder/requirements.txt before running this installer."
+    )
 
 cmd = [
     sys.executable,
-    "-m", "pip", "install",
+    "-m",
+    "pip",
+    "install",
     "--no-cache-dir",
     "--upgrade",
     "--root-user-action=ignore",
-    *pkgs
+    "-r",
+    str(REQUIREMENTS),
 ]
 
 print("Running:", " ".join(cmd))

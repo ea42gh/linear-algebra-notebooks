@@ -51,6 +51,7 @@ RUN chmod 0755 /usr/local/bin/start-pluto
 
 COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 
+COPY binder/requirements.txt /tmp/requirements.txt
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 WORKDIR /opt/ea42gh
