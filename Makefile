@@ -1,4 +1,4 @@
-.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images refresh_deps refresh_python_deps refresh_python_deps_local
+.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock check_python_deps_lock
 
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
@@ -189,9 +189,15 @@ list_images:
 # =======================================================================================================
 refresh_deps: refresh_python_deps
 
+check_deps_lock: check_python_deps_lock
+
 refresh_python_deps:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
 	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --output-file binder/requirements.txt binder/requirements.in'
+
+check_python_deps_lock:
+	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
+	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements.txt binder/requirements.in && cmp -s /tmp/requirements.txt binder/requirements.txt || (echo "binder/requirements.txt is stale; run make refresh_deps" >&2; diff -u binder/requirements.txt /tmp/requirements.txt; exit 1)'
 
 refresh_python_deps_local:
 	$(PYTHON) -m pip install --upgrade pip-tools
@@ -203,7 +209,7 @@ refresh_python_deps_local:
 help:
 	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain"
 	@echo " julia python pluto jupyter la_course chain"
-	@echo " refresh_deps refresh_python_deps refresh_python_deps_local"
+	@echo " refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock"
 	@echo " list list_images git check_git"
 	@echo " info"
 

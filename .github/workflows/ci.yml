@@ -31,5 +31,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
+      - name: Check Binder dependency lock
+        run: make check_deps_lock
       - name: Build Binder course image
         run: make l_ci_la_course IMAGE_LA_COURSE=la-course-ci
