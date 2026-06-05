@@ -197,7 +197,7 @@ refresh_python_deps:
 
 check_python_deps_lock:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
-	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements.txt binder/requirements.in && cmp -s /tmp/requirements.txt binder/requirements.txt || (echo "binder/requirements.txt is stale; run make refresh_deps" >&2; diff -u binder/requirements.txt /tmp/requirements.txt; exit 1)'
+	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements.txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements.txt > /tmp/requirements.expected && sed "/^#    pip-compile --output-file=/d" /tmp/requirements.txt > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements.txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
 
 refresh_python_deps_local:
 	$(PYTHON) -m pip install --upgrade pip-tools
