@@ -1,4 +1,4 @@
-.PHONEY: l_julia l_python l_pluto l_jupyter l_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push
+.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images
 
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
@@ -6,6 +6,7 @@ IMAGE_BASE    ?= $(IMAGE_PYTHON)
 IMAGE_JUPYTER ?= julia-python-jupyter
 IMAGE_PLUTO   ?= julia-pluto
 IMAGE_LA_COURSE ?= la-course
+CI_BASE_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 export BUILDX_GIT_INFO := false
 DOCKER_BUILD ?= docker build
 DOCKER_BUILDX_BUILD ?= docker buildx build
@@ -69,7 +70,7 @@ l_jupyter_run:
 	docker run --rm -it $(IMAGE_JUPYTER):$(VERSION) bash
 
 l_pluto:
-	  $(DOCKER_BUILD) -f Dockerfile.jupyter \
+	  $(DOCKER_BUILD) -f binder/Dockerfile.pluto \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t $(IMAGE_PLUTO):$(VERSION) -t $(IMAGE_PLUTO):julia$(JULIA_VERSION) \
 	  --progress=plain --no-cache --load .
@@ -89,6 +90,13 @@ l_la_course:
 l_la_course_run:
 	docker run --rm -it $(IMAGE_LA_COURSE):$(VERSION) bash
 	@echo "<DONE> l_la_course $(TIMESTAMP)"
+
+l_ci_la_course:
+	  $(DOCKER_BUILD) -f binder/Dockerfile.la_course \
+	  --build-arg BASE_IMAGE=$(CI_BASE_IMAGE) \
+	  -t $(IMAGE_LA_COURSE):$(VERSION) -t $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
+	  --progress=plain --load .
+	@echo "<DONE> l_ci_la_course $(TIMESTAMP)"
 
 l_chain: l_julia l_python l_jupyter l_la_course #l_pluto 
 	@echo "<DONE> l_chain $(TIMESTAMP)"
@@ -118,7 +126,7 @@ jupyter:
 
 pluto:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.pluto \
-	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
+	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JULIA):$(VERSION) \
 	  -t ea42gh/$(IMAGE_PLUTO):$(VERSION) -t ea42gh/$(IMAGE_PLUTO):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> pluto $(TIMESTAMP)"
@@ -177,7 +185,7 @@ list_images:
 	| sort   # optional – alphabetical order
 # =======================================================================================================
 help:
-	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_chain"
+	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain"
 	@echo " julia python pluto jupyter la_course chain"
 	@echo " list list_images git check_git"
 	@echo " info"
@@ -187,6 +195,7 @@ info:
 	@echo "JULIA_VERSION  = $(JULIA_VERSION)"
 	@echo "PYTHON_VERSION = $(PYTHON_VERSION)"
 	@echo "RUNTIME_TAG    = $(RUNTIME_TAG)"
+	@echo "CI_BASE_IMAGE  = $(CI_BASE_IMAGE)"
 # =======================================================================================================
 push:
 	docker tag $(IMAGE_LA_COURSE):$(VERSION) ea42gh/$(IMAGE_LA_COURSE):$(VERSION)-$(ARCH_SUFFIX)
