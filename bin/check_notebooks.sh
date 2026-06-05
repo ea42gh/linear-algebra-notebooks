@@ -34,10 +34,13 @@ for nb in "${NOTEBOOKS[@]}"; do
   out="$REPORT_DIR/executed/$rel"
   log="$REPORT_DIR/logs/${rel//\//__}.log"
   mkdir -p "$(dirname "$out")"
+  out_dir="$(dirname "$out")"
+  out_name="$(basename "$out")"
   echo -n "Running: $nb"
   if ! jupyter nbconvert --to notebook --execute "$nb" \
         --ExecutePreprocessor.timeout="$TIMEOUT" \
-        --output "$out" \
+        --output-dir "$out_dir" \
+        --output "$out_name" \
         --log-level WARN >"$log" 2>&1; then
     printf "  \033[31mFAIL\033[0m\n"
     FAILED+=("$nb")
