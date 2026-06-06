@@ -60,6 +60,7 @@ pkg_specs = Dict(
     "Plots" => (phase=:safe, block=:plots),
     "StatsPlots" => (phase=:safe, block=:plots),
     "PlotlyJS" => (phase=:safe, block=:plots),
+    "PlotlyBase" => (phase=:safe, block=:plots),
     "GR" => (phase=:safe, block=:plots),
 
     # Safe but especially memory-heavy.
