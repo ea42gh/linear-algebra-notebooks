@@ -16,6 +16,7 @@ notebooks/.ipynb_checkpoints/
 tmp
 work
 notebooks/tmp
+notebooks/mystream.png
 GenLinAlgProblems/tmp
 GenLinAlgProblems/Manifest.toml
 GenLinAlgProblems/notebooks/tmp
