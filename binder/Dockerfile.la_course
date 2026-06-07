@@ -179,10 +179,8 @@ Pkg.activate(ENV["JULIA_PROJECT"]); \
 using PlotlyJS, PlotlyBase, DataFrames, JSON3, IJulia; \
 df = DataFrame(x=1:3, y=4:6); \
 p_df = PlotlyJS.plot(df, x=:x, y=:y, mode="lines+markers", type="scatter"); \
-display(p_df); \
 trace = PlotlyBase.scatter(x=1:3, y=3:5); \
 p_base = PlotlyBase.Plot([trace]); \
-display(p_base); \
 JSON3.write(p_df); \
 JSON3.write(p_base); \
 println("Plotly warmup complete")'
