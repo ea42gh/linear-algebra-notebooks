@@ -62,8 +62,7 @@ Common entry points (typical notebook usage):
   - sel_vec_range: select eigenvector entry range
   - DelimCallout: delimiter callout object
   - DelimCalloutDict: delimiter callout dict type
-  - infer_ge_matrix_labels: infer GE labels
-  - infer_ge_layer_callouts: infer GE callouts
+  - infer_ge_matrix_callouts: infer GE callouts
   - render_delim_callout: render one callout
   - render_delim_callouts: render all callouts
 
