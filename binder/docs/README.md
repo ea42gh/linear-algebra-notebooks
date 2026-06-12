@@ -100,7 +100,6 @@ Common entry points (typical notebook usage):
   - show_ge: display GE SVG in notebook
   - ge_bundle: canonical GE table spec bundle
   - ge_stack_svg: canonical GE stack SVG renderer
-  - ge: historical alias for `ge_stack_svg`
   - render_ge_svg: re-exported matrixlayout grid SVG
   - render_ge_tex: re-exported matrixlayout grid TeX
   - render_qr_svg: re-exported matrixlayout QR grid SVG
