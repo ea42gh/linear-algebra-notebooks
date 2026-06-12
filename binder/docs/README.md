@@ -77,12 +77,14 @@ Common entry points (typical notebook usage):
   - svd_tbl_spec_from_right_singular_vectors: SVD spec from right singular vectors
   - eig_tex: canonical eigen table TeX
   - eig_tbl_tex: compatibility alias for `eig_tex`
-  - **eig_tbl_svg**: eigen table SVG (returns `(svg, spec)`)
+  - **eig_svg**: canonical eigen table SVG
+  - eig_tbl_svg: compatibility alias for `eig_svg`
   - eig_bundle: canonical eigen table spec bundle
   - eig_tbl_bundle: compatibility alias for `eig_bundle`
   - svd_tex: canonical SVD table TeX
   - svd_tbl_tex: compatibility alias for `svd_tex`
-  - **svd_tbl_svg**: SVD table SVG (returns `(svg, spec)`)
+  - **svd_svg**: canonical SVD table SVG
+  - svd_tbl_svg: compatibility alias for `svd_svg`
   - svd_bundle: canonical SVD table spec bundle
   - svd_tbl_bundle: compatibility alias for `svd_bundle`
   - compute_qr_matrices: QR matrices helper
@@ -92,7 +94,8 @@ Common entry points (typical notebook usage):
   - qr_tbl_layout_spec: QR layout spec
   - qr_tex: canonical QR table TeX
   - qr_tbl_tex: compatibility alias for `qr_tex`
-  - **qr_tbl_svg**: QR table SVG (returns `(svg, spec)`)
+  - **qr_svg**: canonical QR SVG renderer
+  - qr_tbl_svg: compatibility alias for QR table SVG
   - qr_bundle: canonical QR table spec bundle
   - qr_tbl_bundle: compatibility alias for `qr_bundle`
   - **qr_figure**: canonical Gram-Schmidt QR render (returns `(svg, matrices)`)
@@ -107,7 +110,8 @@ Common entry points (typical notebook usage):
   - ge_tbl_layout_spec: GE layout spec
   - ge_tex: canonical GE table TeX
   - ge_tbl_tex: compatibility alias for `ge_tex`
-  - **ge_tbl_svg**: GE table SVG
+  - **ge_svg**: canonical GE SVG renderer
+  - ge_tbl_svg: compatibility alias for GE table SVG
   - show_ge: display GE SVG in notebook
   - ge_bundle: canonical GE table spec bundle
   - ge_tbl_bundle: compatibility alias for `ge_bundle`
