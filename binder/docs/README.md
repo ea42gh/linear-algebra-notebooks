@@ -74,7 +74,8 @@ Common entry points (typical notebook usage):
   - eig_tbl_spec: compatibility alias for `eig_spec`
   - **svd_spec**: canonical SVD table spec
   - svd_tbl_spec: compatibility alias for `svd_spec`
-  - svd_tbl_spec_from_right_singular_vectors: SVD spec from right singular vectors
+  - svd_spec_from_right_singular_vectors: SVD spec from right singular vectors
+  - svd_tbl_spec_from_right_singular_vectors: compatibility alias for `svd_spec_from_right_singular_vectors`
   - eig_tex: canonical eigen table TeX
   - eig_tbl_tex: compatibility alias for `eig_tex`
   - **eig_svg**: canonical eigen table SVG
@@ -91,7 +92,8 @@ Common entry points (typical notebook usage):
   - gram_schmidt_qr_matrices: Gram–Schmidt QR matrices helper
   - **qr_spec**: canonical QR table spec
   - qr_tbl_spec: compatibility alias for `qr_spec`
-  - qr_tbl_layout_spec: QR layout spec
+  - qr_layout_spec: canonical QR layout spec
+  - qr_tbl_layout_spec: compatibility alias for `qr_layout_spec`
   - qr_tex: canonical QR table TeX
   - qr_tbl_tex: compatibility alias for `qr_tex`
   - **qr_svg**: canonical QR SVG renderer
@@ -108,7 +110,8 @@ Common entry points (typical notebook usage):
   - trace_to_layer_matrices: GE trace → layer matrices
   - **ge_spec**: canonical GE table spec
   - ge_tbl_spec: compatibility alias for `ge_spec`
-  - ge_tbl_layout_spec: GE layout spec
+  - ge_layout_spec: canonical GE layout spec
+  - ge_tbl_layout_spec: compatibility alias for `ge_layout_spec`
   - ge_tex: canonical GE table TeX
   - ge_tbl_tex: compatibility alias for `ge_tex`
   - **ge_svg**: canonical GE SVG renderer
