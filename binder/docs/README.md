@@ -70,22 +70,28 @@ Common entry points (typical notebook usage):
   - EigenDecomposition: eigen decomposition container
   - eigendecomposition: compute eigen decomposition
   - eig_spec_from_eigenvects: eigen spec from eigenvectors
-  - **eig_tbl_spec**: eigen table spec
-  - svd_tbl_spec: SVD table spec
+  - **eig_spec**: canonical eigen table spec
+  - eig_tbl_spec: compatibility alias for `eig_spec`
+  - **svd_spec**: canonical SVD table spec
+  - svd_tbl_spec: compatibility alias for `svd_spec`
   - svd_tbl_spec_from_right_singular_vectors: SVD spec from right singular vectors
-  - eig_tbl_tex: eigen table TeX
+  - eig_tex: canonical eigen table TeX
+  - eig_tbl_tex: compatibility alias for `eig_tex`
   - **eig_tbl_svg**: eigen table SVG (returns `(svg, spec)`)
   - eig_bundle: canonical eigen table spec bundle
   - eig_tbl_bundle: compatibility alias for `eig_bundle`
-  - svd_tbl_tex: SVD table TeX
+  - svd_tex: canonical SVD table TeX
+  - svd_tbl_tex: compatibility alias for `svd_tex`
   - **svd_tbl_svg**: SVD table SVG (returns `(svg, spec)`)
   - svd_bundle: canonical SVD table spec bundle
   - svd_tbl_bundle: compatibility alias for `svd_bundle`
   - compute_qr_matrices: QR matrices helper
   - gram_schmidt_qr_matrices: Gram–Schmidt QR matrices helper
-  - **qr_tbl_spec**: QR table spec
+  - **qr_spec**: canonical QR table spec
+  - qr_tbl_spec: compatibility alias for `qr_spec`
   - qr_tbl_layout_spec: QR layout spec
-  - qr_tbl_tex: QR table TeX
+  - qr_tex: canonical QR table TeX
+  - qr_tbl_tex: compatibility alias for `qr_tex`
   - **qr_tbl_svg**: QR table SVG (returns `(svg, spec)`)
   - qr_bundle: canonical QR table spec bundle
   - qr_tbl_bundle: compatibility alias for `qr_bundle`
@@ -96,9 +102,11 @@ Common entry points (typical notebook usage):
   - standard_solution_tex: standard solution TeX
   - ge_trace: GE trace generator
   - trace_to_layer_matrices: GE trace → layer matrices
-  - **ge_tbl_spec**: GE table spec
+  - **ge_spec**: canonical GE table spec
+  - ge_tbl_spec: compatibility alias for `ge_spec`
   - ge_tbl_layout_spec: GE layout spec
-  - ge_tbl_tex: GE table TeX
+  - ge_tex: canonical GE table TeX
+  - ge_tbl_tex: compatibility alias for `ge_tex`
   - **ge_tbl_svg**: GE table SVG
   - show_ge: display GE SVG in notebook
   - ge_bundle: canonical GE table spec bundle
