@@ -95,7 +95,8 @@ Common entry points (typical notebook usage):
   - qr_tex: canonical QR table TeX
   - qr_tbl_tex: compatibility alias for `qr_tex`
   - **qr_svg**: canonical QR SVG renderer
-  - qr_tbl_svg: compatibility alias for QR table SVG
+  - qr_table_svg: canonical QR table SVG
+  - qr_tbl_svg: compatibility alias for `qr_table_svg`
   - qr_bundle: canonical QR table spec bundle
   - qr_tbl_bundle: compatibility alias for `qr_bundle`
   - **qr_figure**: canonical Gram-Schmidt QR render (returns `(svg, matrices)`)
@@ -111,7 +112,8 @@ Common entry points (typical notebook usage):
   - ge_tex: canonical GE table TeX
   - ge_tbl_tex: compatibility alias for `ge_tex`
   - **ge_svg**: canonical GE SVG renderer
-  - ge_tbl_svg: compatibility alias for GE table SVG
+  - ge_table_svg: canonical GE table SVG
+  - ge_tbl_svg: compatibility alias for `ge_table_svg`
   - show_ge: display GE SVG in notebook
   - ge_bundle: canonical GE table spec bundle
   - ge_tbl_bundle: compatibility alias for `ge_bundle`
