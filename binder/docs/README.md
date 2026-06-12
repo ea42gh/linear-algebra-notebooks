@@ -84,8 +84,8 @@ Common entry points (typical notebook usage):
   - **qr_spec**: canonical QR table spec
   - qr_layout_spec: canonical QR layout spec
   - qr_tex: canonical QR table TeX
-  - **qr_svg**: canonical QR SVG renderer
-  - qr_table_svg: canonical QR table SVG
+  - **qr_svg**: canonical QR table SVG
+  - qr_stack_svg: canonical QR stack SVG renderer
   - qr_bundle: canonical QR table spec bundle
   - **qr_figure**: canonical Gram-Schmidt QR render (returns `(svg, matrices)`)
   - gram_schmidt_qr: compatibility alias for `qr_figure`
@@ -97,12 +97,11 @@ Common entry points (typical notebook usage):
   - **ge_spec**: canonical GE table spec
   - ge_layout_spec: canonical GE layout spec
   - ge_tex: canonical GE table TeX
-  - **ge_svg**: canonical GE SVG renderer
-  - ge_table_svg: canonical GE table SVG
+  - **ge_svg**: canonical GE table SVG
   - show_ge: display GE SVG in notebook
   - ge_bundle: canonical GE table spec bundle
-  - **ge_svg**: canonical GE SVG renderer
-  - ge: compatibility alias for `ge_svg`
+  - ge_stack_svg: canonical GE stack SVG renderer
+  - ge: historical alias for `ge_stack_svg`
   - render_ge_svg: re-exported matrixlayout grid SVG
   - render_ge_tex: re-exported matrixlayout grid TeX
   - render_qr_svg: re-exported matrixlayout QR grid SVG
