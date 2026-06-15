@@ -50,6 +50,10 @@ COPY binder/start-pluto /usr/local/bin/start-pluto
 RUN chmod 0755 /usr/local/bin/start-pluto
 
 COPY binder/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
+RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
+COPY binder/10-julia-magic.py \
+    /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
+RUN chown -R jovyan:jovyan /home/jovyan/.ipython
 
 COPY binder/requirements.txt /tmp/requirements.txt
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
@@ -205,6 +209,7 @@ USER root
 RUN chown -R jovyan:jovyan /home/jovyan/.julia
 RUN rm -rf /tmp/*
 USER jovyan
+RUN ipython -c "ip = get_ipython(); assert 'julia' in ip.magics_manager.magics['cell']; ip.run_cell_magic('julia', '', '1 + 1')"
 
 
 USER root

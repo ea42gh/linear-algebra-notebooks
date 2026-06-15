@@ -10,6 +10,7 @@ import os
 import re
 from numbers import Number
 
+import IPython
 from IPython import get_ipython
 from IPython.display import Latex, Math, display
 
@@ -21,7 +22,12 @@ os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 
 
-from juliacall import Main as jl
+_real_get_ipython = IPython.get_ipython
+IPython.get_ipython = lambda: None
+try:
+    from juliacall import Main as jl
+finally:
+    IPython.get_ipython = _real_get_ipython
 
 
 # ------------------------------------------------------------------
