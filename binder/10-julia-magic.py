@@ -10,8 +10,6 @@ import os
 import re
 from numbers import Number
 
-import IPython
-import IPython.core.getipython
 from IPython import get_ipython
 from IPython.display import Latex, Math, display
 
@@ -21,34 +19,37 @@ os.environ.setdefault("PYTHON_JULIACALL_EXE", "/usr/local/julia/bin/julia")
 os.environ.setdefault("PYTHON_JULIACALL_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
-os.environ.setdefault("PYTHON_JULIACALL_AUTOLOAD_IPYTHON_EXTENSION", "no")
+os.environ["PYTHON_JULIACALL_AUTOLOAD_IPYTHON_EXTENSION"] = "no"
 
 
-_real_get_ipython = IPython.get_ipython
-_real_core_get_ipython = IPython.core.getipython.get_ipython
-IPython.get_ipython = lambda: None
-IPython.core.getipython.get_ipython = lambda: None
-try:
-    from juliacall import Main as jl
-finally:
-    IPython.core.getipython.get_ipython = _real_core_get_ipython
-    IPython.get_ipython = _real_get_ipython
+_jl = None
+
+
+def _ensure_julia():
+    global _jl
+    if _jl is None:
+        from juliacall import Main as jl
+
+        _jl = jl
+        _initialize_julia(jl)
+    return _jl
 
 
 # ------------------------------------------------------------------
 # Julia helpers (LAlatex is opt-in)
 # ------------------------------------------------------------------
 
-jl.seval("""
+def _initialize_julia(jl):
+    jl.seval("""
 import Pkg
 Pkg.activate("/home/jovyan/.julia_env")
 """)
 
-jl.seval("""
+    jl.seval("""
 using PythonCall
 """)
 
-jl.seval("""
+    jl.seval("""
 import PythonCall
 const _py_display = PythonCall.pyimport("IPython.display")
 function _py_display_latex(x)
@@ -63,7 +64,7 @@ function _py_display_latex(x)
 end
 """)
 
-jl.seval("""
+    jl.seval("""
 using LAlatex, LinearAlgebra, LaTeXStrings, Random
 
 function _using_optional_package(name::String)
@@ -110,6 +111,7 @@ def L_show(*args, **kwargs):
     Python-side L_show:
     calls Julia's L_show and returns the raw LaTeX string.
     """
+    jl = _ensure_julia()
     converted_args, raw_latex_flags = _convert_args(args)
     return str(jl._lalatex_python_l_show(converted_args, raw_latex_flags, **kwargs))
 
@@ -167,6 +169,7 @@ def _is_2d_list(value):
 
 
 def _list_to_julia_matrix(value):
+    jl = _ensure_julia()
     rows = []
     for row in value:
         rows.append(" ".join(_format_julia_number(item) for item in row))
@@ -206,6 +209,7 @@ def julia(line, cell):
     """
     Execute Julia code in the Python kernel.
     """
+    jl = _ensure_julia()
     cell = re.sub(r'^\s*using\s+LAlatex\s*$', 'import LAlatex', cell, flags=re.MULTILINE)
     cell = re.sub(r'(?<![\w\.])l_show\(', 'LAlatex.L_show(', cell)
     cell = re.sub(r'(?<![\w\.])display\(', '_py_display_latex(', cell)

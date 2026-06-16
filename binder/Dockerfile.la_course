@@ -110,6 +110,14 @@ Pkg.develop(path="/opt/ea42gh/LATeachingSuite.jl"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
 println("Runtime env instantiated")'
+RUN /usr/local/bin/python3 -c 'import json, importlib.util, pathlib; p = pathlib.Path(importlib.util.find_spec("juliacall").origin).parent / "juliapkg.json"; v = json.loads(p.read_text())["packages"]["PythonCall"]["version"].lstrip("="); print(v)' > /tmp/pythoncall_jl_version
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+v = strip(read("/tmp/pythoncall_jl_version", String)); \
+Pkg.add(Pkg.PackageSpec(name="PythonCall", version=v)); \
+Pkg.resolve(); \
+Pkg.instantiate(); \
+println("Pinned PythonCall.jl to JuliaCall requirement: " * v)'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 names = ["GenLAProblems", "LAlatex"]; \
