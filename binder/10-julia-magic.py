@@ -11,6 +11,7 @@ import re
 from numbers import Number
 
 import IPython
+import IPython.core.getipython
 from IPython import get_ipython
 from IPython.display import Latex, Math, display
 
@@ -20,13 +21,17 @@ os.environ.setdefault("PYTHON_JULIACALL_EXE", "/usr/local/julia/bin/julia")
 os.environ.setdefault("PYTHON_JULIACALL_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("PYJULIAPKG_PROJECT", "/home/jovyan/.julia_env")
 os.environ.setdefault("JULIAPKG_PROJECT", "/home/jovyan/.julia_env")
+os.environ.setdefault("PYTHON_JULIACALL_AUTOLOAD_IPYTHON_EXTENSION", "no")
 
 
 _real_get_ipython = IPython.get_ipython
+_real_core_get_ipython = IPython.core.getipython.get_ipython
 IPython.get_ipython = lambda: None
+IPython.core.getipython.get_ipython = lambda: None
 try:
     from juliacall import Main as jl
 finally:
+    IPython.core.getipython.get_ipython = _real_core_get_ipython
     IPython.get_ipython = _real_get_ipython
 
 

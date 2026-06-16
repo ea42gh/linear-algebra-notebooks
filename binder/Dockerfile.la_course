@@ -68,7 +68,7 @@ RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
 Pkg.add(Pkg.PackageSpec(url="https://github.com/Nemocas/AbstractAlgebra.jl.git", rev="v0.48.2")); \
-Pkg.add("PythonCall"); \
+Pkg.add(Pkg.PackageSpec(name="PythonCall", version="0.9.34")); \
 Pkg.resolve(); \
 Pkg.instantiate()'
 

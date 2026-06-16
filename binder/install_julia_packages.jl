@@ -75,7 +75,10 @@ pkg_specs = Dict(
     "ImageView" => (phase=:blocked, block=:blocked),
 )
 
-safe_pkgs = [name for (name, spec) in pkg_specs if spec.phase === :safe]
+safe_pkgs = [
+    name == "PythonCall" ? Pkg.PackageSpec(name=name, version="0.9.34") : Pkg.PackageSpec(name=name)
+    for (name, spec) in pkg_specs if spec.phase === :safe
+]
 blocked_pkgs = [name for (name, spec) in pkg_specs if spec.phase === :blocked]
 precompile_blocks = Dict{Symbol, Vector{String}}()
 for (name, spec) in pkg_specs
