@@ -25,7 +25,11 @@ attrs==26.1.0
 av==18.0.0
     # via manim
 babel==2.18.0
-    # via jupyterlab-server
+    # via
+    #   jupyterlab-server
+    #   mkdocs-material
+backrefs==7.0
+    # via mkdocs-material
 beautifulsoup4==4.15.0
     # via
     #   manim
@@ -38,21 +42,30 @@ bokeh==3.9.1
     #   hvplot
     #   panel
     #   panel-material-ui
+cairocffi==1.7.1
+    # via cairosvg
+cairosvg==2.9.0
+    # via mkdocs-material
 certifi==2026.6.17
     # via
     #   httpcore
     #   httpx
     #   requests
 cffi==2.1.0
-    # via argon2-cffi-bindings
+    # via
+    #   argon2-cffi-bindings
+    #   cairocffi
 charset-normalizer==3.4.9
     # via requests
 click==8.4.2
     # via
     #   cloup
     #   manim
+    #   mkdocs
 cloup==3.1.0
     # via manim
+colorama==0.4.6
+    # via mkdocs-material
 colorcet==3.2.1
     # via
     #   holoviews
@@ -65,6 +78,8 @@ contourpy==1.3.3
     # via
     #   bokeh
     #   matplotlib
+cssselect2==0.9.0
+    # via cairosvg
 cycler==0.12.1
     # via matplotlib
 debugpy==1.8.21
@@ -76,7 +91,9 @@ decorator==5.3.1
 deepcomparer==0.4.0
     # via k3d
 defusedxml==0.7.1
-    # via nbconvert
+    # via
+    #   cairosvg
+    #   nbconvert
 executing==2.2.1
     # via stack-data
 fastjsonschema==2.21.2
@@ -87,12 +104,20 @@ fonttools==4.63.0
     # via matplotlib
 fqdn==1.5.1
     # via jsonschema
+ghp-import==2.1.0
+    # via mkdocs
 glcontext==3.0.0
     # via moderngl
 graphviz==0.21
     # via -r binder/requirements.in
+griffelib==2.1.0
+    # via mkdocstrings-python
 h11==0.16.0
     # via httpcore
+hjson==3.1.0
+    # via
+    #   mkdocs-macros-plugin
+    #   super-collections
 holoviews==1.23.1
     # via
     #   -r binder/requirements.in
@@ -139,6 +164,10 @@ jinja2==3.1.6
     #   jupyter-server
     #   jupyterlab
     #   jupyterlab-server
+    #   mkdocs
+    #   mkdocs-macros-plugin
+    #   mkdocs-material
+    #   mkdocstrings
     #   nbconvert
 joblib==1.5.3
     # via scikit-learn
@@ -161,7 +190,7 @@ juliapkg==0.1.24
     # via juliacall
 jupyter==1.1.1
     # via -r binder/requirements.in
-jupyter-builder==1.0.2
+jupyter-builder==1.1.0
     # via
     #   jupyterlab
     #   notebook
@@ -227,7 +256,13 @@ manimpango==0.6.1
 mapbox-earcut==2.0.0
     # via manim
 markdown==3.10.2
-    # via panel
+    # via
+    #   mkdocs
+    #   mkdocs-autorefs
+    #   mkdocs-material
+    #   mkdocstrings
+    #   panel
+    #   pymdown-extensions
 markdown-it-py==4.2.0
     # via
     #   mdit-py-plugins
@@ -236,6 +271,9 @@ markdown-it-py==4.2.0
 markupsafe==3.0.3
     # via
     #   jinja2
+    #   mkdocs
+    #   mkdocs-autorefs
+    #   mkdocstrings
     #   nbconvert
 matplotlib==3.11.0
     # via
@@ -249,8 +287,37 @@ mdit-py-plugins==0.6.1
     # via panel
 mdurl==0.1.2
     # via markdown-it-py
+mergedeep==1.3.4
+    # via
+    #   mkdocs
+    #   mkdocs-get-deps
 mistune==3.3.3
     # via nbconvert
+mkdocs==1.6.1
+    # via
+    #   -r binder/requirements.in
+    #   mkdocs-autorefs
+    #   mkdocs-macros-plugin
+    #   mkdocs-material
+    #   mkdocstrings
+mkdocs-autorefs==1.4.4
+    # via
+    #   mkdocstrings
+    #   mkdocstrings-python
+mkdocs-get-deps==0.2.2
+    # via mkdocs
+mkdocs-macros-plugin==1.5.0
+    # via -r binder/requirements.in
+mkdocs-material==9.7.6
+    # via -r binder/requirements.in
+mkdocs-material-extensions==1.3.1
+    # via mkdocs-material
+mkdocstrings==1.0.6
+    # via
+    #   -r binder/requirements.in
+    #   mkdocstrings-python
+mkdocstrings-python==2.0.5
+    # via mkdocstrings
 moderngl==5.12.0
     # via
     #   manim
@@ -329,12 +396,16 @@ packaging==26.2
     #   jupyterlab-server
     #   lazy-loader
     #   matplotlib
+    #   mkdocs
+    #   mkdocs-macros-plugin
     #   nbconvert
     #   panel
     #   panel-material-ui
     #   plotly
     #   scikit-image
     #   xarray
+paginate==0.5.7
+    # via mkdocs-material
 pandas==3.0.3
     # via
     #   -r binder/requirements.in
@@ -363,19 +434,27 @@ param==2.4.1
     #   pyviz-comms
 parso==0.8.7
     # via jedi
+pathspec==1.1.1
+    # via
+    #   mkdocs
+    #   mkdocs-macros-plugin
 pexpect==4.9.0
     # via ipython
 pillow==12.3.0
     # via
     #   -r binder/requirements.in
     #   bokeh
+    #   cairosvg
     #   imageio
     #   manim
     #   matplotlib
+    #   mkdocs-material
     #   moderngl-window
     #   scikit-image
 platformdirs==4.10.0
-    # via jupyter-core
+    # via
+    #   jupyter-core
+    #   mkdocs-get-deps
 plotly==6.9.0
     # via holoviews
 prometheus-client==0.25.0
@@ -410,18 +489,26 @@ pygments==2.20.0
     #   ipython-pygments-lexers
     #   jupyter-console
     #   manim
+    #   mkdocs-material
     #   nbconvert
     #   rich
 pygraphviz==2.0
     # via -r binder/requirements.in
+pymdown-extensions==11.0.1
+    # via
+    #   -r binder/requirements.in
+    #   mkdocs-material
+    #   mkdocstrings
 pyparsing==3.3.2
     # via matplotlib
 python-dateutil==2.9.0.post0
     # via
     #   arrow
+    #   ghp-import
     #   holoviews
     #   jupyter-client
     #   matplotlib
+    #   mkdocs-macros-plugin
     #   pandas
 python-json-logger==4.1.0
     # via jupyter-events
@@ -433,6 +520,13 @@ pyyaml==6.0.3
     # via
     #   bokeh
     #   jupyter-events
+    #   mkdocs
+    #   mkdocs-get-deps
+    #   mkdocs-macros-plugin
+    #   pymdown-extensions
+    #   pyyaml-env-tag
+pyyaml-env-tag==1.1
+    # via mkdocs
 pyzmq==27.1.0
     # via
     #   ipykernel
@@ -447,6 +541,8 @@ referencing==0.37.0
 requests==2.34.2
     # via
     #   jupyterlab-server
+    #   mkdocs-macros-plugin
+    #   mkdocs-material
     #   panel
 rfc3339-validator==0.1.4
     # via
@@ -494,10 +590,14 @@ stack-data==0.6.3
     # via ipython
 streamz==0.6.6
     # via -r binder/requirements.in
+super-collections==0.6.2
+    # via mkdocs-macros-plugin
 svgelements==1.9.6
     # via manim
 sympy==1.14.0
     # via -r binder/requirements.in
+termcolor==3.3.0
+    # via mkdocs-macros-plugin
 terminado==0.18.1
     # via
     #   jupyter-server
@@ -507,7 +607,10 @@ threadpoolctl==3.6.0
 tifffile==2026.3.3
     # via scikit-image
 tinycss2==1.5.1
-    # via bleach
+    # via
+    #   bleach
+    #   cairosvg
+    #   cssselect2
 tomli==2.4.1
     # via juliapkg
 tomlkit==0.15.0
@@ -566,7 +669,9 @@ uri-template==1.3.0
 urllib3==2.7.0
     # via requests
 watchdog==6.0.0
-    # via manim
+    # via
+    #   manim
+    #   mkdocs
 wcwidth==0.8.2
     # via prompt-toolkit
 webcolors==25.10.0
@@ -574,6 +679,7 @@ webcolors==25.10.0
 webencodings==0.5.1
     # via
     #   bleach
+    #   cssselect2
     #   tinycss2
 webio-jupyter-extension==0.1.0
     # via -r binder/requirements.in
