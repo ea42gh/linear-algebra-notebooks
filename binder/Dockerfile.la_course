@@ -23,6 +23,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
     ffmpeg \
     libcairo2-dev \
     libpango1.0-dev \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libatspi2.0-0 \
+    libdrm2 \
+    libegl1 \
+    libgbm1 \
+    libgl1-mesa-dri \
+    libgles2 \
+    libgtk-3-0 \
+    libnss3 \
+    libosmesa6 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxi6 \
+    libxkbcommon0 \
+    libxrandr2 \
+    libxshmfence1 \
     pkg-config \
  && rm -rf /var/lib/apt/lists/*
 
@@ -193,6 +211,10 @@ df = DataFrame(x=1:3, y=4:6); \
 p_df = PlotlyJS.plot(df, x=:x, y=:y, mode="lines+markers", type="scatter"); \
 trace = PlotlyBase.scatter(x=1:3, y=3:5); \
 p_base = PlotlyBase.Plot([trace]); \
+trace3d = PlotlyBase.scatter3d(x=1:3, y=3:5, z=2:4, mode="markers"); \
+p_3d = PlotlyBase.Plot([trace3d]); \
+io = IOBuffer(); \
+show(io, MIME("image/svg+xml"), p_3d); \
 JSON3.write(p_df); \
 JSON3.write(p_base); \
 println("Plotly warmup complete")'
