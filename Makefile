@@ -13,6 +13,7 @@ DOCKER_BUILDX_BUILD ?= docker buildx build
 DEPENDENCY_LOCK_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 BINDER_PYTHON_BUILD_DEPS ?= graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
 NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
+NOTEBOOK_DOCKER_USER ?= jovyan
 NOTEBOOK_DIR ?= notebooks
 NOTEBOOK_TIMEOUT ?= 600
 NOTEBOOK_REPORT_DIR ?= artifacts/notebook-check
@@ -204,6 +205,8 @@ check_notebooks:
 
 check_notebooks_docker:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
+	  bash -lc 'mkdir -p "$(NOTEBOOK_REPORT_DIR)" && chown -R $(NOTEBOOK_DOCKER_USER):$(NOTEBOOK_DOCKER_USER) "$(NOTEBOOK_REPORT_DIR)"'
+	docker run --rm --user $(NOTEBOOK_DOCKER_USER) -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
 	  bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR)
 
 refresh_python_deps_local:
