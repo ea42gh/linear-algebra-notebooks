@@ -203,10 +203,10 @@ check_python_deps_lock:
 check_notebook_api:
 	$(PYTHON) bin/check_notebook_api.py $(NOTEBOOK_DIR)
 
-check_notebooks:
+check_notebooks: check_notebook_api
 	bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR)
 
-check_notebooks_docker:
+check_notebooks_docker: check_notebook_api
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
 	  bash -lc 'mkdir -p "$(NOTEBOOK_REPORT_DIR)" && chown -R $(NOTEBOOK_DOCKER_USER):$(NOTEBOOK_DOCKER_USER) "$(NOTEBOOK_REPORT_DIR)"'
 	docker run --rm --user $(NOTEBOOK_DOCKER_USER) -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \

@@ -31,6 +31,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
+      - name: Check notebook API usage
+        run: make check_notebook_api
       - name: Check Binder dependency lock
         run: make check_deps_lock
       - name: Build Binder course image
