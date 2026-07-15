@@ -76,7 +76,7 @@ for nb in "${NOTEBOOKS[@]}"; do
   out_dir="$(dirname "$out")"
   out_name="$(basename "$out")"
   echo -n "Running: $nb"
-  if ! jupyter nbconvert --to notebook --execute "$nb" \
+  if ! ELA_NOTEBOOK_CHECK=1 jupyter nbconvert --to notebook --execute "$nb" \
         --ExecutePreprocessor.timeout="$TIMEOUT" \
         --ExecutePreprocessor.startup_timeout="$STARTUP_TIMEOUT" \
         --output-dir "$out_dir" \
