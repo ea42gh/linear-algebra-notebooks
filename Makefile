@@ -16,7 +16,11 @@ NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
 NOTEBOOK_DOCKER_USER ?= jovyan
 NOTEBOOK_DIR ?= notebooks
 NOTEBOOK_TIMEOUT ?= 600
+NOTEBOOK_STARTUP_TIMEOUT ?= 180
 NOTEBOOK_REPORT_DIR ?= artifacts/notebook-check
+NOTEBOOK_ONLY ?=
+NOTEBOOK_RESUME_FROM ?=
+NOTEBOOK_CONTAINER ?= ela-notebook-check
 
 VERSION ?= 1.0
 JULIA_VERSION  ?= 1.10.10
@@ -204,13 +208,18 @@ check_notebook_api:
 	$(PYTHON) bin/check_notebook_api.py $(NOTEBOOK_DIR)
 
 check_notebooks: check_notebook_api
-	bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR)
+	bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR) $(NOTEBOOK_STARTUP_TIMEOUT) "$(NOTEBOOK_ONLY)" "$(NOTEBOOK_RESUME_FROM)"
 
 check_notebooks_docker: check_notebook_api
+	$(PYTHON) -c "import subprocess; subprocess.run(['docker', 'rm', '-f', '$(NOTEBOOK_CONTAINER)'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)"
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
 	  bash -lc 'mkdir -p "$(NOTEBOOK_REPORT_DIR)" && chown -R $(NOTEBOOK_DOCKER_USER):$(NOTEBOOK_DOCKER_USER) "$(NOTEBOOK_REPORT_DIR)"'
-	docker run --rm --user $(NOTEBOOK_DOCKER_USER) -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
-	  bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR)
+	docker run --name $(NOTEBOOK_CONTAINER) --rm --user $(NOTEBOOK_DOCKER_USER) \
+	  -e NOTEBOOK_STARTUP_TIMEOUT=$(NOTEBOOK_STARTUP_TIMEOUT) \
+	  -e NOTEBOOK_ONLY="$(NOTEBOOK_ONLY)" \
+	  -e NOTEBOOK_RESUME_FROM="$(NOTEBOOK_RESUME_FROM)" \
+	  -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
+	  bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR) $(NOTEBOOK_STARTUP_TIMEOUT) "$(NOTEBOOK_ONLY)" "$(NOTEBOOK_RESUME_FROM)"
 
 refresh_python_deps_local:
 	$(PYTHON) -m pip install --upgrade pip-tools
@@ -224,6 +233,7 @@ help:
 	@echo " julia python pluto jupyter la_course chain"
 	@echo " refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock"
 	@echo " check_notebook_api check_notebooks check_notebooks_docker"
+	@echo "   Optional: NOTEBOOK_ONLY=foo.ipynb NOTEBOOK_RESUME_FROM=foo.ipynb NOTEBOOK_STARTUP_TIMEOUT=180"
 	@echo " list list_images git check_git"
 	@echo " info"
 
