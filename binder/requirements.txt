@@ -98,7 +98,7 @@ executing==2.2.1
     # via stack-data
 fastjsonschema==2.21.2
     # via nbformat
-filelock==3.29.7
+filelock==3.30.0
     # via juliapkg
 fonttools==4.63.0
     # via matplotlib
