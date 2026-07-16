@@ -6,6 +6,7 @@ on:
       - ".github/workflows/ci.yml"
       - "Makefile"
       - "binder/**"
+      - "bin/**"
   push:
     branches:
       - master
@@ -13,6 +14,7 @@ on:
       - ".github/workflows/ci.yml"
       - "Makefile"
       - "binder/**"
+      - "bin/**"
   schedule:
     # Weekly Binder image build to catch upstream Julia/Python/package drift.
     - cron: "19 10 * * 1"
