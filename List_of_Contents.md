@@ -6045,7 +6045,7 @@ Automatic generation of linear algebra practice problems
 ##### 1.4 PLU Problem
 - Generates a matrix factorization problem of PLU type and displays associated steps.
 
-##### 1.5 Julia Wrapper Class for `show_ge_final()`
+##### 1.5 Julia Wrapper Class for `ShowGE`
 - Defines a wrapper/interface intended to streamline calling the elimination workflow and producing displays.
 
 ---
