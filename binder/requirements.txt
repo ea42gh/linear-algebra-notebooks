@@ -98,7 +98,7 @@ executing==2.2.1
     # via stack-data
 fastjsonschema==2.21.2
     # via nbformat
-filelock==3.30.0
+filelock==3.30.3
     # via juliapkg
 fonttools==4.63.0
     # via matplotlib
@@ -190,7 +190,7 @@ juliapkg==0.1.24
     # via juliacall
 jupyter==1.1.1
     # via -r binder/requirements.in
-jupyter-builder==1.1.0
+jupyter-builder==1.1.1
     # via
     #   jupyterlab
     #   notebook
@@ -308,7 +308,7 @@ mkdocs-get-deps==0.2.2
     # via mkdocs
 mkdocs-macros-plugin==1.5.0
     # via -r binder/requirements.in
-mkdocs-material==9.7.6
+mkdocs-material==9.7.7
     # via -r binder/requirements.in
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
@@ -613,7 +613,7 @@ tinycss2==1.5.1
     #   cssselect2
 tomli==2.4.1
     # via juliapkg
-tomlkit==0.15.0
+tomlkit==0.15.1
     # via juliapkg
 toolz==1.1.0
     # via streamz
@@ -627,7 +627,7 @@ tornado==6.5.7
     #   notebook
     #   streamz
     #   terminado
-tqdm==4.68.4
+tqdm==4.69.0
     # via
     #   manim
     #   panel
