@@ -217,7 +217,7 @@ Common entry points (typical notebook usage):
   - gen_ldlt_pb: generate LDLᵀ problem
   - LATeachingSuite.normal_eq_reduce_to_ref: normal equations REF
   - LATeachingSuite.reduce_to_ref: reduce to REF/RREF
-  - LATeachingSuite.decorate_ge: GE decoration metadata
+  - LATeachingSuite.ge_decorations: canonical GE decoration metadata
   - LATeachingSuite.ge_variable_type: GE variable type
   - ca_projection_matrix: column space projection
   - gen_qr_problem_3: QR problem 3
