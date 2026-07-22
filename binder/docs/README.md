@@ -85,7 +85,7 @@ Common entry points (typical notebook usage):
   - qr_layout_spec: canonical QR layout spec
   - qr_tex: canonical QR table TeX
   - **qr_svg**: canonical QR table SVG
-  - qr_stack_svg: canonical QR stack SVG renderer
+  - qr_svg: canonical QR SVG renderer, including precomputed QR matrix grids
   - qr_bundle: canonical QR table spec bundle
   - **qr_figure**: canonical Gram-Schmidt QR render (returns `(svg, matrices)`)
   - backsubstitution_tex: backsubstitution cascade TeX
