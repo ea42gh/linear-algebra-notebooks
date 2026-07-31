@@ -17,6 +17,13 @@ PATTERNS = {
     "formater": re.compile(r"\bformater\s*="),
     "Nrhs": re.compile(r"\bNrhs\b"),
     "show_ge_final": re.compile(r"\bshow_ge_final\b"),
+    "keep_file": re.compile(r"\bkeep_file\s*="),
+    "LAFigureSpecs_render_import": re.compile(
+        r"\bfrom\s+LAFigureSpecs\s+import\s+[^\n]*\brender_(?:ge|qr|eig|svd)_(?:svg|tex)\b"
+    ),
+    "LAFigureSpecs_render_attr": re.compile(
+        r"\b(?:lf|LAFigureSpecs)\.render_(?:ge|qr|eig|svd)_(?:svg|tex)\b"
+    ),
 }
 
 DEFAULT_EXCLUDES = {
