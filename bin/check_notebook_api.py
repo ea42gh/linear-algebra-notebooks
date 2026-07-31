@@ -17,7 +17,9 @@ PATTERNS = {
     "formater": re.compile(r"\bformater\s*="),
     "Nrhs": re.compile(r"\bNrhs\b"),
     "show_ge_final": re.compile(r"\bshow_ge_final\b"),
+    "tmp_dir": re.compile(r"\btmp_dir\s*="),
     "keep_file": re.compile(r"\bkeep_file\s*="),
+    "sigma2_digits": re.compile(r"\bsigma2_digits\s*="),
     "LAFigureSpecs_render_import": re.compile(
         r"\bfrom\s+LAFigureSpecs\s+import\s+[^\n]*\brender_(?:ge|qr|eig|svd)_(?:svg|tex)\b"
     ),
