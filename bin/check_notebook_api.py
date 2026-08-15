@@ -22,6 +22,7 @@ PATTERNS = {
     "sigma2_digits": re.compile(r"\bsigma2_digits\s*="),
     "preamble": re.compile(r"\bpreamble\s*="),
     "extension": re.compile(r"\bextension\s*="),
+    "name_specs": re.compile(r"\bname_specs\b"),
     "LAFigureSpecs_render_import": re.compile(
         r"\bfrom\s+LAFigureSpecs\s+import\s+[^\n]*\brender_(?:ge|qr|eig|svd)_(?:svg|tex)\b"
     ),
