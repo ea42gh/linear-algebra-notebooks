@@ -19,7 +19,6 @@ This applies to:
 Common entry points (typical notebook usage):
 - Julia (`LATeachingSuite`): `eig_bundle`, `svd_bundle`, `qr_bundle`, `qr_figure`, `ge_bundle`, `ge_svg`, `qr_svg`
 - Python (`LAFigureSpecs`): `eig_bundle`, `svd_bundle`, `qr_bundle`, `qr_figure`, `ge_bundle`, `ge_svg`, `qr_svg`
-- Low‑level renderers: `matrixlayout.ge.render_ge_svg`, `matrixlayout.qr.render_qr_svg`
 - SVG display helpers: `LAFigureSpecs.show_svg`, `LATeachingSuite.show_svg` / `py_show_svg`
 
 - jupyter-tikz: Engine to render LaTeX documents in Jupyter
@@ -100,13 +99,6 @@ Common entry points (typical notebook usage):
   - show_ge: display GE SVG in notebook
   - ge_bundle: canonical GE table spec bundle
   - ge_svg: canonical GE SVG renderer, including precomputed GE stacks
-  - render_ge_svg: re-exported matrixlayout grid SVG
-  - render_ge_tex: re-exported matrixlayout grid TeX
-  - render_qr_svg: re-exported matrixlayout QR grid SVG
-  - render_qr_tex: re-exported matrixlayout QR grid TeX
-  - render_eig_svg: re-exported eigen/SVD SVG
-  - render_eig_tex: re-exported eigen/SVD TeX
-  - qr_svg: QR SVG renderer
   - latexify: format value → TeX
   - make_decorator: build entry decorator
   - decorate_tex_entries: apply decorator to entries
