@@ -5840,7 +5840,7 @@ Visualization of matrices, block structure, and linear transformations
 
 #### 0. Problems with Docker Images
 - Notes rendering issues for SVG toolchains when running under Docker.
-- Gives a workaround using a writable `keep_file` directory.
+- Gives a workaround using a writable `output_dir` and `output_stem` for renderer artifacts.
 
 ---
 
