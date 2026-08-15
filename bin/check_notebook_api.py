@@ -20,6 +20,8 @@ PATTERNS = {
     "tmp_dir": re.compile(r"\btmp_dir\s*="),
     "keep_file": re.compile(r"\bkeep_file\s*="),
     "sigma2_digits": re.compile(r"\bsigma2_digits\s*="),
+    "preamble": re.compile(r"\bpreamble\s*="),
+    "extension": re.compile(r"\bextension\s*="),
     "LAFigureSpecs_render_import": re.compile(
         r"\bfrom\s+LAFigureSpecs\s+import\s+[^\n]*\brender_(?:ge|qr|eig|svd)_(?:svg|tex)\b"
     ),
