@@ -78,8 +78,14 @@ COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 WORKDIR /opt/ea42gh
 
-RUN git clone https://github.com/ea42gh/matrixlayout.git
-RUN git clone https://github.com/ea42gh/LAFigureSpecs.git
+ARG MATRIXLAYOUT_COMMIT=5bd86bcfa1c330fd05b1048e9c41e6d9ff7f623d
+ARG LAFIGURESPECS_COMMIT=fdf116b96c5ebb8bf7a6deecc857e6e565d6b68e
+RUN git clone https://github.com/ea42gh/matrixlayout.git \
+ && cd matrixlayout \
+ && git checkout ${MATRIXLAYOUT_COMMIT}
+RUN git clone https://github.com/ea42gh/LAFigureSpecs.git \
+ && cd LAFigureSpecs \
+ && git checkout ${LAFIGURESPECS_COMMIT}
 RUN git clone https://github.com/ea42gh/LATeachingSuite.jl.git
 RUN git clone https://github.com/ea42gh/GenLAProblems.git
 RUN julia -e 'using Pkg; \
