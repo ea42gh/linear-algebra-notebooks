@@ -79,7 +79,7 @@ RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 WORKDIR /opt/ea42gh
 
 ARG MATRIXLAYOUT_COMMIT=5bd86bcfa1c330fd05b1048e9c41e6d9ff7f623d
-ARG LAFIGURESPECS_COMMIT=fdf116b96c5ebb8bf7a6deecc857e6e565d6b68e
+ARG LAFIGURESPECS_COMMIT=23d4bd4e0c767f6e8fef783c651f80ebff3a980c
 RUN git clone https://github.com/ea42gh/matrixlayout.git \
  && cd matrixlayout \
  && git checkout ${MATRIXLAYOUT_COMMIT}
