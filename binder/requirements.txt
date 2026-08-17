@@ -314,7 +314,7 @@ mkdocstrings==1.0.6
     # via
     #   -r binder/requirements.in
     #   mkdocstrings-python
-mkdocstrings-python==2.0.6
+mkdocstrings-python==2.0.7
     # via mkdocstrings
 moderngl==5.12.0
     # via
