@@ -126,7 +126,7 @@ httpx==0.28.1
     # via jupyterlab
 hvplot==0.12.2
     # via -r binder/requirements.in
-idna==3.18
+idna==3.19
     # via
     #   anyio
     #   httpx
@@ -146,7 +146,7 @@ ipython==9.16.1
     #   jupyter-console
 ipython-pygments-lexers==1.1.1
     # via ipython
-ipywidgets==8.1.8
+ipywidgets==8.1.9
     # via
     #   jupyter
     #   k3d
@@ -235,7 +235,7 @@ jupyterlab-server==2.28.0
     # via
     #   jupyterlab
     #   notebook
-jupyterlab-widgets==3.0.16
+jupyterlab-widgets==3.0.17
     # via ipywidgets
 k3d==2.18.1
     # via -r binder/requirements.in
@@ -684,7 +684,7 @@ webio-jupyter-extension==0.1.0
     # via -r binder/requirements.in
 websocket-client==1.9.0
     # via jupyter-server
-widgetsnbextension==4.0.15
+widgetsnbextension==4.0.16
     # via ipywidgets
 xarray==2026.7.0
     # via -r binder/requirements.in
