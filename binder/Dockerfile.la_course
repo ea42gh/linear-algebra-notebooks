@@ -80,6 +80,7 @@ WORKDIR /opt/ea42gh
 
 ARG MATRIXLAYOUT_COMMIT=5bd86bcfa1c330fd05b1048e9c41e6d9ff7f623d
 ARG LAFIGURESPECS_COMMIT=23d4bd4e0c767f6e8fef783c651f80ebff3a980c
+ARG GENLAPROBLEMS_COMMIT=9bc7e4055a6cd15a23a216cf1e1e7d82707bc544
 RUN git clone https://github.com/ea42gh/matrixlayout.git \
  && cd matrixlayout \
  && git checkout ${MATRIXLAYOUT_COMMIT}
@@ -87,7 +88,9 @@ RUN git clone https://github.com/ea42gh/LAFigureSpecs.git \
  && cd LAFigureSpecs \
  && git checkout ${LAFIGURESPECS_COMMIT}
 RUN git clone https://github.com/ea42gh/LATeachingSuite.jl.git
-RUN git clone https://github.com/ea42gh/GenLAProblems.git
+RUN git clone https://github.com/ea42gh/GenLAProblems.git \
+ && cd GenLAProblems \
+ && git checkout ${GENLAPROBLEMS_COMMIT}
 RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
