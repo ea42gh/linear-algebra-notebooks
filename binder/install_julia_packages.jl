@@ -76,6 +76,7 @@ pkg_specs = Dict(
 )
 
 safe_pkgs = [
+    name == "AbstractAlgebra" ? Pkg.PackageSpec(name=name, version="0.48") :
     name == "PythonCall" ? Pkg.PackageSpec(name=name, version="0.9.34") : Pkg.PackageSpec(name=name)
     for (name, spec) in pkg_specs if spec.phase === :safe
 ]

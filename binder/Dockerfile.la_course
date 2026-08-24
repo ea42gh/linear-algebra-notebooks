@@ -61,7 +61,6 @@ RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
     "mkdocs-jupyter==0.25.1" \
     "nbconvert==7.17.1"
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
-RUN /usr/local/bin/python3 -m pip install --no-cache-dir "notebook<7" nbclassic
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir vsapy
 
 COPY binder/start-pluto /usr/local/bin/start-pluto
@@ -94,7 +93,7 @@ RUN git clone https://github.com/ea42gh/GenLAProblems.git \
 RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
-Pkg.add(Pkg.PackageSpec(url="https://github.com/Nemocas/AbstractAlgebra.jl.git", rev="v0.48.2")); \
+Pkg.add(Pkg.PackageSpec(name="AbstractAlgebra", version="0.48")); \
 Pkg.add(Pkg.PackageSpec(name="PythonCall", version="0.9.34")); \
 Pkg.resolve(); \
 Pkg.instantiate()'

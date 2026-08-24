@@ -24,7 +24,7 @@ RUN mkdir -p /opt/ea42gh \
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade \
     pip setuptools wheel
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
-    jupyter jupyterlab "notebook<7" nbclassic "mkdocs>=1.6,<2" "mkdocs-material[imaging]>=9.6,<10" pymdown-extensions sympy
+    jupyter jupyterlab notebook "mkdocs>=1.6,<2" "mkdocs-material[imaging]>=9.6,<10" pymdown-extensions sympy
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
     mkdocs-macros-plugin "mkdocstrings[python]" juliacall webio_jupyter_extension
 
