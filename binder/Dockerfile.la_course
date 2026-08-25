@@ -57,9 +57,6 @@ RUN JULIA_PKG_OFFLINE=false JULIA_PKG_SERVER=https://pkg.julialang.org \
 RUN julia -e 'using Pkg; Pkg.Registry.add("General")'
 
 USER root
-RUN /usr/local/bin/python3 -m pip install --no-cache-dir \
-    "mkdocs-jupyter==0.25.1" \
-    "nbconvert==7.17.1"
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir jupyter-server-proxy
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir vsapy
 

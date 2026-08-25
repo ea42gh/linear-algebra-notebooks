@@ -33,7 +33,9 @@ notebook
 mkdocs>=1.6,<2
 mkdocs-material[imaging]>=9.6,<10
 mkdocs-macros-plugin
+mkdocs-jupyter>=0.26,<0.27
 mkdocstrings[python]
+nbconvert>=7.17,<8
 pymdown-extensions
 
 # Jupyter extensions
