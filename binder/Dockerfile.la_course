@@ -75,8 +75,8 @@ COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 WORKDIR /opt/ea42gh
 
-ARG MATRIXLAYOUT_COMMIT=5bd86bcfa1c330fd05b1048e9c41e6d9ff7f623d
-ARG LAFIGURESPECS_COMMIT=3b1328436767527698e1db8301d5a371cf3dc487
+ARG MATRIXLAYOUT_COMMIT=ade1ef65e48233124cac6cdd1a09f29045f5bee9
+ARG LAFIGURESPECS_COMMIT=2634f03636fdb464a3b850be0891716076d8f8db
 ARG GENLAPROBLEMS_COMMIT=6db4b8c31e5d8b440faa63d42593e59994cc94a1
 RUN git clone https://github.com/ea42gh/matrixlayout.git \
  && cd matrixlayout \
