@@ -45,6 +45,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Julia packages early for better layer caching.
+RUN /usr/local/bin/python3 -c 'import json, importlib.util, pathlib; p = pathlib.Path(importlib.util.find_spec("juliacall").origin).parent / "juliapkg.json"; v = json.loads(p.read_text())["packages"]["PythonCall"]["version"].lstrip("="); print(v)' > /tmp/pythoncall_jl_version
 COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
 RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
  && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env
@@ -91,7 +92,8 @@ RUN julia -e 'using Pkg; \
 Pkg.activate("/opt/ea42gh/GenLAProblems"); \
 Pkg.develop(path="/opt/ea42gh/LAlatex"); \
 Pkg.add(Pkg.PackageSpec(name="AbstractAlgebra", version="0.48")); \
-Pkg.add(Pkg.PackageSpec(name="PythonCall", version="0.9.34")); \
+v = String(strip(read("/tmp/pythoncall_jl_version", String))); \
+Pkg.add(Pkg.PackageSpec(name="PythonCall", version=v)); \
 Pkg.resolve(); \
 Pkg.instantiate()'
 
@@ -133,7 +135,6 @@ Pkg.develop(path="/opt/ea42gh/LATeachingSuite.jl"); \
 Pkg.resolve(); \
 Pkg.instantiate(); \
 println("Runtime env instantiated")'
-RUN /usr/local/bin/python3 -c 'import json, importlib.util, pathlib; p = pathlib.Path(importlib.util.find_spec("juliacall").origin).parent / "juliapkg.json"; v = json.loads(p.read_text())["packages"]["PythonCall"]["version"].lstrip("="); print(v)' > /tmp/pythoncall_jl_version
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 v = String(strip(read("/tmp/pythoncall_jl_version", String))); \

@@ -75,9 +75,17 @@ pkg_specs = Dict(
     "ImageView" => (phase=:blocked, block=:blocked),
 )
 
+function pythoncall_spec(name::String)
+    version_file = "/tmp/pythoncall_jl_version"
+    if isfile(version_file)
+        version = String(strip(read(version_file, String)))
+        return Pkg.PackageSpec(name=name, version=version)
+    end
+    return Pkg.PackageSpec(name=name)
+end
 safe_pkgs = [
     name == "AbstractAlgebra" ? Pkg.PackageSpec(name=name, version="0.48") :
-    name == "PythonCall" ? Pkg.PackageSpec(name=name, version="0.9.34") : Pkg.PackageSpec(name=name)
+    name == "PythonCall" ? pythoncall_spec(name) : Pkg.PackageSpec(name=name)
     for (name, spec) in pkg_specs if spec.phase === :safe
 ]
 blocked_pkgs = [name for (name, spec) in pkg_specs if spec.phase === :blocked]
