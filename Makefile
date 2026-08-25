@@ -1,4 +1,4 @@
-.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock check_python_deps_lock check_notebook_api check_notebooks check_notebooks_docker
+.PHONY: l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain l_clean julia python pluto jupyter la_course chain clean help info git checkgit list_remote push list list_images refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock check_python_deps_lock check_notebook_api check_notebooks check_notebooks_docker check_integration_smoke check_integration_smoke_docker
 
 IMAGE_JULIA   ?= julia-tex
 IMAGE_PYTHON  ?= julia-python
@@ -210,6 +210,14 @@ check_notebook_api:
 check_notebooks: check_notebook_api
 	bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR) $(NOTEBOOK_STARTUP_TIMEOUT) "$(NOTEBOOK_ONLY)" "$(NOTEBOOK_RESUME_FROM)"
 
+check_integration_smoke:
+	bash bin/check_integration_smoke.sh
+
+check_integration_smoke_docker:
+	docker run --rm --user $(NOTEBOOK_DOCKER_USER) \
+	  -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
+	  bash bin/check_integration_smoke.sh
+
 check_notebooks_docker: check_notebook_api
 	$(PYTHON) -c "import subprocess; subprocess.run(['docker', 'rm', '-f', '$(NOTEBOOK_CONTAINER)'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)"
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(NOTEBOOK_CHECK_IMAGE) \
@@ -232,7 +240,7 @@ help:
 	@echo " l_julia l_python l_pluto l_jupyter l_la_course l_ci_la_course l_chain"
 	@echo " julia python pluto jupyter la_course chain"
 	@echo " refresh_deps refresh_python_deps refresh_python_deps_local check_deps_lock"
-	@echo " check_notebook_api check_notebooks check_notebooks_docker"
+	@echo " check_notebook_api check_notebooks check_notebooks_docker check_integration_smoke check_integration_smoke_docker"
 	@echo "   Optional: NOTEBOOK_ONLY=foo.ipynb NOTEBOOK_RESUME_FROM=foo.ipynb NOTEBOOK_STARTUP_TIMEOUT=180"
 	@echo " list list_images git check_git"
 	@echo " info"
