@@ -7,8 +7,6 @@ IMAGE_JUPYTER ?= julia-python-jupyter
 IMAGE_PLUTO   ?= julia-pluto
 IMAGE_LA_COURSE ?= la-course
 CI_BASE_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
-ELA_COMMIT ?= $(shell git rev-parse HEAD)
-LATEACHINGSUITE_COMMIT ?= 95917f823b3279d45d6fb2613718752fbba760d6
 export BUILDX_GIT_INFO := false
 DOCKER_BUILD ?= docker build
 DOCKER_BUILDX_BUILD ?= docker buildx build
@@ -96,8 +94,6 @@ l_pluto_run:
 l_la_course:
 	  $(DOCKER_BUILD) -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(IMAGE_JUPYTER):$(VERSION) \
-	  --build-arg ELA_COMMIT=$(ELA_COMMIT) \
-	  --build-arg LATEACHINGSUITE_COMMIT=$(LATEACHINGSUITE_COMMIT) \
 	  -t $(IMAGE_LA_COURSE):$(VERSION) -t  $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --no-cache \
 	  --progress=plain --load .
@@ -111,8 +107,6 @@ l_la_course_run:
 l_ci_la_course:
 	  $(DOCKER_BUILDX_BUILD) -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(CI_BASE_IMAGE) \
-	  --build-arg ELA_COMMIT=$(ELA_COMMIT) \
-	  --build-arg LATEACHINGSUITE_COMMIT=$(LATEACHINGSUITE_COMMIT) \
 	  --progress=plain --output=type=cacheonly .
 	@echo "<DONE> l_ci_la_course $(TIMESTAMP)"
 
@@ -152,8 +146,6 @@ pluto:
 la_course:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
-	  --build-arg ELA_COMMIT=$(ELA_COMMIT) \
-	  --build-arg LATEACHINGSUITE_COMMIT=$(LATEACHINGSUITE_COMMIT) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain --no-cache --push .
 	@echo "<DONE> la_course $(TIMESTAMP)"

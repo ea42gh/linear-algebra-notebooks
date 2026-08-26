@@ -19,6 +19,7 @@ cmd = [
     "pip",
     "install",
     "--no-cache-dir",
+    "--upgrade",
     "--root-user-action=ignore",
     "-r",
     str(REQUIREMENTS),

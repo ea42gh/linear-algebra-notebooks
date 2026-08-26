@@ -77,8 +77,6 @@ WORKDIR /opt/ea42gh
 
 ARG MATRIXLAYOUT_COMMIT=ade1ef65e48233124cac6cdd1a09f29045f5bee9
 ARG LAFIGURESPECS_COMMIT=2634f03636fdb464a3b850be0891716076d8f8db
-ARG ELA_COMMIT=master
-ARG LATEACHINGSUITE_COMMIT=95917f823b3279d45d6fb2613718752fbba760d6
 ARG GENLAPROBLEMS_COMMIT=6db4b8c31e5d8b440faa63d42593e59994cc94a1
 RUN git clone https://github.com/ea42gh/matrixlayout.git \
  && cd matrixlayout \
@@ -86,9 +84,7 @@ RUN git clone https://github.com/ea42gh/matrixlayout.git \
 RUN git clone https://github.com/ea42gh/LAFigureSpecs.git \
  && cd LAFigureSpecs \
  && git checkout ${LAFIGURESPECS_COMMIT}
-RUN git clone https://github.com/ea42gh/LATeachingSuite.jl.git \
- && cd LATeachingSuite.jl \
- && git checkout ${LATEACHINGSUITE_COMMIT}
+RUN git clone https://github.com/ea42gh/LATeachingSuite.jl.git
 RUN git clone https://github.com/ea42gh/GenLAProblems.git \
  && cd GenLAProblems \
  && git checkout ${GENLAPROBLEMS_COMMIT}
@@ -263,9 +259,7 @@ RUN rm -rf /tmp/* /var/tmp/*
 USER jovyan
 WORKDIR /home/jovyan
 
-RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git \
- && cd elementary-linear-algebra \
- && git checkout ${ELA_COMMIT}
+RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
 RUN chmod 0755 /home/jovyan/elementary-linear-algebra/bin/*
 RUN ln -s /tmp /home/jovyan/tmp \
  && mkdir /home/jovyan/work
