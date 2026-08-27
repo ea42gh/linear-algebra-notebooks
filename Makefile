@@ -10,6 +10,12 @@ CI_BASE_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 export BUILDX_GIT_INFO := false
 DOCKER_BUILD ?= docker build
 DOCKER_BUILDX_BUILD ?= docker buildx build
+NO_CACHE ?= 0
+ifeq ($(filter 1 true yes,$(NO_CACHE)),)
+DOCKER_CACHE_FLAG :=
+else
+DOCKER_CACHE_FLAG := --no-cache
+endif
 DEPENDENCY_LOCK_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
 BINDER_PYTHON_BUILD_DEPS ?= graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
 NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
@@ -57,7 +63,7 @@ l_julia:
 	$(DOCKER_BUILD)  -f binder/Dockerfile.julia \
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t $(IMAGE_JULIA):$(VERSION) -t $(IMAGE_JULIA):julia$(JULIA_VERSION) \
-	  --progress=plain --no-cache --load .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --load .
 	@echo "<DONE> l_julia $(TIMESTAMP)"
 l_julia_run:
 	docker run --rm -it $(IMAGE_JULIA):$(VERSION) bash
@@ -68,7 +74,7 @@ l_python:
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t $(IMAGE_PYTHON):$(VERSION) -t $(IMAGE_PYTHON):$(RUNTIME_TAG) \
-	  --progress=plain --no-cache --load .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --load .
 	@echo "<DONE> l_python $(TIMESTAMP)"
 l_python_run:
 	docker run --rm -it $(IMAGE_PYTHON):$(VERSION) bash
@@ -77,7 +83,7 @@ l_jupyter:
 	  $(DOCKER_BUILD) -f binder/Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=$(IMAGE_PYTHON):$(VERSION) \
 	  -t $(IMAGE_JUPYTER):$(VERSION) -t  $(IMAGE_JUPYTER):$(RUNTIME_TAG) \
-	  --progress=plain --no-cache --load .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --load .
 	@echo "<DONE> l_jupyter $(TIMESTAMP)"
 l_jupyter_run:
 	docker run --rm -it $(IMAGE_JUPYTER):$(VERSION) bash
@@ -86,7 +92,7 @@ l_pluto:
 	  $(DOCKER_BUILD) -f binder/Dockerfile.pluto \
 	  --build-arg BASE_IMAGE=$(IMAGE_JULIA):$(VERSION) \
 	  -t $(IMAGE_PLUTO):$(VERSION) -t $(IMAGE_PLUTO):julia$(JULIA_VERSION) \
-	  --progress=plain --no-cache --load .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --load .
 	@echo "<DONE> l_pluto $(TIMESTAMP)"
 l_pluto_run:
 	docker run --rm -it $(IMAGE_PLUTO):$(VERSION) bash
@@ -118,7 +124,7 @@ julia:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.julia \
 	  --build-arg JULIA_VERSION=$(JULIA_VERSION) \
 	  -t ea42gh/$(IMAGE_JULIA):$(VERSION) -t ea42gh/$(IMAGE_JULIA):julia$(JULIA_VERSION) \
-	  --progress=plain --no-cache --push .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --push .
 	@echo "<DONE> julia $(TIMESTAMP)"
 
 python:
@@ -126,28 +132,28 @@ python:
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JULIA):$(VERSION) \
 	  --build-arg PYTHON_VERSION=$(PYTHON_VERSION) \
 	  -t ea42gh/$(IMAGE_PYTHON):$(VERSION) -t ea42gh/$(IMAGE_PYTHON):$(RUNTIME_TAG) \
-	  --progress=plain --no-cache --push .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --push .
 	@echo "<DONE> python $(TIMESTAMP)"
 
 jupyter:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.jupyter \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_PYTHON):$(VERSION) \
 	  -t ea42gh/$(IMAGE_JUPYTER):$(VERSION) -t ea42gh/$(IMAGE_JUPYTER):$(RUNTIME_TAG) \
-	  --progress=plain --no-cache --push .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --push .
 	@echo "<DONE> jupyter $(TIMESTAMP)"
 
 pluto:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.pluto \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JULIA):$(VERSION) \
 	  -t ea42gh/$(IMAGE_PLUTO):$(VERSION) -t ea42gh/$(IMAGE_PLUTO):$(RUNTIME_TAG) \
-	  --progress=plain --no-cache --push .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --push .
 	@echo "<DONE> pluto $(TIMESTAMP)"
 
 la_course:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
-	  --progress=plain --no-cache --push .
+	  --progress=plain $(DOCKER_CACHE_FLAG) --push .
 	@echo "<DONE> la_course $(TIMESTAMP)"
 
 chain: julia python jupyter la_course # pluto
@@ -250,6 +256,8 @@ info:
 	@echo "JULIA_VERSION  = $(JULIA_VERSION)"
 	@echo "PYTHON_VERSION = $(PYTHON_VERSION)"
 	@echo "RUNTIME_TAG    = $(RUNTIME_TAG)"
+	@echo "NO_CACHE       = $(NO_CACHE)"
+	@echo "CACHE_FLAG     = $(DOCKER_CACHE_FLAG)"
 	@echo "CI_BASE_IMAGE  = $(CI_BASE_IMAGE)"
 	@echo "DEPENDENCY_LOCK_IMAGE = $(DEPENDENCY_LOCK_IMAGE)"
 # =======================================================================================================
