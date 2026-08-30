@@ -70,7 +70,7 @@ COPY binder/10-julia-magic.py \
     /home/jovyan/.ipython/profile_default/startup/10-julia-magic.py
 RUN chown -R jovyan:jovyan /home/jovyan/.ipython
 
-COPY binder/requirements.txt /tmp/requirements.txt
+COPY binder/requirements-py*.txt /tmp/requirements/
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
 WORKDIR /opt/ea42gh

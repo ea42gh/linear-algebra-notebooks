@@ -4,13 +4,15 @@ import sys
 import time
 
 
-REQUIREMENTS = Path("/tmp/requirements.txt")
+REQUIREMENTS_DIR = Path("/tmp/requirements")
+PYTHON_VERSION = f"{sys.version_info.major}.{sys.version_info.minor}"
+REQUIREMENTS = REQUIREMENTS_DIR / f"requirements-py{PYTHON_VERSION}.txt"
 
 
 if not REQUIREMENTS.is_file():
     raise FileNotFoundError(
-        f"Missing locked Python requirements file: {REQUIREMENTS}. "
-        "Copy binder/requirements.txt before running this installer."
+        f"Missing locked Python requirements file for Python {PYTHON_VERSION}: {REQUIREMENTS}. "
+        "Copy the matching binder/requirements-py*.txt file before running this installer."
     )
 
 cmd = [

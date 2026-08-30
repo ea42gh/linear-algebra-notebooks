@@ -31,6 +31,8 @@ NOTEBOOK_CONTAINER ?= ela-notebook-check
 VERSION ?= 1.0
 JULIA_VERSION  ?= 1.10.10
 PYTHON_VERSION ?= 3.11.14
+PYTHON_LOCK_VERSION ?= 3.11
+PYTHON_LOCK_VERSIONS ?= 3.10 3.11 3.12 3.13
 IMG_VERSION ?= 1.0.0
 ifeq ($(OS),Windows_NT)
 PYTHON ?= python
@@ -204,12 +206,10 @@ check_deps_lock: check_python_deps_lock
 
 refresh_python_deps:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
-	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --output-file binder/requirements.txt binder/requirements.in'
-
+	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --output-file binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && cp binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.txt'
 check_python_deps_lock:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
-	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements.txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements.txt > /tmp/requirements.expected && sed "/^#    pip-compile --output-file=/d" /tmp/requirements.txt > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements.txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
-
+	  sh -lc 'set -eu; for version in $(PYTHON_LOCK_VERSIONS); do test -s binder/requirements-py$$version.txt || { echo "Missing binder/requirements-py$$version.txt" >&2; exit 1; }; done; apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements-py$(PYTHON_LOCK_VERSION).txt > /tmp/requirements.expected && sed "/^#    pip-compile --output-file=/d" /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements-py$(PYTHON_LOCK_VERSION).txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
 check_notebook_api:
 	$(PYTHON) bin/check_notebook_api.py $(NOTEBOOK_DIR)
 
@@ -238,8 +238,9 @@ check_notebooks_docker: check_notebook_api
 refresh_python_deps_local:
 	$(PYTHON) -m pip install --upgrade pip-tools
 	$(PYTHON) -m piptools compile --upgrade --strip-extras --resolver=backtracking \
-	  --output-file binder/requirements.txt \
+	  --output-file binder/requirements-py$(PYTHON_LOCK_VERSION).txt \
 	  binder/requirements.in
+	cp binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.txt
 
 # =======================================================================================================
 help:
