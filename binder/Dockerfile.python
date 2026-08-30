@@ -32,8 +32,8 @@ RUN set -eux; \
     make altinstall; \
     \
     # Structural enforcement: create explicit authoritative names
-    ln -sf "/usr/local/bin/python3.11" /usr/local/bin/python3; \
-    ln -sf "/usr/local/bin/python3.11" /usr/local/bin/python; \
+    ln -sf "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/local/bin/python3; \
+    ln -sf "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/local/bin/python; \
     \
     # Structural enforcement for shared libpython (with --enable-shared)
     echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-python.conf; \

@@ -120,7 +120,7 @@ RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VER
  && make -j$(nproc) \
  && make altinstall
 
-RUN ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
+RUN ln -sf "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/local/bin/python3
 RUN ldconfig
 
 RUN python3 -m ensurepip --upgrade
