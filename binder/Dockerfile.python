@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=julia-tex:julia1.10.10
+ARG BASE_IMAGE=julia-tex:julia1.10.12
 FROM ${BASE_IMAGE}
 
 ARG PYTHON_VERSION=3.11.14
