@@ -16,8 +16,8 @@ DOCKER_CACHE_FLAG :=
 else
 DOCKER_CACHE_FLAG := --no-cache
 endif
-DEPENDENCY_LOCK_IMAGE ?= ea42gh/$(IMAGE_JUPYTER):$(VERSION)
-BINDER_PYTHON_BUILD_DEPS ?= graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
+DEPENDENCY_LOCK_IMAGE ?= python:$(PYTHON_VERSION)-slim
+BINDER_PYTHON_BUILD_DEPS ?= build-essential graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
 NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
 NOTEBOOK_DOCKER_USER ?= jovyan
 NOTEBOOK_DIR ?= notebooks
