@@ -146,7 +146,7 @@ ipykernel==7.3.0
     #   jupyter-console
     #   jupyterlab
     #   mkdocs-jupyter
-ipython==9.17.0
+ipython==9.17.1
     # via
     #   ipykernel
     #   ipywidgets
@@ -469,7 +469,7 @@ pillow==12.3.0
     #   mkdocs-material
     #   moderngl-window
     #   scikit-image
-platformdirs==4.11.5
+platformdirs==4.11.7
     # via
     #   jupyter-core
     #   mkdocs-get-deps
