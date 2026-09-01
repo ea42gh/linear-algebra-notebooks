@@ -10,8 +10,9 @@ WORKDIR /tmp
 ENV PATH=/home/jovyan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/local/julia/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 
-# Build dependencies (minimal, but sufficient for a healthy CPython build)
-#    This does NOT remove system python; it only enables building CPython with standard modules.
+# Build dependencies (minimal, but sufficient for a healthy CPython build).
+# Inkscape may pull Debian's Python package as an apt dependency. The
+# interpreter built below is the only Python runtime exposed by this image.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget ca-certificates \
     build-essential \
@@ -19,7 +20,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsqlite3-dev libffi-dev liblzma-dev tk-dev uuid-dev \
   && rm -rf /var/lib/apt/lists/*
 
-# ==========================================================================================
 RUN set -eux; \
     wget -O Python.tgz "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz"; \
     tar -xzf Python.tgz; \
@@ -30,20 +30,20 @@ RUN set -eux; \
       --enable-shared; \
     make -j"$(nproc)"; \
     make altinstall; \
-    \
-    # Structural enforcement: create explicit authoritative names
     ln -sf "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/local/bin/python3; \
     ln -sf "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/local/bin/python; \
-    \
-    # Structural enforcement for shared libpython (with --enable-shared)
+    ln -sfn "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/bin/python3; \
+    ln -sfn "/usr/local/bin/python${PYTHON_VERSION%.*}" /usr/bin/python; \
     echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local-python.conf; \
     ldconfig; \
-    \
-    # Build-time invariant checks (fail the build if violated)
     python --version | grep -F "Python ${PYTHON_VERSION}"; \
     python3 --version | grep -F "Python ${PYTHON_VERSION}"; \
     test "$(command -v python)" = "/usr/local/bin/python"; \
-    test "$(command -v python3)" = "/usr/local/bin/python3"
+    test "$(command -v python3)" = "/usr/local/bin/python3"; \
+    test "$(readlink -f /usr/bin/python)" = "/usr/local/bin/python${PYTHON_VERSION%.*}"; \
+    test "$(readlink -f /usr/bin/python3)" = "/usr/local/bin/python${PYTHON_VERSION%.*}"; \
+    test "$(python -c 'import os, sys; print(os.path.realpath(sys.executable))')" = "/usr/local/bin/python${PYTHON_VERSION%.*}"; \
+    test "$(python3 -c 'import os, sys; print(os.path.realpath(sys.executable))')" = "/usr/local/bin/python${PYTHON_VERSION%.*}"
 
 # Julia interop: pin PythonCall to this interpreter; prevent CondaPkg from adding another
 ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
