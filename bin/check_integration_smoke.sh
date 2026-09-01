@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+JULIA_PROJECT_DIR="${ELA_JULIA_PROJECT:-/home/jovyan/.julia_env}"
+
 python3 - <<'PY'
 import LAFigureSpecs as lf
 import matrixlayout  # noqa: F401
@@ -22,7 +24,7 @@ for fn in (lf.qr_bundle, lf.eig_bundle, lf.svd_bundle):
 print("Python figure stack smoke OK")
 PY
 
-julia --project=/home/jovyan/.julia_env -e '
+julia --project="$JULIA_PROJECT_DIR" -e '
 using LinearAlgebra
 using PythonCall
 using LAlatex
@@ -34,7 +36,10 @@ LATeachingSuite.load_matrixlayout()
 
 A = [1 2; 3 4]
 h, _ = qr_figure(A; output_dir="/tmp/ela-smoke", output_stem="qr_smoke")
-String(h.svg)
+isempty(String(h.svg)) && error("qr_figure returned empty SVG")
+
+latex = LAlatex.L_show("x = ", 1)
+isempty(String(latex)) && error("LAlatex returned empty output")
 
 pb = ShowGE{Rational{Int}}(Rational{Int}.(A), Rational{Int}.([5; 6;;]))
 ref!(pb; gj=false)
