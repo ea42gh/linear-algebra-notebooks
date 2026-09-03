@@ -247,7 +247,7 @@ jupyterlab-widgets==3.0.17
     # via ipywidgets
 jupytext==1.19.5
     # via mkdocs-jupyter
-k3d==3.0.1
+k3d==3.0.2
     # via -r binder/requirements.in
 kiwisolver==1.5.1
     # via matplotlib
@@ -444,7 +444,7 @@ panel-material-ui==0.14.2
     # via panel
 panel-mermaid==0.2.1 ; python_version >= "3.11"
     # via -r binder/requirements.in
-param==2.4.1
+param==2.4.2
     # via
     #   holoviews
     #   hvplot
