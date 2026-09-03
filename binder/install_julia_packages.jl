@@ -84,7 +84,6 @@ function pythoncall_spec(name::String)
     return Pkg.PackageSpec(name=name)
 end
 safe_pkgs = [
-    name == "AbstractAlgebra" ? Pkg.PackageSpec(name=name, version="0.48") :
     name == "PythonCall" ? pythoncall_spec(name) : Pkg.PackageSpec(name=name)
     for (name, spec) in pkg_specs if spec.phase === :safe
 ]
