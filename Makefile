@@ -114,7 +114,8 @@ l_la_course_run:
 l_ci_la_course:
 	  $(DOCKER_BUILDX_BUILD) -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(CI_BASE_IMAGE) \
-	  --progress=plain --output=type=cacheonly .
+	  -t $(IMAGE_LA_COURSE):$(VERSION) \
+	  --progress=plain --load .
 	@echo "<DONE> l_ci_la_course $(TIMESTAMP)"
 
 l_chain: l_julia l_python l_jupyter l_la_course #l_pluto 
