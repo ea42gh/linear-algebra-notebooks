@@ -25,7 +25,7 @@ ela-course:
     - make check_notebook_api
     - make check_deps_lock
     - make l_ci_la_course IMAGE_LA_COURSE=la-course-ci
-    - make check_integration_smoke_docker NOTEBOOK_CHECK_IMAGE=la-course-ci
+    - make check_integration_smoke_docker NOTEBOOK_CHECK_IMAGE=la-course-ci:1.0
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'

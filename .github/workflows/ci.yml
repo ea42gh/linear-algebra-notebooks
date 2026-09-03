@@ -40,4 +40,4 @@ jobs:
       - name: Build Binder course image
         run: make l_ci_la_course IMAGE_LA_COURSE=la-course-ci
       - name: Run cross-stack integration smoke
-        run: make check_integration_smoke_docker NOTEBOOK_CHECK_IMAGE=la-course-ci
+        run: make check_integration_smoke_docker NOTEBOOK_CHECK_IMAGE=la-course-ci:1.0
