@@ -247,7 +247,7 @@ jupyterlab-widgets==3.0.17
     # via ipywidgets
 jupytext==1.19.5
     # via mkdocs-jupyter
-k3d==3.0.2
+k3d==3.0.3
     # via -r binder/requirements.in
 kiwisolver==1.5.1
     # via matplotlib

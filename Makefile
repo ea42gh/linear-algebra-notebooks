@@ -16,7 +16,7 @@ DOCKER_CACHE_FLAG :=
 else
 DOCKER_CACHE_FLAG := --no-cache
 endif
-DEPENDENCY_LOCK_IMAGE ?= python:$(PYTHON_VERSION)-slim
+DEPENDENCY_LOCK_IMAGE ?= python:$(PYTHON_LOCK_VERSION)-slim
 BINDER_PYTHON_BUILD_DEPS ?= build-essential graphviz-dev libcairo2-dev libpango1.0-dev pkg-config
 NOTEBOOK_CHECK_IMAGE ?= $(IMAGE_LA_COURSE):$(VERSION)
 NOTEBOOK_DOCKER_USER ?= jovyan
@@ -209,7 +209,7 @@ refresh_python_deps:
 	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --output-file binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && cp binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.txt'
 check_python_deps_lock:
 	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
-	  sh -lc 'set -eu; for version in $(PYTHON_LOCK_VERSIONS); do test -s binder/requirements-py$$version.txt || { echo "Missing binder/requirements-py$$version.txt" >&2; exit 1; }; done; apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements-py$(PYTHON_LOCK_VERSION).txt > /tmp/requirements.expected && sed -e "/^#    pip-compile --output-file=/d" -e "s#--output-file=/tmp/requirements-py$(PYTHON_LOCK_VERSION).txt#--output-file=binder/requirements-py$(PYTHON_LOCK_VERSION).txt#" /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements-py$(PYTHON_LOCK_VERSION).txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
+	  sh -lc 'set -eu; for version in $(PYTHON_LOCK_VERSIONS); do test -s binder/requirements-py$$version.txt || { echo "Missing binder/requirements-py$$version.txt" >&2; exit 1; }; done; apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements-py$(PYTHON_LOCK_VERSION).txt | tr -d "\\r" > /tmp/requirements.expected && sed -e "/^#    pip-compile --output-file=/d" -e "s#--output-file=/tmp/requirements-py$(PYTHON_LOCK_VERSION).txt#--output-file=binder/requirements-py$(PYTHON_LOCK_VERSION).txt#" /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt | tr -d "\\r" > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements-py$(PYTHON_LOCK_VERSION).txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
 check_notebook_api:
 	$(PYTHON) bin/check_notebook_api.py $(NOTEBOOK_DIR)
 
