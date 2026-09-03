@@ -7,7 +7,9 @@ python3 - <<'PY'
 import LAFigureSpecs as lf
 import matrixlayout  # noqa: F401
 import sympy as sym
-from matrixlayout.ge import render_ge_tex
+from matrixlayout.eigproblem import render_eig_svg
+from matrixlayout.ge import render_ge_svg, render_ge_tex
+from matrixlayout.qr import render_qr_svg
 
 A = sym.Matrix([[1, 2], [3, 4]])
 rhs = sym.Matrix([[5], [6]])
@@ -16,10 +18,32 @@ assert "spec" in bundle
 assert bundle["spec"]["n_rhs"] == 1
 tex = render_ge_tex(**bundle["spec"])
 assert "\\begin{NiceArray}" in tex
+ge_svg = render_ge_svg(
+    **bundle["spec"],
+    output_dir="/tmp/ela-smoke",
+    output_stem="ge_smoke",
+)
+assert ge_svg.lstrip().startswith("<svg")
 
-for fn in (lf.qr_bundle, lf.eig_bundle, lf.svd_bundle):
+qr = lf.qr_bundle([[1, 0], [0, 1]])
+assert {"spec", "tex", "svg", "data", "render_error"}.issubset(qr)
+qr_svg = render_qr_svg(
+    **qr["spec"],
+    output_dir="/tmp/ela-smoke",
+    output_stem="qr_smoke",
+)
+assert qr_svg.lstrip().startswith("<svg")
+
+for case, fn in (("S", lf.eig_bundle), ("SVD", lf.svd_bundle)):
     out = fn([[1, 0], [0, 1]])
     assert {"spec", "tex", "svg", "data", "render_error"}.issubset(out)
+    eig_svg = render_eig_svg(
+        out["spec"],
+        case=case,
+        output_dir="/tmp/ela-smoke",
+        output_stem=case.lower() + "_smoke",
+    )
+    assert eig_svg.lstrip().startswith("<svg")
 
 print("Python figure stack smoke OK")
 PY

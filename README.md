@@ -45,29 +45,39 @@ The **Notes** directory contains Obsidian-compatible markdown files summarizing 
 
 ## Docker Image
 
-Simplify your environment setup using our pre-built Docker image:
+The course image is built from the repository root with the Makefile. The
+standard local build uses the existing base images:
 
-### Download the Docker Image
 ```bash
-docker pull ea42gh/la_image
+make l_la_course
 ```
 
-### Build the Docker Image Locally
+To force a clean rebuild:
 
-To build the Docker image locally, navigate to the binder subdirectory and issue the following command:
 ```bash
-docker build . -t la_image
+make l_la_course NO_CACHE=1
 ```
 
-### Update the Repository
+Run the image-backed integration and notebook checks with:
 
-To fetch the latest notebooks, use the following commands:
 ```bash
-git fetch --all
-git reset --hard origin/main
+make check_integration_smoke_docker
+make check_notebooks_docker
 ```
 
-Note: This command will reset all changes in the repository except those in the work directory.
+The default local image is `la-course:1.0`. Override it with
+`NOTEBOOK_CHECK_IMAGE=...` when testing another image tag.
+
+## Update the Repository
+
+To update the repository without overwriting local changes, use:
+
+```bash
+git pull --ff-only origin master
+```
+
+If local commits or edits prevent a fast-forward update, resolve or save them
+before pulling.
 
 ---
 

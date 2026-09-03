@@ -22,14 +22,14 @@ To keep your changes organized and isolated from the main codebase, create a new
 
 #### Steps to Create a Branch
 
-1. Ensure you are on the `main` branch (or the branch from which you want to base your work):
+1. Ensure you are on the `master` branch (or the branch from which you want to base your work):
    ```bash
-   git checkout main
+   git checkout master
    ```
 
 2. Pull the latest changes from the main repository to ensure your branch starts from the most up-to-date code:
    ```bash
-   git pull origin main
+   git pull --ff-only origin master
    ```
 
 3. Create a new branch for your contribution:
@@ -56,3 +56,20 @@ Here is an example of creating and switching to a branch for adding a new notebo
 
 Your branch is now ready for making changes!
 
+
+## Validation
+
+Before submitting changes to notebooks, Binder files, or the Julia/Python
+integration, run the API and integration checks:
+
+```bash
+make check_notebook_api
+make check_integration_smoke_docker NOTEBOOK_CHECK_IMAGE=la-course:1.0
+make check_notebooks_docker NOTEBOOK_CHECK_IMAGE=la-course:1.0
+```
+
+The Docker checks must run against a built `la-course` image because they
+exercise the image's shared Julia environment, PythonCall configuration,
+LaTeX toolchain, and editable course packages together. The GitHub Actions and
+GitLab CI jobs build a temporary `la-course-ci` image and run the same smoke
+check against it.
