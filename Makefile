@@ -35,6 +35,7 @@ PYTHON_LOCK_VERSION ?= 3.13
 PYTHON_LOCK_VERSIONS ?= 3.10 3.11 3.12 3.13
 PIP_VERSION ?= 25.3
 PIP_TOOLS_VERSION ?= 7.5.2
+JULIA_PRECOMPILE_TASKS ?= 2
 IMG_VERSION ?= 1.0.0
 ifeq ($(OS),Windows_NT)
 PYTHON ?= python
@@ -104,6 +105,7 @@ l_pluto_run:
 l_la_course:
 	  $(DOCKER_BUILD) -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(IMAGE_JUPYTER):$(VERSION) \
+	  --build-arg JULIA_PRECOMPILE_TASKS=$(JULIA_PRECOMPILE_TASKS) \
 	  -t $(IMAGE_LA_COURSE):$(VERSION) -t  $(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain $(DOCKER_CACHE_FLAG) --load .
 	@echo "<DONE> l_la_course $(TIMESTAMP)"
@@ -116,6 +118,7 @@ l_la_course_run:
 l_ci_la_course:
 	  $(DOCKER_BUILDX_BUILD) -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=$(CI_BASE_IMAGE) \
+	  --build-arg JULIA_PRECOMPILE_TASKS=$(JULIA_PRECOMPILE_TASKS) \
 	  -t $(IMAGE_LA_COURSE):$(VERSION) \
 	  --progress=plain --load .
 	@echo "<DONE> l_ci_la_course $(TIMESTAMP)"
@@ -156,6 +159,7 @@ pluto:
 la_course:
 	$(DOCKER_BUILDX_BUILD) --platform linux/arm64,linux/amd64 -f binder/Dockerfile.la_course \
 	  --build-arg BASE_IMAGE=ea42gh/$(IMAGE_JUPYTER):$(VERSION) \
+	  --build-arg JULIA_PRECOMPILE_TASKS=$(JULIA_PRECOMPILE_TASKS) \
 	  -t ea42gh/$(IMAGE_LA_COURSE):$(VERSION) -t ea42gh/$(IMAGE_LA_COURSE):$(RUNTIME_TAG) \
 	  --progress=plain $(DOCKER_CACHE_FLAG) --push .
 	@echo "<DONE> la_course $(TIMESTAMP)"

@@ -58,6 +58,14 @@ To force a clean rebuild:
 make l_la_course NO_CACHE=1
 ```
 
+Julia precompilation can be memory-intensive. On a low-memory machine, reduce build concurrency with:
+
+```bash
+make l_la_course JULIA_PRECOMPILE_TASKS=1
+```
+
+The default is two precompilation tasks; this setting changes build-time concurrency only.
+
 Run the image-backed integration and notebook checks with:
 
 ```bash
