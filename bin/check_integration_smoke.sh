@@ -69,6 +69,15 @@ pb = ShowGE{Rational{Int}}(Rational{Int}.(A), Rational{Int}.([5; 6;;]))
 ref!(pb; gj=false)
 solutions(pb)
 
+system_svg = show_system(pb; b_mat=1, b_col=1, output_dir="/tmp/ela-smoke", output_stem="system_smoke")
+isempty(String(system_svg.svg)) && error("show_system returned empty SVG")
+
+backsub = show_backsubstitution!(pb; b_mat=1, b_col=1, output_dir="/tmp/ela-smoke", output_stem="backsub_smoke")
+isempty(String(backsub.svg)) && error("show_backsubstitution! returned empty SVG")
+
+solution = show_solution!(pb; b_mat=1, b_col=1, output_dir="/tmp/ela-smoke", output_stem="solution_smoke")
+isempty(String(solution.svg)) && error("show_solution! returned empty SVG")
+
 C = symbols_matrix("\\alpha", 1:2, 1:2)
 size(C) == (2, 2) || error("symbols_matrix failed")
 
