@@ -114,7 +114,7 @@ glcontext==3.0.0
     # via moderngl
 graphviz==0.21
     # via -r binder/requirements.in
-griffelib==2.2.0
+griffelib==2.3.0
     # via mkdocstrings-python
 h11==0.16.0
     # via httpcore
@@ -196,7 +196,7 @@ juliapkg==0.1.26
     # via juliacall
 jupyter==1.1.1
     # via -r binder/requirements.in
-jupyter-builder==1.2.2
+jupyter-builder==1.2.3
     # via
     #   jupyterlab
     #   notebook
@@ -708,7 +708,7 @@ widgetsnbextension==4.0.16
     # via ipywidgets
 xarray==2026.7.0
     # via -r binder/requirements.in
-xyzservices==2026.3.0
+xyzservices==2026.9.1
     # via bokeh
 zict==3.0.0
     # via streamz

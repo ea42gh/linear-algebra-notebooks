@@ -33,6 +33,8 @@ JULIA_VERSION  ?= 1.10.12
 PYTHON_VERSION ?= 3.13.15
 PYTHON_LOCK_VERSION ?= 3.13
 PYTHON_LOCK_VERSIONS ?= 3.10 3.11 3.12 3.13
+PIP_VERSION ?= 25.3
+PIP_TOOLS_VERSION ?= 7.5.2
 IMG_VERSION ?= 1.0.0
 ifeq ($(OS),Windows_NT)
 PYTHON ?= python
@@ -205,11 +207,21 @@ refresh_deps: refresh_python_deps
 check_deps_lock: check_python_deps_lock
 
 refresh_python_deps:
-	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
-	  sh -lc 'apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --output-file binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && cp binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.txt'
+	@set -eu; \
+	for version in $(PYTHON_LOCK_VERSIONS); do \
+	  echo "Refreshing binder/requirements-py$$version.txt"; \
+	  docker run --rm --user root -e LOCK_VERSION=$$version -e PIP_VERSION=$(PIP_VERSION) -e PIP_TOOLS_VERSION=$(PIP_TOOLS_VERSION) -v "$(CURDIR):/work" -w /work python:$$version-slim \
+	    sh -lc 'set -eu; apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip==$$PIP_VERSION pip-tools==$$PIP_TOOLS_VERSION >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --output-file binder/requirements-py$$LOCK_VERSION.txt binder/requirements.in'; \
+	done; \
+	cp binder/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.txt
 check_python_deps_lock:
-	docker run --rm --user root -v "$(CURDIR):/work" -w /work $(DEPENDENCY_LOCK_IMAGE) \
-	  sh -lc 'set -eu; for version in $(PYTHON_LOCK_VERSIONS); do test -s binder/requirements-py$$version.txt || { echo "Missing binder/requirements-py$$version.txt" >&2; exit 1; }; done; apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip-tools >/dev/null && python3 -m piptools compile --upgrade --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements-py$(PYTHON_LOCK_VERSION).txt | tr -d "\\r" > /tmp/requirements.expected && sed -e "/^#    pip-compile --output-file=/d" -e "s#--output-file=/tmp/requirements-py$(PYTHON_LOCK_VERSION).txt#--output-file=binder/requirements-py$(PYTHON_LOCK_VERSION).txt#" /tmp/requirements-py$(PYTHON_LOCK_VERSION).txt | tr -d "\\r" > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements-py$(PYTHON_LOCK_VERSION).txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'
+	@set -eu; \
+	for version in $(PYTHON_LOCK_VERSIONS); do \
+	  test -s binder/requirements-py$$version.txt || { echo "Missing binder/requirements-py$$version.txt" >&2; exit 1; }; \
+	  echo "Checking binder/requirements-py$$version.txt"; \
+	  docker run --rm --user root -e LOCK_VERSION=$$version -e PIP_VERSION=$(PIP_VERSION) -e PIP_TOOLS_VERSION=$(PIP_TOOLS_VERSION) -v "$(CURDIR):/work" -w /work python:$$version-slim \
+	    sh -lc 'set -eu; apt-get update >/dev/null && apt-get install -y --no-install-recommends $(BINDER_PYTHON_BUILD_DEPS) >/dev/null && python3 -m pip install --upgrade pip==$$PIP_VERSION pip-tools==$$PIP_TOOLS_VERSION >/dev/null && cp binder/requirements-py$$LOCK_VERSION.txt /tmp/requirements-py$$LOCK_VERSION.txt && python3 -m piptools compile --strip-extras --resolver=backtracking --quiet --output-file /tmp/requirements-py$$LOCK_VERSION.txt binder/requirements.in && sed "/^#    pip-compile --output-file=/d" binder/requirements-py$$LOCK_VERSION.txt | tr -d "\r" > /tmp/requirements.expected && sed -e "/^#    pip-compile --output-file=/d" -e "s#--output-file=/tmp/requirements-py$$LOCK_VERSION.txt#--output-file=binder/requirements-py$$LOCK_VERSION.txt#" /tmp/requirements-py$$LOCK_VERSION.txt | tr -d "\r" > /tmp/requirements.actual && cmp -s /tmp/requirements.actual /tmp/requirements.expected || (echo "binder/requirements-py$$LOCK_VERSION.txt is stale; run make refresh_deps" >&2; diff -u /tmp/requirements.expected /tmp/requirements.actual; exit 1)'; \
+	done
 check_notebook_api:
 	$(PYTHON) bin/check_notebook_api.py $(NOTEBOOK_DIR)
 
@@ -236,7 +248,7 @@ check_notebooks_docker: check_notebook_api
 	  bash bin/check_notebooks.sh $(NOTEBOOK_DIR) $(NOTEBOOK_TIMEOUT) $(NOTEBOOK_REPORT_DIR) $(NOTEBOOK_STARTUP_TIMEOUT) "$(NOTEBOOK_ONLY)" "$(NOTEBOOK_RESUME_FROM)"
 
 refresh_python_deps_local:
-	$(PYTHON) -m pip install --upgrade pip-tools
+	$(PYTHON) -m pip install --upgrade pip==$(PIP_VERSION) pip-tools==$(PIP_TOOLS_VERSION)
 	$(PYTHON) -m piptools compile --upgrade --strip-extras --resolver=backtracking \
 	  --output-file binder/requirements-py$(PYTHON_LOCK_VERSION).txt \
 	  binder/requirements.in
