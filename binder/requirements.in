@@ -18,7 +18,7 @@ xarray
 
 # Interactive / dashboards
 panel
-panel_mermaid; python_version >= "3.11"
+panel_mermaid; python_version >= "3.12"
 holoviews[recommended]
 hvplot
 k3d
@@ -46,4 +46,4 @@ julia
 juliacall
 
 # Animation
-manim; python_version >= "3.11"
+manim; python_version >= "3.12"

@@ -255,7 +255,7 @@ lazy-loader==0.5
     # via scikit-image
 linkify-it-py==2.2.0
     # via panel
-manim==0.21.0 ; python_version >= "3.11"
+manim==0.21.0 ; python_version >= "3.12"
     # via -r binder/requirements.in
 manimpango==0.6.1
     # via manim
@@ -440,7 +440,7 @@ panel==1.9.4
     #   panel-mermaid
 panel-material-ui==0.14.2
     # via panel
-panel-mermaid==0.2.1 ; python_version >= "3.11"
+panel-mermaid==0.2.1 ; python_version >= "3.12"
     # via -r binder/requirements.in
 param==2.4.2
     # via
