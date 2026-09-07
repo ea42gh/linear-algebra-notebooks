@@ -3,6 +3,7 @@ FROM ${BASE_IMAGE}
 
 ARG JULIA_PRECOMPILE_TASKS=2
 
+ENV JULIA_CPU_TARGET=generic
 ENV JULIA_CONDAPKG_BACKEND=Null
 ENV JULIA_PYTHONCALL_EXE=/usr/local/bin/python3
 ENV JULIA_PROJECT=/home/jovyan/.julia_env
@@ -182,6 +183,21 @@ latexify(df); \
 @variables x; \
 expand((x + 1)^2); \
 println("Julia warmup complete")'
+RUN julia -e 'using Pkg; \
+Pkg.activate(ENV["JULIA_PROJECT"]); \
+using LATeachingSuite, GenLAProblems, LAlatex; \
+using LATeachingSuite: charpoly, gram_schmidt_w; \
+using GenLAProblems: ca_projection_matrix; \
+using LinearAlgebra, RowEchelon, Latexify, LaTeXStrings, Random, Symbolics, PythonCall; \
+Random.seed!(113312); \
+A = [1 -2 -1 1; -1 2 3 -1; 1 0 1 -3; -1 0 1 -1]; \
+charpoly(A); \
+W = gram_schmidt_w(A); \
+ca_projection_matrix([1 0; 0 1; 1 1]); \
+display(l_show(L"A = ", A, L"\\quad p(\\lambda) = %$(charpoly(A)),\\qquad W=", W)); \
+h, spec = svd_bundle(1.0A; Ascale=1, mmS=7, mmLambda=10, output_dir="/tmp"); \
+spec === nothing && error("svd_bundle returned no spec"); \
+println("GenLAProblems notebook warmup complete")'
 RUN julia -e 'using Pkg; \
 Pkg.activate(ENV["JULIA_PROJECT"]); \
 using LATeachingSuite, Symbolics; \
