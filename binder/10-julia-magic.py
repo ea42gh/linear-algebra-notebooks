@@ -41,11 +41,6 @@ def _ensure_julia():
 
 def _initialize_julia(jl):
     jl.seval("""
-import Pkg
-Pkg.activate("/home/jovyan/.julia_env")
-""")
-
-    jl.seval("""
 using PythonCall
 """)
 
