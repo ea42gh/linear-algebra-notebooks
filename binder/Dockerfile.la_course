@@ -14,6 +14,7 @@ ENV PYJULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIAPKG_PROJECT=/home/jovyan/.julia_env
 ENV JULIA_PKG_PRECOMPILE_AUTO=0
 ENV JULIA_NUM_PRECOMPILE_TASKS=${JULIA_PRECOMPILE_TASKS}
+ENV MPLCONFIGDIR=/home/jovyan/.cache/matplotlib
 
 USER root
 WORKDIR /tmp
@@ -51,8 +52,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
 # Install Julia packages early for better layer caching.
 RUN /usr/local/bin/python3 -c 'import json, importlib.util, pathlib; p = pathlib.Path(importlib.util.find_spec("juliacall").origin).parent / "juliapkg.json"; v = json.loads(p.read_text())["packages"]["PythonCall"]["version"].lstrip("="); print(v)' > /tmp/pythoncall_jl_version
 COPY binder/install_julia_packages.jl /tmp/install_julia_packages.jl
-RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env \
- && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env
+RUN mkdir -p /home/jovyan/.julia /home/jovyan/.julia_env "${MPLCONFIGDIR}" \
+ && chown -R jovyan:jovyan /home/jovyan/.julia /home/jovyan/.julia_env /home/jovyan/.cache
 
 USER jovyan
 
@@ -97,6 +98,10 @@ RUN /usr/local/bin/python3 -m pip install --no-cache-dir --no-build-isolation --
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/matrixlayout
 RUN /usr/local/bin/python3 -m pip install --no-cache-dir -e /opt/ea42gh/LAFigureSpecs
 USER jovyan
+
+# Build Matplotlib's font cache once for the runtime user.
+RUN /usr/local/bin/python3 -c 'import matplotlib.font_manager' \
+ && find "${MPLCONFIGDIR}" -name 'fontlist-v*.json' -print -quit | grep -q .
 
 RUN mkdir -p /home/jovyan/.julia/prefs \
  && printf '%s\n' \
