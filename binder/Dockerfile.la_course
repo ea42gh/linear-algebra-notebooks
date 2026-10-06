@@ -271,7 +271,7 @@ RUN rm -rf /tmp/* /var/tmp/*
 USER jovyan
 WORKDIR /home/jovyan
 
-RUN git clone https://gitlab.com/ea42gh/elementary-linear-algebra.git
+COPY --chown=jovyan:jovyan . /home/jovyan/elementary-linear-algebra
 RUN chmod 0755 /home/jovyan/elementary-linear-algebra/bin/*
 RUN ln -s /tmp /home/jovyan/tmp \
  && mkdir /home/jovyan/work

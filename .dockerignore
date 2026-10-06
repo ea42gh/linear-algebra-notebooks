@@ -1,0 +1,11 @@
+.git
+.buildx-cache
+artifacts
+tmp
+work
+.tmp*
+__pycache__
+**/__pycache__
+.ipynb_checkpoints
+**/.ipynb_checkpoints
+*.pyc

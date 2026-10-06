@@ -4959,7 +4959,7 @@ showing how the four classes appear as diagonal blocks.</li>
 <hr/>
 </details>
 <details><summary><a href="notebooks/GSVD_computations.ipynb" data-jupyterlab-href="/lab/tree/notebooks/GSVD_computations.ipynb" style="display:inline-block; width:9cm;">GSVD_computations.ipynb</a>
-Algorithms for computing the GSVD; QR- and Golub–Van Loan–type methods
+GEP and QR--CS derivations, followed by Julia's LAPACK GSVD for general matrix pairs
 </summary>
 <h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3><h4 id="Initialization">Initialization<a class="anchor-link" href="#Initialization">¶</a></h4><ul>
 <li>Positions this notebook as the <strong>algorithmic companion</strong> to <code>GSVD_intro.ipynb</code>.</li>
@@ -5014,6 +5014,55 @@ and emphasizes that <strong>both matrices share the same right basis $X$</strong
 <hr/>
 </details>
 <hr/>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<details><summary><a href="notebooks/GSVD_regularization.ipynb" data-jupyterlab-href="/lab/tree/notebooks/GSVD_regularization.ipynb" style="display:inline-block; width:9cm;">GSVD_regularization.ipynb</a>
+GSVD-coordinate solutions for general-form Tikhonov regularization and inverse problems
+</summary>
+<h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3>
+<h4>1. GSVD Filter Factors</h4><ul>
+<li>Derives the regularized solution in GSVD coordinates and interprets the generalized filter factors.</li>
+<li>Distinguishes mixed, pure-A, pure-B, and common-null directions, including the full-column-rank limitation of the implementation.</li>
+</ul>
+<hr/>
+<h4>2. Parameter Selection</h4><ul>
+<li>Examines residual--penalty tradeoffs and demonstrates the discrepancy principle when the noise norm is known.</li>
+</ul>
+<hr/>
+<h4>3. Inverse-Problem Examples</h4><ul>
+<li>Applies first-difference regularization to noisy data and one-dimensional deblurring.</li>
+<li>Compares the GSVD solution with augmented least squares and discusses reconstruction error and regularization bias.</li>
+</ul>
+<hr/>
+</details>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<details><summary><a href="notebooks/GSVD_example.ipynb" data-jupyterlab-href="/lab/tree/notebooks/GSVD_example.ipynb" style="display:inline-block; width:9cm;">GSVD_example.ipynb</a>
+A water-quality case study comparing two Chapin Pond monitoring stations
+</summary>
+<h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3>
+<h4>1. Data and Preprocessing</h4><ul>
+<li>Uses public NJDEP Water Quality Portal measurements from eight matched sampling dates and five consistently reported analytes.</li>
+<li>Builds two matrices with shared pooled centering and scaling, then checks their dimensions and ranks.</li>
+</ul>
+<hr/>
+<h4>2. GSVD Modes and Interpretation</h4><ul>
+<li>Computes and validates the LAPACK GSVD; interprets cosine--sine pairs, generalized singular values, right-vector weights, and station scores.</li>
+<li>Cross-checks the values with a symmetric-definite GEP and states why this is not the GSVD algorithm.</li>
+</ul>
+<hr/>
+<h4>3. Scope and Limitations</h4><ul>
+<li>Explains that the analysis compares pooled-centered signal energy, not variance alone or overall water quality.</li>
+<li>Discusses the limits of eight sampling rounds and the need for resampling and mode-stability analysis before inferential claims.</li>
+</ul>
+<hr/>
+</details>
 </div>
 </div>
 </div>
