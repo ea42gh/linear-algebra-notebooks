@@ -28,7 +28,7 @@ if [[ -f "$NB_INPUT" ]]; then
   NOTEBOOKS=("$NB_INPUT")
 elif [[ -d "$NB_INPUT" ]]; then
   NB_DIR="$NB_INPUT"
-  mapfile -t NOTEBOOKS < <(find "$NB_DIR" -type f -name "*.ipynb" | sort)
+  mapfile -t NOTEBOOKS < <(find "$NB_DIR" -type d -name ".ipynb_checkpoints" -prune -o -type f -name "*.ipynb" -print | sort)
 else
   echo "ERROR: notebook path not found: $NB_INPUT"
   exit 1
