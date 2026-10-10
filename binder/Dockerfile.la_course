@@ -78,6 +78,9 @@ RUN chown -R jovyan:jovyan /home/jovyan/.ipython
 COPY binder/requirements-py*.txt /tmp/requirements/
 COPY binder/install_python_libraries.py /tmp/install_python_libraries.py
 RUN /usr/local/bin/python3 /tmp/install_python_libraries.py
+# The requirements may update JuliaCall from the base image version. Keep
+# PythonCall.jl aligned with the JuliaCall package that will run in this image.
+RUN /usr/local/bin/python3 -c 'import json, importlib.util, pathlib; p = pathlib.Path(importlib.util.find_spec("juliacall").origin).parent / "juliapkg.json"; v = json.loads(p.read_text())["packages"]["PythonCall"]["version"].lstrip("="); print(v)' > /tmp/pythoncall_jl_version
 WORKDIR /opt/ea42gh
 
 RUN git clone https://github.com/ea42gh/matrixlayout.git
