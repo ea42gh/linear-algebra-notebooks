@@ -181,6 +181,19 @@ A = Rational{Int}.(A); \
 B = Rational{Int}.(B); \
 pb = ShowGE{Rational{Int}}(A, B); \
 ref!(pb; gj=true); \
+A_multi, _, B_multi = gen_gj_pb(5, 7, 3; maxint=2, pivot_in_first_col=false, num_rhs=2, has_zeros=true); \
+rhs_multi = hcat(B_multi, Matrix{Int}(I, 5, 5)); \
+pb_multi = ShowGE{Rational{Int}}(A_multi, rhs_multi; n_rhs=(1, 1, 5)); \
+@assert pb_multi.n_rhs == [1, 1, 5]; \
+L_workflow = Rational{Int}[2 0 0; 1 3 0; -1 2 4]; \
+b_workflow = L_workflow * Rational{Int}[1, 2, -1]; \
+pb_workflow = ShowGE{Rational{Int}}(L_workflow, b_workflow); \
+show_system(pb_workflow; output_dir="/tmp/la-course-warmup", output_stem="system"); \
+LATeachingSuite.show_forwardsubstitution!(pb_workflow; output_dir="/tmp/la-course-warmup", output_stem="forward"); \
+ref!(pb_workflow); \
+show_layout!(pb_workflow; output_dir="/tmp/la-course-warmup", output_stem="layout"); \
+show_backsubstitution!(pb_workflow; output_dir="/tmp/la-course-warmup", output_stem="backward"); \
+show_solution!(pb_workflow; output_dir="/tmp/la-course-warmup", output_stem="solution"); \
 rref_matrix(4, 6, 3); \
 gen_qr_problem(3; family=:pythagorean, maxint=2); \
 gen_qr_problem(5; family=:cayley, maxint=2); \
